@@ -1,8 +1,8 @@
 /**
- * Roadmap content model. Content is loaded at runtime from the Google Sheet
- * (see src/lib/sheet.ts); every piece of display text is language-keyed so
- * Welsh and English are both supported, falling back to English when Welsh is
- * empty (see src/lib/i18n.ts).
+ * Roadmap content model. Content comes from the nightly Google Sheet snapshot
+ * in src/data/roadmaps.json (see scripts/sync-roadmaps.ts); every piece of
+ * display text is language-keyed so Welsh and English are both supported,
+ * falling back to English when Welsh is empty (see src/lib/i18n.ts).
  */
 
 export type Horizon = 'now' | 'next' | 'later';

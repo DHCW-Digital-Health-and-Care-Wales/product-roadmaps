@@ -1,0 +1,42 @@
+name: Sync roadmaps from Google Sheets
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # nightly, 02:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: sync-roadmaps
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run sync
+      - run: npm run build
+      # Pushes made with GITHUB_TOKEN don't trigger the push-based deploy, so dispatch it.
+      - name: Commit snapshot and deploy if changed
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet -- src/data/roadmaps.json; then
+            echo "No roadmap changes."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/data/roadmaps.json
+          git commit -m 'Update roadmap snapshot from Google Sheets'
+          git push
+          gh workflow run deploy.yml --ref main

@@ -31,11 +31,6 @@ export function PrivacyNote() {
               ? 'Mae’r ffontiau’n cael eu gwesteia gennym ni ein hunain, felly nid yw eich ymweliad yn cael ei rannu â gwasanaeth ffont allanol.'
               : 'Fonts are self-hosted, so your visit is not shared with an external font service.'}
           </p>
-          <p>
-            {cy
-              ? 'Mae cynnwys y trywyddion yn cael ei lwytho o Google Sheets pan fydd y dudalen yn agor, felly mae eich porwr yn cysylltu â Google i’w nôl.'
-              : 'Roadmap content is loaded from Google Sheets when the page opens, so your browser connects to Google to fetch it.'}
-          </p>
         </div>
       </div>
     </section>

@@ -2,3 +2,4 @@ dist
 docs
 figma-make-export
 *.md
+src/data/roadmaps.json

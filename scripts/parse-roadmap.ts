@@ -1,13 +1,11 @@
 /**
- * Loads every product roadmap from the public Google Sheet. The whole workbook
- * is fetched once as .xlsx so tab names are known without an API key; each tab
- * (except "Template" and tabs starting with "_") is one product roadmap.
+ * Turns one Google Sheet tab into a Roadmap. Used by sync-roadmaps.ts at build
+ * time; each tab (except "Template" and tabs starting with "_") is one product.
  *
  * Sheet format: one header row, then one row per record. The "Type" column
  * says what the row is (Setting, Horizon, Category, Item, Section, Delivered).
  * See the "Template" tab and README.md for the full column guide.
  */
-import { readWorkbook, type Worksheet } from './xlsx';
 import type {
   Capabilities,
   Category,
@@ -16,12 +14,12 @@ import type {
   Localised,
   Roadmap,
   RoadmapItem,
-} from './types';
+} from '../src/lib/types.ts';
 
-const DEFAULT_SHEET_ID = '1wuk_pK1LpfLKmdbg6WsY_qKeBC5lcN4rlsjqkAxtflw';
-const SHEET_ID = import.meta.env.VITE_SHEET_ID || DEFAULT_SHEET_ID;
-
-export const SHEET_URL = `https://docs.google.com/spreadsheets/d/${encodeURIComponent(SHEET_ID)}/export?format=xlsx`;
+export interface Worksheet {
+  name: string;
+  rows: string[][];
+}
 
 const HORIZONS: Horizon[] = ['now', 'next', 'later'];
 
@@ -109,12 +107,12 @@ const loc = (en = '', cy = ''): Localised => ({ en: en.trim(), cy: cy.trim() });
 
 const hasText = (value?: Localised) => Boolean(value && value.en);
 
-/** Sheets stores dates as serial day numbers; convert to YYYY-MM-DD. */
+/** Accepts YYYY-MM-DD or the UK display format DD/MM/YYYY. */
 function toIsoDate(value: string): string {
-  const serial = Number(value);
-  if (value && Number.isFinite(serial) && serial > 20000 && serial < 80000) {
-    const ms = Date.UTC(1899, 11, 30) + Math.round(serial) * 86_400_000;
-    return new Date(ms).toISOString().slice(0, 10);
+  const uk = value.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (uk) {
+    const [, day, month, year] = uk;
+    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
   }
   return value.trim();
 }
@@ -203,8 +201,9 @@ const SETTING_KEYS: Record<string, keyof Roadmap['meta']> = {
   horizonnote: 'horizonNote',
 };
 
+// Printed as GitHub Actions annotations so editors can spot sheet mistakes.
 function warn(sheet: string, message: string) {
-  if (import.meta.env.DEV) console.warn(`[sheet:${sheet}] ${message}`);
+  console.warn(`::warning title=${sheet}::${message}`);
 }
 
 export function parseRoadmap(sheet: Worksheet): Roadmap | null {
@@ -327,30 +326,5 @@ export function parseRoadmap(sheet: Worksheet): Roadmap | null {
   };
 }
 
-const isHiddenTab = (name: string) =>
+export const isHiddenTab = (name: string) =>
   key(name) === 'template' || name.trim().startsWith('_');
-
-let cache: Promise<Roadmap[]> | null = null;
-
-/** Fetches and parses the workbook once per page load. */
-export function loadRoadmaps(force = false): Promise<Roadmap[]> {
-  if (!cache || force) {
-    cache = fetch(SHEET_URL, { cache: 'no-store' })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Spreadsheet request failed (${response.status})`);
-        }
-        return response.arrayBuffer();
-      })
-      .then((data) =>
-        readWorkbook(data)
-          .filter((sheet) => !isHiddenTab(sheet.name))
-          .map(parseRoadmap)
-          .filter((roadmap): roadmap is Roadmap => roadmap !== null),
-      );
-    cache.catch(() => {
-      cache = null;
-    });
-  }
-  return cache;
-}

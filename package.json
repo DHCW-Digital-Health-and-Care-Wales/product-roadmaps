@@ -39,7 +39,7 @@
     "@types/node": "^24.19.1",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.0.0",
-    "@vitejs/plugin-react": "^6.0.5",
+    "@vitejs/plugin-react": "^6.1.2",
     "axe-core": "^4.14.0",
     "eslint": "^10.9.1",
     "eslint-plugin-jsx-a11y-x": "^0.2.0",

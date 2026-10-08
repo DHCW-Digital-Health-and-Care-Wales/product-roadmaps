@@ -28,7 +28,6 @@ exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
         "labels": undefined,
         "outcome": undefined,
         "phase": "Live",
-        "status": "shipped",
         "title": {
           "cy": "",
           "en": "Earlier delivery this year",
@@ -48,7 +47,6 @@ exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
           "en": "A clear understanding of the problem.",
         },
         "phase": "Discovery",
-        "status": "exploring",
         "title": {
           "cy": "",
           "en": "Discovery card",
@@ -66,7 +64,6 @@ exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
         ],
         "outcome": undefined,
         "phase": undefined,
-        "status": "exploring",
         "title": {
           "cy": "",
           "en": "Longer-term idea",
@@ -86,25 +83,9 @@ exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
           "en": "What we hope this will achieve.",
         },
         "phase": "Alpha",
-        "status": "exploring",
         "title": {
           "cy": "",
           "en": "Card being explored",
-        },
-      },
-      {
-        "description": {
-          "cy": "",
-          "en": "Any status that isn't one of the standard ones is shown exactly as typed.",
-        },
-        "details": undefined,
-        "labels": undefined,
-        "outcome": undefined,
-        "phase": undefined,
-        "status": "on-hold",
-        "title": {
-          "cy": "",
-          "en": "Card with a free-text status",
         },
       },
     ],
@@ -118,7 +99,6 @@ exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
         "labels": undefined,
         "outcome": undefined,
         "phase": undefined,
-        "status": undefined,
         "title": {
           "cy": "",
           "en": "Something we are not doing",
@@ -170,7 +150,6 @@ exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
           "en": "What changes for users when it is done.",
         },
         "phase": "Beta",
-        "status": "in-progress",
         "title": {
           "cy": "",
           "en": "Example card with every column",
@@ -185,7 +164,6 @@ exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
         "labels": undefined,
         "outcome": undefined,
         "phase": undefined,
-        "status": undefined,
         "title": {
           "cy": "",
           "en": "Minimal card",
@@ -205,7 +183,6 @@ exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
           "en": "Users get the change as soon as it is deployed.",
         },
         "phase": undefined,
-        "status": "awaiting-deployment",
         "title": {
           "cy": "",
           "en": "Card awaiting release",
@@ -225,7 +202,6 @@ exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
           "en": "What users can do now.",
         },
         "phase": undefined,
-        "status": "shipped",
         "title": {
           "cy": "",
           "en": "Recently shipped work",
@@ -271,7 +247,6 @@ exports[`parseRoadmap > matches the ProductB snapshot 1`] = `
         "labels": undefined,
         "outcome": undefined,
         "phase": "Alpha",
-        "status": "shipped",
         "title": {
           "cy": "",
           "en": "Prototype",
@@ -322,7 +297,6 @@ exports[`parseRoadmap > matches the ProductB snapshot 1`] = `
           "en": "Less duplicate data entry.",
         },
         "phase": "Discovery",
-        "status": "exploring",
         "title": {
           "cy": "",
           "en": "Integration with another system",
@@ -339,7 +313,6 @@ exports[`parseRoadmap > matches the ProductB snapshot 1`] = `
         "labels": undefined,
         "outcome": undefined,
         "phase": "Beta",
-        "status": "exploring",
         "title": {
           "cy": "",
           "en": "Wider rollout",
@@ -362,7 +335,6 @@ exports[`parseRoadmap > matches the ProductB snapshot 1`] = `
           "en": "Users can complete the main task online.",
         },
         "phase": "Alpha",
-        "status": "in-progress",
         "title": {
           "cy": "",
           "en": "Building the core service",
@@ -380,7 +352,6 @@ exports[`parseRoadmap > matches the ProductB snapshot 1`] = `
           "en": "Designs updated from research findings.",
         },
         "phase": undefined,
-        "status": "in-progress",
         "title": {
           "cy": "",
           "en": "Testing with users",

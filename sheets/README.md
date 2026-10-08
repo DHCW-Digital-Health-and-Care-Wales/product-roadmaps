@@ -8,7 +8,7 @@ by hand.
 | File                             | Tab name   | What it shows                                                                                      |
 | -------------------------------- | ---------- | -------------------------------------------------------------------------------------------------- |
 | [Roadmaps.csv](Roadmaps.csv)     | `Roadmaps` | The roadmap list (must be the first tab), both date formats, colours, a blank optional column      |
-| [ProductA.csv](ProductA.csv)     | `ProductA` | Every `Horizon` and `Status` value, a free-text status, a Discovery phase, labels, nested details  |
+| [ProductA.csv](ProductA.csv)     | `ProductA` | Every `Horizon` value, a Discovery phase, labels, nested details                                   |
 | [ProductB.csv](ProductB.csv)     | `ProductB` | A smaller roadmap with empty horizons and sections                                                 |
 
 ## Importing into Google Sheets
@@ -24,6 +24,6 @@ by hand.
    `SHEET_ID=<id from the spreadsheet URL> npm run sync && npm run dev`.
    This overwrites `.data/roadmaps.json`, which is gitignored.
 
-Optionally add dropdowns (**Data → Data validation**) for the `Horizon` and
-`Status` columns. Column meanings are documented in the
+Optionally add a dropdown (**Data → Data validation**) for the `Horizon`
+column. Column meanings are documented in the
 [main README](../README.md#sheet-format).

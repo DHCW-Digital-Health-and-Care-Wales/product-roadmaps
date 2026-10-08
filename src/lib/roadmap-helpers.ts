@@ -1,28 +1,6 @@
 /**
  * Presentation helpers for the roadmap.
- *
- * Status is given a language-keyed text label so meaning is never carried by
- * colour alone.
  */
-import type { ItemStatus, Localised } from './types';
-
-/** Human-readable, language-keyed label for an item status. */
-const STATUS_LABELS: Record<string, Localised> = {
-  exploring: { cy: '', en: 'Exploring' },
-  'in-progress': { cy: '', en: 'In progress' },
-  shipped: { cy: '', en: 'Shipped' },
-  'awaiting-deployment': { cy: '', en: 'Awaiting Deployment' },
-};
-
-/** Unrecognised statuses from the sheet are shown as typed. */
-export function statusLabel(status: ItemStatus): Localised {
-  return (
-    STATUS_LABELS[status] ?? {
-      cy: '',
-      en: status.charAt(0).toUpperCase() + status.slice(1).replace(/-/g, ' '),
-    }
-  );
-}
 
 /**
  * Format an ISO date (YYYY-MM-DD) as a readable day-month-year string in the

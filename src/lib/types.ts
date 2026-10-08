@@ -25,9 +25,6 @@ export type SectionId = (typeof SECTION_IDS)[number];
 /** Where a card appears: one of the horizons or one of the sections. */
 export type Placement = (typeof PLACEMENT_IDS)[number];
 
-/** Known statuses get a translated label; anything else is shown as typed. */
-export type ItemStatus = string;
-
 export interface Localised {
   cy: string;
   en: string;
@@ -43,7 +40,6 @@ export interface RoadmapItem {
   title: Localised;
   description: Localised;
   outcome?: Localised;
-  status?: ItemStatus;
   phase?: string;
   labels?: string[];
   details?: DetailLine[];

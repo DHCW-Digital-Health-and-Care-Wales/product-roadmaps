@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 import type { DetailLine, RoadmapItem } from '../lib/types';
 import { DETAILS_HEADING } from '../lib/content';
-import { statusLabel } from '../lib/roadmap-helpers';
 import { UI } from '../lib/strings';
 import { T } from './T';
 
@@ -37,7 +36,7 @@ function DetailList({ items }: { items: DetailLine[] }) {
 }
 
 /**
- * A single roadmap item. Shows the title, description, a text status label and
+ * A single roadmap item. Shows the title, description, outcome, details and
  * any labels. Never shows a date: the roadmap communicates priority and
  * confidence, not committed dates.
  */
@@ -91,14 +90,9 @@ export function RoadmapCard({
         </details>
       ) : null}
 
-      {item.status || item.labels ? (
+      {item.labels ? (
         <div className="mt-3 flex flex-wrap items-center gap-2">
-          {item.status ? (
-            <span className="inline-flex items-center rounded-full border border-border-strong bg-surface-subtle px-2.5 py-0.5 text-xs font-medium text-ink-700">
-              <T value={statusLabel(item.status)} />
-            </span>
-          ) : null}
-          {item.labels?.map((label) => (
+          {item.labels.map((label) => (
             <span
               key={label}
               className="inline-flex items-center rounded-full bg-surface-muted px-2.5 py-0.5 text-xs font-medium text-ink-700"

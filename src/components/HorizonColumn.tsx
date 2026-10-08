@@ -1,9 +1,8 @@
-import type { Horizon, Localised, RoadmapItem } from '../lib/types';
+import type { Localised, RoadmapItem } from '../lib/types';
 import { useLanguage } from '../lib/i18n';
 import { RoadmapCard } from './RoadmapCard';
 
 interface HorizonColumnProps {
-  horizonId: Horizon;
   label: Localised;
   items: RoadmapItem[];
   headingId: string;
@@ -37,7 +36,7 @@ export function HorizonColumn({
       className="scroll-mt-28 overflow-hidden rounded-card border border-border bg-surface"
       style={{ borderLeft: `4px solid ${accent}` }}
     >
-      <h4
+      <h3
         id={headingId}
         className="flex items-center gap-2 bg-heading px-4 py-3 text-lg font-bold text-white"
       >
@@ -45,12 +44,12 @@ export function HorizonColumn({
         <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-full border border-white/30 bg-white/10 px-2 text-xs font-semibold text-white">
           {items.length}
         </span>
-      </h4>
+      </h3>
       <div className="p-4">
         {items.length > 0 ? (
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {items.map((item) => (
-              <RoadmapCard key={item.id} item={item} />
+            {items.map((item, index) => (
+              <RoadmapCard key={index} item={item} />
             ))}
           </div>
         ) : (

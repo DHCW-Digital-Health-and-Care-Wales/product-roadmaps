@@ -3,8 +3,8 @@ import { useLanguage } from '../lib/i18n';
 
 /**
  * "Our vision" and "Our value" blocks, placed directly beneath the intro.
- * Copy comes from the product's "vision" and "serviceDescription" settings in
- * the Google Sheet; a block is hidden when its setting is empty.
+ * Copy comes from the product's "Vision" and "Service description" columns on
+ * the Google Sheet's roadmap list; a block is hidden when its value is empty.
  */
 export function VisionStatement({ meta }: { meta: RoadmapMeta }) {
   const { lang, tr } = useLanguage();

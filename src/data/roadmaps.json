@@ -7,6 +7,12 @@
         "en": "DHCW Vaccine Service roadmap",
         "cy": ""
       },
+      "statusLabel": {
+        "en": "Beta",
+        "cy": ""
+      },
+      "lastUpdated": "2026-09-25",
+      "colour": "#325083",
       "vision": {
         "en": "To provide one national digital service, from stock to surveillance. Finding, protecting, remembering, and learning, so that vaccination in Wales stays prudent, equitable, and evidence-led.",
         "cy": ""
@@ -14,280 +20,191 @@
       "serviceDescription": {
         "en": "We help Wales to deliver efficient, data-driven vaccination services by providing a near real-time, user-centred immunisation service that streamlines data management, enhances citizen access, and supports better health outcomes across the nation.",
         "cy": ""
-      },
-      "intro": {
-        "en": "This roadmap shows what we're working on now, what's coming next and the direction we expect to take later.",
-        "cy": ""
-      },
-      "horizonNote": {
-        "en": "Now is what we are actively working on. Next is what we expect to pick up soon. Later is the direction we're setting as we learn more with users, families and partners. We don't put dates on this work, and the order isn't a priority list.",
-        "cy": ""
-      },
-      "lastUpdated": "2026-09-25",
-      "statusLabel": {
-        "en": "Beta Roadmap",
-        "cy": ""
       }
     },
-    "horizons": [
-      {
-        "id": "now",
-        "label": {
-          "en": "Now",
-          "cy": ""
-        },
-        "definition": {
-          "en": "Work that is underway now and shaping the next changes to the service.",
-          "cy": ""
-        }
-      },
-      {
-        "id": "next",
-        "label": {
-          "en": "Next",
-          "cy": ""
-        },
-        "definition": {
-          "en": "Work we expect to pick up soon as current delivery moves forward.",
-          "cy": ""
-        }
-      },
-      {
-        "id": "later",
-        "label": {
-          "en": "Later",
-          "cy": ""
-        },
-        "definition": {
-          "en": "Longer-term direction that will keep evolving as we learn more.",
-          "cy": ""
-        }
-      }
-    ],
-    "categories": [
-      {
-        "id": "vaccine-service",
-        "label": "Vaccine Service",
-        "headline": {
-          "en": "Now, Next and Later for the Vaccine Service",
-          "cy": ""
-        },
-        "description": {
-          "en": "This roadmap is a simple view of the work shaping vaccination services in Wales. Each card shows a change we're working on now, planning to take on next, or working towards later.",
-          "cy": ""
-        },
-        "accent": "#325083"
-      }
-    ],
-    "items": [
-      {
-        "id": "school-immunisation-service-beta",
-        "title": {
-          "en": "School immunisation service",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Early build and testing of the school immunisation service.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Tested prototypes for running school vaccination sessions digitally, ready to build on.",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "in-progress",
-        "phase": "Beta",
-        "horizon": "now"
-      },
-      {
-        "id": "electronic-consent",
-        "title": {
-          "en": "Electronic consent",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Early build and testing of electronic consent for vaccination.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "A tested way for parents and guardians to give consent online, with less reliance on paper forms.",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "in-progress",
-        "phase": "Alpha",
-        "horizon": "now"
-      },
-      {
-        "id": "new-stock-management-designs",
-        "title": {
-          "en": "New stock management designs",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Prototyping new designs for managing vaccine stock, tested with the people who use them.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Updated designs that reflect user feedback and bring the look and feel into line with the rest of the product.",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "in-progress",
-        "horizon": "now"
-      },
-      {
-        "id": "user-management-for-organisations",
-        "title": {
-          "en": "User management for organisations",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Enhancing user management in WIS so organisations can add and manage their own users.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Organisations set up their own staff more quickly, with less reliance on central administration.",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "in-progress",
-        "horizon": "now"
-      },
-      {
-        "id": "wis-operational-improvements",
-        "title": {
-          "en": "WIS Operational Improvements",
-          "cy": ""
-        },
-        "summary": {
-          "en": "This includes: WDS batch trace, improvement to death notifications, test regression and branching work",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Enhanced patient demographic data quality, supporting safer , more efficient and effective immunisation delivery.",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "in-progress",
-        "horizon": "now"
-      },
-      {
-        "id": "environment-provisioning",
-        "title": {
-          "en": "Environment Provisioning",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Creation of the Cloud WIS Dev/Test environment including population of data in Postgres Database",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Delivers a fully populated testing environment to support the Cloud and database migration activity.",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "in-progress",
-        "phase": "CLOUD",
-        "horizon": "now"
-      },
-      {
-        "id": "wast-enablement",
-        "title": {
-          "en": "WAST Enablement",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Creating new sector to enable Welsh Ambulance vaccination activity to be recorded in WIS",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "WAST Vaccination activity available in WIS",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "in-progress",
-        "horizon": "now"
-      },
-      {
-        "id": "nhs-wales-app-vaccine-features",
-        "title": {
-          "en": "NHS Wales App vaccine features",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Gathering requirements for the ability to view appointments within the NHS Wales App",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Vaccine appointments available to be viewed in the NHS Wales App improving access to vaccination information.",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "in-progress",
-        "phase": "REQUIREMENTS GATHERING",
-        "horizon": "now"
-      },
-      {
-        "id": "planned-patient-sessions",
-        "title": {
-          "en": "Planned Patient Sessions",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Provide users with the ability to maintain planned patient sessions (following Winter campaign release)",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "The ability to manage Planned Patient Sessions will be provided to the users of WIS removing the need to request this from the Operational team",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "in-progress",
-        "phase": "CONTINUOS IMPROVEMENT",
-        "horizon": "now"
-      },
-      {
-        "id": "storage-area-network-san",
-        "title": {
-          "en": "Storage Area Network (SAN)",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Essential infrastructure work on the Storage Area Network.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Essential maintenance keeps the storage behind WIS running reliably.",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "exploring",
-        "horizon": "later"
-      },
-      {
-        "id": "school-immunisation-recording-and-stock",
-        "title": {
-          "en": "School immunisation: recording and stock",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Recording and managing HPV, MenACWY and Teenage Booster (3-in-1) through consent forms, with writeback to CYPrIS and GP systems, and updates to the data warehouse. Writeback to GP systems is subject to external dependencies.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "School-age vaccinations for HPV, MenACWY and the 3-in-1 booster are recorded in WIS and flow through to GP records and reporting.",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "exploring",
-        "phase": "Beta · Phase 1",
-        "capabilities": {
-          "label": {
-            "en": "What this phase covers",
+    "items": {
+      "now": [
+        {
+          "title": {
+            "en": "School immunisation service",
             "cy": ""
           },
-          "items": [
+          "description": {
+            "en": "Early build and testing of the school immunisation service.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Tested prototypes for running school vaccination sessions digitally, ready to build on.",
+            "cy": ""
+          },
+          "status": "in-progress",
+          "phase": "Beta"
+        },
+        {
+          "title": {
+            "en": "Electronic consent",
+            "cy": ""
+          },
+          "description": {
+            "en": "Early build and testing of electronic consent for vaccination.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "A tested way for parents and guardians to give consent online, with less reliance on paper forms.",
+            "cy": ""
+          },
+          "status": "in-progress",
+          "phase": "Alpha"
+        },
+        {
+          "title": {
+            "en": "New stock management designs",
+            "cy": ""
+          },
+          "description": {
+            "en": "Prototyping new designs for managing vaccine stock, tested with the people who use them.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Updated designs that reflect user feedback and bring the look and feel into line with the rest of the product.",
+            "cy": ""
+          },
+          "status": "in-progress"
+        },
+        {
+          "title": {
+            "en": "User management for organisations",
+            "cy": ""
+          },
+          "description": {
+            "en": "Enhancing user management in WIS so organisations can add and manage their own users.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Organisations set up their own staff more quickly, with less reliance on central administration.",
+            "cy": ""
+          },
+          "status": "in-progress"
+        },
+        {
+          "title": {
+            "en": "WIS Operational Improvements",
+            "cy": ""
+          },
+          "description": {
+            "en": "This includes: WDS batch trace, improvement to death notifications, test regression and branching work",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Enhanced patient demographic data quality, supporting safer , more efficient and effective immunisation delivery.",
+            "cy": ""
+          },
+          "status": "in-progress"
+        },
+        {
+          "title": {
+            "en": "Environment Provisioning",
+            "cy": ""
+          },
+          "description": {
+            "en": "Creation of the Cloud WIS Dev/Test environment including population of data in Postgres Database",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Delivers a fully populated testing environment to support the Cloud and database migration activity.",
+            "cy": ""
+          },
+          "status": "in-progress",
+          "phase": "CLOUD"
+        },
+        {
+          "title": {
+            "en": "WAST Enablement",
+            "cy": ""
+          },
+          "description": {
+            "en": "Creating new sector to enable Welsh Ambulance vaccination activity to be recorded in WIS",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "WAST Vaccination activity available in WIS",
+            "cy": ""
+          },
+          "status": "in-progress"
+        },
+        {
+          "title": {
+            "en": "NHS Wales App vaccine features",
+            "cy": ""
+          },
+          "description": {
+            "en": "Gathering requirements for the ability to view appointments within the NHS Wales App",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Vaccine appointments available to be viewed in the NHS Wales App improving access to vaccination information.",
+            "cy": ""
+          },
+          "status": "in-progress",
+          "phase": "REQUIREMENTS GATHERING"
+        },
+        {
+          "title": {
+            "en": "Planned Patient Sessions",
+            "cy": ""
+          },
+          "description": {
+            "en": "Provide users with the ability to maintain planned patient sessions (following Winter campaign release)",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "The ability to manage Planned Patient Sessions will be provided to the users of WIS removing the need to request this from the Operational team",
+            "cy": ""
+          },
+          "status": "in-progress",
+          "phase": "CONTINUOS IMPROVEMENT"
+        },
+        {
+          "title": {
+            "en": "CYPrIS maintenance and security",
+            "cy": ""
+          },
+          "description": {
+            "en": "Essential maintenance and security upgrades to CYPrIS, the child health platform that works alongside WIS.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "CYPrIS stays secure and reliable while we focus new development on WIS.",
+            "cy": ""
+          },
+          "status": "in-progress",
+          "labels": [
+            "CYPrIS"
+          ]
+        }
+      ],
+      "next": [
+        {
+          "title": {
+            "en": "School immunisation: recording and stock",
+            "cy": ""
+          },
+          "description": {
+            "en": "Recording and managing HPV, MenACWY and Teenage Booster (3-in-1) through consent forms, with writeback to CYPrIS and GP systems, and updates to the data warehouse. Writeback to GP systems is subject to external dependencies.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "School-age vaccinations for HPV, MenACWY and the 3-in-1 booster are recorded in WIS and flow through to GP records and reporting.",
+            "cy": ""
+          },
+          "status": "exploring",
+          "phase": "Beta · Phase 1",
+          "labels": [
+            "CYPrIS",
+            "GP systems",
+            "Data warehouse"
+          ],
+          "details": [
             {
               "level": 0,
               "text": {
@@ -353,142 +270,127 @@
             }
           ]
         },
-        "services": [
-          "CYPrIS",
-          "GP systems",
-          "Data warehouse"
-        ],
-        "horizon": "next"
-      },
-      {
-        "id": "new-one-page-letters",
-        "title": {
-          "en": "New one-page letters",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Releasing new, shorter, citizen-tested letter templates that replace the current ones.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Improved written communication, and cost savings from reducing letter length.",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "exploring",
-        "phase": "IMPROVED COMMUNICATIONS",
-        "horizon": "next"
-      },
-      {
-        "id": "managing-not-in-wales-records",
-        "title": {
-          "en": "Managing “not in Wales” records",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Building on the recently defined requirements, developing how WIS manages records for people who have moved away from Wales.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Better data quality, with records kept up to date when people move away.",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "exploring",
-        "horizon": "next"
-      },
-      {
-        "id": "cloud-and-infrastructure-testing",
-        "title": {
-          "en": "Cloud and infrastructure testing",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Testing the cloud and infrastructure work, including performance testing.",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "exploring",
-        "phase": "CLOUD",
-        "horizon": "next"
-      },
-      {
-        "id": "measuring-usability-umux-lite",
-        "title": {
-          "en": "Measuring usability (UMUX-Lite)",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Adding a short two-question survey to the service, asking whether it does what people need and whether it's easy to use. It takes under a minute to answer and gives us a usability score we can track over time and compare with other services.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "We can see whether changes are making the service easier to use, and hear from a wider group of users than we reach through research sessions.",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "exploring",
-        "horizon": "next"
-      },
-      {
-        "id": "continuous-improvement",
-        "title": {
-          "en": "Continuous improvement",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Improvements to WIS identified through the winter campaign.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "WIS keeps improving based on what we learn from the winter campaign.",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "exploring",
-        "horizon": "later"
-      },
-      {
-        "id": "spring-campaign",
-        "title": {
-          "en": "Spring campaign",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Getting WIS ready for the spring campaign.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "WIS is ready for the spring vaccination campaign.",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "exploring",
-        "horizon": "later"
-      },
-      {
-        "id": "school-immunisation-a-home-in-wis",
-        "title": {
-          "en": "School immunisation: a home in WIS",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Making school immunisation a permanent part of WIS, so school vaccination teams use the same core service as other vaccination programmes.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "School immunisation is a permanent part of WIS, giving one record and one way of working for school vaccinations.",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "exploring",
-        "phase": "Beta · Phase 2",
-        "capabilities": {
-          "label": {
-            "en": "What this phase covers",
+        {
+          "title": {
+            "en": "New one-page letters",
             "cy": ""
           },
-          "items": [
+          "description": {
+            "en": "Releasing new, shorter, citizen-tested letter templates that replace the current ones.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Improved written communication, and cost savings from reducing letter length.",
+            "cy": ""
+          },
+          "status": "exploring",
+          "phase": "IMPROVED COMMUNICATIONS"
+        },
+        {
+          "title": {
+            "en": "Managing “not in Wales” records",
+            "cy": ""
+          },
+          "description": {
+            "en": "Building on the recently defined requirements, developing how WIS manages records for people who have moved away from Wales.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Better data quality, with records kept up to date when people move away.",
+            "cy": ""
+          },
+          "status": "exploring"
+        },
+        {
+          "title": {
+            "en": "Cloud and infrastructure testing",
+            "cy": ""
+          },
+          "description": {
+            "en": "Testing the cloud and infrastructure work, including performance testing.",
+            "cy": ""
+          },
+          "status": "exploring",
+          "phase": "CLOUD"
+        },
+        {
+          "title": {
+            "en": "Measuring usability (UMUX-Lite)",
+            "cy": ""
+          },
+          "description": {
+            "en": "Adding a short two-question survey to the service, asking whether it does what people need and whether it's easy to use. It takes under a minute to answer and gives us a usability score we can track over time and compare with other services.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "We can see whether changes are making the service easier to use, and hear from a wider group of users than we reach through research sessions.",
+            "cy": ""
+          },
+          "status": "exploring"
+        }
+      ],
+      "later": [
+        {
+          "title": {
+            "en": "Storage Area Network (SAN)",
+            "cy": ""
+          },
+          "description": {
+            "en": "Essential infrastructure work on the Storage Area Network.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Essential maintenance keeps the storage behind WIS running reliably.",
+            "cy": ""
+          },
+          "status": "exploring"
+        },
+        {
+          "title": {
+            "en": "Continuous improvement",
+            "cy": ""
+          },
+          "description": {
+            "en": "Improvements to WIS identified through the winter campaign.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "WIS keeps improving based on what we learn from the winter campaign.",
+            "cy": ""
+          },
+          "status": "exploring"
+        },
+        {
+          "title": {
+            "en": "Spring campaign",
+            "cy": ""
+          },
+          "description": {
+            "en": "Getting WIS ready for the spring campaign.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "WIS is ready for the spring vaccination campaign.",
+            "cy": ""
+          },
+          "status": "exploring"
+        },
+        {
+          "title": {
+            "en": "School immunisation: a home in WIS",
+            "cy": ""
+          },
+          "description": {
+            "en": "Making school immunisation a permanent part of WIS, so school vaccination teams use the same core service as other vaccination programmes.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "School immunisation is a permanent part of WIS, giving one record and one way of working for school vaccinations.",
+            "cy": ""
+          },
+          "status": "exploring",
+          "phase": "Beta · Phase 2",
+          "details": [
             {
               "level": 0,
               "text": {
@@ -519,31 +421,22 @@
             }
           ]
         },
-        "horizon": "later"
-      },
-      {
-        "id": "school-immunisation-electronic-consent",
-        "title": {
-          "en": "School immunisation: electronic consent",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Developing electronic consent for school vaccinations, so consent can be collected and managed digitally.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Parents and guardians can give consent online for school vaccinations, with fewer paper forms and faster responses.",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "exploring",
-        "phase": "Beta · Phase 3",
-        "capabilities": {
-          "label": {
-            "en": "What this phase covers",
+        {
+          "title": {
+            "en": "School immunisation: electronic consent",
             "cy": ""
           },
-          "items": [
+          "description": {
+            "en": "Developing electronic consent for school vaccinations, so consent can be collected and managed digitally.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Parents and guardians can give consent online for school vaccinations, with fewer paper forms and faster responses.",
+            "cy": ""
+          },
+          "status": "exploring",
+          "phase": "Beta · Phase 3",
+          "details": [
             {
               "level": 0,
               "text": {
@@ -574,386 +467,275 @@
             }
           ]
         },
-        "horizon": "later"
-      },
-      {
-        "id": "live-cloud-and-postgresql-migration",
-        "title": {
-          "en": "Live cloud and PostgreSQL migration",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Moving WIS onto cloud hosting and a PostgreSQL database.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "WIS runs on modern cloud hosting, making it more reliable and easier to improve and scale in response to demand.",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "exploring",
-        "horizon": "later"
-      },
-      {
-        "id": "cypris-maintenance-and-security",
-        "title": {
-          "en": "CYPrIS maintenance and security",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Essential maintenance and security upgrades to CYPrIS, the child health platform that works alongside WIS.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "CYPrIS stays secure and reliable while we focus new development on WIS.",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "in-progress",
-        "services": [
-          "CYPrIS"
-        ],
-        "horizon": "now"
-      },
-      {
-        "id": "pre-school-immunisation",
-        "title": {
-          "en": "Pre-school immunisation",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Discovery into pre-school immunisation.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "A clear understanding of how WIS could support pre-school vaccination.",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "exploring",
-        "phase": "Discovery",
-        "horizon": "later"
-      },
-      {
-        "id": "offline-access-for-wis",
-        "title": {
-          "en": "Offline access for WIS",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Exploring PWA standards for offline access in poor signal.",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "exploring",
-        "phase": "DISCOVERY",
-        "horizon": "later"
-      },
-      {
-        "id": "new-top-navigation",
-        "title": {
-          "en": "New top navigation",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Moving to a top navigation for easier use and more space.",
-          "cy": ""
-        },
-        "categoryId": "vaccine-service",
-        "status": "exploring",
-        "phase": "DESIGN UPDATE",
-        "horizon": "later"
-      }
-    ],
-    "sections": [
-      {
-        "id": "recently-delivered",
-        "placement": "before",
-        "heading": {
-          "en": "Recently delivered",
-          "cy": ""
-        },
-        "description": {
-          "en": "Work we've completed recently and that is now live in the service.",
-          "cy": ""
-        },
-        "items": [
-          {
-            "id": "more-frequent-gp-write-back",
-            "title": {
-              "en": "More frequent GP write-back",
-              "cy": ""
-            },
-            "summary": {
-              "en": "Investigating whether we can send vaccination updates back to GP records more often, working with IUVO and EMIS.",
-              "cy": ""
-            },
-            "categoryId": "vaccine-service"
+        {
+          "title": {
+            "en": "Live cloud and PostgreSQL migration",
+            "cy": ""
           },
-          {
-            "id": "school-immunisation-service-consultation-updates",
-            "title": {
-              "en": "School immunisation service",
-              "cy": ""
-            },
-            "summary": {
-              "en": "Pregnancy and Gillick updates to the WIS consultation form",
-              "cy": ""
-            },
-            "categoryId": "vaccine-service"
+          "description": {
+            "en": "Moving WIS onto cloud hosting and a PostgreSQL database.",
+            "cy": ""
           },
-          {
-            "id": "nhs-wales-app-vaccine-features",
-            "title": {
-              "en": "NHS Wales App vaccine features",
-              "cy": ""
-            },
-            "summary": {
-              "en": "Possible discovery into vaccine features in the NHS Wales App, subject to prioritisation.",
-              "cy": ""
-            },
-            "categoryId": "vaccine-service",
-            "phase": "Discovery"
+          "outcome": {
+            "en": "WIS runs on modern cloud hosting, making it more reliable and easier to improve and scale in response to demand.",
+            "cy": ""
+          },
+          "status": "exploring"
+        },
+        {
+          "title": {
+            "en": "Pre-school immunisation",
+            "cy": ""
+          },
+          "description": {
+            "en": "Discovery into pre-school immunisation.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "A clear understanding of how WIS could support pre-school vaccination.",
+            "cy": ""
+          },
+          "status": "exploring",
+          "phase": "Discovery"
+        },
+        {
+          "title": {
+            "en": "Offline access for WIS",
+            "cy": ""
+          },
+          "description": {
+            "en": "Exploring PWA standards for offline access in poor signal.",
+            "cy": ""
+          },
+          "status": "exploring",
+          "phase": "DISCOVERY"
+        },
+        {
+          "title": {
+            "en": "New top navigation",
+            "cy": ""
+          },
+          "description": {
+            "en": "Moving to a top navigation for easier use and more space.",
+            "cy": ""
+          },
+          "status": "exploring",
+          "phase": "DESIGN UPDATE"
+        }
+      ],
+      "recently-delivered": [
+        {
+          "title": {
+            "en": "More frequent GP write-back",
+            "cy": ""
+          },
+          "description": {
+            "en": "Investigating whether we can send vaccination updates back to GP records more often, working with IUVO and EMIS.",
+            "cy": ""
           }
-        ]
-      },
-      {
-        "id": "other-delivered",
-        "placement": "after",
-        "heading": {
-          "en": "Other work we have delivered this year",
-          "cy": ""
         },
-        "description": {
-          "en": "A broader view of the delivery this year that sits outside the main roadmap horizons.",
-          "cy": ""
-        },
-        "items": [
-          {
-            "id": "cloud-work-code-complete",
-            "title": {
-              "en": "Cloud work code complete",
-              "cy": ""
-            },
-            "summary": {
-              "en": "Development is finished. More follows once the cloud infrastructure becomes available.",
-              "cy": ""
-            },
-            "categoryId": "vaccine-service"
+        {
+          "title": {
+            "en": "School immunisation service",
+            "cy": ""
           },
-          {
-            "id": "menb-recording",
-            "title": {
-              "en": "MenB recording",
-              "cy": ""
-            },
-            "summary": {
-              "en": "Recording MenB vaccinations in WIS, with writeback to GP records through EMIS. Around 10,000 recorded in the first week since release.",
-              "cy": ""
-            },
-            "categoryId": "vaccine-service",
-            "metric": "10,000",
-            "capabilities": {
-              "label": {
-                "en": "What the first release covered",
+          "description": {
+            "en": "Pregnancy and Gillick updates to the WIS consultation form",
+            "cy": ""
+          }
+        },
+        {
+          "title": {
+            "en": "NHS Wales App vaccine features",
+            "cy": ""
+          },
+          "description": {
+            "en": "Possible discovery into vaccine features in the NHS Wales App, subject to prioritisation.",
+            "cy": ""
+          },
+          "phase": "Discovery"
+        }
+      ],
+      "delivered-this-year": [
+        {
+          "title": {
+            "en": "Cloud work code complete",
+            "cy": ""
+          },
+          "description": {
+            "en": "Development is finished. More follows once the cloud infrastructure becomes available.",
+            "cy": ""
+          }
+        },
+        {
+          "title": {
+            "en": "MenB recording",
+            "cy": ""
+          },
+          "description": {
+            "en": "Recording MenB vaccinations in WIS, with writeback to GP records through EMIS. Around 10,000 recorded in the first week since release.",
+            "cy": ""
+          },
+          "details": [
+            {
+              "level": 0,
+              "text": {
+                "en": "Record MenB vaccinations in WIS.",
                 "cy": ""
-              },
-              "items": [
-                {
-                  "level": 0,
-                  "text": {
-                    "en": "Record MenB vaccinations in WIS.",
-                    "cy": ""
-                  }
-                },
-                {
-                  "level": 0,
-                  "text": {
-                    "en": "View vaccination history where recorded in WIS.",
-                    "cy": ""
-                  }
-                },
-                {
-                  "level": 0,
-                  "text": {
-                    "en": "Report through the data warehouse.",
-                    "cy": ""
-                  }
-                },
-                {
-                  "level": 0,
-                  "text": {
-                    "en": "Strike through a vaccination.",
-                    "cy": ""
-                  }
-                },
-                {
-                  "level": 0,
-                  "text": {
-                    "en": "Set up a vaccine default.",
-                    "cy": ""
-                  }
-                },
-                {
-                  "level": 0,
-                  "text": {
-                    "en": "Writeback to GP records through EMIS, subject to external dependencies.",
-                    "cy": ""
-                  }
-                }
-              ]
+              }
+            },
+            {
+              "level": 0,
+              "text": {
+                "en": "View vaccination history where recorded in WIS.",
+                "cy": ""
+              }
+            },
+            {
+              "level": 0,
+              "text": {
+                "en": "Report through the data warehouse.",
+                "cy": ""
+              }
+            },
+            {
+              "level": 0,
+              "text": {
+                "en": "Strike through a vaccination.",
+                "cy": ""
+              }
+            },
+            {
+              "level": 0,
+              "text": {
+                "en": "Set up a vaccine default.",
+                "cy": ""
+              }
+            },
+            {
+              "level": 0,
+              "text": {
+                "en": "Writeback to GP records through EMIS, subject to external dependencies.",
+                "cy": ""
+              }
             }
-          },
-          {
-            "id": "essential-server-maintenance",
-            "title": {
-              "en": "Essential server maintenance",
-              "cy": ""
-            },
-            "summary": {
-              "en": "Keeping the servers behind WIS healthy and up to date.",
-              "cy": ""
-            },
-            "categoryId": "vaccine-service"
-          },
-          {
-            "id": "not-in-wales-records",
-            "title": {
-              "en": "“Not in Wales” records",
-              "cy": ""
-            },
-            "summary": {
-              "en": "Requirements defined for recording people who are not registered in Wales.",
-              "cy": ""
-            },
-            "categoryId": "vaccine-service"
-          },
-          {
-            "id": "reporting-data-for-rsv-and-flu",
-            "title": {
-              "en": "Reporting data for RSV and flu",
-              "cy": ""
-            },
-            "summary": {
-              "en": "Added opt-out and location data for RSV and flu to the reporting views, improving the accuracy of uptake data.",
-              "cy": ""
-            },
-            "categoryId": "vaccine-service"
-          },
-          {
-            "id": "winter-respiratory-campaign",
-            "title": {
-              "en": "Winter respiratory campaign",
-              "cy": ""
-            },
-            "summary": {
-              "en": "Getting WIS ready for the autumn and winter respiratory campaigns. This year eligibility is widening, with a new RSV group for people aged 65 to 74 at risk, changes for the autumn flu campaign, and updates for COVID-19.",
-              "cy": ""
-            },
-            "categoryId": "vaccine-service"
-          },
-          {
-            "id": "letter-updates",
-            "title": {
-              "en": "Letter updates",
-              "cy": ""
-            },
-            "summary": {
-              "en": "Updating the existing WIS letter templates for this year's autumn campaigns.",
-              "cy": ""
-            },
-            "categoryId": "vaccine-service"
-          },
-          {
-            "id": "registrant-consent-recording",
-            "title": {
-              "en": "Registrant Consent Recording",
-              "cy": ""
-            },
-            "summary": {
-              "en": "Recording registrant consent at the point of vaccination, keeping WIS up to date with regulatory change.",
-              "cy": ""
-            },
-            "categoryId": "vaccine-service"
-          },
-          {
-            "id": "clearer-vaccination-warnings",
-            "title": {
-              "en": "Clearer vaccination warnings",
-              "cy": ""
-            },
-            "summary": {
-              "en": "Clearer warnings when a vaccination looks like a duplicate, or when the person isn't in a priority group.",
-              "cy": ""
-            },
-            "categoryId": "vaccine-service"
-          },
-          {
-            "id": "school-immunisation-service",
-            "title": {
-              "en": "School immunisation service",
-              "cy": ""
-            },
-            "summary": {
-              "en": "Early build and testing of the school immunisation service.",
-              "cy": ""
-            },
-            "categoryId": "vaccine-service",
-            "phase": "Alpha"
-          },
-          {
-            "id": "system-generated-appointments-sga",
-            "title": {
-              "en": "System Generated Appointments (SGA)",
-              "cy": ""
-            },
-            "summary": {
-              "en": "Piloting System Generated Appointments and appointment mapping, with training and support.",
-              "cy": ""
-            },
-            "categoryId": "vaccine-service"
-          }
-        ]
-      },
-      {
-        "id": "not-doing-now",
-        "placement": "after",
-        "heading": {
-          "en": "Not doing right now",
-          "cy": ""
+          ]
         },
-        "description": {
-          "en": "Being clear about what we’re not doing keeps the focus where it matters.",
-          "cy": ""
-        },
-        "items": [
-          {
-            "id": "travel-vaccines",
-            "title": {
-              "en": "Travel vaccines",
-              "cy": ""
-            },
-            "summary": {
-              "en": "Many of these are given privately. Right now our focus is on a coherent, user-centred service for all NHS-delivered Green Book vaccines.",
-              "cy": ""
-            },
-            "categoryId": "vaccine-service"
+        {
+          "title": {
+            "en": "Essential server maintenance",
+            "cy": ""
           },
-          {
-            "id": "new-development-on-cypris",
-            "title": {
-              "en": "New development on CYPrIS",
-              "cy": ""
-            },
-            "summary": {
-              "en": "We’ll keep making security and essential policy or regulatory updates to our Child Health product. Our focus is on creating new digital-first experiences for the childhood vaccines through the Welsh Immunisation System.",
-              "cy": ""
-            },
-            "categoryId": "vaccine-service"
+          "description": {
+            "en": "Keeping the servers behind WIS healthy and up to date.",
+            "cy": ""
           }
-        ]
-      }
-    ]
+        },
+        {
+          "title": {
+            "en": "“Not in Wales” records",
+            "cy": ""
+          },
+          "description": {
+            "en": "Requirements defined for recording people who are not registered in Wales.",
+            "cy": ""
+          }
+        },
+        {
+          "title": {
+            "en": "Reporting data for RSV and flu",
+            "cy": ""
+          },
+          "description": {
+            "en": "Added opt-out and location data for RSV and flu to the reporting views, improving the accuracy of uptake data.",
+            "cy": ""
+          }
+        },
+        {
+          "title": {
+            "en": "Winter respiratory campaign",
+            "cy": ""
+          },
+          "description": {
+            "en": "Getting WIS ready for the autumn and winter respiratory campaigns. This year eligibility is widening, with a new RSV group for people aged 65 to 74 at risk, changes for the autumn flu campaign, and updates for COVID-19.",
+            "cy": ""
+          }
+        },
+        {
+          "title": {
+            "en": "Letter updates",
+            "cy": ""
+          },
+          "description": {
+            "en": "Updating the existing WIS letter templates for this year's autumn campaigns.",
+            "cy": ""
+          }
+        },
+        {
+          "title": {
+            "en": "Registrant Consent Recording",
+            "cy": ""
+          },
+          "description": {
+            "en": "Recording registrant consent at the point of vaccination, keeping WIS up to date with regulatory change.",
+            "cy": ""
+          }
+        },
+        {
+          "title": {
+            "en": "Clearer vaccination warnings",
+            "cy": ""
+          },
+          "description": {
+            "en": "Clearer warnings when a vaccination looks like a duplicate, or when the person isn't in a priority group.",
+            "cy": ""
+          }
+        },
+        {
+          "title": {
+            "en": "School immunisation service",
+            "cy": ""
+          },
+          "description": {
+            "en": "Early build and testing of the school immunisation service.",
+            "cy": ""
+          },
+          "phase": "Alpha"
+        },
+        {
+          "title": {
+            "en": "System Generated Appointments (SGA)",
+            "cy": ""
+          },
+          "description": {
+            "en": "Piloting System Generated Appointments and appointment mapping, with training and support.",
+            "cy": ""
+          }
+        }
+      ],
+      "not-doing": [
+        {
+          "title": {
+            "en": "Travel vaccines",
+            "cy": ""
+          },
+          "description": {
+            "en": "Many of these are given privately. Right now our focus is on a coherent, user-centred service for all NHS-delivered Green Book vaccines.",
+            "cy": ""
+          }
+        },
+        {
+          "title": {
+            "en": "New development on CYPrIS",
+            "cy": ""
+          },
+          "description": {
+            "en": "We’ll keep making security and essential policy or regulatory updates to our Child Health product. Our focus is on creating new digital-first experiences for the childhood vaccines through the Welsh Immunisation System.",
+            "cy": ""
+          }
+        }
+      ]
+    }
   },
   {
     "slug": "choose-pharmacy",
@@ -963,6 +745,12 @@
         "en": "Choose Pharmacy roadmap",
         "cy": ""
       },
+      "statusLabel": {
+        "en": "Beta",
+        "cy": ""
+      },
+      "lastUpdated": "2026-09-28",
+      "colour": "#006747",
       "vision": {
         "en": "Establish Choose Pharmacy as a leading platform for digital transformation in community pharmacy, empowering pharmacy professionals to deliver high-quality, patient-centred care with greater efficiency, clarity, and confidence.",
         "cy": ""
@@ -970,148 +758,70 @@
       "serviceDescription": {
         "en": "Choose Pharmacy is the digital platform enabling community pharmacies across Wales to deliver connected, accessible healthcare to patients.",
         "cy": ""
-      },
-      "intro": {
-        "en": "This roadmap shows what we're working on now, what's coming next and the direction we expect to take later.",
-        "cy": ""
-      },
-      "horizonNote": {
-        "en": "Now is what we are actively working on. Next is what we expect to pick up soon. Later is the direction we're setting as we learn more with users, pharmacies and partners. We don't put dates on this work, and the order isn't a priority list.",
-        "cy": ""
-      },
-      "lastUpdated": "2026-09-28",
-      "statusLabel": {
-        "en": "Beta",
-        "cy": ""
       }
     },
-    "horizons": [
-      {
-        "id": "now",
-        "label": {
-          "en": "Now",
-          "cy": ""
-        },
-        "definition": {
-          "en": "Work that is underway now and shaping the next changes to the service.",
-          "cy": ""
-        }
-      },
-      {
-        "id": "next",
-        "label": {
-          "en": "Next",
-          "cy": ""
-        },
-        "definition": {
-          "en": "Work we expect to pick up soon as current delivery moves forward.",
-          "cy": ""
-        }
-      },
-      {
-        "id": "later",
-        "label": {
-          "en": "Later",
-          "cy": ""
-        },
-        "definition": {
-          "en": "Longer-term direction that will keep evolving as we learn more.",
-          "cy": ""
-        }
-      }
-    ],
-    "categories": [
-      {
-        "id": "choose-pharmacy",
-        "label": "Choose Pharmacy",
-        "headline": {
-          "en": "Now, Next and Later for Choose Pharmacy",
-          "cy": ""
-        },
-        "description": {
-          "en": "A simple view of the work shaping Choose Pharmacy across Wales, from active delivery now to the longer-term direction ahead.",
-          "cy": ""
-        },
-        "accent": "#006747"
-      }
-    ],
-    "items": [
-      {
-        "id": "platform-and-security",
-        "title": {
-          "en": "Platform and Security",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Provide a modern cloud based, secure and reliable platform for Choose Pharmacy.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Choose Pharmacy application is operating on a fast, robust, secure and expandable platform.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "in-progress",
-        "horizon": "now"
-      },
-      {
-        "id": "pharmacy-hub",
-        "title": {
-          "en": "Pharmacy Hub",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Centralised Pharmacy Hub that provides pharmacy teams with a view of services, messages, tasks, links, and operational information.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Provide a streamlined and intuitive experience that enables pharmacy teams to manage their workload more effectively and deliver services with greater confidence.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "in-progress",
-        "horizon": "now"
-      },
-      {
-        "id": "patient-search-add-patient",
-        "title": {
-          "en": "Patient Search/Add Patient",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Patient identification via integration with the Care Data Repository (CDR). Allow users to add patients manually if not found in the CDR using tools such as the Welsh Address Matching Service (WAMS).",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Enable pharmacists to quickly identify and register patients using national services, ensuring accurate patient records and safe care delivery.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "in-progress",
-        "horizon": "now"
-      },
-      {
-        "id": "patient-hub",
-        "title": {
-          "en": "Patient Hub",
-          "cy": ""
-        },
-        "summary": {
-          "en": "A centralised patient hub showing key patient information, including a consolidated patient history, allergy and intolerance management including Shared Medicines Record (SMR) integration and adverse reaction recording.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Pharmacy teams will have access to a single, consolidated view of key patient information to support safe, informed clinical decision-making.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "in-progress",
-        "capabilities": {
-          "label": {
-            "en": "Included Information",
+    "items": {
+      "now": [
+        {
+          "title": {
+            "en": "Platform and Security",
             "cy": ""
           },
-          "items": [
+          "description": {
+            "en": "Provide a modern cloud based, secure and reliable platform for Choose Pharmacy.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Choose Pharmacy application is operating on a fast, robust, secure and expandable platform.",
+            "cy": ""
+          },
+          "status": "in-progress"
+        },
+        {
+          "title": {
+            "en": "Pharmacy Hub",
+            "cy": ""
+          },
+          "description": {
+            "en": "Centralised Pharmacy Hub that provides pharmacy teams with a view of services, messages, tasks, links, and operational information.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Provide a streamlined and intuitive experience that enables pharmacy teams to manage their workload more effectively and deliver services with greater confidence.",
+            "cy": ""
+          },
+          "status": "in-progress"
+        },
+        {
+          "title": {
+            "en": "Patient Search/Add Patient",
+            "cy": ""
+          },
+          "description": {
+            "en": "Patient identification via integration with the Care Data Repository (CDR). Allow users to add patients manually if not found in the CDR using tools such as the Welsh Address Matching Service (WAMS).",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Enable pharmacists to quickly identify and register patients using national services, ensuring accurate patient records and safe care delivery.",
+            "cy": ""
+          },
+          "status": "in-progress"
+        },
+        {
+          "title": {
+            "en": "Patient Hub",
+            "cy": ""
+          },
+          "description": {
+            "en": "A centralised patient hub showing key patient information, including a consolidated patient history, allergy and intolerance management including Shared Medicines Record (SMR) integration and adverse reaction recording.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Pharmacy teams will have access to a single, consolidated view of key patient information to support safe, informed clinical decision-making.",
+            "cy": ""
+          },
+          "status": "in-progress",
+          "details": [
             {
               "level": 0,
               "text": {
@@ -1156,30 +866,21 @@
             }
           ]
         },
-        "horizon": "now"
-      },
-      {
-        "id": "clinical-services",
-        "title": {
-          "en": "Clinical Services",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Provide structured digital, user centred designed and verified workflows to enable pharmacy teams to deliver NHS commissioned services to patients.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Pharmacy teams can deliver NHS commissioned services safely, consistently and efficiently, contributing to better patient outcomes.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "in-progress",
-        "capabilities": {
-          "label": {
-            "en": "Included Services",
+        {
+          "title": {
+            "en": "Clinical Services",
             "cy": ""
           },
-          "items": [
+          "description": {
+            "en": "Provide structured digital, user centred designed and verified workflows to enable pharmacy teams to deliver NHS commissioned services to patients.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Pharmacy teams can deliver NHS commissioned services safely, consistently and efficiently, contributing to better patient outcomes.",
+            "cy": ""
+          },
+          "status": "in-progress",
+          "details": [
             {
               "level": 0,
               "text": {
@@ -1238,613 +939,315 @@
             }
           ]
         },
-        "horizon": "now"
-      },
-      {
-        "id": "user-management",
-        "title": {
-          "en": "User Management",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Add role based access controls (RBAC) and user profile management.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Provide secure, role-based access controls that protect patient information and ensure users can only access the features and data appropriate to their role.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "in-progress",
-        "horizon": "now"
-      },
-      {
-        "id": "reporting",
-        "title": {
-          "en": "Reporting",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Add reports to show core operational information and statistics for pharmacy teams.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Provide pharmacy teams with operational oversight through core reporting functions.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "in-progress",
-        "horizon": "now"
-      },
-      {
-        "id": "clinical-coding-snomed-ct",
-        "title": {
-          "en": "Clinical Coding (SNOMED CT)",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Provide SNOMED CT clinical coding functionality to ensure that all clinical information recorded is standardised.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Recording clinical information using standardised SNOMED CT codes improves data quality, supports safer clinical decision-making, and enables seamless information sharing across NHS Wales services.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "in-progress",
-        "horizon": "now"
-      },
-      {
-        "id": "medication-coding-dmd",
-        "title": {
-          "en": "Medication Coding (DM+D)",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Provide Dictionary of Medicines and Devices (DM+D) search functionality, so all medications supplied are coded.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Recording medications using standardised DM+D codes improves medicines safety, supports accurate reimbursement to pharmacies, and enables consistent and reliable sharing of medication information across NHS Wales services.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "in-progress",
-        "horizon": "now"
-      },
-      {
-        "id": "welsh-immunisation-service-wis",
-        "title": {
-          "en": "Welsh Immunisation Service (WIS)",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Integration with the Welsh Immunisation Service (WIS), allowing pharmacy teams to view vaccine eligibility information and vaccine data, with a seamless pass through to provide and record vaccination services.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Pharmacy teams will be able to deliver vaccinations alongside other NHS commissioned services via one route.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "exploring",
-        "horizon": "next"
-      },
-      {
-        "id": "clinical-data-repository-cdr",
-        "title": {
-          "en": "Clinical Data Repository (CDR)",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Store all Choose Pharmacy consultation data as coded, structured information within the national Care Data Repository (CDR).",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Pharmacy consultations form part of a comprehensive patient record, improving visibility of care provided across healthcare settings in Wales, improving patient safety and outcomes.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "exploring",
-        "horizon": "next"
-      },
-      {
-        "id": "discharge-medicines-review-dmr",
-        "title": {
-          "en": "Discharge Medicines Review (DMR)",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Enhance the functionality of the Discharge Medicines Review journey by enabling the import of discharge medicines information from the Shared Medicines Record (SMR).",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Pharmacists will be able to import current medication information, reducing the risk of transcription error and duplication, improving accuracy, and supporting effective Discharge Medicines Reviews.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "exploring",
-        "horizon": "next"
-      },
-      {
-        "id": "sodium-valproate-forms",
-        "title": {
-          "en": "Sodium Valproate Forms",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Provide pharmacy teams with access to Sodium Valproate forms.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Improve clinical safety by providing access to structured Sodium Valproate monitoring and risk acknowledgement forms to support safe prescribing, regulatory compliance, and improved patient outcomes.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "exploring",
-        "horizon": "next"
-      },
-      {
-        "id": "data-dashboards",
-        "title": {
-          "en": "Data Dashboards",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Create rich data dashboards for Choose Pharmacy data tailored to user roles.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "The data will provide service insights and performance metrics that help users and stakeholders monitor services, make informed decisions, drive improvements in patient care and outcomes.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "exploring",
-        "horizon": "next"
-      },
-      {
-        "id": "appointment-booking",
-        "title": {
-          "en": "Appointment Booking",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Develop an appointment booking system to allow NHS commissioned services to be booked through Choose Pharmacy.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Patients can access NHS commissioned pharmacy services more easily through digital appointment booking, helping pharmacy teams plan workloads effectively, optimise capacity, and improve patient experience.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "exploring",
-        "horizon": "later"
-      },
-      {
-        "id": "nhs-111-integration",
-        "title": {
-          "en": "NHS 111 Integration",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Build integrations with NHS 111 to allow sharing of information between NHS 111 and Choose Pharmacy, including referral information.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Enable referral information to be shared seamlessly between NHS 111 and Choose Pharmacy, helping patients access the most appropriate care, reducing the need to repeat information, and easing pressure on other services.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "exploring",
-        "horizon": "later"
-      },
-      {
-        "id": "nhs-wales-app-integration",
-        "title": {
-          "en": "NHS Wales App Integration",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Build integrations with the NHS Wales App, ensuring patient information can be shared with Choose Pharmacy and enabling patients to book appointments through the app and make nominations.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Enable patients to manage their interactions with community pharmacy through the NHS Wales App, including booking appointments and nominating services, while ensuring information is shared securely.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "exploring",
-        "horizon": "later"
-      },
-      {
-        "id": "yellowcard-reporting",
-        "title": {
-          "en": "Yellowcard Reporting",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Provide an integration with the Yellowcard reporting system for adverse reactions.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Enable pharmacy teams to quickly and securely report suspected adverse drug reactions, supporting patient safety, national medicines monitoring, and improved health outcomes.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "exploring",
-        "horizon": "later"
-      },
-      {
-        "id": "clinical-template-expansion",
-        "title": {
-          "en": "Clinical Template Expansion",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Develop further clinical templates for use by pharmacy teams, devised from data collected from Choose Pharmacy and user research.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Provide pharmacy teams with streamlined, evidence-based clinical templates that reduce administrative effort, improve consultation efficiency, and enable patients to receive care more quickly.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "exploring",
-        "horizon": "later"
-      },
-      {
-        "id": "common-symptoms-quick-picks",
-        "title": {
-          "en": "Common Symptoms Quick Picks",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Using Choose Pharmacy data, identify the most common symptoms recorded within specific consultation journeys and develop a quick pick system for pharmacy teams.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Enable pharmacy teams to initiate consultations more quickly by selecting from commonly recorded symptoms, reducing administrative effort, streamlining workflows, and helping patients receive care faster.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "exploring",
-        "horizon": "later"
-      },
-      {
-        "id": "electronic-prescribing-service-eps",
-        "title": {
-          "en": "Electronic Prescribing Service (EPS)",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Send prescriptions generated within Choose Pharmacy via the Electronic Prescribing Service (EPS).",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Prescriptions generated within Choose Pharmacy will be transferred electronically to dispensing systems, reducing manual administration, streamlining pharmacy workflows, and helping patients get medicines faster.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "exploring",
-        "horizon": "later"
-      },
-      {
-        "id": "patient-medication-record-pmr",
-        "title": {
-          "en": "Patient Medication Record (PMR)",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Share consultation information with pharmacy back-end Patient Medication Record (PMR) systems used for dispensing medicines.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Streamlined dispensing workflows by automatically sharing consultation information with PMR systems, reducing administrative burden and freeing pharmacy teams to spend more time with patients.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "exploring",
-        "horizon": "later"
-      },
-      {
-        "id": "gp-system-writeback",
-        "title": {
-          "en": "GP System Writeback",
-          "cy": ""
-        },
-        "summary": {
-          "en": "Write consultation information directly to GP systems using clinically coded messages.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "Consultation information will be shared directly with GP systems using clinically coded messages, reducing administrative effort, eliminating manual transcription, improving the timeline for GPs to receive information, and improving patient safety.",
-          "cy": ""
-        },
-        "categoryId": "choose-pharmacy",
-        "status": "exploring",
-        "horizon": "later"
-      }
-    ],
-    "sections": [
-      {
-        "id": "recently-delivered",
-        "placement": "before",
-        "heading": {
-          "en": "Recently delivered",
-          "cy": ""
-        },
-        "description": {
-          "en": "Work we've completed recently and that is now live in the service.",
-          "cy": ""
-        },
-        "items": []
-      },
-      {
-        "id": "other-delivered",
-        "placement": "after",
-        "heading": {
-          "en": "Other work delivered this year",
-          "cy": ""
-        },
-        "description": {
-          "en": "A broader view of the delivery this year that sits outside the main roadmap horizons.",
-          "cy": ""
-        },
-        "items": [
-          {
-            "id": "hscn-access-route",
-            "title": {
-              "en": "HSCN Access Route",
-              "cy": ""
-            },
-            "summary": {
-              "en": "Implemented a dedicated HSCN access route for Community Pharmacies, enabling users to access Choose Pharmacy directly without relying on Citrix.",
-              "cy": ""
-            },
-            "outcome": {
-              "en": "Pharmacy teams benefit from faster and more reliable access to Choose Pharmacy, with improved application performance and a simplified printing experience through direct access to local printers. This reduces operational steps, improves efficiency, and enhances the overall user experience.",
-              "cy": ""
-            },
-            "categoryId": "choose-pharmacy",
-            "status": "shipped"
-          },
-          {
-            "id": "remote-access-route",
-            "title": {
-              "en": "Remote Access Route",
-              "cy": ""
-            },
-            "summary": {
-              "en": "Implemented a secure internet-based access route for Community Pharmacies, using Multi-Factor Authentication (MFA) to enable direct access to Choose Pharmacy without the need for Citrix.",
-              "cy": ""
-            },
-            "outcome": {
-              "en": "Pharmacy teams can access Choose Pharmacy remotely, supporting the delivery of services and clinics outside of the traditional pharmacy setting. In addition to increased flexibility and mobility for staff, users benefit from the same advantages as the dedicated Pharmacy access route, including improved performance, faster access, a simplified user experience, and direct printing to local devices where appropriate",
-              "cy": ""
-            },
-            "categoryId": "choose-pharmacy",
-            "status": "shipped"
-          }
-        ]
-      },
-      {
-        "id": "not-right-now",
-        "placement": "after",
-        "heading": {
-          "en": "Not now",
-          "cy": ""
-        },
-        "description": {
-          "en": "Being clear about what we are not doing keeps the focus where it matters.",
-          "cy": ""
-        },
-        "items": []
-      }
-    ]
-  },
-  {
-    "slug": "example",
-    "sheetName": "Example",
-    "meta": {
-      "title": {
-        "en": "Example product roadmap",
-        "cy": ""
-      },
-      "vision": {
-        "en": "Our vision statement.",
-        "cy": ""
-      },
-      "serviceDescription": {
-        "en": "What the product does and who it helps.",
-        "cy": ""
-      },
-      "intro": {
-        "en": "This roadmap shows what we're working on now, what's coming next and the direction we expect to take later.",
-        "cy": ""
-      },
-      "horizonNote": {
-        "en": "We don't put dates on this work, and the order isn't a priority list.",
-        "cy": ""
-      },
-      "lastUpdated": "2026-10-07",
-      "statusLabel": {
-        "en": "Beta Roadmap",
-        "cy": ""
-      }
-    },
-    "horizons": [
-      {
-        "id": "now",
-        "label": {
-          "en": "Now",
-          "cy": "Nawr"
-        },
-        "definition": {
-          "en": "Work that is underway now and shaping the next changes to the service.",
-          "cy": ""
-        }
-      },
-      {
-        "id": "next",
-        "label": {
-          "en": "Next",
-          "cy": "Nesaf"
-        },
-        "definition": {
-          "en": "Work we expect to pick up soon as current delivery moves forward.",
-          "cy": ""
-        }
-      },
-      {
-        "id": "later",
-        "label": {
-          "en": "Later",
-          "cy": "Hwyrach"
-        },
-        "definition": {
-          "en": "Longer-term direction that will keep evolving as we learn more.",
-          "cy": ""
-        }
-      }
-    ],
-    "categories": [
-      {
-        "id": "example-product",
-        "label": "Example product",
-        "headline": {
-          "en": "Now, Next and Later for the example product",
-          "cy": ""
-        },
-        "description": {
-          "en": "A simple view of the work shaping this product.",
-          "cy": ""
-        },
-        "accent": "#325083"
-      }
-    ],
-    "items": [
-      {
-        "id": "example-item",
-        "title": {
-          "en": "Example roadmap item",
-          "cy": ""
-        },
-        "summary": {
-          "en": "What this work is. Around 10,000 people will benefit.",
-          "cy": ""
-        },
-        "outcome": {
-          "en": "What changes for users when it is done.",
-          "cy": ""
-        },
-        "categoryId": "example-product",
-        "status": "in-progress",
-        "phase": "Beta",
-        "metric": "10,000",
-        "capabilities": {
-          "label": {
-            "en": "What this phase covers",
+        {
+          "title": {
+            "en": "User Management",
             "cy": ""
           },
-          "items": [
-            {
-              "level": 0,
-              "text": {
-                "en": "One line per bullet point.",
-                "cy": ""
-              }
-            },
-            {
-              "level": 1,
-              "text": {
-                "en": "Start a line with \"-\" to nest it under the line above.",
-                "cy": ""
-              }
-            },
-            {
-              "level": 0,
-              "text": {
-                "en": "Another bullet point.",
-                "cy": ""
-              }
-            }
-          ]
+          "description": {
+            "en": "Add role based access controls (RBAC) and user profile management.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Provide secure, role-based access controls that protect patient information and ensure users can only access the features and data appropriate to their role.",
+            "cy": ""
+          },
+          "status": "in-progress"
         },
-        "services": [
-          "Service A",
-          "Service B"
-        ],
-        "horizon": "now"
-      },
-      {
-        "id": "example-discovery",
-        "title": {
-          "en": "Example discovery",
-          "cy": ""
+        {
+          "title": {
+            "en": "Reporting",
+            "cy": ""
+          },
+          "description": {
+            "en": "Add reports to show core operational information and statistics for pharmacy teams.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Provide pharmacy teams with operational oversight through core reporting functions.",
+            "cy": ""
+          },
+          "status": "in-progress"
         },
-        "summary": {
-          "en": "Exploring a new idea with users.",
-          "cy": ""
+        {
+          "title": {
+            "en": "Clinical Coding (SNOMED CT)",
+            "cy": ""
+          },
+          "description": {
+            "en": "Provide SNOMED CT clinical coding functionality to ensure that all clinical information recorded is standardised.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Recording clinical information using standardised SNOMED CT codes improves data quality, supports safer clinical decision-making, and enables seamless information sharing across NHS Wales services.",
+            "cy": ""
+          },
+          "status": "in-progress"
         },
-        "categoryId": "example-product",
-        "status": "exploring",
-        "phase": "Discovery",
-        "horizon": "later"
-      }
-    ],
-    "sections": [
-      {
-        "id": "recently-delivered",
-        "placement": "before",
-        "heading": {
-          "en": "Recently delivered",
-          "cy": ""
+        {
+          "title": {
+            "en": "Medication Coding (DM+D)",
+            "cy": ""
+          },
+          "description": {
+            "en": "Provide Dictionary of Medicines and Devices (DM+D) search functionality, so all medications supplied are coded.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Recording medications using standardised DM+D codes improves medicines safety, supports accurate reimbursement to pharmacies, and enables consistent and reliable sharing of medication information across NHS Wales services.",
+            "cy": ""
+          },
+          "status": "in-progress"
+        }
+      ],
+      "next": [
+        {
+          "title": {
+            "en": "Welsh Immunisation Service (WIS)",
+            "cy": ""
+          },
+          "description": {
+            "en": "Integration with the Welsh Immunisation Service (WIS), allowing pharmacy teams to view vaccine eligibility information and vaccine data, with a seamless pass through to provide and record vaccination services.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Pharmacy teams will be able to deliver vaccinations alongside other NHS commissioned services via one route.",
+            "cy": ""
+          },
+          "status": "exploring"
         },
-        "description": {
-          "en": "Work we've completed recently and that is now live in the service.",
-          "cy": ""
+        {
+          "title": {
+            "en": "Clinical Data Repository (CDR)",
+            "cy": ""
+          },
+          "description": {
+            "en": "Store all Choose Pharmacy consultation data as coded, structured information within the national Care Data Repository (CDR).",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Pharmacy consultations form part of a comprehensive patient record, improving visibility of care provided across healthcare settings in Wales, improving patient safety and outcomes.",
+            "cy": ""
+          },
+          "status": "exploring"
         },
-        "items": [
-          {
-            "id": "example-delivered",
-            "title": {
-              "en": "Example delivered work",
-              "cy": ""
-            },
-            "summary": {
-              "en": "Something we shipped recently.",
-              "cy": ""
-            },
-            "categoryId": "example-product"
-          }
-        ]
-      },
-      {
-        "id": "other-delivered",
-        "placement": "after",
-        "heading": {
-          "en": "Other work we have delivered this year",
-          "cy": ""
+        {
+          "title": {
+            "en": "Discharge Medicines Review (DMR)",
+            "cy": ""
+          },
+          "description": {
+            "en": "Enhance the functionality of the Discharge Medicines Review journey by enabling the import of discharge medicines information from the Shared Medicines Record (SMR).",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Pharmacists will be able to import current medication information, reducing the risk of transcription error and duplication, improving accuracy, and supporting effective Discharge Medicines Reviews.",
+            "cy": ""
+          },
+          "status": "exploring"
         },
-        "description": {
-          "en": "A broader view of the delivery this year that sits outside the main roadmap horizons.",
-          "cy": ""
+        {
+          "title": {
+            "en": "Sodium Valproate Forms",
+            "cy": ""
+          },
+          "description": {
+            "en": "Provide pharmacy teams with access to Sodium Valproate forms.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Improve clinical safety by providing access to structured Sodium Valproate monitoring and risk acknowledgement forms to support safe prescribing, regulatory compliance, and improved patient outcomes.",
+            "cy": ""
+          },
+          "status": "exploring"
         },
-        "items": []
-      },
-      {
-        "id": "not-doing-now",
-        "placement": "after",
-        "heading": {
-          "en": "Not doing right now",
-          "cy": ""
+        {
+          "title": {
+            "en": "Data Dashboards",
+            "cy": ""
+          },
+          "description": {
+            "en": "Create rich data dashboards for Choose Pharmacy data tailored to user roles.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "The data will provide service insights and performance metrics that help users and stakeholders monitor services, make informed decisions, drive improvements in patient care and outcomes.",
+            "cy": ""
+          },
+          "status": "exploring"
+        }
+      ],
+      "later": [
+        {
+          "title": {
+            "en": "Appointment Booking",
+            "cy": ""
+          },
+          "description": {
+            "en": "Develop an appointment booking system to allow NHS commissioned services to be booked through Choose Pharmacy.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Patients can access NHS commissioned pharmacy services more easily through digital appointment booking, helping pharmacy teams plan workloads effectively, optimise capacity, and improve patient experience.",
+            "cy": ""
+          },
+          "status": "exploring"
         },
-        "description": {
-          "en": "Being clear about what we’re not doing keeps the focus where it matters.",
-          "cy": ""
+        {
+          "title": {
+            "en": "NHS 111 Integration",
+            "cy": ""
+          },
+          "description": {
+            "en": "Build integrations with NHS 111 to allow sharing of information between NHS 111 and Choose Pharmacy, including referral information.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Enable referral information to be shared seamlessly between NHS 111 and Choose Pharmacy, helping patients access the most appropriate care, reducing the need to repeat information, and easing pressure on other services.",
+            "cy": ""
+          },
+          "status": "exploring"
         },
-        "items": []
-      }
-    ]
+        {
+          "title": {
+            "en": "NHS Wales App Integration",
+            "cy": ""
+          },
+          "description": {
+            "en": "Build integrations with the NHS Wales App, ensuring patient information can be shared with Choose Pharmacy and enabling patients to book appointments through the app and make nominations.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Enable patients to manage their interactions with community pharmacy through the NHS Wales App, including booking appointments and nominating services, while ensuring information is shared securely.",
+            "cy": ""
+          },
+          "status": "exploring"
+        },
+        {
+          "title": {
+            "en": "Yellowcard Reporting",
+            "cy": ""
+          },
+          "description": {
+            "en": "Provide an integration with the Yellowcard reporting system for adverse reactions.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Enable pharmacy teams to quickly and securely report suspected adverse drug reactions, supporting patient safety, national medicines monitoring, and improved health outcomes.",
+            "cy": ""
+          },
+          "status": "exploring"
+        },
+        {
+          "title": {
+            "en": "Clinical Template Expansion",
+            "cy": ""
+          },
+          "description": {
+            "en": "Develop further clinical templates for use by pharmacy teams, devised from data collected from Choose Pharmacy and user research.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Provide pharmacy teams with streamlined, evidence-based clinical templates that reduce administrative effort, improve consultation efficiency, and enable patients to receive care more quickly.",
+            "cy": ""
+          },
+          "status": "exploring"
+        },
+        {
+          "title": {
+            "en": "Common Symptoms Quick Picks",
+            "cy": ""
+          },
+          "description": {
+            "en": "Using Choose Pharmacy data, identify the most common symptoms recorded within specific consultation journeys and develop a quick pick system for pharmacy teams.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Enable pharmacy teams to initiate consultations more quickly by selecting from commonly recorded symptoms, reducing administrative effort, streamlining workflows, and helping patients receive care faster.",
+            "cy": ""
+          },
+          "status": "exploring"
+        },
+        {
+          "title": {
+            "en": "Electronic Prescribing Service (EPS)",
+            "cy": ""
+          },
+          "description": {
+            "en": "Send prescriptions generated within Choose Pharmacy via the Electronic Prescribing Service (EPS).",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Prescriptions generated within Choose Pharmacy will be transferred electronically to dispensing systems, reducing manual administration, streamlining pharmacy workflows, and helping patients get medicines faster.",
+            "cy": ""
+          },
+          "status": "exploring"
+        },
+        {
+          "title": {
+            "en": "Patient Medication Record (PMR)",
+            "cy": ""
+          },
+          "description": {
+            "en": "Share consultation information with pharmacy back-end Patient Medication Record (PMR) systems used for dispensing medicines.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Streamlined dispensing workflows by automatically sharing consultation information with PMR systems, reducing administrative burden and freeing pharmacy teams to spend more time with patients.",
+            "cy": ""
+          },
+          "status": "exploring"
+        },
+        {
+          "title": {
+            "en": "GP System Writeback",
+            "cy": ""
+          },
+          "description": {
+            "en": "Write consultation information directly to GP systems using clinically coded messages.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Consultation information will be shared directly with GP systems using clinically coded messages, reducing administrative effort, eliminating manual transcription, improving the timeline for GPs to receive information, and improving patient safety.",
+            "cy": ""
+          },
+          "status": "exploring"
+        }
+      ],
+      "recently-delivered": [],
+      "delivered-this-year": [
+        {
+          "title": {
+            "en": "HSCN Access Route",
+            "cy": ""
+          },
+          "description": {
+            "en": "Implemented a dedicated HSCN access route for Community Pharmacies, enabling users to access Choose Pharmacy directly without relying on Citrix.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Pharmacy teams benefit from faster and more reliable access to Choose Pharmacy, with improved application performance and a simplified printing experience through direct access to local printers. This reduces operational steps, improves efficiency, and enhances the overall user experience.",
+            "cy": ""
+          },
+          "status": "shipped"
+        },
+        {
+          "title": {
+            "en": "Remote Access Route",
+            "cy": ""
+          },
+          "description": {
+            "en": "Implemented a secure internet-based access route for Community Pharmacies, using Multi-Factor Authentication (MFA) to enable direct access to Choose Pharmacy without the need for Citrix.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Pharmacy teams can access Choose Pharmacy remotely, supporting the delivery of services and clinics outside of the traditional pharmacy setting. In addition to increased flexibility and mobility for staff, users benefit from the same advantages as the dedicated Pharmacy access route, including improved performance, faster access, a simplified user experience, and direct printing to local devices where appropriate",
+            "cy": ""
+          },
+          "status": "shipped"
+        }
+      ],
+      "not-doing": []
+    }
   }
 ]

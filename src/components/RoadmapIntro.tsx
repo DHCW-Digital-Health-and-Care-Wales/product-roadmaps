@@ -1,5 +1,6 @@
 import type { RoadmapMeta } from '../lib/types';
 import { useLanguage } from '../lib/i18n';
+import { ROADMAP_INTRO } from '../lib/content';
 import { formatDate } from '../lib/roadmap-helpers';
 import { onNavigate, productHref } from '../lib/router';
 
@@ -51,7 +52,7 @@ export function RoadmapIntro({ meta }: { meta: RoadmapMeta }) {
         </h1>
 
         <p className="mt-4 max-w-3xl text-lg leading-relaxed text-ink-900">
-          {tr(meta.intro)}
+          {tr(ROADMAP_INTRO)}
         </p>
       </div>
     </section>

@@ -1,44 +1,46 @@
 /**
- * Downloads every published tab of the roadmap Google Sheet and writes the
- * parsed roadmaps to src/data/roadmaps.json. Run with `npm run sync`; the
- * nightly GitHub Action commits the result if it changed.
+ * Downloads the roadmap Google Sheet and writes the parsed roadmaps to
+ * src/data/roadmaps.json. Run with `npm run sync`; the nightly GitHub Action
+ * commits the result if it changed.
+ *
+ * The first tab lists the roadmaps; each row's "Sheet" names the tab to load.
  */
 import { writeFileSync } from 'node:fs';
 import type { Roadmap } from '../src/lib/types.ts';
-import { isHiddenTab, parseRoadmap } from './parse-roadmap.ts';
+import {
+  hasColumn,
+  parseRoadmap,
+  parseRoadmapList,
+  type Worksheet,
+} from './parse-roadmap.ts';
 
-// "File > Share > Publish to web" link. Public by design, so not a secret.
-const PUBLISHED_URL =
-  process.env.SHEET_PUBLISHED_URL ||
-  'https://docs.google.com/spreadsheets/d/e/2PACX-1vR9s9HbHevAi6UFsCIDXPc0affffjfKp7lLqQUzLNYgwUe7PIHrI5G4V76Y30jMt5xgnI1DBykoFEm5/pub?output=csv';
+// The spreadsheet must be shared as "Anyone with the link can view".
+const SHEET_ID =
+  process.env.SHEET_ID || '1wuk_pK1LpfLKmdbg6WsY_qKeBC5lcN4rlsjqkAxtflw';
 
 const OUTPUT = new URL('../src/data/roadmaps.json', import.meta.url);
-const BASE = PUBLISHED_URL.replace(/\/pub(html)?(\?.*)?$/, '/pub');
 
-async function get(url: string, contentType: string): Promise<string> {
+// The gviz CSV export can fetch a tab by name. An unknown name silently
+// returns the first tab, which callers detect by its "Sheet" column.
+async function fetchTab(name?: string): Promise<Worksheet> {
+  const url = new URL(
+    `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq`,
+  );
+  url.searchParams.set('tqx', 'out:csv');
+  url.searchParams.set('headers', '1');
+  if (name) url.searchParams.set('sheet', name);
+
   const response = await fetch(url);
   const type = response.headers.get('content-type') ?? '';
-  if (!response.ok || !type.includes(contentType)) {
-    throw new Error(`Unexpected ${response.status} (${type}) from ${url}`);
+  if (!response.ok || !type.includes('text/csv')) {
+    throw new Error(
+      `Unexpected ${response.status} (${type}) from ${url}; is the sheet shared as "Anyone with the link can view"?`,
+    );
   }
-  return response.text();
-}
-
-// The published HTML index is the only keyless way to list tab names and gids.
-async function listTabs(): Promise<{ name: string; gid: string }[]> {
-  const html = await get(`${BASE}html`, 'text/html');
-  const tabs = [
-    ...html.matchAll(
-      /\{name: "((?:[^"\\]|\\.)*)", pageUrl: "[^"]*", gid: "(\d+)"/g,
-    ),
-  ].map(([, name, gid]) => ({
-    name: JSON.parse(`"${name.replace(/\\x([0-9a-f]{2})/gi, '\\u00$1')}"`),
-    gid,
-  }));
-  if (tabs.length === 0) {
-    throw new Error('No published tabs found; has the publish page changed?');
-  }
-  return tabs;
+  return {
+    name: name ?? 'Roadmaps (first tab)',
+    rows: parseCsv(await response.text()),
+  };
 }
 
 function parseCsv(text: string): string[][] {
@@ -72,21 +74,17 @@ function parseCsv(text: string): string[][] {
   return rows;
 }
 
-const tabs = (await listTabs()).filter((tab) => !isHiddenTab(tab.name));
+const index = await fetchTab();
 const roadmaps: Roadmap[] = [];
 
-for (const tab of tabs) {
-  const csv = await get(
-    `${BASE}?gid=${tab.gid}&single=true&output=csv`,
-    'text/csv',
-  );
-  const roadmap = parseRoadmap({ name: tab.name, rows: parseCsv(csv) });
-  if (!roadmap) {
-    console.warn(`::warning title=${tab.name}::Tab has no rows; skipped`);
-    continue;
+for (const listing of parseRoadmapList(index)) {
+  const tab = await fetchTab(listing.sheet);
+  if (hasColumn(tab, 'Sheet')) {
+    throw new Error(`No tab named "${listing.sheet}"; check the Sheet column.`);
   }
+  const roadmap = parseRoadmap(listing, tab);
   if (roadmaps.some((r) => r.slug === roadmap.slug)) {
-    throw new Error(`Two tabs share the URL slug "${roadmap.slug}"`);
+    throw new Error(`Two roadmaps share the URL slug "${roadmap.slug}"`);
   }
   roadmaps.push(roadmap);
 }

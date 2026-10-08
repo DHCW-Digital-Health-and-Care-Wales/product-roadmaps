@@ -1,16 +1,17 @@
 import { ArrowRight } from 'lucide-react';
 import type { Roadmap } from '../lib/types';
 import { useLanguage } from '../lib/i18n';
+import { HORIZONS, ROADMAP_INTRO } from '../lib/content';
 import { formatDate } from '../lib/roadmap-helpers';
 import { onNavigate, productHref } from '../lib/router';
 
 function ProductCard({ roadmap }: { roadmap: Roadmap }) {
   const { lang, tr } = useLanguage();
   const { meta } = roadmap;
-  const accent = roadmap.categories[0]?.accent ?? '#325083';
+  const accent = meta.colour;
   const summary = meta.serviceDescription.en
     ? meta.serviceDescription
-    : meta.intro;
+    : ROADMAP_INTRO;
   const headingId = `product-${roadmap.slug}`;
 
   return (
@@ -54,14 +55,14 @@ function ProductCard({ roadmap }: { roadmap: Roadmap }) {
         ) : null}
 
         <dl className="mt-5 flex flex-wrap gap-2">
-          {roadmap.horizons.map((horizon) => (
+          {HORIZONS.map((horizon) => (
             <div
               key={horizon.id}
               className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface-subtle px-3 py-1 text-sm"
             >
               <dt className="text-ink-700">{tr(horizon.label)}</dt>
               <dd className="font-semibold text-heading">
-                {roadmap.items.filter((i) => i.horizon === horizon.id).length}
+                {roadmap.items[horizon.id].length}
               </dd>
             </div>
           ))}

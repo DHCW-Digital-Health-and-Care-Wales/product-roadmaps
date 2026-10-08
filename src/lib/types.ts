@@ -1,11 +1,20 @@
 /**
  * Roadmap content model. Content comes from the nightly Google Sheet snapshot
- * in src/data/roadmaps.json (see scripts/sync-roadmaps.ts); every piece of
- * display text is language-keyed so Welsh and English are both supported,
- * falling back to English when Welsh is empty (see src/lib/i18n.ts).
+ * in src/data/roadmaps.json (see scripts/sync-roadmaps.ts); text shared by
+ * every roadmap lives in src/lib/content.ts. Display text is language-keyed so
+ * Welsh can be added later; empty Welsh falls back to English (src/lib/i18n.ts).
  */
 
 export type Horizon = 'now' | 'next' | 'later';
+
+/** The fixed sections shown around the horizons (see src/lib/content.ts). */
+export type SectionId =
+  | 'recently-delivered'
+  | 'delivered-this-year'
+  | 'not-doing';
+
+/** Where a card appears: one of the horizons or one of the sections. */
+export type Placement = Horizon | SectionId;
 
 /** Known statuses get a translated label; anything else is shown as typed. */
 export type ItemStatus = string;
@@ -15,60 +24,35 @@ export interface Localised {
   en: string;
 }
 
-export interface Category {
-  id: string;
-  /** Short label shown above the headline. */
-  label: string;
-  headline: Localised;
-  description: Localised;
-  accent: string;
-}
-
-export interface Capabilities {
-  label: Localised;
-  /** `level` > 0 nests the line under the previous shallower line. */
-  items: { text: Localised; level: number }[];
+/** `level` > 0 nests the line under the previous shallower line. */
+export interface DetailLine {
+  text: Localised;
+  level: number;
 }
 
 export interface RoadmapItem {
-  id: string;
   title: Localised;
-  summary: Localised;
+  description: Localised;
   outcome?: Localised;
-  categoryId: string;
-  horizon?: Horizon;
   status?: ItemStatus;
   phase?: string;
-  metric?: string;
-  capabilities?: Capabilities;
-  services?: string[];
-}
-
-/** A delivered/out-of-scope section shown before or after the horizons. */
-export interface DeliveredSectionData {
-  id: string;
-  placement: 'before' | 'after';
-  heading: Localised;
-  description: Localised;
-  items: RoadmapItem[];
+  labels?: string[];
+  details?: DetailLine[];
 }
 
 export interface RoadmapMeta {
   title: Localised;
+  statusLabel: Localised;
+  lastUpdated: string;
+  /** Hex highlight colour for this roadmap. */
+  colour: string;
   vision: Localised;
   serviceDescription: Localised;
-  intro: Localised;
-  horizonNote: Localised;
-  lastUpdated: string;
-  statusLabel: Localised;
 }
 
 export interface Roadmap {
   slug: string;
   sheetName: string;
   meta: RoadmapMeta;
-  horizons: { id: Horizon; label: Localised; definition: Localised }[];
-  categories: Category[];
-  items: RoadmapItem[];
-  sections: DeliveredSectionData[];
+  items: Record<Placement, RoadmapItem[]>;
 }

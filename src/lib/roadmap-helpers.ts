@@ -1,27 +1,10 @@
 /**
  * Presentation helpers for the roadmap.
  *
- * Grouping logic lives here so components stay small, and status is given a
- * language-keyed text label so meaning is never carried by colour alone.
+ * Status is given a language-keyed text label so meaning is never carried by
+ * colour alone.
  */
-import type {
-  Horizon,
-  ItemStatus,
-  Localised,
-  Roadmap,
-  RoadmapItem,
-} from './types';
-
-/** Items in a category for a given horizon, preserving source order. */
-export function itemsFor(
-  roadmap: Roadmap,
-  categoryId: string,
-  horizon: Horizon,
-): RoadmapItem[] {
-  return roadmap.items.filter(
-    (item) => item.categoryId === categoryId && item.horizon === horizon,
-  );
-}
+import type { ItemStatus, Localised } from './types';
 
 /** Human-readable, language-keyed label for an item status. */
 const STATUS_LABELS: Record<string, Localised> = {

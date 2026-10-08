@@ -1,12 +1,12 @@
-import type { Roadmap } from '../lib/types';
 import { useLanguage } from '../lib/i18n';
+import { HORIZON_NOTE, HORIZONS } from '../lib/content';
 
 /**
  * Plain-English explainer of what Now, Next and Later mean, plus the
  * forward-looking note that this shows direction and priorities rather than
  * firm commitments or dates (docs/BUILD_BRIEF.md Section 4).
  */
-export function HorizonExplainer({ roadmap }: { roadmap: Roadmap }) {
+export function HorizonExplainer() {
   const { lang, tr } = useLanguage();
   const headingId = 'horizons-explainer-heading';
 
@@ -21,7 +21,7 @@ export function HorizonExplainer({ roadmap }: { roadmap: Roadmap }) {
         </h2>
 
         <dl className="mt-6 grid gap-4 md:grid-cols-3">
-          {roadmap.horizons.map((horizon) => (
+          {HORIZONS.map((horizon) => (
             <div
               key={horizon.id}
               className="rounded-card border border-border bg-surface-subtle p-5"
@@ -36,11 +36,9 @@ export function HorizonExplainer({ roadmap }: { roadmap: Roadmap }) {
           ))}
         </dl>
 
-        {roadmap.meta.horizonNote.en ? (
-          <p className="mt-6 max-w-3xl leading-relaxed text-ink-700">
-            {tr(roadmap.meta.horizonNote)}
-          </p>
-        ) : null}
+        <p className="mt-6 max-w-3xl leading-relaxed text-ink-700">
+          {tr(HORIZON_NOTE)}
+        </p>
       </div>
     </section>
   );

@@ -1,32 +1,16 @@
 import type { ReactNode } from 'react';
-import type { Capabilities, RoadmapItem } from '../lib/types';
+import type { DetailLine, Localised, RoadmapItem } from '../lib/types';
 import { useLanguage } from '../lib/i18n';
+import { DETAILS_HEADING } from '../lib/content';
 import { statusLabel } from '../lib/roadmap-helpers';
 
-function renderSummaryWithMetric(summary: string, metric?: string) {
-  if (!metric || !summary.includes(metric)) {
-    return summary;
-  }
-
-  const [before, after] = summary.split(metric, 2);
-  return (
-    <>
-      {before}
-      <strong className="rounded bg-heading/10 px-1 font-semibold text-heading">
-        {metric}
-      </strong>
-      {after}
-    </>
-  );
-}
-
 /** Builds nested lists from `level`, so "- " lines sit under the line above. */
-function CapabilityList({
+function DetailList({
   items,
   tr,
 }: {
-  items: Capabilities['items'];
-  tr: (value: Capabilities['label']) => string;
+  items: DetailLine[];
+  tr: (value: Localised) => string;
 }) {
   const build = (start: number, level: number): [ReactNode[], number] => {
     const nodes: ReactNode[] = [];
@@ -58,8 +42,8 @@ function CapabilityList({
 }
 
 /**
- * A single roadmap item. Shows the title, summary, a text status label and any
- * related services. Never shows a date: the roadmap communicates priority and
+ * A single roadmap item. Shows the title, description, a text status label and
+ * any labels. Never shows a date: the roadmap communicates priority and
  * confidence, not committed dates.
  */
 export function RoadmapCard({
@@ -89,9 +73,9 @@ export function RoadmapCard({
         </p>
       ) : null}
       <Heading className="font-bold text-heading">{tr(item.title)}</Heading>
-      {item.summary.en ? (
+      {item.description.en ? (
         <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-ink-900">
-          {renderSummaryWithMetric(tr(item.summary), item.metric)}
+          {tr(item.description)}
         </p>
       ) : null}
       {item.outcome ? (
@@ -102,28 +86,28 @@ export function RoadmapCard({
           {tr(item.outcome)}
         </p>
       ) : null}
-      {item.capabilities ? (
+      {item.details ? (
         <details className="mt-3 rounded-card border border-border bg-surface-subtle p-3">
           <summary className="cursor-pointer text-sm font-semibold text-heading">
-            {tr(item.capabilities.label)}
+            {tr(DETAILS_HEADING)}
           </summary>
-          <CapabilityList items={item.capabilities.items} tr={tr} />
+          <DetailList items={item.details} tr={tr} />
         </details>
       ) : null}
 
-      {item.status || item.services ? (
+      {item.status || item.labels ? (
         <div className="mt-3 flex flex-wrap items-center gap-2">
           {item.status ? (
             <span className="inline-flex items-center rounded-full border border-border-strong bg-surface-subtle px-2.5 py-0.5 text-xs font-medium text-ink-700">
               {tr(statusLabel(item.status))}
             </span>
           ) : null}
-          {item.services?.map((service) => (
+          {item.labels?.map((label) => (
             <span
-              key={service}
+              key={label}
               className="inline-flex items-center rounded-full bg-surface-muted px-2.5 py-0.5 text-xs font-medium text-ink-700"
             >
-              {service}
+              {label}
             </span>
           ))}
         </div>

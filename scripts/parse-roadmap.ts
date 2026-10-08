@@ -1,19 +1,15 @@
 /**
- * Turns one Google Sheet tab into a Roadmap. Used by sync-roadmaps.ts at build
- * time; each tab (except "Template" and tabs starting with "_") is one product.
- *
- * Sheet format: one header row, then one row per record. The "Type" column
- * says what the row is (Setting, Horizon, Category, Item, Section, Delivered).
- * See the "Template" tab and README.md for the full column guide.
+ * Turns Google Sheet tabs into roadmaps. Used by sync-roadmaps.ts at build
+ * time. The first tab lists the roadmaps, one per row, and its "Sheet" column
+ * names the tab holding that roadmap's cards. See README.md for the columns.
  */
 import type {
-  Capabilities,
-  Category,
-  DeliveredSectionData,
-  Horizon,
+  DetailLine,
   Localised,
+  Placement,
   Roadmap,
   RoadmapItem,
+  RoadmapMeta,
 } from '../src/lib/types.ts';
 
 export interface Worksheet {
@@ -21,81 +17,42 @@ export interface Worksheet {
   rows: string[][];
 }
 
-const HORIZONS: Horizon[] = ['now', 'next', 'later'];
+export interface Listing {
+  sheet: string;
+  meta: RoadmapMeta;
+}
 
-const DEFAULT_HORIZONS: Roadmap['horizons'] = [
-  {
-    id: 'now',
-    label: { en: 'Now', cy: 'Nawr' },
-    definition: {
-      en: 'Work that is underway now and shaping the next changes to the service.',
-      cy: '',
-    },
-  },
-  {
-    id: 'next',
-    label: { en: 'Next', cy: 'Nesaf' },
-    definition: {
-      en: 'Work we expect to pick up soon as current delivery moves forward.',
-      cy: '',
-    },
-  },
-  {
-    id: 'later',
-    label: { en: 'Later', cy: 'Hwyrach' },
-    definition: {
-      en: 'Longer-term direction that will keep evolving as we learn more.',
-      cy: '',
-    },
-  },
-];
-
-type Field =
-  | 'type'
-  | 'id'
-  | 'group'
-  | 'category'
-  | 'status'
-  | 'phase'
-  | 'titleEn'
-  | 'titleCy'
-  | 'summaryEn'
-  | 'summaryCy'
-  | 'outcomeEn'
-  | 'outcomeCy'
-  | 'metric'
-  | 'detailsHeadingEn'
-  | 'detailsHeadingCy'
-  | 'detailsEn'
-  | 'detailsCy'
-  | 'services'
-  | 'colour';
-
-const HEADERS: Record<string, Field> = {
-  type: 'type',
-  id: 'id',
-  horizonsection: 'group',
-  category: 'category',
-  status: 'status',
-  phase: 'phase',
-  titleenglish: 'titleEn',
-  titlewelsh: 'titleCy',
-  summaryenglish: 'summaryEn',
-  summarywelsh: 'summaryCy',
-  outcomeenglish: 'outcomeEn',
-  outcomewelsh: 'outcomeCy',
-  metric: 'metric',
-  detailsheadingenglish: 'detailsHeadingEn',
-  detailsheadingwelsh: 'detailsHeadingCy',
-  detailslistenglish: 'detailsEn',
-  detailslistwelsh: 'detailsCy',
-  services: 'services',
-  colour: 'colour',
+// Values accepted in a card's "Horizon" column, compared case-insensitively.
+const PLACEMENTS: Record<string, Placement> = {
+  now: 'now',
+  next: 'next',
+  later: 'later',
+  recentlydelivered: 'recently-delivered',
+  deliveredthisyear: 'delivered-this-year',
+  notdoing: 'not-doing',
 };
 
-type Row = Partial<Record<Field, string>>;
+const DEFAULT_COLOUR = '#325083';
 
-const key = (value: string) => value.toLowerCase().replace(/[^a-z0-9]/g, '');
+// Missing required columns fail the sync; missing optional ones only warn.
+const LIST_COLUMNS = {
+  required: ['Sheet'],
+  optional: [
+    'Title',
+    'Status label',
+    'Last updated',
+    'Colour',
+    'Vision',
+    'Service description',
+  ],
+};
+
+const CARD_COLUMNS = {
+  required: ['Title', 'Horizon'],
+  optional: ['Description', 'Outcome', 'Status', 'Phase', 'Labels', 'Details'],
+};
+
+const key = (value = '') => value.toLowerCase().replace(/[^a-z0-9]/g, '');
 
 export const slugify = (value: string) =>
   value
@@ -103,228 +60,136 @@ export const slugify = (value: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
 
-const loc = (en = '', cy = ''): Localised => ({ en: en.trim(), cy: cy.trim() });
-
-const hasText = (value?: Localised) => Boolean(value && value.en);
-
-/** Accepts YYYY-MM-DD or the UK display format DD/MM/YYYY. */
-function toIsoDate(value: string): string {
-  const uk = value.trim().match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-  if (uk) {
-    const [, day, month, year] = uk;
-    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-  }
-  return value.trim();
-}
-
-/** Only allow plain hex colours so sheet content can't inject CSS. */
-function safeColour(value = ''): string | undefined {
-  const colour = value.trim();
-  return /^#[0-9a-f]{3}([0-9a-f]{3})?$/i.test(colour) ? colour : undefined;
-}
-
-/** One list entry per line; leading "-" characters nest an entry. */
-function parseDetails(row: Row): Capabilities | undefined {
-  const split = (text = '') =>
-    text
-      .split(/\r?\n/)
-      .map((line) => line.trim())
-      .filter(Boolean);
-  const en = split(row.detailsEn);
-  if (en.length === 0) return undefined;
-  const cy = split(row.detailsCy);
-  const strip = (line = '') => line.replace(/^-+\s*/, '');
-
-  return {
-    label: loc(row.detailsHeadingEn || 'More detail', row.detailsHeadingCy),
-    items: en.map((line, index) => ({
-      level: line.match(/^-*/)?.[0].length ?? 0,
-      text: loc(strip(line), strip(cy[index])),
-    })),
-  };
-}
-
-function normaliseStatus(value = ''): string | undefined {
-  const status = value.trim().toLowerCase().replace(/\s+/g, '-');
-  return status || undefined;
-}
-
-function toItem(row: Row, fallbackCategory: string): RoadmapItem {
-  const title = loc(row.titleEn, row.titleCy);
-  const outcome = loc(row.outcomeEn, row.outcomeCy);
-  const services = (row.services ?? '')
-    .split(/[,\n]/)
-    .map((service) => service.trim())
-    .filter(Boolean);
-
-  return {
-    id: row.id?.trim() || slugify(title.en),
-    title,
-    summary: loc(row.summaryEn, row.summaryCy),
-    outcome: hasText(outcome) ? outcome : undefined,
-    categoryId: row.category?.trim() || fallbackCategory,
-    status: normaliseStatus(row.status),
-    phase: row.phase?.trim() || undefined,
-    metric: row.metric?.trim() || undefined,
-    capabilities: parseDetails(row),
-    services: services.length > 0 ? services : undefined,
-  };
-}
-
-function readRows(sheet: Worksheet): Row[] {
-  const headerIndex = sheet.rows.findIndex((cells) =>
-    cells.some((cell) => key(cell) === 'type'),
-  );
-  if (headerIndex === -1) return [];
-
-  const columns = sheet.rows[headerIndex].map((cell) => HEADERS[key(cell)]);
-
-  return sheet.rows
-    .slice(headerIndex + 1)
-    .map((cells) => {
-      const row: Row = {};
-      columns.forEach((field, index) => {
-        if (field && cells[index]) row[field] = cells[index];
-      });
-      return row;
-    })
-    .filter((row) => row.type?.trim());
-}
-
-const SETTING_KEYS: Record<string, keyof Roadmap['meta']> = {
-  title: 'title',
-  statuslabel: 'statusLabel',
-  lastupdated: 'lastUpdated',
-  intro: 'intro',
-  vision: 'vision',
-  servicedescription: 'serviceDescription',
-  horizonnote: 'horizonNote',
-};
+const loc = (en = ''): Localised => ({ en: en.trim(), cy: '' });
 
 // Printed as GitHub Actions annotations so editors can spot sheet mistakes.
 function warn(sheet: string, message: string) {
   console.warn(`::warning title=${sheet}::${message}`);
 }
 
-export function parseRoadmap(sheet: Worksheet): Roadmap | null {
-  const rows = readRows(sheet);
-  if (rows.length === 0) return null;
+export const hasColumn = (sheet: Worksheet, name: string) =>
+  (sheet.rows[0] ?? []).some((cell) => key(cell) === key(name));
 
-  const meta: Roadmap['meta'] = {
-    title: loc(sheet.name),
-    vision: loc(),
-    serviceDescription: loc(),
-    intro: loc(),
-    horizonNote: loc(),
-    lastUpdated: '',
-    statusLabel: loc(),
-  };
-  const horizons = new Map<Horizon, Roadmap['horizons'][number]>();
-  const categories: Category[] = [];
-  const sections: DeliveredSectionData[] = [];
-  const pendingItems: Row[] = [];
-  const pendingDelivered: Row[] = [];
-
-  for (const row of rows) {
-    const type = key(row.type ?? '');
-    if (type === 'setting') {
-      const field = SETTING_KEYS[key(row.id ?? '')];
-      if (!field) {
-        warn(sheet.name, `Unknown setting "${row.id}"`);
-      } else if (field === 'lastUpdated') {
-        meta.lastUpdated = toIsoDate(row.summaryEn ?? '');
-      } else {
-        meta[field] = loc(row.summaryEn, row.summaryCy);
-      }
-    } else if (type === 'horizon') {
-      const id = key(row.id ?? '') as Horizon;
-      if (!HORIZONS.includes(id)) {
-        warn(sheet.name, `Unknown horizon "${row.id}"`);
-        continue;
-      }
-      const fallback = DEFAULT_HORIZONS.find((h) => h.id === id)!;
-      const label = loc(row.titleEn, row.titleCy);
-      const definition = loc(row.summaryEn, row.summaryCy);
-      horizons.set(id, {
-        id,
-        label: hasText(label) ? label : fallback.label,
-        definition: hasText(definition) ? definition : fallback.definition,
-      });
-    } else if (type === 'category') {
-      const headline = loc(row.titleEn, row.titleCy);
-      categories.push({
-        id: row.id?.trim() || slugify(headline.en) || 'roadmap',
-        label: row.phase?.trim() ?? '',
-        headline,
-        description: loc(row.summaryEn, row.summaryCy),
-        accent: safeColour(row.colour) ?? '#325083',
-      });
-    } else if (type === 'section') {
-      const heading = loc(row.titleEn, row.titleCy);
-      sections.push({
-        id: row.id?.trim() || slugify(heading.en),
-        placement: key(row.group ?? '') === 'before' ? 'before' : 'after',
-        heading,
-        description: loc(row.summaryEn, row.summaryCy),
-        items: [],
-      });
-    } else if (type === 'item') {
-      pendingItems.push(row);
-    } else if (type === 'delivered') {
-      pendingDelivered.push(row);
-    } else {
-      warn(sheet.name, `Unknown row type "${row.type}"`);
-    }
+function checkColumns(sheet: Worksheet, columns: typeof CARD_COLUMNS) {
+  const missing = (names: string[]) =>
+    names.filter((name) => !hasColumn(sheet, name));
+  const required = missing(columns.required);
+  if (required.length > 0) {
+    throw new Error(
+      `Tab "${sheet.name}" is missing required column(s): ${required.join(', ')}`,
+    );
   }
-
-  if (categories.length === 0) {
-    categories.push({
-      id: slugify(sheet.name) || 'roadmap',
-      label: '',
-      headline: meta.title,
-      description: loc(),
-      accent: '#325083',
-    });
+  for (const name of missing(columns.optional)) {
+    warn(sheet.name, `Missing column "${name}"; its values will be blank`);
   }
+}
 
-  const items: RoadmapItem[] = [];
-  for (const row of pendingItems) {
-    const horizon = key(row.group ?? '') as Horizon;
-    if (!HORIZONS.includes(horizon)) {
-      warn(
-        sheet.name,
-        `Item "${row.titleEn}" has unknown horizon "${row.group}"`,
-      );
-      continue;
-    }
-    items.push({ ...toItem(row, categories[0].id), horizon });
-  }
+/** Row 1 is the header; returns the other rows keyed by normalised header. */
+function readTable(sheet: Worksheet): Record<string, string>[] {
+  const [header = [], ...rows] = sheet.rows;
+  const columns = header.map((cell) => key(cell));
+  return rows
+    .map((cells) =>
+      Object.fromEntries(
+        columns.map((column, index) => [column, cells[index]?.trim() ?? '']),
+      ),
+    )
+    .filter((row) => Object.values(row).some(Boolean));
+}
 
-  for (const row of pendingDelivered) {
-    const sectionId = row.group?.trim();
-    const section =
-      sections.find((s) => s.id === sectionId) ??
-      (sectionId ? undefined : sections[0]);
-    if (!section) {
-      warn(
-        sheet.name,
-        `Delivered row "${row.titleEn}" has unknown section "${sectionId}"`,
-      );
-      continue;
-    }
-    section.items.push(toItem(row, categories[0].id));
+/** Accepts YYYY-MM-DD or the UK display format DD/MM/YYYY. */
+function toIsoDate(value: string): string {
+  const uk = value.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (uk) {
+    const [, day, month, year] = uk;
+    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
   }
+  return value;
+}
+
+/** Only allow plain hex colours so sheet content can't inject CSS. */
+function safeColour(sheet: string, value: string): string {
+  if (/^#[0-9a-f]{3}([0-9a-f]{3})?$/i.test(value)) return value;
+  if (value) warn(sheet, `Colour "${value}" is not a hex colour like #325083`);
+  return DEFAULT_COLOUR;
+}
+
+/** One list entry per line; leading "-" characters nest an entry. */
+function parseDetails(text: string): DetailLine[] | undefined {
+  const lines = text
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+  if (lines.length === 0) return undefined;
+
+  return lines.map((line) => ({
+    level: line.match(/^-*/)?.[0].length ?? 0,
+    text: loc(line.replace(/^-+\s*/, '')),
+  }));
+}
+
+function toItem(row: Record<string, string>): RoadmapItem {
+  const labels = (row.labels ?? '')
+    .split(/[,\n]/)
+    .map((label) => label.trim())
+    .filter(Boolean);
 
   return {
-    slug: slugify(sheet.name),
-    sheetName: sheet.name,
-    meta,
-    horizons: DEFAULT_HORIZONS.map((h) => horizons.get(h.id) ?? h),
-    categories,
-    items,
-    sections,
+    title: loc(row.title),
+    description: loc(row.description),
+    outcome: row.outcome ? loc(row.outcome) : undefined,
+    status: row.status?.toLowerCase().replace(/\s+/g, '-') || undefined,
+    phase: row.phase || undefined,
+    labels: labels.length > 0 ? labels : undefined,
+    details: parseDetails(row.details ?? ''),
   };
 }
 
-export const isHiddenTab = (name: string) =>
-  key(name) === 'template' || name.trim().startsWith('_');
+/** Reads the first tab: one roadmap per row, settings as columns. */
+export function parseRoadmapList(sheet: Worksheet): Listing[] {
+  checkColumns(sheet, LIST_COLUMNS);
+  return readTable(sheet)
+    .filter((row) => row.sheet)
+    .map((row) => ({
+      sheet: row.sheet,
+      meta: {
+        title: loc(row.title || row.sheet),
+        statusLabel: loc(row.statuslabel),
+        lastUpdated: toIsoDate(row.lastupdated ?? ''),
+        colour: safeColour(row.sheet, row.colour ?? ''),
+        vision: loc(row.vision),
+        serviceDescription: loc(row.servicedescription),
+      },
+    }));
+}
+
+/** Reads a roadmap tab: one card per row. */
+export function parseRoadmap(listing: Listing, sheet: Worksheet): Roadmap {
+  checkColumns(sheet, CARD_COLUMNS);
+  const items = Object.fromEntries(
+    Object.values(PLACEMENTS).map((placement) => [placement, []]),
+  ) as unknown as Roadmap['items'];
+
+  for (const row of readTable(sheet)) {
+    if (!row.title) {
+      warn(sheet.name, 'A row has no Title; skipped');
+      continue;
+    }
+    const placement = PLACEMENTS[key(row.horizon)];
+    if (!placement) {
+      warn(
+        sheet.name,
+        `"${row.title}" has unknown Horizon "${row.horizon ?? ''}"; skipped`,
+      );
+      continue;
+    }
+    items[placement].push(toItem(row));
+  }
+
+  return {
+    slug: slugify(listing.sheet),
+    sheetName: listing.sheet,
+    meta: listing.meta,
+    items,
+  };
+}

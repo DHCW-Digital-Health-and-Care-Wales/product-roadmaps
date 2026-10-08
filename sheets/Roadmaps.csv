@@ -1,0 +1,3 @@
+Sheet,Title,Status label,Last updated,Colour,Vision,Service description
+ProductA,Product A roadmap,Beta,2026-10-01,#325083,"A short, ambitious statement of where Product A is heading. Leave blank to hide the ""Our vision"" section.","What Product A does and who it helps. Also used as the summary on the landing page card."
+ProductB,Product B roadmap,Alpha,15/09/2026,#006747,,"What Product B does and who it helps. This roadmap has no vision, so that section is hidden."

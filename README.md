@@ -34,10 +34,11 @@ Other scripts: `npm run build`, `npm run lint`, `npm run format`.
 
 ## Sheet format
 
-Starter CSVs for every tab are in [sheets/](sheets/) (**File → Import →
-Upload**, "Replace current sheet"). Row 1 of every tab is the header; column
-names are matched ignoring case and spaces, and extra columns (such as
-`Notes`) are ignored.
+Row 1 of every tab is the header; column names are matched ignoring case and
+spaces, and extra columns (such as `Notes`) are ignored. Tabs not named on the
+first tab are never read, but the whole spreadsheet is visible to anyone with
+the link. [sheets/](sheets/) has example CSVs (fake data, not used by the site)
+for bootstrapping a spreadsheet.
 
 **First tab (`Roadmaps`)**: one row per roadmap.
 

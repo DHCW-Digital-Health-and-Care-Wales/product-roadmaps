@@ -1,5 +1,6 @@
-import { useLanguage } from '../lib/i18n';
 import { HORIZON_NOTE, HORIZONS } from '../lib/content';
+import { UI } from '../lib/strings';
+import { T } from './T';
 
 /**
  * Plain-English explainer of what Now, Next and Later mean, plus the
@@ -7,7 +8,6 @@ import { HORIZON_NOTE, HORIZONS } from '../lib/content';
  * firm commitments or dates.
  */
 export function HorizonExplainer() {
-  const { lang, tr } = useLanguage();
   const headingId = 'horizons-explainer-heading';
 
   return (
@@ -17,7 +17,7 @@ export function HorizonExplainer() {
     >
       <div className="mx-auto max-w-content">
         <h2 id={headingId} className="text-2xl font-bold text-heading">
-          {lang === 'cy' ? 'Nawr, Nesaf a Hwyrach' : 'Now, Next and Later'}
+          <T value={UI.horizonsHeading} />
         </h2>
 
         <dl className="mt-6 grid gap-4 md:grid-cols-3">
@@ -27,17 +27,17 @@ export function HorizonExplainer() {
               className="rounded-card border border-border bg-surface-subtle p-5"
             >
               <dt className="text-lg font-bold text-heading">
-                {tr(horizon.label)}
+                <T value={horizon.label} />
               </dt>
               <dd className="mt-2 leading-relaxed text-ink-900">
-                {tr(horizon.definition)}
+                <T value={horizon.definition} />
               </dd>
             </div>
           ))}
         </dl>
 
         <p className="mt-6 max-w-3xl leading-relaxed text-ink-700">
-          {tr(HORIZON_NOTE)}
+          <T value={HORIZON_NOTE} />
         </p>
       </div>
     </section>

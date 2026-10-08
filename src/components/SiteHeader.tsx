@@ -4,14 +4,13 @@ import logoImage from '../assets/dhcw-logo.png';
 import { useLanguage } from '../lib/i18n';
 import type { Localised } from '../lib/types';
 import { onNavigate, productHref } from '../lib/router';
+import { UI } from '../lib/strings';
 import { LanguageToggle } from './LanguageToggle';
+import { T } from './T';
 
 const NAV_LINKS: { href: string; label: Localised }[] = [
-  {
-    href: '#about',
-    label: { cy: 'Am y trywydd hwn', en: 'About this roadmap' },
-  },
-  { href: '#roadmap', label: { cy: 'Y trywydd', en: 'The roadmap' } },
+  { href: '#about', label: UI.navAbout },
+  { href: '#roadmap', label: UI.navRoadmap },
 ];
 
 /**
@@ -35,18 +34,18 @@ export function SiteHeader({
           href={productHref(null)}
           onClick={onNavigate(null)}
           className="flex items-center"
-          aria-label="Digital Health and Care Wales roadmaps home"
+          aria-label={tr(UI.homeLink)}
         >
           <img
             src={logoImage}
-            alt="Digital Health and Care Wales"
+            alt={tr(UI.organisation)}
             className="h-12 w-auto object-contain sm:h-16"
           />
         </a>
 
         <div className="flex items-center gap-3">
           {navLinks.length > 0 ? (
-            <nav aria-label="Roadmap sections" className="hidden md:block">
+            <nav aria-label={tr(UI.sectionsNav)} className="hidden md:block">
               <ul className="flex items-center gap-2">
                 {navLinks.map((link) => (
                   <li key={link.href}>
@@ -54,7 +53,7 @@ export function SiteHeader({
                       href={link.href}
                       className="rounded px-3 py-2 text-sm font-medium transition-colors hover:bg-white hover:text-nhs-wales-blue"
                     >
-                      {tr(link.label)}
+                      <T value={link.label} />
                     </a>
                   </li>
                 ))}
@@ -73,7 +72,7 @@ export function SiteHeader({
               className="rounded p-2 transition-colors hover:bg-white/15 md:hidden"
             >
               <span className="sr-only">
-                {mobileMenuOpen ? 'Close menu' : 'Open menu'}
+                {tr(mobileMenuOpen ? UI.closeMenu : UI.openMenu)}
               </span>
               {mobileMenuOpen ? (
                 <X className="h-6 w-6" aria-hidden="true" />
@@ -88,7 +87,7 @@ export function SiteHeader({
       {mobileMenuOpen && navLinks.length > 0 && (
         <nav
           id="mobile-nav"
-          aria-label="Roadmap sections"
+          aria-label={tr(UI.sectionsNav)}
           className="border-t border-white/20 px-4 pb-4 md:hidden"
         >
           <ul className="flex flex-col gap-1 pt-2">
@@ -99,7 +98,7 @@ export function SiteHeader({
                   onClick={() => setMobileMenuOpen(false)}
                   className="block rounded px-3 py-2 font-medium transition-colors hover:bg-white hover:text-nhs-wales-blue"
                 >
-                  {tr(link.label)}
+                  <T value={link.label} />
                 </a>
               </li>
             ))}

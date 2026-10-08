@@ -1,17 +1,12 @@
 import type { ReactNode } from 'react';
-import type { DetailLine, Localised, RoadmapItem } from '../lib/types';
-import { useLanguage } from '../lib/i18n';
+import type { DetailLine, RoadmapItem } from '../lib/types';
 import { DETAILS_HEADING } from '../lib/content';
 import { statusLabel } from '../lib/roadmap-helpers';
+import { UI } from '../lib/strings';
+import { T } from './T';
 
 /** Builds nested lists from `level`, so "- " lines sit under the line above. */
-function DetailList({
-  items,
-  tr,
-}: {
-  items: DetailLine[];
-  tr: (value: Localised) => string;
-}) {
+function DetailList({ items }: { items: DetailLine[] }) {
   const build = (start: number, level: number): [ReactNode[], number] => {
     const nodes: ReactNode[] = [];
     let i = start;
@@ -26,7 +21,7 @@ function DetailList({
       }
       nodes.push(
         <li key={index}>
-          {tr(items[index].text)}
+          <T value={items[index].text} />
           {children}
         </li>,
       );
@@ -53,7 +48,6 @@ export function RoadmapCard({
   item: RoadmapItem;
   headingLevel?: 3 | 4;
 }) {
-  const { lang, tr } = useLanguage();
   const Heading = headingLevel === 3 ? 'h3' : 'h4';
   const isDiscovery = item.phase?.toLowerCase().includes('discovery');
 
@@ -72,26 +66,28 @@ export function RoadmapCard({
           </span>
         </p>
       ) : null}
-      <Heading className="font-bold text-heading">{tr(item.title)}</Heading>
+      <Heading className="font-bold text-heading">
+        <T value={item.title} />
+      </Heading>
       {item.description.en ? (
         <p className="mt-2 whitespace-pre-line text-sm leading-relaxed text-ink-900">
-          {tr(item.description)}
+          <T value={item.description} />
         </p>
       ) : null}
       {item.outcome ? (
         <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-ink-900">
           <strong className="font-semibold text-heading">
-            {lang === 'cy' ? 'Canlyniad:' : 'Outcome:'}
+            <T value={UI.outcome} />
           </strong>{' '}
-          {tr(item.outcome)}
+          <T value={item.outcome} />
         </p>
       ) : null}
       {item.details ? (
         <details className="mt-3 rounded-card border border-border bg-surface-subtle p-3">
           <summary className="cursor-pointer text-sm font-semibold text-heading">
-            {tr(DETAILS_HEADING)}
+            <T value={DETAILS_HEADING} />
           </summary>
-          <DetailList items={item.details} tr={tr} />
+          <DetailList items={item.details} />
         </details>
       ) : null}
 
@@ -99,7 +95,7 @@ export function RoadmapCard({
         <div className="mt-3 flex flex-wrap items-center gap-2">
           {item.status ? (
             <span className="inline-flex items-center rounded-full border border-border-strong bg-surface-subtle px-2.5 py-0.5 text-xs font-medium text-ink-700">
-              {tr(statusLabel(item.status))}
+              <T value={statusLabel(item.status)} />
             </span>
           ) : null}
           {item.labels?.map((label) => (

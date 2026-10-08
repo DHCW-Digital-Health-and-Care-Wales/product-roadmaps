@@ -104,8 +104,8 @@ function readTable(sheet: Worksheet): Record<string, string>[] {
 export function toIsoDate(sheet: string, value: string): string {
   if (!value) return '';
   const match =
-    value.match(/^(?<year>\d{4})-(?<month>\d{1,2})-(?<day>\d{1,2})$/) ??
-    value.match(/^(?<day>\d{1,2})\/(?<month>\d{1,2})\/(?<year>\d{4})$/);
+    /^(?<year>\d{4})-(?<month>\d{1,2})-(?<day>\d{1,2})$/.exec(value) ??
+    /^(?<day>\d{1,2})\/(?<month>\d{1,2})\/(?<year>\d{4})$/.exec(value);
   const { year, month, day } = match?.groups ?? {};
   if (year && month && day) {
     const date = new Date(Date.UTC(+year, +month - 1, +day));
@@ -140,7 +140,7 @@ function parseDetails(text: string): DetailLine[] | undefined {
   if (lines.length === 0) return undefined;
 
   return lines.map((line) => ({
-    level: line.match(/^-*/)?.[0].length ?? 0,
+    level: /^-*/.exec(line)?.[0].length ?? 0,
     text: loc(line.replace(/^-+\s*/, '')),
   }));
 }

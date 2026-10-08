@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ChevronUp } from 'lucide-react';
-import { useLanguage } from '../lib/i18n';
+import { UI } from '../lib/strings';
+import { T } from './T';
 
 /**
  * Back-to-top button (from the Figma design). Appears after scrolling and
@@ -8,12 +9,10 @@ import { useLanguage } from '../lib/i18n';
  * the global stylesheet.
  */
 export function BackToTop() {
-  const { lang } = useLanguage();
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(() => window.scrollY > 300);
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 300);
-    onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -28,11 +27,7 @@ export function BackToTop() {
       className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 rounded-full bg-heading px-4 py-3 text-sm font-medium text-white shadow-lg transition-colors hover:bg-action"
     >
       <ChevronUp className="h-5 w-5" aria-hidden="true" />
-      {lang === 'cy' ? (
-        <span lang="cy">Nôl i&rsquo;r brig</span>
-      ) : (
-        'Back to top'
-      )}
+      <T value={UI.backToTop} />
     </a>
   );
 }

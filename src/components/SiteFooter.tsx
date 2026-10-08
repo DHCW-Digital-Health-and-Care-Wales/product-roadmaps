@@ -1,5 +1,7 @@
 import logoImage from '../assets/dhcw-logo.png';
 import { useLanguage } from '../lib/i18n';
+import { UI } from '../lib/strings';
+import { T } from './T';
 
 const REPO_URL =
   'https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps';
@@ -10,35 +12,18 @@ const FEEDBACK_URL = `${REPO_URL}/issues/new?template=roadmap-feedback.md`;
  * note, the licence and a link back to the GitHub repository.
  */
 export function SiteFooter() {
-  const { lang } = useLanguage();
-  const cy = lang === 'cy';
+  const { tr } = useLanguage();
 
   const links = [
-    {
-      href: FEEDBACK_URL,
-      label: cy ? 'Rhoi adborth' : 'Give feedback',
-      external: true,
-    },
-    {
-      href: '#accessibility',
-      label: cy ? 'Datganiad hygyrchedd' : 'Accessibility statement',
-      external: false,
-    },
-    {
-      href: '#privacy',
-      label: cy ? 'Preifatrwydd' : 'Privacy',
-      external: false,
-    },
+    { href: FEEDBACK_URL, label: UI.giveFeedback, external: true },
+    { href: '#accessibility', label: UI.accessibilityHeading, external: false },
+    { href: '#privacy', label: UI.privacyHeading, external: false },
     {
       href: `${REPO_URL}/blob/main/LICENSE`,
-      label: cy ? 'Trwydded' : 'Licence',
+      label: UI.licence,
       external: true,
     },
-    {
-      href: REPO_URL,
-      label: cy ? 'Y gwaith ar GitHub' : 'This project on GitHub',
-      external: true,
-    },
+    { href: REPO_URL, label: UI.onGitHub, external: true },
   ];
 
   return (
@@ -46,13 +31,10 @@ export function SiteFooter() {
       <div className="mx-auto max-w-content">
         <img
           src={logoImage}
-          alt="Digital Health and Care Wales"
+          alt={tr(UI.organisation)}
           className="h-12 w-auto object-contain"
         />
-        <nav
-          aria-label={cy ? 'Dolenni troedyn' : 'Footer links'}
-          className="mt-6"
-        >
+        <nav aria-label={tr(UI.footerNav)} className="mt-6">
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
             {links.map((link) => (
               <li key={link.href}>
@@ -63,20 +45,14 @@ export function SiteFooter() {
                     ? { target: '_blank', rel: 'noreferrer' }
                     : {})}
                 >
-                  {link.label}
+                  <T value={link.label} />
                 </a>
               </li>
             ))}
           </ul>
         </nav>
         <p className="mt-6 text-sm text-white/80">
-          {cy ? (
-            <span lang="cy">
-              Digital Health and Care Wales / Iechyd a Gofal Digidol Cymru
-            </span>
-          ) : (
-            'Digital Health and Care Wales'
-          )}
+          <T value={UI.organisationFooter} />
         </p>
       </div>
     </footer>

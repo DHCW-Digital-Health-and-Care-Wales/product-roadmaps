@@ -14,6 +14,7 @@ import {
   parseRoadmapList,
   type Worksheet,
 } from './parse-roadmap.ts';
+import { validateSnapshot } from './roadmap-schema.ts';
 
 // The spreadsheet must be shared as "Anyone with the link can view".
 const SHEET_ID =
@@ -35,7 +36,7 @@ async function fetchTab(name?: string): Promise<Worksheet> {
   const type = response.headers.get('content-type') ?? '';
   if (!response.ok || !type.includes('text/csv')) {
     throw new Error(
-      `Unexpected ${response.status} (${type}) from ${url}; is the sheet shared as "Anyone with the link can view"?`,
+      `Unexpected ${response.status} (${type}) from ${url.href}; is the sheet shared as "Anyone with the link can view"?`,
     );
   }
   return {
@@ -63,7 +64,9 @@ if (roadmaps.length === 0) {
   throw new Error('No roadmaps found; refusing to overwrite the snapshot.');
 }
 
-writeFileSync(OUTPUT, `${JSON.stringify(roadmaps, null, 2)}\n`);
+const json = `${JSON.stringify(roadmaps, null, 2)}\n`;
+validateSnapshot(JSON.parse(json));
+writeFileSync(OUTPUT, json);
 console.log(
   `Wrote ${roadmaps.length} roadmaps: ${roadmaps.map((r) => r.sheetName).join(', ')}`,
 );

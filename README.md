@@ -32,7 +32,8 @@ in [scripts/sync-roadmaps.ts](scripts/sync-roadmaps.ts); override it with the
 
 Other scripts: `npm run build`, `npm run lint`, `npm run format`, `npm test`.
 Run `npm run check` (types, lint, formatting and tests) before opening a pull
-request; CI runs the same checks. Node 24 is required (see `.nvmrc`).
+request; CI runs the same checks. Node 24 is required (see `.nvmrc`). See
+[CONTRIBUTING.md](CONTRIBUTING.md) for how to propose changes.
 
 ## Sheet format
 
@@ -69,7 +70,8 @@ for bootstrapping a spreadsheet.
 
 Cards appear in sheet order within their horizon or section. Text shared by
 every roadmap (intro, Now/Next/Later definitions, section headings) is in
-[src/lib/content.ts](src/lib/content.ts).
+[src/lib/content.ts](src/lib/content.ts); interface text (headings, links and
+accessible names) is in [src/lib/strings.ts](src/lib/strings.ts).
 
 To add a product, add a tab with the roadmap columns and a row for it on the
 first tab. Sheet mistakes (unknown horizons, rows with no title, missing
@@ -85,9 +87,11 @@ lone number in a text column can come through blank.
 
 - [.github/workflows/sync-roadmaps.yml](.github/workflows/sync-roadmaps.yml)
   runs nightly at 02:00 UTC (or on demand via **Actions → Sync roadmaps → Run
-  workflow**). It fetches the sheet, checks the site builds, and if the
-  snapshot changed commits it and triggers a deploy. If the fetch fails or
-  finds no roadmaps, the job fails and the last snapshot stays live.
+  workflow**). A read-only job fetches the sheet, checks the snapshot against
+  [scripts/roadmap-schema.ts](scripts/roadmap-schema.ts), runs the tests and
+  checks the site builds. A second job, which runs no npm code, commits the
+  snapshot if it changed and triggers a deploy. If the fetch fails, finds no
+  roadmaps or fails a check, the last snapshot stays live.
 - [.github/workflows/deploy.yml](.github/workflows/deploy.yml) builds and
   deploys to GitHub Pages on every push to `main`. In the repo settings, set
   **Pages → Build and deployment → Source** to **GitHub Actions**.

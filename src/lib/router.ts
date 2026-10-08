@@ -1,21 +1,37 @@
 import { useEffect, useState, type MouseEvent } from 'react';
+import { LANG_PARAM } from './i18n';
 
 /**
- * Query-string routing (`?product=<slug>`). Keeps a single index.html on
- * GitHub Pages and leaves the URL hash free for in-page section links.
+ * Path routing: the landing page is the site root and each product is
+ * `<base><slug>/`. The build prerenders an index.html at each of those paths
+ * (scripts/prerender.ts), and the URL hash stays free for in-page links.
  */
-export const PRODUCT_PARAM = 'product';
+const BASE = import.meta.env.BASE_URL;
 
-function readProduct(): string | null {
-  return new URLSearchParams(window.location.search).get(PRODUCT_PARAM);
+export function slugFromPath(pathname: string): string | null {
+  if (!pathname.startsWith(BASE)) return null;
+  const slug = pathname
+    .slice(BASE.length)
+    .replace(/(^|\/)index\.html$/, '')
+    .replace(/\/+$/, '');
+  if (!slug) return null;
+  try {
+    return decodeURIComponent(slug);
+  } catch {
+    return slug;
+  }
 }
 
+export function pathFor(slug: string | null): string {
+  return slug ? `${BASE}${encodeURIComponent(slug)}/` : BASE;
+}
+
+/** The link to a product (or the landing page), keeping any `?lang=`. */
 export function productHref(slug: string | null): string {
-  const url = new URL(window.location.href);
-  url.hash = '';
-  if (slug) url.searchParams.set(PRODUCT_PARAM, slug);
-  else url.searchParams.delete(PRODUCT_PARAM);
-  return `${url.pathname}${url.search}`;
+  const path = pathFor(slug);
+  if (typeof window === 'undefined') return path;
+  const lang = new URLSearchParams(window.location.search).get(LANG_PARAM);
+  return lang ? `${path}?${new URLSearchParams({ [LANG_PARAM]: lang })}` : path;
 }
 
 export function navigate(slug: string | null) {
@@ -40,10 +56,18 @@ export function onNavigate(slug: string | null) {
   };
 }
 
-export function useProductRoute(): string | null {
-  const [product, setProduct] = useState(readProduct);
+/**
+ * The current product slug, or null on the landing page. The prerender passes
+ * `serverSlug` because there is no URL to read.
+ */
+export function useProductRoute(serverSlug?: string | null): string | null {
+  const [product, setProduct] = useState(() =>
+    serverSlug === undefined
+      ? slugFromPath(window.location.pathname)
+      : serverSlug,
+  );
   useEffect(() => {
-    const onPop = () => setProduct(readProduct());
+    const onPop = () => setProduct(slugFromPath(window.location.pathname));
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
   }, []);

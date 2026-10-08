@@ -93,6 +93,17 @@ describe('parseRoadmap', () => {
     expect(warnings).not.toHaveBeenCalled();
   });
 
+  it('matches the end-to-end test data in e2e/fixtures', () => {
+    const parsed = listings().map((l) => parseRoadmap(l, fixture(l.sheet)));
+    const e2e: unknown = JSON.parse(
+      readFileSync(
+        new URL('../e2e/fixtures/roadmaps.json', import.meta.url),
+        'utf8',
+      ),
+    );
+    expect(e2e).toEqual(parsed);
+  });
+
   it('places cards and parses nested details', () => {
     const [listing] = listings();
     const roadmap = parseRoadmap(listing, fixture('ProductA'));

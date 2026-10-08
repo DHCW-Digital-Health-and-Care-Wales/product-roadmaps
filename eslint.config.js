@@ -7,7 +7,15 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['dist'] },
+  {
+    ignores: [
+      'dist',
+      'dist-ssr',
+      'test-results',
+      'playwright-report',
+      '.lighthouseci',
+    ],
+  },
   {
     extends: [
       js.configs.recommended,
@@ -48,7 +56,7 @@ export default tseslint.config(
     ],
   },
   {
-    files: ['scripts/**/*.ts', 'vite.config.ts'],
+    files: ['scripts/**/*.ts', 'e2e/**/*.ts', '*.config.ts'],
     languageOptions: { globals: globals.node },
   },
 );

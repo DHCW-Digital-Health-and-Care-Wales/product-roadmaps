@@ -6,9 +6,17 @@ const committed: unknown = JSON.parse(
   readFileSync(new URL('../src/data/roadmaps.json', import.meta.url), 'utf8'),
 );
 
-const valid = () => structuredClone(validateSnapshot(committed));
+const example: unknown = JSON.parse(
+  readFileSync(
+    new URL('../e2e/fixtures/roadmaps.json', import.meta.url),
+    'utf8',
+  ),
+);
+
+const valid = () => structuredClone(validateSnapshot(example));
 
 describe('roadmap snapshot schema', () => {
+  // A data contract check only; it doesn't depend on what the sheet contains.
   it('accepts the committed src/data/roadmaps.json', () => {
     expect(() => validateSnapshot(committed)).not.toThrow();
   });

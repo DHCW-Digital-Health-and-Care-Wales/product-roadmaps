@@ -3,7 +3,11 @@
  * unit test checks the committed file, so a parser bug can't ship silently.
  */
 import { z } from 'zod';
-import type { Roadmap } from '../src/lib/types.ts';
+import {
+  PLACEMENT_IDS,
+  type Placement,
+  type Roadmap,
+} from '../src/lib/types.ts';
 
 const localised = z.strictObject({ en: z.string(), cy: z.string() });
 
@@ -35,14 +39,12 @@ const roadmap = z.strictObject({
     vision: localised,
     serviceDescription: localised,
   }),
-  items: z.strictObject({
-    now: items,
-    next: items,
-    later: items,
-    'recently-delivered': items,
-    'delivered-this-year': items,
-    'not-doing': items,
-  }),
+  items: z.strictObject(
+    Object.fromEntries(PLACEMENT_IDS.map((id) => [id, items])) as Record<
+      Placement,
+      typeof items
+    >,
+  ),
 });
 
 export const snapshotSchema = z

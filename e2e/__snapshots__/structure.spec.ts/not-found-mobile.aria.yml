@@ -1,0 +1,42 @@
+- link "Skip to content":
+  - /url: "#main-content"
+- banner:
+  - link "Digital Health and Care Wales roadmaps home":
+    - /url: /product-roadmaps/
+    - img "Digital Health and Care Wales"
+  - group "Dewis iaith / Choose language":
+    - button "Cymraeg"
+    - button "English" [pressed]
+- main:
+  - heading "Roadmap not found" [level=1]
+  - paragraph: We couldn’t find a roadmap called “nope”. It may have moved or been removed.
+  - link "View all roadmaps":
+    - /url: /product-roadmaps/
+  - region "Accessibility statement":
+    - heading "Accessibility statement" [level=2]
+    - paragraph: We want as many people as possible to be able to use these roadmaps. We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA.
+    - paragraph: These roadmaps are in beta and still being tested, we welcome any feedback.
+  - region "Privacy":
+    - heading "Privacy" [level=2]
+    - paragraph: This site sets no tracking cookies and uses no third-party analytics. We do not share any personal data.
+    - paragraph: Fonts are self-hosted, so your visit is not shared with an external font service.
+- contentinfo:
+  - img "Digital Health and Care Wales"
+  - navigation "Footer links":
+    - list:
+      - listitem:
+        - link "Give feedback":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/issues/new?template=roadmap-feedback.md
+      - listitem:
+        - link "Accessibility statement":
+          - /url: "#accessibility"
+      - listitem:
+        - link "Privacy":
+          - /url: "#privacy"
+      - listitem:
+        - link "Licence":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/blob/main/LICENSE
+      - listitem:
+        - link "This project on GitHub":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps
+  - paragraph: Digital Health and Care Wales

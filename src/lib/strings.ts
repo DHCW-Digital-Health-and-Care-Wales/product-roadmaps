@@ -90,5 +90,9 @@ export const UI = {
     en: 'We couldn’t find a roadmap called “{slug}”. It may have moved or been removed.',
     cy: 'Ni allem ddod o hyd i drywydd o’r enw “{slug}”. Efallai ei fod wedi symud neu wedi’i ddileu.',
   },
+  notFoundGeneric: {
+    en: 'We couldn’t find that page. It may have moved or been removed.',
+    cy: 'Ni allem ddod o hyd i’r dudalen honno. Efallai ei bod wedi symud neu wedi’i dileu.',
+  },
   viewAllRoadmaps: { en: 'View all roadmaps', cy: 'Gweld pob trywydd' },
 } satisfies Record<string, Localised>;

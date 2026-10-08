@@ -2,7 +2,13 @@
  * Text shared by every roadmap. Product managers only fill in what differs per
  * product in the Google Sheet; everything here is the same on every page.
  */
-import type { Horizon, Localised, SectionId } from './types';
+import {
+  HORIZON_IDS,
+  SECTION_IDS,
+  type Horizon,
+  type Localised,
+  type SectionId,
+} from './types';
 
 export const ROADMAP_INTRO: Localised = {
   en: "This roadmap shows what we're working on now, what's coming next and the direction we expect to take later.",
@@ -29,45 +35,44 @@ export const DETAILS_HEADING: Localised = {
   cy: '',
 };
 
-export const HORIZONS: {
-  id: Horizon;
-  label: Localised;
-  definition: Localised;
-}[] = [
-  {
-    id: 'now',
+const HORIZON_TEXT: Record<
+  Horizon,
+  { label: Localised; definition: Localised }
+> = {
+  now: {
     label: { en: 'Now', cy: 'Nawr' },
     definition: {
       en: 'Work that is underway now and shaping the next changes to the service.',
       cy: '',
     },
   },
-  {
-    id: 'next',
+  next: {
     label: { en: 'Next', cy: 'Nesaf' },
     definition: {
       en: 'Work we expect to pick up soon as current delivery moves forward.',
       cy: '',
     },
   },
-  {
-    id: 'later',
+  later: {
     label: { en: 'Later', cy: 'Hwyrach' },
     definition: {
       en: 'Longer-term direction that will keep evolving as we learn more.',
       cy: '',
     },
   },
-];
+};
 
-export const SECTIONS: {
-  id: SectionId;
-  placement: 'before' | 'after';
-  heading: Localised;
-  description: Localised;
-}[] = [
+export const HORIZONS = HORIZON_IDS.map((id) => ({ id, ...HORIZON_TEXT[id] }));
+
+const SECTION_TEXT: Record<
+  SectionId,
   {
-    id: 'recently-delivered',
+    placement: 'before' | 'after';
+    heading: Localised;
+    description: Localised;
+  }
+> = {
+  'recently-delivered': {
     placement: 'before',
     heading: { en: 'Recently delivered', cy: '' },
     description: {
@@ -75,8 +80,7 @@ export const SECTIONS: {
       cy: '',
     },
   },
-  {
-    id: 'delivered-this-year',
+  'delivered-this-year': {
     placement: 'after',
     heading: { en: 'Other work we have delivered this year', cy: '' },
     description: {
@@ -84,8 +88,7 @@ export const SECTIONS: {
       cy: '',
     },
   },
-  {
-    id: 'not-doing',
+  'not-doing': {
     placement: 'after',
     heading: { en: 'Not doing right now', cy: '' },
     description: {
@@ -93,4 +96,6 @@ export const SECTIONS: {
       cy: '',
     },
   },
-];
+};
+
+export const SECTIONS = SECTION_IDS.map((id) => ({ id, ...SECTION_TEXT[id] }));

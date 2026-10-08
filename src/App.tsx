@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
-import type { Roadmap } from './lib/types';
-import snapshot from './data/roadmaps.json';
+import { roadmaps } from './lib/roadmaps';
 import { useLanguage } from './lib/i18n';
 import { useProductRoute } from './lib/router';
 import { UI } from './lib/strings';
@@ -14,22 +13,25 @@ import { NotFoundState } from './components/NotFoundState';
 import { LandingPage } from './pages/LandingPage';
 import { RoadmapPage } from './pages/RoadmapPage';
 
-// Nightly snapshot of the Google Sheet, written and schema-checked by
-// scripts/sync-roadmaps.ts.
-const roadmaps = snapshot as Roadmap[];
-
-/** Routes on `?product=` to the landing page or a product roadmap. */
-export default function App() {
+/**
+ * Routes on the URL path to the landing page or a product roadmap. The
+ * prerender passes `serverSlug`; an empty one renders the generic not-found
+ * page used for 404.html.
+ */
+export default function App({ serverSlug }: { serverSlug?: string | null }) {
   const { tr } = useLanguage();
-  const slug = useProductRoute();
+  const slug = useProductRoute(serverSlug);
   const roadmap = slug ? roadmaps.find((r) => r.slug === slug) : undefined;
   const mainRef = useRef<HTMLElement>(null);
   const previousSlugRef = useRef(slug);
 
   useEffect(() => {
     const site = tr(UI.siteTitle);
-    document.title = roadmap ? `${tr(roadmap.meta.title)} – ${site}` : site;
-  }, [roadmap, tr]);
+    let page: string | undefined;
+    if (roadmap) page = tr(roadmap.meta.title);
+    else if (slug !== null) page = tr(UI.notFoundHeading);
+    document.title = page ? `${page} – ${site}` : site;
+  }, [roadmap, slug, tr]);
 
   // After client-side navigation, move focus to the new page's heading so
   // screen readers announce it (runs after the title update above).
@@ -40,7 +42,7 @@ export default function App() {
   }, [slug]);
 
   let content;
-  if (!slug) content = <LandingPage roadmaps={roadmaps} />;
+  if (slug === null) content = <LandingPage roadmaps={roadmaps} />;
   else if (!roadmap) content = <NotFoundState slug={slug} />;
   else content = <RoadmapPage roadmap={roadmap} />;
 

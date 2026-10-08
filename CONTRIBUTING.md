@@ -37,7 +37,10 @@ Thanks for helping improve the DHCW product roadmaps site.
   any Welsh is missing. If you can't provide the Welsh, say so in the pull
   request so it can be translated before merging.
 - **Tests**: add or update tests for changed behaviour. Parser and data tests
-  live next to the code in `scripts/`; component tests in `src/`.
+  live next to the code in `scripts/`; component tests in `src/`; browser
+  journeys in `e2e/`. If you change page structure or text on purpose, update the
+  ARIA snapshots with `npm run test:e2e -- --update-snapshots` and check the
+  diff in `e2e/__snapshots__/` before committing it.
 - **Privacy**: don't add cookies, analytics or calls to third-party services.
   Visitors' browsers should only ever load files from this site.
 - **Dependencies**: prefer none. Dependabot keeps existing ones up to date.
@@ -45,7 +48,8 @@ Thanks for helping improve the DHCW product roadmaps site.
 ## Branch protection
 
 `main` should have a ruleset that requires a pull request with one code owner
-approval and a passing **CI / check** status. The nightly sync pushes the
+approval and passing **CI / check**, **CI / e2e** and **CI / lighthouse**
+statuses. The nightly sync pushes the
 snapshot directly to `main`, so it needs a narrow bypass (for example a GitHub
 App token used only by the sync workflow) rather than relaxed rules for
 everyone.

@@ -1,16 +1,61 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-:root {
-  /* Brand tokens are also exposed as CSS variables so non-Tailwind code can
-     reference them in one place. */
+/* The only copy of the design tokens. Tailwind builds utilities from them and
+   also exposes them as CSS variables, for example var(--color-yellow). */
+@theme {
+  /* DHCW brand palette. */
   --color-navy: #1b294a;
   --color-dhcw-blue: #12a3c9;
   --color-nhs-wales-blue: #325083;
   --color-yellow: #f8ca4d;
+  /* UI tokens from the Figma Make design reference. */
   --color-heading: #1b365d;
   --color-action: #005aa8;
+
+  --color-ink-300: #9aa4b2;
+  --color-ink-500: #5a6675;
+  --color-ink-700: #3a4453;
+  --color-ink-900: #212b32;
+
+  --color-surface: #ffffff;
+  --color-surface-subtle: #f0f4f5;
+  --color-surface-muted: #e8edf3;
+
+  --color-border: #d8dde0;
+  --color-border-strong: #b6c0cd;
+
+  /* Roboto is self-hosted via @fontsource. */
+  --font-sans:
+    Roboto, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial,
+    sans-serif;
+
+  --radius-card: 0.5rem;
+
+  --container-content: 80rem;
+}
+
+@layer base {
+  /* Tailwind 4 dropped the pointer cursor on buttons. */
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@utility skip-link {
+  /* Skip-to-content link: visually hidden until focused (Section 7). */
+  @apply absolute top-4 left-4 z-100 -translate-y-24 rounded-sm bg-heading px-4 py-2 text-surface transition-transform;
+  &:focus {
+    @apply translate-y-0;
+  }
+}
+
+@utility card-focus-ring {
+  /* Cards with a full-card link show the focus indicator on the whole card. */
+  &:has(:focus-visible) {
+    outline: 3px solid var(--color-yellow);
+    box-shadow: 0 0 0 6px var(--color-navy);
+  }
 }
 
 @layer base {
@@ -38,22 +83,6 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 7rem;
-  }
-}
-
-@layer components {
-  /* Skip-to-content link: visually hidden until focused (Section 7). */
-  .skip-link {
-    @apply absolute left-4 top-4 z-[100] -translate-y-24 rounded bg-heading px-4 py-2 text-surface transition-transform;
-  }
-  .skip-link:focus {
-    @apply translate-y-0;
-  }
-
-  /* Cards with a full-card link show the focus indicator on the whole card. */
-  .card-focus-ring:has(:focus-visible) {
-    outline: 3px solid var(--color-yellow);
-    box-shadow: 0 0 0 6px var(--color-navy);
   }
 }
 

@@ -1,0 +1,71 @@
+// @vitest-environment jsdom
+import { act } from 'react';
+import { hydrateRoot } from 'react-dom/client';
+import { describe, expect, it, vi } from 'vitest';
+import App from './App';
+import { LanguageProvider } from './components/LanguageProvider';
+import snapshot from '../e2e/fixtures/roadmaps.json';
+import { renderPages } from './entry-server';
+
+const SITE = 'https://example.org/product-roadmaps/';
+const pages = await renderPages(SITE);
+const [first] = snapshot;
+
+describe('prerender', () => {
+  it('renders the landing page, every product and a 404 page', () => {
+    expect(pages.map((page) => page.file)).toEqual([
+      'index.html',
+      ...snapshot.map((roadmap) => `${roadmap.slug}/index.html`),
+      '404.html',
+    ]);
+  });
+
+  it('gives each product its own title, description and canonical URL', () => {
+    const page = pages.find((p) => p.slug === first.slug);
+    expect(page?.html).toContain(first.meta.title.en);
+    expect(page?.head).toContain(
+      `<title>${first.meta.title.en} – DHCW roadmaps</title>`,
+    );
+    expect(page?.head).toContain(
+      `<link rel="canonical" href="${SITE}${first.slug}/" />`,
+    );
+    expect(page?.head).toContain('property="og:description"');
+  });
+
+  it('keeps 404.html out of search results', () => {
+    const page = pages[pages.length - 1];
+    expect(page?.head).toContain('<meta name="robots" content="noindex" />');
+    expect(page?.head).not.toContain('canonical');
+    expect(page?.html).toContain('We couldn’t find that page.');
+  });
+
+  it('hydrates without mismatches', async () => {
+    const page = pages.find((p) => p.slug === first.slug);
+    window.history.replaceState(null, '', `/product-roadmaps/${first.slug}/`);
+    document.body.innerHTML = `<div id="root">${page?.html ?? ''}</div>`;
+    const onRecoverableError = vi.fn();
+    const consoleError = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => undefined);
+
+    const root = await act(() =>
+      hydrateRoot(
+        document.getElementById('root')!,
+        <LanguageProvider>
+          <App />
+        </LanguageProvider>,
+        { onRecoverableError },
+      ),
+    );
+
+    expect(onRecoverableError.mock.calls).toEqual([]);
+    // Server and client renderers share one context object only in this test.
+    expect(
+      consoleError.mock.calls.filter(
+        ([message]) => !String(message).includes('multiple renderers'),
+      ),
+    ).toEqual([]);
+    act(() => root.unmount());
+    consoleError.mockRestore();
+  });
+});

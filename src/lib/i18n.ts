@@ -26,6 +26,39 @@ export const LANG_STORAGE_KEY = 'dhcw-product-roadmaps-lang';
 
 const missingWelsh = new Set<string>();
 
+function isLang(value: string | null): value is Lang {
+  return value === 'cy' || value === 'en';
+}
+
+/**
+ * The initial language from, in order: the URL query parameter (so a link can be
+ * shared in a given language), a same-site stored preference, then the default.
+ * `explicit` is false only for the default, which is never written back so
+ * first-time visitors keep clean URLs. No third-party cookies are used.
+ */
+export function readInitialLang(): { lang: Lang; explicit: boolean } {
+  // The build-time prerender has no window.
+  if (typeof window === 'undefined') {
+    return { lang: DEFAULT_LANGUAGE, explicit: false };
+  }
+
+  const fromUrl = new URLSearchParams(window.location.search).get(LANG_PARAM);
+  if (isLang(fromUrl)) {
+    return { lang: fromUrl, explicit: true };
+  }
+
+  try {
+    const stored = window.localStorage.getItem(LANG_STORAGE_KEY);
+    if (isLang(stored)) {
+      return { lang: stored, explicit: true };
+    }
+  } catch {
+    // Storage may be unavailable (private mode); fall through to the default.
+  }
+
+  return { lang: DEFAULT_LANGUAGE, explicit: false };
+}
+
 /**
  * Resolve a language-keyed value to a display string, falling back to English
  * when the requested language is empty.

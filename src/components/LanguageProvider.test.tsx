@@ -22,7 +22,7 @@ const renderApp = () =>
 
 beforeEach(() => {
   window.localStorage.clear();
-  window.history.replaceState(null, '', '/?product=a');
+  window.history.replaceState(null, '', '/product-roadmaps/a/');
 });
 
 afterEach(cleanup);
@@ -35,7 +35,7 @@ describe('LanguageProvider', () => {
     cleanup();
 
     renderApp();
-    expect(window.location.search).toBe('?product=a');
+    expect(window.location.search).toBe('');
   });
 
   it('remembers an explicit choice in storage and the URL', () => {
@@ -44,7 +44,7 @@ describe('LanguageProvider', () => {
 
     expect(document.documentElement.lang).toBe('cy');
     expect(window.localStorage.getItem(LANG_STORAGE_KEY)).toBe('cy');
-    expect(window.location.search).toBe('?product=a&lang=cy');
+    expect(window.location.search).toBe('?lang=cy');
   });
 
   it('prefers the URL over the stored choice', () => {

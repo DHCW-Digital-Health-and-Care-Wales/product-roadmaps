@@ -4,6 +4,7 @@ import { onNavigate, productHref } from '../lib/router';
 import { UI } from '../lib/strings';
 import { T } from './T';
 
+/** An empty `slug` gives a generic message, for the prerendered 404.html. */
 export function NotFoundState({ slug }: { slug: string }) {
   return (
     <section className="bg-surface-subtle px-4 pb-16 pt-28 sm:px-6 sm:pt-32">
@@ -12,7 +13,9 @@ export function NotFoundState({ slug }: { slug: string }) {
           <T value={UI.notFoundHeading} />
         </h1>
         <p className="mt-4 max-w-3xl text-lg leading-relaxed text-ink-900">
-          <T value={fill(UI.notFoundBody, { slug })} />
+          <T
+            value={slug ? fill(UI.notFoundBody, { slug }) : UI.notFoundGeneric}
+          />
         </p>
         <a
           href={productHref(null)}

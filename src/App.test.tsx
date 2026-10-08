@@ -4,7 +4,7 @@ import axe from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import App from './App';
 import { LanguageProvider } from './components/LanguageProvider';
-import snapshot from './data/roadmaps.json';
+import snapshot from '../e2e/fixtures/roadmaps.json';
 
 const [first] = snapshot;
 
@@ -37,7 +37,7 @@ afterEach(() => {
 
 describe('App routing', () => {
   it('shows the landing page without a product', () => {
-    renderAt('/');
+    renderAt('/product-roadmaps/');
     expect(
       screen.getByRole('heading', { level: 1, name: 'Product roadmaps' }),
     ).toBeTruthy();
@@ -45,7 +45,7 @@ describe('App routing', () => {
   });
 
   it('shows a product roadmap', () => {
-    renderAt(`/?product=${first.slug}`);
+    renderAt(`/product-roadmaps/${first.slug}/`);
     expect(
       screen.getByRole('heading', { level: 1, name: first.meta.title.en }),
     ).toBeTruthy();
@@ -53,15 +53,16 @@ describe('App routing', () => {
   });
 
   it('shows not found for an unknown product', () => {
-    renderAt('/?product=nope');
+    renderAt('/product-roadmaps/nope/');
     expect(
       screen.getByRole('heading', { level: 1, name: 'Roadmap not found' }),
     ).toBeTruthy();
     expect(screen.getByText(/called “nope”/)).toBeTruthy();
+    expect(document.title).toBe('Roadmap not found – DHCW roadmaps');
   });
 
   it('moves focus to the new heading after client-side navigation', () => {
-    renderAt('/');
+    renderAt('/product-roadmaps/');
     fireEvent.click(screen.getByRole('link', { name: first.meta.title.en }));
 
     const heading = screen.getByRole('heading', { level: 1 });
@@ -71,14 +72,14 @@ describe('App routing', () => {
   });
 
   it('does not steal focus on the first render', () => {
-    renderAt(`/?product=${first.slug}`);
+    renderAt(`/product-roadmaps/${first.slug}/`);
     expect(document.activeElement).toBe(document.body);
   });
 });
 
 describe('Welsh', () => {
   it('translates interface text and accessible names', () => {
-    renderAt(`/?product=${first.slug}&lang=cy`);
+    renderAt(`/product-roadmaps/${first.slug}/?lang=cy`);
     expect(document.documentElement.lang).toBe('cy');
     expect(screen.getByRole('link', { name: /Pob trywydd/ })).toBeTruthy();
     expect(
@@ -92,7 +93,7 @@ describe('Welsh', () => {
   });
 
   it('marks English fallbacks with lang="en"', () => {
-    renderAt(`/?product=${first.slug}&lang=cy`);
+    renderAt(`/product-roadmaps/${first.slug}/?lang=cy`);
     const title = screen.getByRole('heading', { level: 1 });
     expect(title.querySelector('[lang="en"]')?.textContent).toBe(
       first.meta.title.en,
@@ -104,9 +105,9 @@ describe('Welsh', () => {
 
 describe('accessibility (axe)', () => {
   const pages = {
-    landing: '/',
-    product: `/?product=${first.slug}`,
-    'not found': '/?product=nope',
+    landing: '/product-roadmaps/',
+    product: `/product-roadmaps/${first.slug}/`,
+    'not found': '/product-roadmaps/nope/',
   };
 
   for (const lang of ['en', 'cy']) {

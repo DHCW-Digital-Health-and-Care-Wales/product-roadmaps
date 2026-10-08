@@ -1,0 +1,360 @@
+[
+  {
+    "slug": "producta",
+    "sheetName": "ProductA",
+    "meta": {
+      "title": {
+        "en": "Product A roadmap",
+        "cy": ""
+      },
+      "statusLabel": {
+        "en": "Beta",
+        "cy": ""
+      },
+      "lastUpdated": "2026-10-01",
+      "colour": "#325083",
+      "vision": {
+        "en": "A short, ambitious statement of where Product A is heading. Leave blank to hide the \"Our vision\" section.",
+        "cy": ""
+      },
+      "serviceDescription": {
+        "en": "What Product A does and who it helps. Also used as the summary on the landing page card.",
+        "cy": ""
+      }
+    },
+    "items": {
+      "now": [
+        {
+          "title": {
+            "en": "Example card with every column",
+            "cy": ""
+          },
+          "description": {
+            "en": "What this work is. Keep it to a sentence or two.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "What changes for users when it is done.",
+            "cy": ""
+          },
+          "status": "in-progress",
+          "phase": "Beta",
+          "labels": ["Service X", "Service Y"],
+          "details": [
+            {
+              "level": 0,
+              "text": {
+                "en": "First bullet point",
+                "cy": ""
+              }
+            },
+            {
+              "level": 1,
+              "text": {
+                "en": "Start a line with \"-\" to nest it under the line above",
+                "cy": ""
+              }
+            },
+            {
+              "level": 2,
+              "text": {
+                "en": "Use two dashes to nest it again",
+                "cy": ""
+              }
+            },
+            {
+              "level": 0,
+              "text": {
+                "en": "Another top-level bullet point",
+                "cy": ""
+              }
+            }
+          ]
+        },
+        {
+          "title": {
+            "en": "Minimal card",
+            "cy": ""
+          },
+          "description": {
+            "en": "Only Title and Horizon are required; everything else is optional.",
+            "cy": ""
+          }
+        },
+        {
+          "title": {
+            "en": "Card awaiting release",
+            "cy": ""
+          },
+          "description": {
+            "en": "Work that is finished and waiting to go live.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Users get the change as soon as it is deployed.",
+            "cy": ""
+          },
+          "status": "awaiting-deployment",
+          "labels": ["Service X"]
+        }
+      ],
+      "next": [
+        {
+          "title": {
+            "en": "Card being explored",
+            "cy": ""
+          },
+          "description": {
+            "en": "Work we expect to pick up soon.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "What we hope this will achieve.",
+            "cy": ""
+          },
+          "status": "exploring",
+          "phase": "Alpha"
+        },
+        {
+          "title": {
+            "en": "Card with a free-text status",
+            "cy": ""
+          },
+          "description": {
+            "en": "Any status that isn't one of the standard ones is shown exactly as typed.",
+            "cy": ""
+          },
+          "status": "on-hold"
+        }
+      ],
+      "later": [
+        {
+          "title": {
+            "en": "Discovery card",
+            "cy": ""
+          },
+          "description": {
+            "en": "Phases that include the word \"Discovery\" are highlighted.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "A clear understanding of the problem.",
+            "cy": ""
+          },
+          "status": "exploring",
+          "phase": "Discovery"
+        },
+        {
+          "title": {
+            "en": "Longer-term idea",
+            "cy": ""
+          },
+          "description": {
+            "en": "Direction we expect to take as we learn more.",
+            "cy": ""
+          },
+          "status": "exploring",
+          "labels": ["Service Y", "Service Z"]
+        }
+      ],
+      "recently-delivered": [
+        {
+          "title": {
+            "en": "Recently shipped work",
+            "cy": ""
+          },
+          "description": {
+            "en": "Something we shipped in the last few weeks.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "What users can do now.",
+            "cy": ""
+          },
+          "status": "shipped"
+        }
+      ],
+      "delivered-this-year": [
+        {
+          "title": {
+            "en": "Earlier delivery this year",
+            "cy": ""
+          },
+          "description": {
+            "en": "Something we delivered earlier in the year.",
+            "cy": ""
+          },
+          "status": "shipped",
+          "phase": "Live",
+          "details": [
+            {
+              "level": 0,
+              "text": {
+                "en": "What it included",
+                "cy": ""
+              }
+            },
+            {
+              "level": 0,
+              "text": {
+                "en": "Another thing it included",
+                "cy": ""
+              }
+            }
+          ]
+        }
+      ],
+      "not-doing": [
+        {
+          "title": {
+            "en": "Something we are not doing",
+            "cy": ""
+          },
+          "description": {
+            "en": "Explain why this is out of scope for now.",
+            "cy": ""
+          }
+        }
+      ]
+    }
+  },
+  {
+    "slug": "productb",
+    "sheetName": "ProductB",
+    "meta": {
+      "title": {
+        "en": "Product B roadmap",
+        "cy": ""
+      },
+      "statusLabel": {
+        "en": "Alpha",
+        "cy": ""
+      },
+      "lastUpdated": "2026-09-15",
+      "colour": "#006747",
+      "vision": {
+        "en": "",
+        "cy": ""
+      },
+      "serviceDescription": {
+        "en": "What Product B does and who it helps. This roadmap has no vision, so that section is hidden.",
+        "cy": ""
+      }
+    },
+    "items": {
+      "now": [
+        {
+          "title": {
+            "en": "Building the core service",
+            "cy": ""
+          },
+          "description": {
+            "en": "A smaller roadmap showing that empty horizons and sections are fine.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Users can complete the main task online.",
+            "cy": ""
+          },
+          "status": "in-progress",
+          "phase": "Alpha",
+          "labels": ["Service Z"]
+        },
+        {
+          "title": {
+            "en": "Testing with users",
+            "cy": ""
+          },
+          "description": {
+            "en": "Usability testing of the new design.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Designs updated from research findings.",
+            "cy": ""
+          },
+          "status": "in-progress"
+        }
+      ],
+      "next": [
+        {
+          "title": {
+            "en": "Wider rollout",
+            "cy": ""
+          },
+          "description": {
+            "en": "Making the service available to more teams.",
+            "cy": ""
+          },
+          "status": "exploring",
+          "phase": "Beta"
+        }
+      ],
+      "later": [
+        {
+          "title": {
+            "en": "Integration with another system",
+            "cy": ""
+          },
+          "description": {
+            "en": "Sharing data with Service X so users don't have to enter it twice.",
+            "cy": ""
+          },
+          "outcome": {
+            "en": "Less duplicate data entry.",
+            "cy": ""
+          },
+          "status": "exploring",
+          "phase": "Discovery",
+          "labels": ["Service X"],
+          "details": [
+            {
+              "level": 0,
+              "text": {
+                "en": "Agree the data to share",
+                "cy": ""
+              }
+            },
+            {
+              "level": 0,
+              "text": {
+                "en": "Build and test the connection",
+                "cy": ""
+              }
+            },
+            {
+              "level": 1,
+              "text": {
+                "en": "Test environment first",
+                "cy": ""
+              }
+            },
+            {
+              "level": 1,
+              "text": {
+                "en": "Then live",
+                "cy": ""
+              }
+            }
+          ]
+        }
+      ],
+      "recently-delivered": [],
+      "delivered-this-year": [
+        {
+          "title": {
+            "en": "Prototype",
+            "cy": ""
+          },
+          "description": {
+            "en": "An early prototype we tested with a small group of users.",
+            "cy": ""
+          },
+          "status": "shipped",
+          "phase": "Alpha"
+        }
+      ],
+      "not-doing": []
+    }
+  }
+]

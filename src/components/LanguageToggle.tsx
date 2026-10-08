@@ -6,10 +6,10 @@ const OPTIONS: { value: Lang; label: string }[] = [
 ];
 
 /**
- * Language toggle (docs/BUILD_BRIEF.md Section 8). Switches all keyed display
- * text and updates the document lang attribute via the LanguageProvider.
- * Implemented as a labelled group of buttons so the current choice is conveyed
- * in text and by aria-pressed, not by colour alone.
+ * Language toggle. Switches all keyed display text and updates the document
+ * lang attribute via the LanguageProvider. Implemented as a labelled group of
+ * buttons so the current choice is conveyed in text and by aria-pressed, not
+ * by colour alone.
  */
 export function LanguageToggle() {
   const { lang, setLang } = useLanguage();

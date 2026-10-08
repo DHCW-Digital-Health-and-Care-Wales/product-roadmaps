@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        // DHCW brand palette (docs/BUILD_BRIEF.md Section 3).
+        // DHCW brand palette.
         navy: '#1B294A',
         'dhcw-blue': '#12A3C9',
         'nhs-wales-blue': '#325083',
@@ -30,8 +30,8 @@ export default {
         },
       },
       fontFamily: {
-        // DHCW digital interface font is Roboto, self-hosted via @fontsource
-        // (docs/BUILD_BRIEF.md Sections 3 and 9), with a system fallback.
+        // DHCW digital interface font is Roboto, self-hosted via @fontsource,
+        // with a system fallback.
         sans: [
           'Roboto',
           'system-ui',

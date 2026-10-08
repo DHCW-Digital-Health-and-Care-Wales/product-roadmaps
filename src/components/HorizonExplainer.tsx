@@ -4,7 +4,7 @@ import { HORIZON_NOTE, HORIZONS } from '../lib/content';
 /**
  * Plain-English explainer of what Now, Next and Later mean, plus the
  * forward-looking note that this shows direction and priorities rather than
- * firm commitments or dates (docs/BUILD_BRIEF.md Section 4).
+ * firm commitments or dates.
  */
 export function HorizonExplainer() {
   const { lang, tr } = useLanguage();

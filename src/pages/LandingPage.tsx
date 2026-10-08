@@ -15,7 +15,7 @@ function ProductCard({ roadmap }: { roadmap: Roadmap }) {
   const headingId = `product-${roadmap.slug}`;
 
   return (
-    <li className="group relative flex flex-col overflow-hidden rounded-card border border-border bg-surface shadow-sm transition-shadow hover:shadow-md has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-yellow">
+    <li className="group relative flex flex-col overflow-hidden rounded-card border border-border bg-surface shadow-sm transition-shadow hover:shadow-md card-focus-ring">
       <div
         aria-hidden="true"
         className="h-1.5"
@@ -42,7 +42,7 @@ function ProductCard({ roadmap }: { roadmap: Roadmap }) {
           <a
             href={productHref(roadmap.slug)}
             onClick={onNavigate(roadmap.slug)}
-            className="after:absolute after:inset-0 after:content-[''] focus-visible:outline-none group-hover:underline"
+            className="after:absolute after:inset-0 after:content-[''] focus-visible:shadow-none focus-visible:outline-none group-hover:underline"
           >
             {tr(meta.title)}
           </a>

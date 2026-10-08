@@ -1,9 +1,9 @@
 import { useLanguage } from '../lib/i18n';
 
 /**
- * Privacy note (docs/BUILD_BRIEF.md Section 9). The site sets no tracking
- * cookies, uses no third-party analytics and self-hosts its fonts, so there is
- * nothing for visitors to consent to.
+ * Privacy note. The site sets no tracking cookies, uses no third-party
+ * analytics and self-hosts its fonts, so there is nothing for visitors to
+ * consent to.
  */
 export function PrivacyNote() {
   const { lang } = useLanguage();

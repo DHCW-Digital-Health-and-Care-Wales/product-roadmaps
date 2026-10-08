@@ -4,7 +4,7 @@
 
 :root {
   /* Brand tokens are also exposed as CSS variables so non-Tailwind code can
-     reference them in one place (docs/BUILD_BRIEF.md Section 3). */
+     reference them in one place. */
   --color-navy: #1b294a;
   --color-dhcw-blue: #12a3c9;
   --color-nhs-wales-blue: #325083;
@@ -18,12 +18,12 @@
     @apply bg-surface text-ink-900 font-sans antialiased;
   }
 
-  /* Visible focus styles on every interactive element
-     (docs/BUILD_BRIEF.md Section 7). A high-contrast yellow ring works on both
-     the dark header and light page backgrounds. */
+  /* Two-tone focus indicator: the yellow ring contrasts with the dark header
+     and the navy halo with light backgrounds (WCAG 1.4.11). */
   :focus-visible {
     outline: 3px solid var(--color-yellow);
-    outline-offset: 2px;
+    outline-offset: 0;
+    box-shadow: 0 0 0 6px var(--color-navy);
     border-radius: 2px;
   }
 
@@ -41,9 +41,15 @@
   .skip-link:focus {
     @apply translate-y-0;
   }
+
+  /* Cards with a full-card link show the focus indicator on the whole card. */
+  .card-focus-ring:has(:focus-visible) {
+    outline: 3px solid var(--color-yellow);
+    box-shadow: 0 0 0 6px var(--color-navy);
+  }
 }
 
-/* Keep motion minimal and never essential (docs/BUILD_BRIEF.md Section 7). */
+/* Keep motion minimal and never essential. */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

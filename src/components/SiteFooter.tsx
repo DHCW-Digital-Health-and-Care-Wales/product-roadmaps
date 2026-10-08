@@ -9,7 +9,7 @@ const FEEDBACK_URL = `${REPO_URL}/issues/new?template=roadmap-feedback.md`;
  * Footer: feedback route, links to the accessibility statement and privacy
  * note, the licence and a link back to the GitHub repository.
  */
-export function RoadmapFooter() {
+export function SiteFooter() {
   const { lang } = useLanguage();
   const cy = lang === 'cy';
 

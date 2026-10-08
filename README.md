@@ -30,7 +30,9 @@ Open the forwarded port 5173 at `/product-roadmaps/`. The spreadsheet ID is set
 in [scripts/sync-roadmaps.ts](scripts/sync-roadmaps.ts); override it with the
 `SHEET_ID` environment variable to test another sheet.
 
-Other scripts: `npm run build`, `npm run lint`, `npm run format`.
+Other scripts: `npm run build`, `npm run lint`, `npm run format`, `npm test`.
+Run `npm run check` (types, lint, formatting and tests) before opening a pull
+request; CI runs the same checks. Node 24 is required (see `.nvmrc`).
 
 ## Sheet format
 

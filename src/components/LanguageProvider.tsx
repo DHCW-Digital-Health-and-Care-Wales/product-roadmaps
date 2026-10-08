@@ -17,7 +17,7 @@ function isLang(value: string | null): value is Lang {
 /**
  * Determine the initial language from, in order: the URL query parameter (so a
  * link can be shared in a given language), a same-site stored preference, then
- * the default. No third-party cookies are used (docs/BUILD_BRIEF.md Section 8).
+ * the default. No third-party cookies are used.
  */
 function readInitialLang(): Lang {
   if (typeof window === 'undefined') {
@@ -75,18 +75,18 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     document.documentElement.lang = lang;
 
+    // Persisting the default would make every later visit look explicit.
+    if (!writeUrlParam) return;
+
     try {
       window.localStorage.setItem(LANG_STORAGE_KEY, lang);
     } catch {
       // Ignore storage failures; the choice still applies for this session.
     }
 
-    // Only reflect the choice in the URL when the user has explicitly set it.
-    if (writeUrlParam) {
-      const url = new URL(window.location.href);
-      url.searchParams.set(LANG_PARAM, lang);
-      window.history.replaceState({}, '', url);
-    }
+    const url = new URL(window.location.href);
+    url.searchParams.set(LANG_PARAM, lang);
+    window.history.replaceState({}, '', url);
   }, [lang, writeUrlParam]);
 
   const setLang = useCallback((next: Lang) => {

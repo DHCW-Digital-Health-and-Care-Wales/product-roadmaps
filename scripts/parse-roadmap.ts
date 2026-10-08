@@ -54,8 +54,11 @@ const CARD_COLUMNS = {
 
 const key = (value = '') => value.toLowerCase().replace(/[^a-z0-9]/g, '');
 
+// Folds accents first so Welsh letters such as ŵ and ŷ keep their base letter.
 export const slugify = (value: string) =>
   value
+    .normalize('NFKD')
+    .replace(/\p{M}/gu, '')
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
@@ -97,14 +100,28 @@ function readTable(sheet: Worksheet): Record<string, string>[] {
     .filter((row) => Object.values(row).some(Boolean));
 }
 
-/** Accepts YYYY-MM-DD or the UK display format DD/MM/YYYY. */
-function toIsoDate(value: string): string {
-  const uk = value.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-  if (uk) {
-    const [, day, month, year] = uk;
-    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+/** Accepts YYYY-MM-DD or UK DD/MM/YYYY; invalid dates warn and are blanked. */
+export function toIsoDate(sheet: string, value: string): string {
+  if (!value) return '';
+  const match =
+    value.match(/^(?<year>\d{4})-(?<month>\d{1,2})-(?<day>\d{1,2})$/) ??
+    value.match(/^(?<day>\d{1,2})\/(?<month>\d{1,2})\/(?<year>\d{4})$/);
+  const { year, month, day } = match?.groups ?? {};
+  if (year && month && day) {
+    const date = new Date(Date.UTC(+year, +month - 1, +day));
+    if (
+      date.getUTCFullYear() === +year &&
+      date.getUTCMonth() === +month - 1 &&
+      date.getUTCDate() === +day
+    ) {
+      return date.toISOString().slice(0, 10);
+    }
   }
-  return value;
+  warn(
+    sheet,
+    `Date "${value}" is not a real date like 2026-10-01 or 01/10/2026`,
+  );
+  return '';
 }
 
 /** Only allow plain hex colours so sheet content can't inject CSS. */
@@ -155,7 +172,7 @@ export function parseRoadmapList(sheet: Worksheet): Listing[] {
       meta: {
         title: loc(row.title || row.sheet),
         statusLabel: loc(row.statuslabel),
-        lastUpdated: toIsoDate(row.lastupdated ?? ''),
+        lastUpdated: toIsoDate(row.sheet, row.lastupdated ?? ''),
         colour: safeColour(row.sheet, row.colour ?? ''),
         vision: loc(row.vision),
         serviceDescription: loc(row.servicedescription),
@@ -166,6 +183,12 @@ export function parseRoadmapList(sheet: Worksheet): Listing[] {
 /** Reads a roadmap tab: one card per row. */
 export function parseRoadmap(listing: Listing, sheet: Worksheet): Roadmap {
   checkColumns(sheet, CARD_COLUMNS);
+  const slug = slugify(listing.sheet);
+  if (!slug) {
+    throw new Error(
+      `Tab "${listing.sheet}" has no letters or digits to use in its URL; rename the tab.`,
+    );
+  }
   const items = Object.fromEntries(
     Object.values(PLACEMENTS).map((placement) => [placement, []]),
   ) as unknown as Roadmap['items'];
@@ -187,7 +210,7 @@ export function parseRoadmap(listing: Listing, sheet: Worksheet): Roadmap {
   }
 
   return {
-    slug: slugify(listing.sheet),
+    slug,
     sheetName: listing.sheet,
     meta: listing.meta,
     items,

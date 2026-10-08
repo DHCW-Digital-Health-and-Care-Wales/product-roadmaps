@@ -1,8 +1,8 @@
 import { useLanguage } from '../lib/i18n';
 
 /**
- * Accessibility statement (docs/BUILD_BRIEF.md Section 9). UK public sector
- * sites need one. States the target standard and known gaps.
+ * Accessibility statement. UK public sector sites need one. States the target
+ * standard and known gaps.
  */
 export function AccessibilityStatement() {
   const { lang } = useLanguage();

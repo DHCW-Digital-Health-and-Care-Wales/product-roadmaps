@@ -31,9 +31,17 @@ const missingWelsh = new Set<string>();
  * when the requested language is empty.
  */
 export function t(value: Localised, lang: Lang): string {
+  return resolve(value, lang).text;
+}
+
+/** Like `t()`, but also reports which language the text is actually in. */
+export function resolve(
+  value: Localised,
+  lang: Lang,
+): { text: string; lang: Lang } {
   const requested = value[lang];
   if (requested && requested.trim() !== '') {
-    return requested;
+    return { text: requested, lang };
   }
 
   if (lang === 'cy' && import.meta.env.DEV) {
@@ -46,7 +54,17 @@ export function t(value: Localised, lang: Lang): string {
     }
   }
 
-  return value.en;
+  return { text: value.en, lang: 'en' };
+}
+
+/** Replaces `{name}` placeholders in both languages. */
+export function fill(
+  value: Localised,
+  vars: Record<string, string>,
+): Localised {
+  const sub = (text: string) =>
+    text.replace(/\{(\w+)\}/g, (match, name: string) => vars[name] ?? match);
+  return { en: sub(value.en), cy: sub(value.cy) };
 }
 
 /** The set of English strings still awaiting Welsh, for dev tooling. */

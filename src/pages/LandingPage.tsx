@@ -4,9 +4,11 @@ import { useLanguage } from '../lib/i18n';
 import { HORIZONS, ROADMAP_INTRO } from '../lib/content';
 import { formatDate } from '../lib/roadmap-helpers';
 import { onNavigate, productHref } from '../lib/router';
+import { UI } from '../lib/strings';
+import { T } from '../components/T';
 
 function ProductCard({ roadmap }: { roadmap: Roadmap }) {
-  const { lang, tr } = useLanguage();
+  const { lang } = useLanguage();
   const { meta } = roadmap;
   const accent = meta.colour;
   const summary = meta.serviceDescription.en
@@ -25,12 +27,12 @@ function ProductCard({ roadmap }: { roadmap: Roadmap }) {
         <div className="flex flex-wrap items-center gap-2 text-xs">
           {meta.statusLabel.en ? (
             <span className="inline-flex items-center rounded-full bg-heading px-2.5 py-0.5 font-medium text-white">
-              {tr(meta.statusLabel)}
+              <T value={meta.statusLabel} />
             </span>
           ) : null}
           {meta.lastUpdated ? (
             <span className="text-ink-700">
-              {lang === 'cy' ? 'Diweddarwyd' : 'Updated'}{' '}
+              <T value={UI.updated} />{' '}
               <time dateTime={meta.lastUpdated}>
                 {formatDate(meta.lastUpdated, lang)}
               </time>
@@ -44,13 +46,13 @@ function ProductCard({ roadmap }: { roadmap: Roadmap }) {
             onClick={onNavigate(roadmap.slug)}
             className="after:absolute after:inset-0 after:content-[''] focus-visible:shadow-none focus-visible:outline-none group-hover:underline"
           >
-            {tr(meta.title)}
+            <T value={meta.title} />
           </a>
         </h3>
 
         {summary.en ? (
           <p className="mt-3 line-clamp-4 leading-relaxed text-ink-900">
-            {tr(summary)}
+            <T value={summary} />
           </p>
         ) : null}
 
@@ -60,7 +62,9 @@ function ProductCard({ roadmap }: { roadmap: Roadmap }) {
               key={horizon.id}
               className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface-subtle px-3 py-1 text-sm"
             >
-              <dt className="text-ink-700">{tr(horizon.label)}</dt>
+              <dt className="text-ink-700">
+                <T value={horizon.label} />
+              </dt>
               <dd className="font-semibold text-heading">
                 {roadmap.items[horizon.id].length}
               </dd>
@@ -72,7 +76,7 @@ function ProductCard({ roadmap }: { roadmap: Roadmap }) {
           aria-hidden="true"
           className="mt-auto inline-flex items-center gap-1 pt-6 font-medium text-action"
         >
-          {lang === 'cy' ? 'Gweld y trywydd' : 'View roadmap'}
+          <T value={UI.viewRoadmap} />
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
         </p>
       </div>
@@ -82,9 +86,6 @@ function ProductCard({ roadmap }: { roadmap: Roadmap }) {
 
 /** Landing page: introduces the roadmaps and lets people pick a product. */
 export function LandingPage({ roadmaps }: { roadmaps: Roadmap[] }) {
-  const { lang } = useLanguage();
-  const cy = lang === 'cy';
-
   return (
     <>
       <section
@@ -93,18 +94,17 @@ export function LandingPage({ roadmaps }: { roadmaps: Roadmap[] }) {
       >
         <div className="mx-auto max-w-content">
           <span className="inline-flex items-center rounded-full bg-heading px-3 py-1 text-sm font-medium text-white">
-            Beta
+            <T value={UI.phaseBadge} />
           </span>
           <h1
             id="landing-title"
+            tabIndex={-1}
             className="mt-4 text-3xl font-bold text-heading sm:text-4xl"
           >
-            {cy ? 'Trywyddion cynnyrch' : 'Product roadmaps'}
+            <T value={UI.landingTitle} />
           </h1>
           <p className="mt-4 max-w-3xl text-lg leading-relaxed text-ink-900">
-            {cy
-              ? 'Gweld beth mae Iechyd a Gofal Digidol Cymru yn gweithio arno nawr, beth sy’n dod nesaf a’r cyfeiriad rydym yn disgwyl ei gymryd yn hwyrach.'
-              : 'See what Digital Health and Care Wales is working on now, what’s coming next and the direction we expect to take later.'}
+            <T value={UI.landingIntro} />
           </p>
         </div>
       </section>
@@ -115,7 +115,7 @@ export function LandingPage({ roadmaps }: { roadmaps: Roadmap[] }) {
       >
         <div className="mx-auto max-w-content">
           <h2 id="products-heading" className="text-2xl font-bold text-heading">
-            {cy ? 'Dewis cynnyrch' : 'Choose a product'}
+            <T value={UI.chooseProduct} />
           </h2>
           {roadmaps.length > 0 ? (
             <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -125,9 +125,7 @@ export function LandingPage({ roadmaps }: { roadmaps: Roadmap[] }) {
             </ul>
           ) : (
             <p className="mt-6 rounded-card border border-border bg-surface-subtle p-5 font-medium text-ink-700">
-              {cy
-                ? 'Does dim trywyddion wedi’u cyhoeddi eto.'
-                : 'No roadmaps have been published yet.'}
+              <T value={UI.noRoadmaps} />
             </p>
           )}
         </div>

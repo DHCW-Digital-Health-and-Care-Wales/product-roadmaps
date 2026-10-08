@@ -19,7 +19,7 @@ const fixture = (name: string): Worksheet => ({
 let warnings: ReturnType<typeof vi.spyOn>;
 
 beforeEach(() => {
-  warnings = vi.spyOn(console, 'warn').mockImplementation(() => {});
+  warnings = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
 });
 
 afterEach(() => {
@@ -95,7 +95,7 @@ describe('parseRoadmap', () => {
 
   it('places cards and parses nested details', () => {
     const [listing] = listings();
-    const roadmap = parseRoadmap(listing!, fixture('ProductA'));
+    const roadmap = parseRoadmap(listing, fixture('ProductA'));
     expect(roadmap.slug).toBe('producta');
     expect(roadmap.items.now).toHaveLength(3);
     expect(roadmap.items['not-doing']).toHaveLength(1);
@@ -107,7 +107,7 @@ describe('parseRoadmap', () => {
 
   it('skips cards with an unknown horizon or no title', () => {
     const [listing] = listings();
-    const roadmap = parseRoadmap(listing!, {
+    const roadmap = parseRoadmap(listing, {
       name: 'ProductA',
       rows: [
         ['Title', 'Horizon'],
@@ -129,7 +129,7 @@ describe('parseRoadmap', () => {
     const [listing] = listings();
     expect(() =>
       parseRoadmap(
-        { ...listing!, sheet: '日本語' },
+        { ...listing, sheet: '日本語' },
         { name: '日本語', rows: [['Title', 'Horizon']] },
       ),
     ).toThrow(/no letters or digits/);

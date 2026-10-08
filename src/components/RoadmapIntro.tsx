@@ -3,6 +3,8 @@ import { useLanguage } from '../lib/i18n';
 import { ROADMAP_INTRO } from '../lib/content';
 import { formatDate } from '../lib/roadmap-helpers';
 import { onNavigate, productHref } from '../lib/router';
+import { UI } from '../lib/strings';
+import { T } from './T';
 
 /**
  * Title section: a link back to all roadmaps, the roadmap title, status label,
@@ -10,7 +12,7 @@ import { onNavigate, productHref } from '../lib/router';
  * primary heading.
  */
 export function RoadmapIntro({ meta }: { meta: RoadmapMeta }) {
-  const { lang, tr } = useLanguage();
+  const { lang } = useLanguage();
 
   return (
     <section
@@ -25,18 +27,18 @@ export function RoadmapIntro({ meta }: { meta: RoadmapMeta }) {
             onClick={onNavigate(null)}
             className="text-sm font-medium text-action underline underline-offset-4 hover:no-underline"
           >
-            &larr; {lang === 'cy' ? 'Pob trywydd' : 'All roadmaps'}
+            &larr; <T value={UI.allRoadmaps} />
           </a>
         </p>
         <div className="flex flex-wrap items-center gap-3">
           {meta.statusLabel.en ? (
             <span className="inline-flex items-center rounded-full bg-heading px-3 py-1 text-sm font-medium text-white">
-              {tr(meta.statusLabel)}
+              <T value={meta.statusLabel} />
             </span>
           ) : null}
           {meta.lastUpdated ? (
             <span className="text-sm text-ink-700">
-              {lang === 'cy' ? 'Diweddarwyd ddiwethaf' : 'Last updated'}:{' '}
+              <T value={UI.lastUpdated} />:{' '}
               <time dateTime={meta.lastUpdated}>
                 {formatDate(meta.lastUpdated, lang)}
               </time>
@@ -46,13 +48,14 @@ export function RoadmapIntro({ meta }: { meta: RoadmapMeta }) {
 
         <h1
           id="roadmap-title"
+          tabIndex={-1}
           className="mt-4 text-3xl font-bold text-heading sm:text-4xl"
         >
-          {tr(meta.title)}
+          <T value={meta.title} />
         </h1>
 
         <p className="mt-4 max-w-3xl text-lg leading-relaxed text-ink-900">
-          {tr(ROADMAP_INTRO)}
+          <T value={ROADMAP_INTRO} />
         </p>
       </div>
     </section>

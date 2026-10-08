@@ -1,6 +1,7 @@
 import type { Localised, RoadmapItem } from '../lib/types';
-import { useLanguage } from '../lib/i18n';
+import { UI } from '../lib/strings';
 import { RoadmapCard } from './RoadmapCard';
+import { T } from './T';
 
 interface HorizonPhaseProps {
   label: Localised;
@@ -23,8 +24,6 @@ export function HorizonPhase({
   headingId,
   accent,
 }: HorizonPhaseProps) {
-  const { lang, tr } = useLanguage();
-
   return (
     <section
       aria-labelledby={headingId}
@@ -35,7 +34,9 @@ export function HorizonPhase({
         id={headingId}
         className="flex items-center gap-2 bg-heading px-4 py-3 text-lg font-bold text-white"
       >
-        <span>{tr(label)}</span>
+        <span>
+          <T value={label} />
+        </span>
         <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-full border border-white/30 bg-white/10 px-2 text-xs font-semibold text-white">
           {items.length}
         </span>
@@ -44,14 +45,14 @@ export function HorizonPhase({
         {items.length > 0 ? (
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {items.map((item, index) => (
+              // Static list from the snapshot; never reordered or filtered.
+              // eslint-disable-next-line @eslint-react/no-array-index-key
               <RoadmapCard key={index} item={item} />
             ))}
           </div>
         ) : (
           <p className="text-sm italic text-ink-500">
-            {lang === 'cy'
-              ? 'Dim byd i’w ddangos yma eto.'
-              : 'Nothing to show here yet.'}
+            <T value={UI.nothingYet} />
           </p>
         )}
       </div>

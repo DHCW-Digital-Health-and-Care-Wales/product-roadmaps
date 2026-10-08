@@ -27,9 +27,17 @@
     border-radius: 2px;
   }
 
-  /* Smooth in-page scrolling, disabled under reduced-motion below. */
+  /* Headings focused by script after navigation don't need a visible ring. */
+  [tabindex='-1']:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+
+  /* Smooth in-page scrolling, disabled under reduced-motion below. The padding
+     keeps focused and linked elements clear of the fixed header (WCAG 2.4.11). */
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 7rem;
   }
 }
 

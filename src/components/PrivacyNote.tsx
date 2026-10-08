@@ -1,4 +1,5 @@
-import { useLanguage } from '../lib/i18n';
+import { UI } from '../lib/strings';
+import { T } from './T';
 
 /**
  * Privacy note. The site sets no tracking cookies, uses no third-party
@@ -6,8 +7,6 @@ import { useLanguage } from '../lib/i18n';
  * consent to.
  */
 export function PrivacyNote() {
-  const { lang } = useLanguage();
-  const cy = lang === 'cy';
   const headingId = 'privacy-heading';
 
   return (
@@ -18,18 +17,14 @@ export function PrivacyNote() {
     >
       <div className="mx-auto max-w-content">
         <h2 id={headingId} className="text-2xl font-bold text-heading">
-          {cy ? 'Preifatrwydd' : 'Privacy'}
+          <T value={UI.privacyHeading} />
         </h2>
         <div className="mt-4 max-w-3xl space-y-4 leading-relaxed text-ink-900">
           <p>
-            {cy
-              ? 'Nid yw’r safle hwn yn gosod cwcis tracio nac yn defnyddio dadansoddeg trydydd parti. Nid ydym yn rhannu unrhyw ddata personol.'
-              : 'This site sets no tracking cookies and uses no third-party analytics. We do not share any personal data.'}
+            <T value={UI.privacyTracking} />
           </p>
           <p>
-            {cy
-              ? 'Mae’r ffontiau’n cael eu gwesteia gennym ni ein hunain, felly nid yw eich ymweliad yn cael ei rannu â gwasanaeth ffont allanol.'
-              : 'Fonts are self-hosted, so your visit is not shared with an external font service.'}
+            <T value={UI.privacyFonts} />
           </p>
         </div>
       </div>

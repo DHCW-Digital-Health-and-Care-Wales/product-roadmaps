@@ -1,5 +1,6 @@
 import type { RoadmapMeta } from '../lib/types';
-import { useLanguage } from '../lib/i18n';
+import { UI } from '../lib/strings';
+import { T } from './T';
 
 /**
  * "Our vision" and "Our value" blocks, placed directly beneath the intro.
@@ -7,8 +8,6 @@ import { useLanguage } from '../lib/i18n';
  * the Google Sheet's roadmap list; a block is hidden when its value is empty.
  */
 export function VisionAndValue({ meta }: { meta: RoadmapMeta }) {
-  const { lang, tr } = useLanguage();
-
   return (
     <>
       {meta.vision.en ? (
@@ -19,10 +18,10 @@ export function VisionAndValue({ meta }: { meta: RoadmapMeta }) {
         >
           <div className="mx-auto max-w-content">
             <h2 id="vision-heading" className="text-2xl font-bold text-heading">
-              {lang === 'cy' ? 'Ein gweledigaeth' : 'Our vision'}
+              <T value={UI.vision} />
             </h2>
             <p className="mt-4 max-w-3xl text-lg leading-relaxed text-ink-900">
-              {tr(meta.vision)}
+              <T value={meta.vision} />
             </p>
           </div>
         </section>
@@ -39,10 +38,10 @@ export function VisionAndValue({ meta }: { meta: RoadmapMeta }) {
               id="service-description-heading"
               className="text-2xl font-bold text-heading"
             >
-              {lang === 'cy' ? 'Ein gwerth' : 'Our value'}
+              <T value={UI.value} />
             </h2>
             <p className="mt-4 max-w-3xl text-lg leading-relaxed text-ink-900">
-              {tr(meta.serviceDescription)}
+              <T value={meta.serviceDescription} />
             </p>
           </div>
         </section>

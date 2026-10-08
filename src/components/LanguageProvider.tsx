@@ -63,7 +63,7 @@ function hasExplicitInitialLang(): boolean {
  * `lang` attribute, the URL and the stored preference in sync.
  */
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>(readInitialLang);
+  const [lang, setLang] = useState<Lang>(readInitialLang);
   // Track whether the URL param should be written. We only write it when the
   // user has actively chosen a language (or when an explicit choice was already
   // present on load), so first-time visitors don't see ?lang=en appended to
@@ -89,23 +89,19 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     window.history.replaceState({}, '', url);
   }, [lang, writeUrlParam]);
 
-  const setLang = useCallback((next: Lang) => {
+  const chooseLang = useCallback((next: Lang) => {
     setWriteUrlParam(true);
-    setLangState(next);
+    setLang(next);
   }, []);
 
   const value = useMemo(
     () => ({
       lang,
-      setLang,
+      setLang: chooseLang,
       tr: (localised: Localised) => t(localised, lang),
     }),
-    [lang, setLang],
+    [lang, chooseLang],
   );
 
-  return (
-    <LanguageContext.Provider value={value}>
-      {children}
-    </LanguageContext.Provider>
-  );
+  return <LanguageContext value={value}>{children}</LanguageContext>;
 }

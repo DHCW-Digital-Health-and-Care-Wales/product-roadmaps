@@ -17,7 +17,6 @@ const item = z.strictObject({
   title: localised.refine((value) => value.en.trim() !== '', 'Empty title'),
   description: localised,
   outcome: localised.optional(),
-  status: z.string().min(1).optional(),
   phase: z.string().min(1).optional(),
   labels: z.array(z.string().min(1)).min(1).optional(),
   details: z

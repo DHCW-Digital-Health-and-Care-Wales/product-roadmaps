@@ -42,7 +42,6 @@
       - paragraph:
         - strong: "Outcome:"
         - text: What users can do now.
-      - text: Shipped
   - region "The roadmap":
     - heading "The roadmap" [level=2]
     - paragraph: Each card shows a change we're working on now, planning to take on next, or working towards later.
@@ -58,7 +57,7 @@
               - strong: "Outcome:"
               - text: What changes for users when it is done.
             - group: What this covers
-            - text: In progress Service X Service Y
+            - text: Service X Service Y
           - article:
             - heading "Minimal card" [level=4]
             - paragraph: Only Title and Horizon are required; everything else is optional.
@@ -68,10 +67,10 @@
             - paragraph:
               - strong: "Outcome:"
               - text: Users get the change as soon as it is deployed.
-            - text: Awaiting Deployment Service X
+            - text: Service X
       - listitem:
-        - region "Next 2":
-          - heading "Next 2" [level=3]
+        - region "Next 1":
+          - heading "Next 1" [level=3]
           - article:
             - paragraph: Alpha
             - heading "Card being explored" [level=4]
@@ -79,11 +78,6 @@
             - paragraph:
               - strong: "Outcome:"
               - text: What we hope this will achieve.
-            - text: Exploring
-          - article:
-            - heading "Card with a free-text status" [level=4]
-            - paragraph: Any status that isn't one of the standard ones is shown exactly as typed.
-            - text: On hold
       - listitem:
         - region "Later 2":
           - heading "Later 2" [level=3]
@@ -94,11 +88,10 @@
             - paragraph:
               - strong: "Outcome:"
               - text: A clear understanding of the problem.
-            - text: Exploring
           - article:
             - heading "Longer-term idea" [level=4]
             - paragraph: Direction we expect to take as we learn more.
-            - text: Exploring Service Y Service Z
+            - text: Service Y Service Z
   - region "Other work we have delivered this year":
     - heading "Other work we have delivered this year" [level=2]
     - text: "1"
@@ -108,7 +101,6 @@
       - heading "Earlier delivery this year" [level=3]
       - paragraph: Something we delivered earlier in the year.
       - group: What this covers
-      - text: Shipped
   - region "Not doing right now":
     - heading "Not doing right now" [level=2]
     - text: "1"

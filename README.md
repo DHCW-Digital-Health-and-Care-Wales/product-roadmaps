@@ -86,10 +86,9 @@ for bootstrapping a spreadsheet.
 | `Title`           | Card heading. Required.                                                                     |
 | `Description`     | What the work is.                                                                           |
 | `Outcome`         | What changes when it is done. Optional.                                                     |
-| `Status`          | `Exploring`, `In progress`, `Shipped`, `Awaiting deployment`, or free text.                 |
+| `Horizon`         | `Now`, `Next`, `Later`, `Recently delivered`, `Delivered this year` or `Not doing`. Required. |
 | `Phase`           | Tag; "Discovery" is highlighted.                                                            |
 | `Labels`          | Comma separated; each becomes a pill.                                                       |
-| `Horizon`         | `Now`, `Next`, `Later`, `Recently delivered`, `Delivered this year` or `Not doing`. Required. |
 | `Details`         | Expandable "What this covers" list. One bullet per line; start a line with `-` to nest it.  |
 
 Cards appear in sheet order within their horizon or section. Text shared by

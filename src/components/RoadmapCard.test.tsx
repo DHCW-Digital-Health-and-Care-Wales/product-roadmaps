@@ -29,19 +29,17 @@ describe('RoadmapCard', () => {
     expect(container.querySelector('details')).toBeNull();
   });
 
-  it('shows the description, outcome, status and labels', () => {
+  it('shows the description, outcome, phase and labels', () => {
     renderCard({
       title: loc('Full card'),
       description: loc('What it is'),
       outcome: loc('Why it matters'),
-      status: 'in-progress',
       phase: 'Discovery',
       labels: ['Web', 'App'],
     });
     expect(screen.getByText('What it is')).toBeTruthy();
     expect(screen.getByText('Outcome:')).toBeTruthy();
     expect(screen.getByText('Why it matters')).toBeTruthy();
-    expect(screen.getByText('In progress')).toBeTruthy();
     expect(screen.getByText('Discovery')).toBeTruthy();
     expect(screen.getByText('Web')).toBeTruthy();
     expect(screen.getByText('App')).toBeTruthy();

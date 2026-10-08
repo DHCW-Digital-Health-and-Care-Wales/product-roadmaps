@@ -37,7 +37,6 @@
             "en": "What changes for users when it is done.",
             "cy": ""
           },
-          "status": "in-progress",
           "phase": "Beta",
           "labels": ["Service X", "Service Y"],
           "details": [
@@ -94,7 +93,6 @@
             "en": "Users get the change as soon as it is deployed.",
             "cy": ""
           },
-          "status": "awaiting-deployment",
           "labels": ["Service X"]
         }
       ],
@@ -112,19 +110,7 @@
             "en": "What we hope this will achieve.",
             "cy": ""
           },
-          "status": "exploring",
           "phase": "Alpha"
-        },
-        {
-          "title": {
-            "en": "Card with a free-text status",
-            "cy": ""
-          },
-          "description": {
-            "en": "Any status that isn't one of the standard ones is shown exactly as typed.",
-            "cy": ""
-          },
-          "status": "on-hold"
         }
       ],
       "later": [
@@ -141,7 +127,6 @@
             "en": "A clear understanding of the problem.",
             "cy": ""
           },
-          "status": "exploring",
           "phase": "Discovery"
         },
         {
@@ -153,7 +138,6 @@
             "en": "Direction we expect to take as we learn more.",
             "cy": ""
           },
-          "status": "exploring",
           "labels": ["Service Y", "Service Z"]
         }
       ],
@@ -170,8 +154,7 @@
           "outcome": {
             "en": "What users can do now.",
             "cy": ""
-          },
-          "status": "shipped"
+          }
         }
       ],
       "delivered-this-year": [
@@ -184,7 +167,6 @@
             "en": "Something we delivered earlier in the year.",
             "cy": ""
           },
-          "status": "shipped",
           "phase": "Live",
           "details": [
             {
@@ -256,7 +238,6 @@
             "en": "Users can complete the main task online.",
             "cy": ""
           },
-          "status": "in-progress",
           "phase": "Alpha",
           "labels": ["Service Z"]
         },
@@ -272,8 +253,7 @@
           "outcome": {
             "en": "Designs updated from research findings.",
             "cy": ""
-          },
-          "status": "in-progress"
+          }
         }
       ],
       "next": [
@@ -286,7 +266,6 @@
             "en": "Making the service available to more teams.",
             "cy": ""
           },
-          "status": "exploring",
           "phase": "Beta"
         }
       ],
@@ -304,7 +283,6 @@
             "en": "Less duplicate data entry.",
             "cy": ""
           },
-          "status": "exploring",
           "phase": "Discovery",
           "labels": ["Service X"],
           "details": [
@@ -350,7 +328,6 @@
             "en": "An early prototype we tested with a small group of users.",
             "cy": ""
           },
-          "status": "shipped",
           "phase": "Alpha"
         }
       ],

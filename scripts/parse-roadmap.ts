@@ -40,7 +40,7 @@ const LIST_COLUMNS = {
 
 const CARD_COLUMNS = {
   required: ['Title', 'Horizon'],
-  optional: ['Description', 'Outcome', 'Status', 'Phase', 'Labels', 'Details'],
+  optional: ['Description', 'Outcome', 'Phase', 'Labels', 'Details'],
 };
 
 const key = (value = '') => value.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -152,7 +152,6 @@ function toItem(row: Record<string, string>): RoadmapItem {
     title: loc(row.title),
     description: loc(row.description),
     outcome: row.outcome ? loc(row.outcome) : undefined,
-    status: row.status?.toLowerCase().replace(/\s+/g, '-') || undefined,
     phase: row.phase || undefined,
     labels: labels.length > 0 ? labels : undefined,
     details: parseDetails(row.details ?? ''),

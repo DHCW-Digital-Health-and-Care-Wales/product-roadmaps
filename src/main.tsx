@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 // Self-hosted Roboto (DHCW digital interface font). Bundled into the build so
-// no third-party font service is called (docs/BUILD_BRIEF.md Sections 3 and 9).
+// no third-party font service is called.
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';

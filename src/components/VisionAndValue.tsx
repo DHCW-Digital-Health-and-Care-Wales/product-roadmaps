@@ -6,7 +6,7 @@ import { useLanguage } from '../lib/i18n';
  * Copy comes from the product's "Vision" and "Service description" columns on
  * the Google Sheet's roadmap list; a block is hidden when its value is empty.
  */
-export function VisionStatement({ meta }: { meta: RoadmapMeta }) {
+export function VisionAndValue({ meta }: { meta: RoadmapMeta }) {
   const { lang, tr } = useLanguage();
 
   return (

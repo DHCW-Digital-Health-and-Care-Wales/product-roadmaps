@@ -2,18 +2,17 @@ import { ChevronDown } from 'lucide-react';
 import type { Roadmap } from '../lib/types';
 import { useLanguage } from '../lib/i18n';
 import { HORIZONS, ROADMAP_DESCRIPTION, ROADMAP_HEADING } from '../lib/content';
-import { HorizonColumn } from './HorizonColumn';
+import { HorizonPhase } from './HorizonPhase';
 
 /**
  * The roadmap itself: a heading in the roadmap's colour, followed by the three
  * horizons stacked as a single top-to-bottom journey (Now, then Next, then
  * Later). This stacked chronological layout is the canonical roadmap
- * presentation pattern; see docs/ROADMAP_PRESENTATION_STANDARD.md and
- * docs/adr/0001-roadmap-chronology-presentation-pattern.md. Horizons are never
- * rendered as side-by-side columns. A decorative connector between phases
- * signals progression without relying on colour to carry meaning.
+ * presentation pattern. Horizons are never rendered as side-by-side columns. A
+ * decorative connector between phases signals progression without relying on
+ * colour to carry meaning.
  */
-export function HorizonsSection({ roadmap }: { roadmap: Roadmap }) {
+export function RoadmapHorizons({ roadmap }: { roadmap: Roadmap }) {
   const { tr } = useLanguage();
   const headingId = 'roadmap-heading';
   const accent = roadmap.meta.colour;
@@ -34,7 +33,7 @@ export function HorizonsSection({ roadmap }: { roadmap: Roadmap }) {
       <ol className="mt-8 space-y-8">
         {HORIZONS.map((horizon, index) => (
           <li key={horizon.id}>
-            <HorizonColumn
+            <HorizonPhase
               label={horizon.label}
               items={roadmap.items[horizon.id]}
               headingId={`horizon-${horizon.id}`}

@@ -4,10 +4,10 @@ import type { SECTIONS } from '../lib/content';
 import { RoadmapCard } from './RoadmapCard';
 
 /**
- * A delivered work section, for example "Recently delivered", "Other work we
- * have delivered this year" or "Not doing right now".
+ * One of the fixed sections around the horizons: "Recently delivered", "Other
+ * work we have delivered this year" or "Not doing right now".
  */
-export function DeliveredSection({
+export function RoadmapSection({
   section,
   items,
 }: {
@@ -15,7 +15,7 @@ export function DeliveredSection({
   items: RoadmapItem[];
 }) {
   const { lang, tr } = useLanguage();
-  const headingId = `delivered-${section.id}`;
+  const headingId = `section-${section.id}`;
 
   return (
     <section

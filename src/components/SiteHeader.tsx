@@ -19,7 +19,7 @@ const NAV_LINKS: { href: string; label: Localised }[] = [
  * roadmaps), in-page navigation on product pages and the language toggle.
  * Collapses to a menu button on narrow screens.
  */
-export function RoadmapHeader({
+export function SiteHeader({
   showSectionLinks = false,
 }: {
   showSectionLinks?: boolean;

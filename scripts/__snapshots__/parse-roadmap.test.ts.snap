@@ -1,0 +1,415 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
+{
+  "items": {
+    "delivered-this-year": [
+      {
+        "description": {
+          "cy": "",
+          "en": "Something we delivered earlier in the year.",
+        },
+        "details": [
+          {
+            "level": 0,
+            "text": {
+              "cy": "",
+              "en": "What it included",
+            },
+          },
+          {
+            "level": 0,
+            "text": {
+              "cy": "",
+              "en": "Another thing it included",
+            },
+          },
+        ],
+        "labels": undefined,
+        "outcome": undefined,
+        "phase": "Live",
+        "status": "shipped",
+        "title": {
+          "cy": "",
+          "en": "Earlier delivery this year",
+        },
+      },
+    ],
+    "later": [
+      {
+        "description": {
+          "cy": "",
+          "en": "Phases that include the word "Discovery" are highlighted.",
+        },
+        "details": undefined,
+        "labels": undefined,
+        "outcome": {
+          "cy": "",
+          "en": "A clear understanding of the problem.",
+        },
+        "phase": "Discovery",
+        "status": "exploring",
+        "title": {
+          "cy": "",
+          "en": "Discovery card",
+        },
+      },
+      {
+        "description": {
+          "cy": "",
+          "en": "Direction we expect to take as we learn more.",
+        },
+        "details": undefined,
+        "labels": [
+          "Service Y",
+          "Service Z",
+        ],
+        "outcome": undefined,
+        "phase": undefined,
+        "status": "exploring",
+        "title": {
+          "cy": "",
+          "en": "Longer-term idea",
+        },
+      },
+    ],
+    "next": [
+      {
+        "description": {
+          "cy": "",
+          "en": "Work we expect to pick up soon.",
+        },
+        "details": undefined,
+        "labels": undefined,
+        "outcome": {
+          "cy": "",
+          "en": "What we hope this will achieve.",
+        },
+        "phase": "Alpha",
+        "status": "exploring",
+        "title": {
+          "cy": "",
+          "en": "Card being explored",
+        },
+      },
+      {
+        "description": {
+          "cy": "",
+          "en": "Any status that isn't one of the standard ones is shown exactly as typed.",
+        },
+        "details": undefined,
+        "labels": undefined,
+        "outcome": undefined,
+        "phase": undefined,
+        "status": "on-hold",
+        "title": {
+          "cy": "",
+          "en": "Card with a free-text status",
+        },
+      },
+    ],
+    "not-doing": [
+      {
+        "description": {
+          "cy": "",
+          "en": "Explain why this is out of scope for now.",
+        },
+        "details": undefined,
+        "labels": undefined,
+        "outcome": undefined,
+        "phase": undefined,
+        "status": undefined,
+        "title": {
+          "cy": "",
+          "en": "Something we are not doing",
+        },
+      },
+    ],
+    "now": [
+      {
+        "description": {
+          "cy": "",
+          "en": "What this work is. Keep it to a sentence or two.",
+        },
+        "details": [
+          {
+            "level": 0,
+            "text": {
+              "cy": "",
+              "en": "First bullet point",
+            },
+          },
+          {
+            "level": 1,
+            "text": {
+              "cy": "",
+              "en": "Start a line with "-" to nest it under the line above",
+            },
+          },
+          {
+            "level": 2,
+            "text": {
+              "cy": "",
+              "en": "Use two dashes to nest it again",
+            },
+          },
+          {
+            "level": 0,
+            "text": {
+              "cy": "",
+              "en": "Another top-level bullet point",
+            },
+          },
+        ],
+        "labels": [
+          "Service X",
+          "Service Y",
+        ],
+        "outcome": {
+          "cy": "",
+          "en": "What changes for users when it is done.",
+        },
+        "phase": "Beta",
+        "status": "in-progress",
+        "title": {
+          "cy": "",
+          "en": "Example card with every column",
+        },
+      },
+      {
+        "description": {
+          "cy": "",
+          "en": "Only Title and Horizon are required; everything else is optional.",
+        },
+        "details": undefined,
+        "labels": undefined,
+        "outcome": undefined,
+        "phase": undefined,
+        "status": undefined,
+        "title": {
+          "cy": "",
+          "en": "Minimal card",
+        },
+      },
+      {
+        "description": {
+          "cy": "",
+          "en": "Work that is finished and waiting to go live.",
+        },
+        "details": undefined,
+        "labels": [
+          "Service X",
+        ],
+        "outcome": {
+          "cy": "",
+          "en": "Users get the change as soon as it is deployed.",
+        },
+        "phase": undefined,
+        "status": "awaiting-deployment",
+        "title": {
+          "cy": "",
+          "en": "Card awaiting release",
+        },
+      },
+    ],
+    "recently-delivered": [
+      {
+        "description": {
+          "cy": "",
+          "en": "Something we shipped in the last few weeks.",
+        },
+        "details": undefined,
+        "labels": undefined,
+        "outcome": {
+          "cy": "",
+          "en": "What users can do now.",
+        },
+        "phase": undefined,
+        "status": "shipped",
+        "title": {
+          "cy": "",
+          "en": "Recently shipped work",
+        },
+      },
+    ],
+  },
+  "meta": {
+    "colour": "#325083",
+    "lastUpdated": "2026-10-01",
+    "serviceDescription": {
+      "cy": "",
+      "en": "What Product A does and who it helps. Also used as the summary on the landing page card.",
+    },
+    "statusLabel": {
+      "cy": "",
+      "en": "Beta",
+    },
+    "title": {
+      "cy": "",
+      "en": "Product A roadmap",
+    },
+    "vision": {
+      "cy": "",
+      "en": "A short, ambitious statement of where Product A is heading. Leave blank to hide the "Our vision" section.",
+    },
+  },
+  "sheetName": "ProductA",
+  "slug": "producta",
+}
+`;
+
+exports[`parseRoadmap > matches the ProductB snapshot 1`] = `
+{
+  "items": {
+    "delivered-this-year": [
+      {
+        "description": {
+          "cy": "",
+          "en": "An early prototype we tested with a small group of users.",
+        },
+        "details": undefined,
+        "labels": undefined,
+        "outcome": undefined,
+        "phase": "Alpha",
+        "status": "shipped",
+        "title": {
+          "cy": "",
+          "en": "Prototype",
+        },
+      },
+    ],
+    "later": [
+      {
+        "description": {
+          "cy": "",
+          "en": "Sharing data with Service X so users don't have to enter it twice.",
+        },
+        "details": [
+          {
+            "level": 0,
+            "text": {
+              "cy": "",
+              "en": "Agree the data to share",
+            },
+          },
+          {
+            "level": 0,
+            "text": {
+              "cy": "",
+              "en": "Build and test the connection",
+            },
+          },
+          {
+            "level": 1,
+            "text": {
+              "cy": "",
+              "en": "Test environment first",
+            },
+          },
+          {
+            "level": 1,
+            "text": {
+              "cy": "",
+              "en": "Then live",
+            },
+          },
+        ],
+        "labels": [
+          "Service X",
+        ],
+        "outcome": {
+          "cy": "",
+          "en": "Less duplicate data entry.",
+        },
+        "phase": "Discovery",
+        "status": "exploring",
+        "title": {
+          "cy": "",
+          "en": "Integration with another system",
+        },
+      },
+    ],
+    "next": [
+      {
+        "description": {
+          "cy": "",
+          "en": "Making the service available to more teams.",
+        },
+        "details": undefined,
+        "labels": undefined,
+        "outcome": undefined,
+        "phase": "Beta",
+        "status": "exploring",
+        "title": {
+          "cy": "",
+          "en": "Wider rollout",
+        },
+      },
+    ],
+    "not-doing": [],
+    "now": [
+      {
+        "description": {
+          "cy": "",
+          "en": "A smaller roadmap showing that empty horizons and sections are fine.",
+        },
+        "details": undefined,
+        "labels": [
+          "Service Z",
+        ],
+        "outcome": {
+          "cy": "",
+          "en": "Users can complete the main task online.",
+        },
+        "phase": "Alpha",
+        "status": "in-progress",
+        "title": {
+          "cy": "",
+          "en": "Building the core service",
+        },
+      },
+      {
+        "description": {
+          "cy": "",
+          "en": "Usability testing of the new design.",
+        },
+        "details": undefined,
+        "labels": undefined,
+        "outcome": {
+          "cy": "",
+          "en": "Designs updated from research findings.",
+        },
+        "phase": undefined,
+        "status": "in-progress",
+        "title": {
+          "cy": "",
+          "en": "Testing with users",
+        },
+      },
+    ],
+    "recently-delivered": [],
+  },
+  "meta": {
+    "colour": "#006747",
+    "lastUpdated": "2026-09-15",
+    "serviceDescription": {
+      "cy": "",
+      "en": "What Product B does and who it helps. This roadmap has no vision, so that section is hidden.",
+    },
+    "statusLabel": {
+      "cy": "",
+      "en": "Alpha",
+    },
+    "title": {
+      "cy": "",
+      "en": "Product B roadmap",
+    },
+    "vision": {
+      "cy": "",
+      "en": "",
+    },
+  },
+  "sheetName": "ProductB",
+  "slug": "productb",
+}
+`;

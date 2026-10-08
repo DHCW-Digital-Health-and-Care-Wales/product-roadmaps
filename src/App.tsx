@@ -3,10 +3,10 @@ import type { Roadmap } from './lib/types';
 import snapshot from './data/roadmaps.json';
 import { useLanguage } from './lib/i18n';
 import { useProductRoute } from './lib/router';
-import { RoadmapHeader } from './components/RoadmapHeader';
+import { SiteHeader } from './components/SiteHeader';
 import { AccessibilityStatement } from './components/AccessibilityStatement';
 import { PrivacyNote } from './components/PrivacyNote';
-import { RoadmapFooter } from './components/RoadmapFooter';
+import { SiteFooter } from './components/SiteFooter';
 import { BackToTop } from './components/BackToTop';
 import { NotFoundState } from './components/NotFoundState';
 import { LandingPage } from './pages/LandingPage';
@@ -43,7 +43,7 @@ export default function App() {
       </a>
 
       <span id="top" />
-      <RoadmapHeader showSectionLinks={Boolean(roadmap)} />
+      <SiteHeader showSectionLinks={Boolean(roadmap)} />
 
       <main id="main-content">
         {content}
@@ -51,7 +51,7 @@ export default function App() {
         <PrivacyNote />
       </main>
 
-      <RoadmapFooter />
+      <SiteFooter />
       <BackToTop />
     </>
   );

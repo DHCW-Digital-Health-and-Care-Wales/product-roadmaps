@@ -7,6 +7,7 @@
  */
 import { writeFileSync } from 'node:fs';
 import type { Roadmap } from '../src/lib/types.ts';
+import { parseCsv } from './csv.ts';
 import {
   hasColumn,
   parseRoadmap,
@@ -41,37 +42,6 @@ async function fetchTab(name?: string): Promise<Worksheet> {
     name: name ?? 'Roadmaps (first tab)',
     rows: parseCsv(await response.text()),
   };
-}
-
-function parseCsv(text: string): string[][] {
-  const rows: string[][] = [];
-  let row: string[] = [];
-  let field = '';
-  let quoted = false;
-
-  for (let i = 0; i < text.length; i++) {
-    const char = text[i];
-    if (quoted) {
-      if (char !== '"') field += char;
-      else if (text[i + 1] === '"') field += text[++i];
-      else quoted = false;
-    } else if (char === '"') {
-      quoted = true;
-    } else if (char === ',') {
-      row.push(field);
-      field = '';
-    } else if (char === '\n' || char === '\r') {
-      if (char === '\r' && text[i + 1] === '\n') i++;
-      row.push(field);
-      rows.push(row);
-      row = [];
-      field = '';
-    } else {
-      field += char;
-    }
-  }
-  if (field || row.length > 0) rows.push([...row, field]);
-  return rows;
 }
 
 const index = await fetchTab();

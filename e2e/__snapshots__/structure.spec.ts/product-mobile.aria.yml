@@ -138,6 +138,9 @@
         - link "Privacy":
           - /url: "#privacy"
       - listitem:
+        - link "Roadmap data (JSON)":
+          - /url: /product-roadmaps/producta/roadmap.json
+      - listitem:
         - link "Licence":
           - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/blob/main/LICENSE
       - listitem:

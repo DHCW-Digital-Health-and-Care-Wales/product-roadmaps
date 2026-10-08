@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from 'vitest';
 import App from './App';
 import { LanguageProvider } from './components/LanguageProvider';
 import snapshot from '../e2e/fixtures/roadmaps.json';
-import { renderPages } from './entry-server';
+import { renderDataFiles, renderPages } from './entry-server';
 
 const SITE = 'https://example.org/product-roadmaps/';
 const pages = await renderPages(SITE);
@@ -30,6 +30,18 @@ describe('prerender', () => {
       `<link rel="canonical" href="${SITE}${first.slug}/" />`,
     );
     expect(page?.head).toContain('property="og:description"');
+  });
+
+  it('publishes each roadmap’s data as JSON and links to it', () => {
+    const page = pages.find((p) => p.slug === first.slug);
+    expect(page?.head).toContain(
+      `<link rel="alternate" type="application/json" href="${SITE}${first.slug}/roadmap.json" />`,
+    );
+    const files = renderDataFiles();
+    expect(files.map((f) => f.file)).toEqual(
+      snapshot.map((roadmap) => `${roadmap.slug}/roadmap.json`),
+    );
+    expect(JSON.parse(files[0].content)).toEqual(first);
   });
 
   it('keeps 404.html out of search results', () => {

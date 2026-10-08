@@ -2,10 +2,6 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { validateSnapshot } from './roadmap-schema.ts';
 
-const committed: unknown = JSON.parse(
-  readFileSync(new URL('../src/data/roadmaps.json', import.meta.url), 'utf8'),
-);
-
 const example: unknown = JSON.parse(
   readFileSync(
     new URL('../e2e/fixtures/roadmaps.json', import.meta.url),
@@ -16,9 +12,8 @@ const example: unknown = JSON.parse(
 const valid = () => structuredClone(validateSnapshot(example));
 
 describe('roadmap snapshot schema', () => {
-  // A data contract check only; it doesn't depend on what the sheet contains.
-  it('accepts the committed src/data/roadmaps.json', () => {
-    expect(() => validateSnapshot(committed)).not.toThrow();
+  it('accepts the example data', () => {
+    expect(() => validateSnapshot(example)).not.toThrow();
   });
 
   it('rejects an empty snapshot', () => {

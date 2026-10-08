@@ -1,18 +1,45 @@
 /// <reference types="vitest/config" />
+import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 
-// ROADMAPS_DATA swaps in another snapshot, so unit, end-to-end and visual tests
-// use fixed example data that a nightly sheet sync can't change.
-function roadmapsData(file: string | undefined): Plugin | false {
-  if (!file) return false;
+// The live data is made by `npm run sync` and never committed. ROADMAPS_DATA
+// swaps in other data, so unit, end-to-end and visual tests use fixed example
+// data that a sheet edit can't change.
+const LIVE_DATA = '.data/roadmaps.json';
+
+function roadmapsData(file: string): Plugin {
   return {
     name: 'roadmaps-data',
     enforce: 'pre',
-    resolveId: (source) =>
-      source.endsWith('/data/roadmaps.json') ? resolve(file) : null,
+    resolveId(source) {
+      if (source !== 'virtual:roadmaps') return null;
+      if (!existsSync(file)) {
+        throw new Error(
+          `${file} not found. Run \`npm run sync\`, or set ROADMAPS_DATA=e2e/fixtures/roadmaps.json to use the example data.`,
+        );
+      }
+      return resolve(file);
+    },
+    // The build writes these files (scripts/prerender.ts); serve them in dev too.
+    configureServer(server) {
+      const route = /^\/product-roadmaps\/([^/]+)\/roadmap\.json$/;
+      server.middlewares.use((req, res, next) => {
+        const slug = route.exec((req.url ?? '').split('?')[0])?.[1];
+        if (!slug || !existsSync(file)) return next();
+        const roadmaps = JSON.parse(readFileSync(file, 'utf8')) as {
+          slug: string;
+        }[];
+        const roadmap = roadmaps.find(
+          (r) => r.slug === decodeURIComponent(slug),
+        );
+        if (!roadmap) return next();
+        res.setHeader('Content-Type', 'application/json');
+        res.end(`${JSON.stringify(roadmap, null, 2)}\n`);
+      });
+    },
   };
 }
 
@@ -27,7 +54,7 @@ export default defineConfig({
     tailwindcss(),
     roadmapsData(
       process.env.ROADMAPS_DATA ??
-        (process.env.VITEST ? 'e2e/fixtures/roadmaps.json' : undefined),
+        (process.env.VITEST ? 'e2e/fixtures/roadmaps.json' : LIVE_DATA),
     ),
   ],
   test: {

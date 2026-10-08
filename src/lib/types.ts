@@ -1,6 +1,6 @@
 /**
- * Roadmap content model. Content comes from the nightly Google Sheet snapshot
- * in src/data/roadmaps.json (see scripts/sync-roadmaps.ts); text shared by
+ * Roadmap content model. Content comes from a Google Sheet snapshot made at
+ * build time in .data/roadmaps.json (see scripts/sync-roadmaps.ts); text shared by
  * every roadmap lives in src/lib/content.ts. Display text is language-keyed so
  * Welsh can be added later; empty Welsh falls back to English (src/lib/i18n.ts).
  */

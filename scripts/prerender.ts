@@ -17,6 +17,7 @@ interface Page {
 
 interface ServerEntry {
   renderPages(siteUrl: string): Promise<Page[]>;
+  renderDataFiles(): { file: string; content: string }[];
 }
 
 const SITE_URL =
@@ -48,6 +49,10 @@ for (const page of pages) {
   const file = new URL(page.file, dist);
   mkdirSync(dirname(file.pathname), { recursive: true });
   writeFileSync(file, html);
+}
+
+for (const { file, content } of entry.renderDataFiles()) {
+  writeFileSync(new URL(file, dist), content);
 }
 
 // No robots.txt: crawlers only read it from the root of the domain, which a

@@ -111,22 +111,20 @@ export async function renderPages(siteUrl: string): Promise<Page[]> {
   };
 
   const products = await Promise.all(
-    roadmaps.map(
-      async ({ slug, meta }): Promise<Page> => ({
-        file: `${slug}/index.html`,
+    roadmaps.map(async ({ slug, meta }): Promise<Page> => ({
+      file: `${slug}/index.html`,
+      url: urlFor(slug),
+      slug,
+      head: head(siteUrl, {
+        title: meta.title,
+        description: meta.serviceDescription.en
+          ? meta.serviceDescription
+          : ROADMAP_INTRO,
         url: urlFor(slug),
-        slug,
-        head: head(siteUrl, {
-          title: meta.title,
-          description: meta.serviceDescription.en
-            ? meta.serviceDescription
-            : ROADMAP_INTRO,
-          url: urlFor(slug),
-          json: jsonUrlFor(slug),
-        }),
-        html: await render(slug),
+        json: jsonUrlFor(slug),
       }),
-    ),
+      html: await render(slug),
+    })),
   );
 
   const notFound: Page = {

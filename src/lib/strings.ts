@@ -31,6 +31,7 @@ export const UI = {
 
   footerNav: { en: 'Footer links', cy: 'Dolenni troedyn' },
   giveFeedback: { en: 'Give feedback', cy: 'Rhoi adborth' },
+  roadmapData: { en: 'Roadmap data (JSON)', cy: 'Data’r trywydd (JSON)' },
   licence: { en: 'Licence', cy: 'Trwydded' },
   onGitHub: { en: 'This project on GitHub', cy: 'Y gwaith ar GitHub' },
 

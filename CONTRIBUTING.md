@@ -5,7 +5,7 @@ Thanks for helping improve the DHCW product roadmaps site.
 ## Content or code?
 
 - **Roadmap content** (cards, titles, dates, colours) lives in the Google Sheet.
-  Edit the sheet; the nightly sync publishes it. See [README.md](README.md#sheet-format).
+  Edit the sheet; the nightly deploy publishes it. See [README.md](README.md#sheet-format).
 - **Feedback on a roadmap**: use the "Give feedback" link on the site, which
   opens a GitHub issue.
 - **Code, design, accessibility or interface text**: open a pull request as
@@ -47,9 +47,6 @@ Thanks for helping improve the DHCW product roadmaps site.
 
 ## Branch protection
 
-`main` should have a ruleset that requires a pull request with one code owner
+`main` has a ruleset that requires a pull request with one code owner
 approval and passing **CI / check**, **CI / e2e** and **CI / lighthouse**
-statuses. The nightly sync pushes the
-snapshot directly to `main`, so it needs a narrow bypass (for example a GitHub
-App token used only by the sync workflow) rather than relaxed rules for
-everyone.
+statuses.

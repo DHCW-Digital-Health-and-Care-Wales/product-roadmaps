@@ -61,7 +61,7 @@ export default function App({ serverSlug }: { serverSlug?: string | null }) {
         <PrivacyNote />
       </main>
 
-      <SiteFooter />
+      <SiteFooter dataSlug={roadmap?.slug} />
       <BackToTop />
     </>
   );

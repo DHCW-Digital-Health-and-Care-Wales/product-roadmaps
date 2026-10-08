@@ -24,6 +24,9 @@ export interface Page {
   html: string;
 }
 
+/** Each roadmap's data is published next to its page, at `<slug>/roadmap.json`. */
+const JSON_FILE = 'roadmap.json';
+
 const escapeHtml = (value: string) =>
   value
     .replace(/&/g, '&amp;')
@@ -36,7 +39,12 @@ const text = (value: Localised) => t(value, DEFAULT_LANGUAGE);
 
 function head(
   siteUrl: string,
-  page: { title: Localised | null; description: Localised; url: string | null },
+  page: {
+    title: Localised | null;
+    description: Localised;
+    url: string | null;
+    json?: string;
+  },
 ) {
   const site = text(UI.siteTitle);
   const title = page.title ? `${text(page.title)} – ${site}` : site;
@@ -63,6 +71,11 @@ function head(
     ...(page.url
       ? [`<link rel="canonical" href="${escapeHtml(page.url)}" />`]
       : []),
+    ...(page.json
+      ? [
+          `<link rel="alternate" type="application/json" href="${escapeHtml(page.json)}" />`,
+        ]
+      : []),
   ]
     .map((line) => `    ${line}`)
     .join('\n');
@@ -83,6 +96,7 @@ async function render(serverSlug: string | null) {
 export async function renderPages(siteUrl: string): Promise<Page[]> {
   const urlFor = (slug: string | null) =>
     new URL(pathFor(slug).slice(import.meta.env.BASE_URL.length), siteUrl).href;
+  const jsonUrlFor = (slug: string) => `${urlFor(slug)}${JSON_FILE}`;
 
   const landing: Page = {
     file: 'index.html',
@@ -108,6 +122,7 @@ export async function renderPages(siteUrl: string): Promise<Page[]> {
             ? meta.serviceDescription
             : ROADMAP_INTRO,
           url: urlFor(slug),
+          json: jsonUrlFor(slug),
         }),
         html: await render(slug),
       }),
@@ -127,4 +142,18 @@ export async function renderPages(siteUrl: string): Promise<Page[]> {
   };
 
   return [landing, ...products, notFound];
+}
+
+export interface DataFile {
+  /** Output file relative to the build directory. */
+  file: string;
+  content: string;
+}
+
+/** The JSON behind each roadmap page, for viewing on the published site. */
+export function renderDataFiles(): DataFile[] {
+  return roadmaps.map((roadmap) => ({
+    file: `${roadmap.slug}/${JSON_FILE}`,
+    content: `${JSON.stringify(roadmap, null, 2)}\n`,
+  }));
 }

@@ -22,7 +22,7 @@ by hand.
 4. **Share → Anyone with the link → Viewer**.
 5. Try it locally:
    `SHEET_ID=<id from the spreadsheet URL> npm run sync && npm run dev`.
-   This overwrites `src/data/roadmaps.json`; don't commit that.
+   This overwrites `.data/roadmaps.json`, which is gitignored.
 
 Optionally add dropdowns (**Data → Data validation**) for the `Horizon` and
 `Status` columns. Column meanings are documented in the

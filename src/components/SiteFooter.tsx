@@ -1,5 +1,6 @@
 import logoImage from '../assets/dhcw-logo.png';
 import { useLanguage } from '../lib/i18n';
+import { pathFor } from '../lib/router';
 import { UI } from '../lib/strings';
 import { T } from './T';
 
@@ -9,15 +10,25 @@ const FEEDBACK_URL = `${REPO_URL}/issues/new?template=roadmap-feedback.md`;
 
 /**
  * Footer: feedback route, links to the accessibility statement and privacy
- * note, the licence and a link back to the GitHub repository.
+ * note, the licence and a link back to the GitHub repository. On a roadmap
+ * page (`dataSlug`) it also links to that roadmap's published JSON.
  */
-export function SiteFooter() {
+export function SiteFooter({ dataSlug }: { dataSlug?: string }) {
   const { tr } = useLanguage();
 
   const links = [
     { href: FEEDBACK_URL, label: UI.giveFeedback, external: true },
     { href: '#accessibility', label: UI.accessibilityHeading, external: false },
     { href: '#privacy', label: UI.privacyHeading, external: false },
+    ...(dataSlug
+      ? [
+          {
+            href: `${pathFor(dataSlug)}roadmap.json`,
+            label: UI.roadmapData,
+            external: false,
+          },
+        ]
+      : []),
     {
       href: `${REPO_URL}/blob/main/LICENSE`,
       label: UI.licence,

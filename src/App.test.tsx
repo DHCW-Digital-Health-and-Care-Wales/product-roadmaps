@@ -52,6 +52,19 @@ describe('App routing', () => {
     expect(document.title).toBe(`${first.meta.title.en} – DHCW roadmaps`);
   });
 
+  it('links to a roadmap’s JSON only on its own page', () => {
+    renderAt(`/product-roadmaps/${first.slug}/`);
+    const link = screen.getByRole('link', { name: 'Roadmap data (JSON)' });
+    expect(link.getAttribute('href')).toBe(
+      `/product-roadmaps/${first.slug}/roadmap.json`,
+    );
+    cleanup();
+    renderAt('/product-roadmaps/');
+    expect(
+      screen.queryByRole('link', { name: 'Roadmap data (JSON)' }),
+    ).toBeNull();
+  });
+
   it('shows not found for an unknown product', () => {
     renderAt('/product-roadmaps/nope/');
     expect(

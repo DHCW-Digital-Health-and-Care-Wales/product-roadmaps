@@ -22,3 +22,6 @@ playwright-report
 .idea
 .DS_Store
 *.local
+
+# Made by `npm run sync`; never committed
+.data

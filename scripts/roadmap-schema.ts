@@ -1,6 +1,6 @@
 /**
- * Schema for src/data/roadmaps.json. The sync checks it before writing, and a
- * unit test checks the committed file, so a parser bug can't ship silently.
+ * Schema for .data/roadmaps.json. The sync checks it before writing, and a
+ * unit test checks the example data, so a parser bug can't ship silently.
  */
 import { z } from 'zod';
 import {

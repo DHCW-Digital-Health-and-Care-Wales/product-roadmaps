@@ -7,10 +7,10 @@ roadmaps. Look, feel and content model come from
 
 Content is edited in a
 [Google Sheet](https://docs.google.com/spreadsheets/d/1wuk_pK1LpfLKmdbg6WsY_qKeBC5lcN4rlsjqkAxtflw/edit)
-shared as **Anyone with the link can view**. A nightly GitHub Action downloads
-the tabs and commits a snapshot to
-[src/data/roadmaps.json](src/data/roadmaps.json), which is bundled into the
-site. Visitors' browsers never contact Google.
+shared as **Anyone with the link can view**. The deploy workflow downloads the
+tabs at build time and bundles them into the site; the data is never
+committed (`.data/roadmaps.json` is gitignored). Visitors' browsers never
+contact Google.
 
 - The first tab lists the roadmaps, one per row. The landing page shows them
   all. Other tabs are only read if a row on the first tab names them.
@@ -20,18 +20,23 @@ site. Visitors' browsers never contact Google.
 - The build prerenders every page to static HTML with its own title,
   description and Open Graph tags, so the site works without JavaScript and
   link previews show the right roadmap.
+- The data behind each roadmap is published at
+  `/product-roadmaps/<slug>/roadmap.json`, for example
+  `/product-roadmaps/choose-pharmacy/roadmap.json`, and each page links to it
+  with `<link rel="alternate" type="application/json">`.
 
 ## Run locally (Codespaces)
 
 ```bash
 npm install
-npm run sync   # optional: refresh src/data/roadmaps.json from the sheet
+npm run sync   # fetch the sheet into .data/roadmaps.json (gitignored)
 npm run dev
 ```
 
 Open the forwarded port 5173 at `/product-roadmaps/`. The spreadsheet ID is set
 in [scripts/sync-roadmaps.ts](scripts/sync-roadmaps.ts); override it with the
-`SHEET_ID` environment variable to test another sheet.
+`SHEET_ID` environment variable to test another sheet. To work offline, skip
+the sync and run `ROADMAPS_DATA=e2e/fixtures/roadmaps.json npm run dev`.
 
 Other scripts: `npm run build`, `npm run lint`, `npm run format`, `npm test`.
 Run `npm run check` (types, lint, formatting and tests) before opening a pull
@@ -94,30 +99,30 @@ accessible names) is in [src/lib/strings.ts](src/lib/strings.ts).
 
 To add a product, add a tab with the roadmap columns and a row for it on the
 first tab. Sheet mistakes (unknown horizons, rows with no title, missing
-optional columns) show as warnings on the sync workflow run. A `Sheet` value
+optional columns) show as warnings on the deploy workflow run. A `Sheet` value
 with no matching tab, or a tab missing a required column (`Sheet` on the first
-tab; `Title` or `Horizon` on a roadmap tab), fails the sync, so the last
-snapshot stays live.
+tab; `Title` or `Horizon` on a roadmap tab), fails the sync, so the deploy
+fails and the previous site stays live.
 
 Keep text columns as plain text: the export guesses each column's type, and a
 lone number in a text column can come through blank.
 
 ## Sync and deploy
 
-- [.github/workflows/sync-roadmaps.yml](.github/workflows/sync-roadmaps.yml)
-  runs nightly at 02:00 UTC (or on demand via **Actions → Sync roadmaps → Run
-  workflow**). A read-only job fetches the sheet, checks the snapshot against
-  [scripts/roadmap-schema.ts](scripts/roadmap-schema.ts), runs the tests and
-  checks the site builds. A second job, which runs no npm code, commits the
-  snapshot if it changed and triggers a deploy. If the fetch fails, finds no
-  roadmaps or fails a check, the last snapshot stays live.
 - [.github/workflows/deploy.yml](.github/workflows/deploy.yml) builds and
-  deploys to GitHub Pages on every push to `main`. In the repo settings, set
-  **Pages → Build and deployment → Source** to **GitHub Actions**.
+  deploys to GitHub Pages on every push to `main`, nightly at 02:00 UTC (to
+  pick up sheet edits) and on demand via **Actions → Deploy to GitHub Pages →
+  Run workflow**. The build job runs `npm run sync`, which fetches the sheet and
+  checks it against [scripts/roadmap-schema.ts](scripts/roadmap-schema.ts)
+  before building. If the fetch fails, finds no roadmaps or fails the check,
+  nothing is deployed and the previous site stays live. In the repo settings,
+  set **Pages → Build and deployment → Source** to **GitHub Actions**.
+- Nothing is committed by a workflow, so branch protection on `main` needs no
+  bypass. CI builds with the example data, so pull requests don't depend on the
+  sheet.
 
-The sync commits straight to `main`, so branch protection must allow
-`github-actions[bot]` to push. GitHub pauses scheduled workflows after 60 days
-without repository activity; re-enable it from the Actions tab if that happens.
+GitHub pauses scheduled workflows after 60 days without repository activity;
+re-enable it from the Actions tab if that happens.
 
 The sheet must be shared as "Anyone with the link can view"; "Publish to web"
 is no longer used.

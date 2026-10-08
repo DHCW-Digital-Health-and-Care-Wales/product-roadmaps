@@ -14,9 +14,12 @@ site. Visitors' browsers never contact Google.
 
 - The first tab lists the roadmaps, one per row. The landing page shows them
   all. Other tabs are only read if a row on the first tab names them.
-- A product's URL is `?product=<sheet-name-as-slug>`, for example
-  `?product=choose-pharmacy`. Renaming the tab (and its **Sheet** value)
-  changes its URL.
+- A product's URL is `/product-roadmaps/<sheet-name-as-slug>/`, for example
+  `/product-roadmaps/choose-pharmacy/`. Renaming the tab (and its **Sheet**
+  value) changes its URL.
+- The build prerenders every page to static HTML with its own title,
+  description and Open Graph tags, so the site works without JavaScript and
+  link previews show the right roadmap.
 
 ## Run locally (Codespaces)
 
@@ -34,6 +37,22 @@ Other scripts: `npm run build`, `npm run lint`, `npm run format`, `npm test`.
 Run `npm run check` (types, lint, formatting and tests) before opening a pull
 request; CI runs the same checks. Node 24 is required (see `.nvmrc`). See
 [CONTRIBUTING.md](CONTRIBUTING.md) for how to propose changes.
+
+CI also runs two slower checks against a build of the example data in
+[e2e/fixtures/roadmaps.json](e2e/fixtures/roadmaps.json), so sheet edits can't
+break them:
+
+- `npm run test:e2e`: Playwright end-to-end, accessibility (axe, including
+  colour contrast) and ARIA snapshot tests on desktop and mobile. Run
+  `npx playwright install chromium` once first.
+- `npm run lighthouse`: Lighthouse CI with score thresholds and size budgets
+  in [lighthouserc.json](lighthouserc.json). Locally, point `CHROME_PATH` at a
+  Chrome or Chromium binary.
+
+`npm run build` runs `vite build`, then [scripts/prerender.ts](scripts/prerender.ts)
+writes `index.html` for the landing page and each product, `404.html` and
+`sitemap.xml`. Set `SITE_URL` to change the address used in canonical and Open
+Graph URLs.
 
 ## Sheet format
 

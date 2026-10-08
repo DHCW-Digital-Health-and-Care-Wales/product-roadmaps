@@ -18,7 +18,7 @@ export function LanguageToggle() {
     <div
       role="group"
       aria-label="Dewis iaith / Choose language"
-      className="inline-flex overflow-hidden rounded border border-white/40"
+      className="inline-flex overflow-hidden rounded-sm border border-white/40"
     >
       {OPTIONS.map((option) => {
         const isActive = lang === option.value;

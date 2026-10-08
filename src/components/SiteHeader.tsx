@@ -51,7 +51,7 @@ export function SiteHeader({
                   <li key={link.href}>
                     <a
                       href={link.href}
-                      className="rounded px-3 py-2 text-sm font-medium transition-colors hover:bg-white hover:text-nhs-wales-blue"
+                      className="rounded-sm px-3 py-2 text-sm font-medium transition-colors hover:bg-white hover:text-nhs-wales-blue"
                     >
                       <T value={link.label} />
                     </a>
@@ -69,7 +69,7 @@ export function SiteHeader({
               onClick={() => setMobileMenuOpen((open) => !open)}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-nav"
-              className="rounded p-2 transition-colors hover:bg-white/15 md:hidden"
+              className="rounded-sm p-2 transition-colors hover:bg-white/15 md:hidden"
             >
               <span className="sr-only">
                 {tr(mobileMenuOpen ? UI.closeMenu : UI.openMenu)}
@@ -96,7 +96,7 @@ export function SiteHeader({
                 <a
                   href={link.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block rounded px-3 py-2 font-medium transition-colors hover:bg-white hover:text-nhs-wales-blue"
+                  className="block rounded-sm px-3 py-2 font-medium transition-colors hover:bg-white hover:text-nhs-wales-blue"
                 >
                   <T value={link.label} />
                 </a>

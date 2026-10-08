@@ -9,7 +9,8 @@ import { T } from './T';
  * the global stylesheet.
  */
 export function BackToTop() {
-  const [visible, setVisible] = useState(() => window.scrollY > 300);
+  // Starts hidden so the prerendered HTML matches; shows on the first scroll.
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 300);

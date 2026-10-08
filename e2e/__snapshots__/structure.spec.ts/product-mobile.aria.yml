@@ -1,0 +1,146 @@
+- link "Skip to content":
+  - /url: "#main-content"
+- banner:
+  - link "Digital Health and Care Wales roadmaps home":
+    - /url: /product-roadmaps/
+    - img "Digital Health and Care Wales"
+  - group "Dewis iaith / Choose language":
+    - button "Cymraeg"
+    - button "English" [pressed]
+  - button "Open menu"
+- main:
+  - region "Product A roadmap":
+    - paragraph:
+      - link "← All roadmaps":
+        - /url: /product-roadmaps/
+    - text: "Beta Last updated:"
+    - time: /1 October \d+/
+    - heading "Product A roadmap" [level=1]
+    - paragraph: This roadmap shows what we're working on now, what's coming next and the direction we expect to take later.
+  - region "Our vision":
+    - heading "Our vision" [level=2]
+    - paragraph: A short, ambitious statement of where Product A is heading. Leave blank to hide the "Our vision" section.
+  - region "Our value":
+    - heading "Our value" [level=2]
+    - paragraph: What Product A does and who it helps. Also used as the summary on the landing page card.
+  - region "Now, Next and Later":
+    - heading "Now, Next and Later" [level=2]
+    - term: Now
+    - definition: Work that is underway now and shaping the next changes to the service.
+    - term: Next
+    - definition: Work we expect to pick up soon as current delivery moves forward.
+    - term: Later
+    - definition: Longer-term direction that will keep evolving as we learn more.
+    - paragraph: Now is what we are actively working on. Next is what we expect to pick up soon. Later is the direction we're setting as we learn more with users and partners. We don't put dates on this work, and the order isn't a priority list.
+  - region "Recently delivered":
+    - heading "Recently delivered" [level=2]
+    - text: "1"
+    - paragraph: Work we've completed recently and that is now live in the service.
+    - article:
+      - heading "Recently shipped work" [level=3]
+      - paragraph: Something we shipped in the last few weeks.
+      - paragraph:
+        - strong: "Outcome:"
+        - text: What users can do now.
+      - text: Shipped
+  - region "The roadmap":
+    - heading "The roadmap" [level=2]
+    - paragraph: Each card shows a change we're working on now, planning to take on next, or working towards later.
+    - list:
+      - listitem:
+        - region "Now 3":
+          - heading "Now 3" [level=3]
+          - article:
+            - paragraph: Beta
+            - heading "Example card with every column" [level=4]
+            - paragraph: What this work is. Keep it to a sentence or two.
+            - paragraph:
+              - strong: "Outcome:"
+              - text: What changes for users when it is done.
+            - group: What this covers
+            - text: In progress Service X Service Y
+          - article:
+            - heading "Minimal card" [level=4]
+            - paragraph: Only Title and Horizon are required; everything else is optional.
+          - article:
+            - heading "Card awaiting release" [level=4]
+            - paragraph: Work that is finished and waiting to go live.
+            - paragraph:
+              - strong: "Outcome:"
+              - text: Users get the change as soon as it is deployed.
+            - text: Awaiting Deployment Service X
+      - listitem:
+        - region "Next 2":
+          - heading "Next 2" [level=3]
+          - article:
+            - paragraph: Alpha
+            - heading "Card being explored" [level=4]
+            - paragraph: Work we expect to pick up soon.
+            - paragraph:
+              - strong: "Outcome:"
+              - text: What we hope this will achieve.
+            - text: Exploring
+          - article:
+            - heading "Card with a free-text status" [level=4]
+            - paragraph: Any status that isn't one of the standard ones is shown exactly as typed.
+            - text: On hold
+      - listitem:
+        - region "Later 2":
+          - heading "Later 2" [level=3]
+          - article:
+            - paragraph: Discovery
+            - heading "Discovery card" [level=4]
+            - paragraph: Phases that include the word "Discovery" are highlighted.
+            - paragraph:
+              - strong: "Outcome:"
+              - text: A clear understanding of the problem.
+            - text: Exploring
+          - article:
+            - heading "Longer-term idea" [level=4]
+            - paragraph: Direction we expect to take as we learn more.
+            - text: Exploring Service Y Service Z
+  - region "Other work we have delivered this year":
+    - heading "Other work we have delivered this year" [level=2]
+    - text: "1"
+    - paragraph: A broader view of the delivery this year that sits outside the main roadmap horizons.
+    - article:
+      - paragraph: Live
+      - heading "Earlier delivery this year" [level=3]
+      - paragraph: Something we delivered earlier in the year.
+      - group: What this covers
+      - text: Shipped
+  - region "Not doing right now":
+    - heading "Not doing right now" [level=2]
+    - text: "1"
+    - paragraph: Being clear about what we’re not doing keeps the focus where it matters.
+    - article:
+      - heading "Something we are not doing" [level=3]
+      - paragraph: Explain why this is out of scope for now.
+  - region "Accessibility statement":
+    - heading "Accessibility statement" [level=2]
+    - paragraph: We want as many people as possible to be able to use these roadmaps. We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA.
+    - paragraph: These roadmaps are in beta and still being tested, we welcome any feedback.
+  - region "Privacy":
+    - heading "Privacy" [level=2]
+    - paragraph: This site sets no tracking cookies and uses no third-party analytics. We do not share any personal data.
+    - paragraph: Fonts are self-hosted, so your visit is not shared with an external font service.
+- contentinfo:
+  - img "Digital Health and Care Wales"
+  - navigation "Footer links":
+    - list:
+      - listitem:
+        - link "Give feedback":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/issues/new?template=roadmap-feedback.md
+      - listitem:
+        - link "Accessibility statement":
+          - /url: "#accessibility"
+      - listitem:
+        - link "Privacy":
+          - /url: "#privacy"
+      - listitem:
+        - link "Licence":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/blob/main/LICENSE
+      - listitem:
+        - link "This project on GitHub":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps
+  - paragraph: Digital Health and Care Wales

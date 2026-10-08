@@ -3,13 +3,14 @@
  * time. The first tab lists the roadmaps, one per row, and its "Sheet" column
  * names the tab holding that roadmap's cards. See README.md for the columns.
  */
-import type {
-  DetailLine,
-  Localised,
-  Placement,
-  Roadmap,
-  RoadmapItem,
-  RoadmapMeta,
+import {
+  PLACEMENT_IDS,
+  type DetailLine,
+  type Localised,
+  type Placement,
+  type Roadmap,
+  type RoadmapItem,
+  type RoadmapMeta,
 } from '../src/lib/types.ts';
 
 export interface Worksheet {
@@ -21,16 +22,6 @@ export interface Listing {
   sheet: string;
   meta: RoadmapMeta;
 }
-
-// Values accepted in a card's "Horizon" column, compared case-insensitively.
-const PLACEMENTS: Record<string, Placement> = {
-  now: 'now',
-  next: 'next',
-  later: 'later',
-  recentlydelivered: 'recently-delivered',
-  deliveredthisyear: 'delivered-this-year',
-  notdoing: 'not-doing',
-};
 
 const DEFAULT_COLOUR = '#325083';
 
@@ -53,6 +44,12 @@ const CARD_COLUMNS = {
 };
 
 const key = (value = '') => value.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+// Values accepted in a card's "Horizon" column, so "Recently delivered" matches
+// 'recently-delivered'.
+const PLACEMENTS = new Map<string, Placement>(
+  PLACEMENT_IDS.map((placement) => [key(placement), placement]),
+);
 
 // Folds accents first so Welsh letters such as ŵ and ŷ keep their base letter.
 export const slugify = (value: string) =>
@@ -190,7 +187,7 @@ export function parseRoadmap(listing: Listing, sheet: Worksheet): Roadmap {
     );
   }
   const items = Object.fromEntries(
-    Object.values(PLACEMENTS).map((placement) => [placement, []]),
+    PLACEMENT_IDS.map((placement) => [placement, []]),
   ) as unknown as Roadmap['items'];
 
   for (const row of readTable(sheet)) {
@@ -198,7 +195,7 @@ export function parseRoadmap(listing: Listing, sheet: Worksheet): Roadmap {
       warn(sheet.name, 'A row has no Title; skipped');
       continue;
     }
-    const placement = PLACEMENTS[key(row.horizon)];
+    const placement = PLACEMENTS.get(key(row.horizon));
     if (!placement) {
       warn(
         sheet.name,

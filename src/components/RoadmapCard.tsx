@@ -52,7 +52,7 @@ export function RoadmapCard({
   const isDiscovery = item.phase?.toLowerCase().includes('discovery');
 
   return (
-    <article className="rounded-card border border-border bg-surface p-4 shadow-sm">
+    <article className="rounded-card border border-border bg-surface p-4 shadow-xs">
       {item.phase ? (
         <p className="mb-2">
           <span

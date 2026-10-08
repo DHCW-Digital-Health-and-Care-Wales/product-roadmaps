@@ -5,16 +5,25 @@
  * Welsh can be added later; empty Welsh falls back to English (src/lib/i18n.ts).
  */
 
-export type Horizon = 'now' | 'next' | 'later';
+// The single source of truth for where a card can appear. The sheet parser,
+// the snapshot schema and the page content are all built from these lists.
+export const HORIZON_IDS = ['now', 'next', 'later'] as const;
 
 /** The fixed sections shown around the horizons (see src/lib/content.ts). */
-export type SectionId =
-  | 'recently-delivered'
-  | 'delivered-this-year'
-  | 'not-doing';
+export const SECTION_IDS = [
+  'recently-delivered',
+  'delivered-this-year',
+  'not-doing',
+] as const;
+
+export const PLACEMENT_IDS = [...HORIZON_IDS, ...SECTION_IDS] as const;
+
+export type Horizon = (typeof HORIZON_IDS)[number];
+
+export type SectionId = (typeof SECTION_IDS)[number];
 
 /** Where a card appears: one of the horizons or one of the sections. */
-export type Placement = Horizon | SectionId;
+export type Placement = (typeof PLACEMENT_IDS)[number];
 
 /** Known statuses get a translated label; anything else is shown as typed. */
 export type ItemStatus = string;

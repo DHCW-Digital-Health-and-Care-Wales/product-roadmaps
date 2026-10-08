@@ -1,0 +1,71 @@
+- link "Skip to content":
+  - /url: "#main-content"
+- banner:
+  - link "Digital Health and Care Wales roadmaps home":
+    - /url: /product-roadmaps/
+    - img "Digital Health and Care Wales"
+  - group "Dewis iaith / Choose language":
+    - button "Cymraeg"
+    - button "English" [pressed]
+- main:
+  - region "Product roadmaps":
+    - text: Beta
+    - heading "Product roadmaps" [level=1]
+    - paragraph: See what Digital Health and Care Wales is working on now, what’s coming next and the direction we expect to take later.
+  - region "Choose a product":
+    - heading "Choose a product" [level=2]
+    - list:
+      - listitem:
+        - text: Beta Updated
+        - time: /1 October \d+/
+        - heading "Product A roadmap" [level=3]:
+          - link "Product A roadmap":
+            - /url: /product-roadmaps/producta/
+        - paragraph: What Product A does and who it helps. Also used as the summary on the landing page card.
+        - term: Now
+        - definition: "3"
+        - term: Next
+        - definition: "2"
+        - term: Later
+        - definition: "2"
+      - listitem:
+        - text: Alpha Updated
+        - time: /\d+ September \d+/
+        - heading "Product B roadmap" [level=3]:
+          - link "Product B roadmap":
+            - /url: /product-roadmaps/productb/
+        - paragraph: What Product B does and who it helps. This roadmap has no vision, so that section is hidden.
+        - term: Now
+        - definition: "2"
+        - term: Next
+        - definition: "1"
+        - term: Later
+        - definition: "1"
+  - region "Accessibility statement":
+    - heading "Accessibility statement" [level=2]
+    - paragraph: We want as many people as possible to be able to use these roadmaps. We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA.
+    - paragraph: These roadmaps are in beta and still being tested, we welcome any feedback.
+  - region "Privacy":
+    - heading "Privacy" [level=2]
+    - paragraph: This site sets no tracking cookies and uses no third-party analytics. We do not share any personal data.
+    - paragraph: Fonts are self-hosted, so your visit is not shared with an external font service.
+- contentinfo:
+  - img "Digital Health and Care Wales"
+  - navigation "Footer links":
+    - list:
+      - listitem:
+        - link "Give feedback":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/issues/new?template=roadmap-feedback.md
+      - listitem:
+        - link "Accessibility statement":
+          - /url: "#accessibility"
+      - listitem:
+        - link "Privacy":
+          - /url: "#privacy"
+      - listitem:
+        - link "Licence":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/blob/main/LICENSE
+      - listitem:
+        - link "This project on GitHub":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps
+  - paragraph: Digital Health and Care Wales

@@ -18,7 +18,7 @@ export function LanguageToggle() {
     <div
       role="group"
       aria-label="Dewis iaith / Choose language"
-      className="inline-flex overflow-hidden rounded-sm border border-white/40"
+      className="inline-flex rounded-sm border border-white/40"
     >
       {OPTIONS.map((option) => {
         const isActive = lang === option.value;
@@ -29,7 +29,7 @@ export function LanguageToggle() {
             lang={option.value}
             onClick={() => setLang(option.value)}
             aria-pressed={isActive}
-            className={`px-3 py-1.5 text-sm font-medium transition-colors ${
+            className={`relative px-3 py-1.5 text-sm font-medium transition-colors first:rounded-l-sm last:rounded-r-sm focus-visible:z-10 ${
               isActive
                 ? 'bg-white text-nhs-wales-blue'
                 : 'bg-transparent text-white hover:bg-white/15'

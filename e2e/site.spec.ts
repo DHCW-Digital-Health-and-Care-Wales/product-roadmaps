@@ -133,6 +133,45 @@ test.describe('language', () => {
 });
 
 test.describe('keyboard', () => {
+  test('both language buttons have an unclipped focus ring', async ({
+    page,
+  }) => {
+    await page.goto('./');
+    const group = page.getByRole('group', {
+      name: 'Dewis iaith / Choose language',
+    });
+    await expect(group).toHaveCSS('overflow', 'visible');
+
+    for (const language of ['Cymraeg', 'English']) {
+      const button = group.getByRole('button', { name: language });
+      await tabTo(page, button);
+      await expect(button).toBeFocused();
+      await expect(button).toHaveCSS('outline-style', 'solid');
+      await expect(button).toHaveCSS('outline-width', '3px');
+      await expect(button).toHaveCSS('outline-color', 'rgb(248, 202, 77)');
+      await expect(button).toHaveCSS(
+        'box-shadow',
+        'rgb(27, 41, 74) 0px 0px 0px 6px',
+      );
+      expect(
+        await button.evaluate((element) => {
+          const sibling = Array.from(element.parentElement!.children).find(
+            (child) => child !== element,
+          )!;
+          return (
+            getComputedStyle(element).position === 'relative' &&
+            Number(getComputedStyle(element).zIndex) >
+              (Number(getComputedStyle(sibling).zIndex) || 0)
+          );
+        }),
+      ).toBe(true);
+
+      await page.keyboard.press('Enter');
+      await expect(button).toHaveAttribute('aria-pressed', 'true');
+      await expect(button).toBeFocused();
+    }
+  });
+
   test('the skip link jumps past the header', async ({ page }) => {
     await page.goto(`${first.slug}/`);
     await page.keyboard.press('Tab');

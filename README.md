@@ -44,6 +44,12 @@ in [scripts/sync-roadmaps.ts](scripts/sync-roadmaps.ts); override it with the
 `SHEET_ID` environment variable to test another sheet. To work offline, skip
 the sync and run `ROADMAPS_DATA=e2e/fixtures/roadmaps.json npm run dev`.
 
+The dev server renders everything in the browser, so it shows a blank page
+without JavaScript. To check the prerendered pages, run `npm run build && npm
+run preview` (with the same `ROADMAPS_DATA` to work offline), open the forwarded
+port 4173 at `/product-roadmaps/` and turn off JavaScript in the browser (in
+Chrome's DevTools, run the "Disable JavaScript" command).
+
 Other scripts: `npm run build`, `npm run lint`, `npm run format`, `npm test`.
 Run `npm run check` (types, lint, formatting and tests) before opening a pull
 request; CI runs the same checks. Node 24 is required (see `.nvmrc`). See

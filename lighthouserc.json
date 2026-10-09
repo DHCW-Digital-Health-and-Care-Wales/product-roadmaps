@@ -4,8 +4,8 @@
       "startServerCommand": "npm run preview -- --port 4173 --strictPort",
       "startServerReadyPattern": "Local",
       "url": [
-        "http://localhost:4173/product-roadmaps/",
-        "http://localhost:4173/product-roadmaps/producta/"
+        "http://localhost:4173/product-roadmaps/en/",
+        "http://localhost:4173/product-roadmaps/cy/producta/"
       ],
       "numberOfRuns": 3,
       "settings": {

@@ -1,6 +1,6 @@
 import logoImage from '../assets/dhcw-logo.png';
 import { useLanguage } from '../lib/i18n';
-import { pathFor } from '../lib/router';
+import { dataPathFor } from '../lib/router';
 import { UI } from '../lib/strings';
 import { T } from './T';
 
@@ -23,7 +23,7 @@ export function SiteFooter({ dataSlug }: { dataSlug?: string }) {
     ...(dataSlug
       ? [
           {
-            href: `${pathFor(dataSlug)}roadmap.json`,
+            href: dataPathFor(dataSlug),
             label: UI.roadmapData,
             external: false,
           },

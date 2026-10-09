@@ -2,16 +2,18 @@
   - /url: "#main-content"
 - banner:
   - link "Digital Health and Care Wales roadmaps home":
-    - /url: /product-roadmaps/
+    - /url: /product-roadmaps/en/
     - img "Digital Health and Care Wales"
   - group "Dewis iaith / Choose language":
-    - button "Cymraeg"
-    - button "English" [pressed]
+    - link "Cymraeg":
+      - /url: /product-roadmaps/cy/nope/
+    - link "English":
+      - /url: /product-roadmaps/en/nope/
 - main:
   - heading "Roadmap not found" [level=1]
   - paragraph: We couldn’t find a roadmap called “nope”. It may have moved or been removed.
   - link "View all roadmaps":
-    - /url: /product-roadmaps/
+    - /url: /product-roadmaps/en/
   - region "Accessibility statement":
     - heading "Accessibility statement" [level=2]
     - paragraph: We want as many people as possible to be able to use these roadmaps. We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA.

@@ -1,47 +1,65 @@
 import { useEffect, useState, type MouseEvent } from 'react';
-import { LANG_PARAM } from './i18n';
+import { isLang, type Lang } from './i18n';
 
 /**
- * Path routing: the landing page is the site root and each product is
- * `<base><slug>/`. The build prerenders an index.html at each of those paths
- * (scripts/prerender.ts), and the URL hash stays free for in-page links.
+ * Path routing: every page sits under its language, `<base><lang>/` for the
+ * landing page and `<base><lang>/<slug>/` for a product, so the build can
+ * prerender each language (scripts/prerender.ts) and it works without
+ * JavaScript. The site root redirects to a language (src/main.tsx, or
+ * scripts/prerender.ts without JavaScript). The URL hash stays free for in-page
+ * links.
  */
 const BASE = import.meta.env.BASE_URL;
 
-export function slugFromPath(pathname: string): string | null {
-  if (!pathname.startsWith(BASE)) return null;
-  const slug = pathname
-    .slice(BASE.length)
-    .replace(/(^|\/)index\.html$/, '')
-    .replace(/\/+$/, '');
-  if (!slug) return null;
+/** `lang` is null outside a language folder; `slug` is null on a landing page. */
+export interface Route {
+  lang: Lang | null;
+  slug: string | null;
+}
+
+function decode(value: string) {
   try {
-    return decodeURIComponent(slug);
+    return decodeURIComponent(value);
   } catch {
-    return slug;
+    return value;
   }
 }
 
-export function pathFor(slug: string | null): string {
-  return slug ? `${BASE}${encodeURIComponent(slug)}/` : BASE;
+export function routeFromPath(pathname: string): Route {
+  if (!pathname.startsWith(BASE)) return { lang: null, slug: null };
+  const path = pathname
+    .slice(BASE.length)
+    .replace(/(^|\/)index\.html$/, '')
+    .replace(/\/+$/, '');
+  const [first, ...rest] = path.split('/');
+  const lang = isLang(first) ? first : null;
+  const slug = lang ? rest.join('/') : path;
+  return { lang, slug: slug ? decode(slug) : null };
 }
 
-/** The link to a product (or the landing page), keeping any `?lang=`. */
-export function productHref(slug: string | null): string {
-  const path = pathFor(slug);
-  if (typeof window === 'undefined') return path;
-  const lang = new URLSearchParams(window.location.search).get(LANG_PARAM);
-  return lang ? `${path}?${new URLSearchParams({ [LANG_PARAM]: lang })}` : path;
+/** A product page, or the landing page when `slug` is null or empty. */
+export function pathFor(lang: Lang, slug: string | null): string {
+  return slug
+    ? `${BASE}${lang}/${encodeURIComponent(slug)}/`
+    : `${BASE}${lang}/`;
 }
 
-export function navigate(slug: string | null) {
-  window.history.pushState({}, '', productHref(slug));
+/** A roadmap's published JSON, shared by both languages. */
+export function dataPathFor(slug: string): string {
+  return `${BASE}${encodeURIComponent(slug)}/roadmap.json`;
+}
+
+export function navigate(href: string, { scroll = true } = {}) {
+  const { pathname, search, hash } = window.location;
+  if (href !== `${pathname}${search}${hash}`) {
+    window.history.pushState({}, '', href);
+  }
   window.dispatchEvent(new PopStateEvent('popstate'));
-  window.scrollTo(0, 0);
+  if (scroll) window.scrollTo(0, 0);
 }
 
 /** Click handler for links that should navigate without a full reload. */
-export function onNavigate(slug: string | null) {
+export function onNavigate(href: string, options?: { scroll?: boolean }) {
   return (event: MouseEvent<HTMLAnchorElement>) => {
     if (
       event.metaKey ||
@@ -52,24 +70,26 @@ export function onNavigate(slug: string | null) {
       return;
     }
     event.preventDefault();
-    navigate(slug);
+    navigate(href, options);
   };
 }
 
-/**
- * The current product slug, or null on the landing page. The prerender passes
- * `serverSlug` because there is no URL to read.
- */
-export function useProductRoute(serverSlug?: string | null): string | null {
-  const [product, setProduct] = useState(() =>
-    serverSlug === undefined
-      ? slugFromPath(window.location.pathname)
-      : serverSlug,
+/** The current route. The prerender passes `server` because there is no URL. */
+export function useRoute(server?: Route): Route {
+  const [route, setRoute] = useState(
+    () => server ?? routeFromPath(window.location.pathname),
   );
   useEffect(() => {
-    const onPop = () => setProduct(slugFromPath(window.location.pathname));
+    const onPop = () => {
+      const next = routeFromPath(window.location.pathname);
+      setRoute((current) =>
+        current.lang === next.lang && current.slug === next.slug
+          ? current
+          : next,
+      );
+    };
     window.addEventListener('popstate', onPop);
     return () => window.removeEventListener('popstate', onPop);
   }, []);
-  return product;
+  return route;
 }

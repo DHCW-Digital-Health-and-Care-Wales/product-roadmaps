@@ -8,9 +8,16 @@
  * the translation work is easy to complete later.
  */
 import { createContext, useContext } from 'react';
+import type { Route } from './router';
 import type { Localised } from './types';
 
 export type Lang = 'cy' | 'en';
+
+/** Welsh first, as on other bilingual Welsh public sector sites. */
+export const LANGUAGES: { value: Lang; label: string }[] = [
+  { value: 'cy', label: 'Cymraeg' },
+  { value: 'en', label: 'English' },
+];
 
 /**
  * The default interface language. English for now so content can be reviewed
@@ -18,45 +25,37 @@ export type Lang = 'cy' | 'en';
  */
 export const DEFAULT_LANGUAGE: Lang = 'en';
 
-/** Query-string key used to share and persist the language choice. */
-export const LANG_PARAM = 'lang';
-
 /** Same-site storage key for remembering the choice without cookies. */
 export const LANG_STORAGE_KEY = 'dhcw-product-roadmaps-lang';
 
 const missingWelsh = new Set<string>();
 
-function isLang(value: string | null): value is Lang {
+export function isLang(value: string | null): value is Lang {
   return value === 'cy' || value === 'en';
 }
 
+/** Remembers a language chosen with the toggle, for visits to the site root. */
+export function rememberLang(lang: Lang) {
+  try {
+    window.localStorage.setItem(LANG_STORAGE_KEY, lang);
+  } catch {
+    // Storage may be unavailable (private mode); the URL still has the choice.
+  }
+}
+
 /**
- * The initial language from, in order: the URL query parameter (so a link can be
- * shared in a given language), a same-site stored preference, then the default.
- * `explicit` is false only for the default, which is never written back so
- * first-time visitors keep clean URLs. No third-party cookies are used.
+ * The language to send a visitor at the site root to: their earlier choice,
+ * then a Welsh browser language, then the default.
  */
-export function readInitialLang(): { lang: Lang; explicit: boolean } {
-  // The build-time prerender has no window.
-  if (typeof window === 'undefined') {
-    return { lang: DEFAULT_LANGUAGE, explicit: false };
-  }
-
-  const fromUrl = new URLSearchParams(window.location.search).get(LANG_PARAM);
-  if (isLang(fromUrl)) {
-    return { lang: fromUrl, explicit: true };
-  }
-
+export function preferredLang(): Lang {
   try {
     const stored = window.localStorage.getItem(LANG_STORAGE_KEY);
-    if (isLang(stored)) {
-      return { lang: stored, explicit: true };
-    }
+    if (isLang(stored)) return stored;
   } catch {
-    // Storage may be unavailable (private mode); fall through to the default.
+    // Fall through when storage is unavailable.
   }
-
-  return { lang: DEFAULT_LANGUAGE, explicit: false };
+  const welsh = navigator.languages.some((tag) => /^cy\b/i.test(tag));
+  return welsh ? 'cy' : DEFAULT_LANGUAGE;
 }
 
 /**
@@ -107,7 +106,7 @@ export function getMissingWelsh(): string[] {
 
 export interface LanguageContextValue {
   lang: Lang;
-  setLang: (lang: Lang) => void;
+  route: Route;
   tr: (value: Localised) => string;
 }
 

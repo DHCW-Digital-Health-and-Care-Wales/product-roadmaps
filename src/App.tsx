@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { roadmaps } from './lib/roadmaps';
 import { useLanguage } from './lib/i18n';
-import { useProductRoute } from './lib/router';
 import { UI } from './lib/strings';
 import { T } from './components/T';
 import { SiteHeader } from './components/SiteHeader';
@@ -14,13 +13,13 @@ import { LandingPage } from './pages/LandingPage';
 import { RoadmapPage } from './pages/RoadmapPage';
 
 /**
- * Routes on the URL path to the landing page or a product roadmap. The
- * prerender passes `serverSlug`; an empty one renders the generic not-found
- * page used for 404.html.
+ * Routes on the URL path (via LanguageProvider) to a landing page or a product
+ * roadmap. The prerender uses an empty slug for the generic not-found page in
+ * 404.html.
  */
-export default function App({ serverSlug }: { serverSlug?: string | null }) {
-  const { tr } = useLanguage();
-  const slug = useProductRoute(serverSlug);
+export default function App() {
+  const { route, tr } = useLanguage();
+  const { slug } = route;
   const roadmap = slug ? roadmaps.find((r) => r.slug === slug) : undefined;
   const mainRef = useRef<HTMLElement>(null);
   const previousSlugRef = useRef(slug);

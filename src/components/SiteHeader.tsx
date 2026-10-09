@@ -3,7 +3,7 @@ import { Menu, X } from 'lucide-react';
 import logoImage from '../assets/dhcw-logo.png';
 import { useLanguage } from '../lib/i18n';
 import type { Localised } from '../lib/types';
-import { onNavigate, productHref } from '../lib/router';
+import { onNavigate, pathFor } from '../lib/router';
 import { UI } from '../lib/strings';
 import { LanguageToggle } from './LanguageToggle';
 import { T } from './T';
@@ -23,7 +23,7 @@ export function SiteHeader({
 }: {
   showSectionLinks?: boolean;
 }) {
-  const { tr } = useLanguage();
+  const { lang, tr } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navLinks = showSectionLinks ? NAV_LINKS : [];
 
@@ -31,8 +31,8 @@ export function SiteHeader({
     <header className="fixed inset-x-0 top-0 z-50 bg-nhs-wales-blue text-white shadow-md">
       <div className="mx-auto flex max-w-content items-center justify-between gap-4 px-4 py-3 sm:px-6">
         <a
-          href={productHref(null)}
-          onClick={onNavigate(null)}
+          href={pathFor(lang, null)}
+          onClick={onNavigate(pathFor(lang, null))}
           className="flex items-center"
           aria-label={tr(UI.homeLink)}
         >

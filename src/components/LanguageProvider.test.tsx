@@ -1,56 +1,95 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { LANG_STORAGE_KEY, useLanguage } from '../lib/i18n';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { LANG_STORAGE_KEY, preferredLang, useLanguage } from '../lib/i18n';
 import { LanguageProvider } from './LanguageProvider';
+import { LanguageToggle } from './LanguageToggle';
 
 function Probe() {
-  const { lang, setLang } = useLanguage();
+  const { lang, route } = useLanguage();
   return (
-    <button type="button" onClick={() => setLang('cy')}>
-      {lang}
-    </button>
+    <p>
+      {lang} {route.slug}
+    </p>
   );
 }
 
-const renderApp = () =>
-  render(
+const renderAt = (url: string) => {
+  window.history.replaceState(null, '', url);
+  return render(
     <LanguageProvider>
       <Probe />
+      <LanguageToggle />
     </LanguageProvider>,
   );
+};
 
 beforeEach(() => {
   window.localStorage.clear();
-  window.history.replaceState(null, '', '/product-roadmaps/a/');
 });
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  vi.restoreAllMocks();
+});
 
 describe('LanguageProvider', () => {
-  it('keeps URLs clean for a first-time and returning visitor', () => {
-    renderApp();
-    expect(screen.getByRole('button').textContent).toBe('en');
-    expect(window.localStorage.getItem(LANG_STORAGE_KEY)).toBeNull();
-    cleanup();
-
-    renderApp();
-    expect(window.location.search).toBe('');
+  it('takes the language from the path', () => {
+    renderAt('/product-roadmaps/cy/a/');
+    expect(screen.getByText('cy a')).toBeTruthy();
+    expect(document.documentElement.lang).toBe('cy');
   });
 
-  it('remembers an explicit choice in storage and the URL', () => {
-    renderApp();
-    fireEvent.click(screen.getByRole('button'));
+  it('uses the default outside a language folder', () => {
+    renderAt('/product-roadmaps/a/');
+    expect(screen.getByText('en a')).toBeTruthy();
+  });
+});
 
+describe('LanguageToggle', () => {
+  it('links to the same page in each language', () => {
+    renderAt('/product-roadmaps/en/a/');
+    const welsh = screen.getByRole('link', { name: 'Cymraeg' });
+    const english = screen.getByRole('link', { name: 'English' });
+    expect(welsh.getAttribute('href')).toBe('/product-roadmaps/cy/a/');
+    expect(welsh.getAttribute('aria-current')).toBeNull();
+    expect(english.getAttribute('aria-current')).toBe('page');
+  });
+
+  it('switches without a reload, keeping the place on the page', () => {
+    const scrollTo = vi
+      .spyOn(window, 'scrollTo')
+      .mockImplementation(() => undefined);
+    renderAt('/product-roadmaps/en/a/#roadmap');
+    fireEvent.click(screen.getByRole('link', { name: 'Cymraeg' }));
+
+    expect(window.location.pathname).toBe('/product-roadmaps/cy/a/');
+    expect(window.location.hash).toBe('#roadmap');
+    expect(scrollTo).not.toHaveBeenCalled();
+    expect(screen.getByText('cy a')).toBeTruthy();
     expect(document.documentElement.lang).toBe('cy');
     expect(window.localStorage.getItem(LANG_STORAGE_KEY)).toBe('cy');
-    expect(window.location.search).toBe('?lang=cy');
   });
 
-  it('prefers the URL over the stored choice', () => {
+  it('adds no history entry for the current language', () => {
+    renderAt('/product-roadmaps/en/a/');
+    const before = window.history.length;
+    fireEvent.click(screen.getByRole('link', { name: 'English' }));
+    expect(window.history.length).toBe(before);
+  });
+});
+
+describe('preferredLang', () => {
+  it('prefers the stored choice, then a Welsh browser, then the default', () => {
+    const languages = vi.spyOn(navigator, 'languages', 'get');
+    languages.mockReturnValue(['cy-GB', 'en']);
     window.localStorage.setItem(LANG_STORAGE_KEY, 'en');
-    window.history.replaceState(null, '', '/?lang=cy');
-    renderApp();
-    expect(screen.getByRole('button').textContent).toBe('cy');
+    expect(preferredLang()).toBe('en');
+
+    window.localStorage.clear();
+    expect(preferredLang()).toBe('cy');
+
+    languages.mockReturnValue(['en-GB', 'cym']);
+    expect(preferredLang()).toBe('en');
   });
 });

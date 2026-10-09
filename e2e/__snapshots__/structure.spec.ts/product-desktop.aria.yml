@@ -2,7 +2,7 @@
   - /url: "#main-content"
 - banner:
   - link "Digital Health and Care Wales roadmaps home":
-    - /url: /product-roadmaps/
+    - /url: /product-roadmaps/en/
     - img "Digital Health and Care Wales"
   - navigation "Roadmap sections":
     - list:
@@ -13,13 +13,15 @@
         - link "The roadmap":
           - /url: "#roadmap"
   - group "Dewis iaith / Choose language":
-    - button "Cymraeg"
-    - button "English" [pressed]
+    - link "Cymraeg":
+      - /url: /product-roadmaps/cy/producta/
+    - link "English":
+      - /url: /product-roadmaps/en/producta/
 - main:
   - region "Product A roadmap":
     - paragraph:
       - link "← All roadmaps":
-        - /url: /product-roadmaps/
+        - /url: /product-roadmaps/en/
     - text: "Beta Last updated:"
     - time: /1 October \d+/
     - heading "Product A roadmap" [level=1]

@@ -36,8 +36,18 @@ afterEach(() => {
 });
 
 describe('App routing', () => {
-  it('shows the landing page without a product', () => {
+  it('shows the English landing page at the site root', () => {
     renderAt('/product-roadmaps/');
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Product roadmaps' }),
+    ).toBeTruthy();
+    expect(
+      screen.getByRole('link', { name: 'Cymraeg' }).getAttribute('href'),
+    ).toBe('/product-roadmaps/cy/');
+  });
+
+  it('shows the landing page without a product', () => {
+    renderAt('/product-roadmaps/en/');
     expect(
       screen.getByRole('heading', { level: 1, name: 'Product roadmaps' }),
     ).toBeTruthy();
@@ -45,7 +55,7 @@ describe('App routing', () => {
   });
 
   it('shows a product roadmap', () => {
-    renderAt(`/product-roadmaps/${first.slug}/`);
+    renderAt(`/product-roadmaps/en/${first.slug}/`);
     expect(
       screen.getByRole('heading', { level: 1, name: first.meta.title.en }),
     ).toBeTruthy();
@@ -53,20 +63,20 @@ describe('App routing', () => {
   });
 
   it('links to a roadmap’s JSON only on its own page', () => {
-    renderAt(`/product-roadmaps/${first.slug}/`);
-    const link = screen.getByRole('link', { name: 'Roadmap data (JSON)' });
+    renderAt(`/product-roadmaps/cy/${first.slug}/`);
+    const link = screen.getByRole('link', { name: 'Data’r trywydd (JSON)' });
     expect(link.getAttribute('href')).toBe(
       `/product-roadmaps/${first.slug}/roadmap.json`,
     );
     cleanup();
-    renderAt('/product-roadmaps/');
+    renderAt('/product-roadmaps/en/');
     expect(
       screen.queryByRole('link', { name: 'Roadmap data (JSON)' }),
     ).toBeNull();
   });
 
   it('shows not found for an unknown product', () => {
-    renderAt('/product-roadmaps/nope/');
+    renderAt('/product-roadmaps/en/nope/');
     expect(
       screen.getByRole('heading', { level: 1, name: 'Roadmap not found' }),
     ).toBeTruthy();
@@ -75,9 +85,12 @@ describe('App routing', () => {
   });
 
   it('moves focus to the new heading after client-side navigation', () => {
-    renderAt('/product-roadmaps/');
+    renderAt('/product-roadmaps/cy/');
     fireEvent.click(screen.getByRole('link', { name: first.meta.title.en }));
 
+    expect(window.location.pathname).toBe(
+      `/product-roadmaps/cy/${first.slug}/`,
+    );
     const heading = screen.getByRole('heading', { level: 1 });
     expect(heading.textContent).toBe(first.meta.title.en);
     expect(document.activeElement).toBe(heading);
@@ -85,14 +98,14 @@ describe('App routing', () => {
   });
 
   it('does not steal focus on the first render', () => {
-    renderAt(`/product-roadmaps/${first.slug}/`);
+    renderAt(`/product-roadmaps/en/${first.slug}/`);
     expect(document.activeElement).toBe(document.body);
   });
 });
 
 describe('Welsh', () => {
   it('translates interface text and accessible names', () => {
-    renderAt(`/product-roadmaps/${first.slug}/?lang=cy`);
+    renderAt(`/product-roadmaps/cy/${first.slug}/`);
     expect(document.documentElement.lang).toBe('cy');
     expect(screen.getByRole('link', { name: /Pob trywydd/ })).toBeTruthy();
     expect(
@@ -106,7 +119,7 @@ describe('Welsh', () => {
   });
 
   it('marks English fallbacks with lang="en"', () => {
-    renderAt(`/product-roadmaps/${first.slug}/?lang=cy`);
+    renderAt(`/product-roadmaps/cy/${first.slug}/`);
     const title = screen.getByRole('heading', { level: 1 });
     expect(title.querySelector('[lang="en"]')?.textContent).toBe(
       first.meta.title.en,
@@ -116,12 +129,12 @@ describe('Welsh', () => {
   });
 
   it('shows Welsh sheet content where there is some', () => {
-    renderAt('/product-roadmaps/?lang=cy');
+    renderAt('/product-roadmaps/cy/');
     const welshTitle = screen.getByRole('link', { name: /Trywydd Cynnyrch B/ });
     expect(welshTitle.querySelector('[lang]')).toBeNull();
     cleanup();
 
-    renderAt(`/product-roadmaps/${first.slug}/?lang=cy`);
+    renderAt(`/product-roadmaps/cy/${first.slug}/`);
     expect(screen.getByText('Darganfod').closest('[lang="en"]')).toBeNull();
     expect(
       screen.getByRole('heading', { name: 'Cerdyn darganfod' }),
@@ -132,15 +145,15 @@ describe('Welsh', () => {
 
 describe('accessibility (axe)', () => {
   const pages = {
-    landing: '/product-roadmaps/',
-    product: `/product-roadmaps/${first.slug}/`,
-    'not found': '/product-roadmaps/nope/',
+    landing: '',
+    product: `${first.slug}/`,
+    'not found': 'nope/',
   };
 
   for (const lang of ['en', 'cy']) {
-    for (const [name, url] of Object.entries(pages)) {
+    for (const [name, path] of Object.entries(pages)) {
       it(`has no violations on the ${name} page in ${lang}`, async () => {
-        renderAt(`${url}${url.includes('?') ? '&' : '?'}lang=${lang}`);
+        renderAt(`/product-roadmaps/${lang}/${path}`);
         expect(await axeViolations()).toEqual([]);
       });
     }

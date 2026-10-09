@@ -3,7 +3,7 @@ import type { Roadmap } from '../lib/types';
 import { useLanguage } from '../lib/i18n';
 import { HORIZONS, ROADMAP_INTRO } from '../lib/content';
 import { formatDate } from '../lib/roadmap-helpers';
-import { onNavigate, productHref } from '../lib/router';
+import { onNavigate, pathFor } from '../lib/router';
 import { UI } from '../lib/strings';
 import { T } from '../components/T';
 
@@ -42,8 +42,8 @@ function ProductCard({ roadmap }: { roadmap: Roadmap }) {
 
         <h3 id={headingId} className="mt-3 text-xl font-bold text-heading">
           <a
-            href={productHref(roadmap.slug)}
-            onClick={onNavigate(roadmap.slug)}
+            href={pathFor(lang, roadmap.slug)}
+            onClick={onNavigate(pathFor(lang, roadmap.slug))}
             className="after:absolute after:inset-0 after:content-[''] focus-visible:shadow-none focus-visible:outline-hidden group-hover:underline"
           >
             <T value={meta.title} />

@@ -4,11 +4,11 @@ import { expect, test } from '@playwright/test';
 // YAML in e2e/__snapshots__. After an intended change, run
 // `npm run test:e2e -- --update-snapshots` and review the diff.
 const pages = {
-  landing: './',
-  product: 'producta/',
-  'not-found': 'nope/',
-  'landing-cy': './?lang=cy',
-  'product-cy': 'producta/?lang=cy',
+  landing: 'en/',
+  product: 'en/producta/',
+  'not-found': 'en/nope/',
+  'landing-cy': 'cy/',
+  'product-cy': 'cy/producta/',
 };
 
 for (const [name, path] of Object.entries(pages)) {

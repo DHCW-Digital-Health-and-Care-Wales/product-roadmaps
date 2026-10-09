@@ -1,6 +1,6 @@
 /// <reference types="vitest/config" />
-import { existsSync, readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { existsSync, readFileSync, statSync } from 'node:fs';
+import { join, resolve } from 'node:path';
 import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
@@ -43,6 +43,35 @@ function roadmapsData(file: string): Plugin {
   };
 }
 
+// Like GitHub Pages, serve 404.html for missing pages in `vite preview`, instead
+// of Vite's fallback to the root index.html.
+function pagesNotFound(): Plugin {
+  return {
+    name: 'pages-not-found',
+    configurePreviewServer(server) {
+      const dist = resolve(server.config.root, server.config.build.outDir);
+      const { base } = server.config;
+      server.middlewares.use((req, res, next) => {
+        const path = (req.url ?? '').split('?')[0];
+        if (!path.startsWith(base)) return next();
+        let file: string;
+        try {
+          file = resolve(dist, decodeURIComponent(path.slice(base.length)));
+        } catch {
+          return next();
+        }
+        const exists =
+          existsSync(file) &&
+          (statSync(file).isFile() || existsSync(join(file, 'index.html')));
+        if (exists || !file.startsWith(dist)) return next();
+        res.statusCode = 404;
+        res.setHeader('Content-Type', 'text/html');
+        res.end(readFileSync(join(dist, '404.html')));
+      });
+    },
+  };
+}
+
 // Project site is served from https://<org>.github.io/product-roadmaps/
 // so assets must be referenced from that absolute base. A relative base ('./')
 // 404s when the site is accessed without a trailing slash or on a client-side
@@ -52,6 +81,7 @@ export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
+    pagesNotFound(),
     roadmapsData(
       process.env.ROADMAPS_DATA ??
         (process.env.VITEST ? 'e2e/fixtures/roadmaps.json' : LIVE_DATA),

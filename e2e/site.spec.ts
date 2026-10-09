@@ -29,7 +29,12 @@ let errors: string[] = [];
 test.beforeEach(({ page }) => {
   errors = [];
   page.on('console', (message) => {
-    if (message.type() === 'error') errors.push(message.text());
+    if (message.type() !== 'error') return;
+    // Missing pages are served as 404.html with a 404 status, as on GitHub Pages.
+    const isPage404 =
+      message.text().includes('status of 404') &&
+      message.location().url === page.url();
+    if (!isPage404) errors.push(message.text());
   });
   page.on('pageerror', (error) => errors.push(error.message));
 });
@@ -86,6 +91,16 @@ test.describe('without JavaScript', () => {
       page.getByRole('heading', { name: 'Y trywydd' }),
     ).toBeVisible();
     await expect(page).toHaveTitle(`${title} – Trywyddion IGDC`);
+  });
+
+  test('a missing page is in Welsh and English', async ({ page }) => {
+    await page.goto('cy/nope/');
+    await expect(h1(page)).toHaveText(
+      'Heb ddod o hyd i’r trywydd / Roadmap not found',
+    );
+    await page.getByRole('link', { name: 'Gweld pob trywydd' }).click();
+    await expect(page).toHaveURL(/\/product-roadmaps\/cy\/$/);
+    await expect(h1(page)).toHaveText('Trywyddion cynnyrch');
   });
 });
 

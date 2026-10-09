@@ -94,11 +94,13 @@ describe('prerender', () => {
     expect(welsh?.head).toContain(`<title>${second.meta.title.cy} – `);
   });
 
-  it('keeps 404.html out of search results', () => {
+  it('keeps 404.html out of search results, in both languages', () => {
     const page = pages[pages.length - 1];
     expect(page?.head).toContain('<meta name="robots" content="noindex" />');
     expect(page?.head).not.toContain('canonical');
     expect(page?.html).toContain('We couldn’t find that page.');
+    expect(page?.html).toContain('<div lang="cy"');
+    expect(page?.html).toContain('href="/product-roadmaps/cy/"');
   });
 
   it.each(['en', 'cy'])('hydrates in %s without mismatches', async (lang) => {

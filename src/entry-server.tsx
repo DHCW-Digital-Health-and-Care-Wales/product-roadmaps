@@ -166,7 +166,7 @@ export async function renderPages(siteUrl: string): Promise<Page[]> {
     ].join('\n'),
   };
 
-  const notFoundTitle = t(UI.notFoundHeading, DEFAULT_LANGUAGE);
+  const bilingual = (value: Localised) => `${value.cy} / ${value.en}`;
   const notFound: Page = {
     file: '404.html',
     url: null,
@@ -174,8 +174,8 @@ export async function renderPages(siteUrl: string): Promise<Page[]> {
     route: null,
     head: head(siteUrl, {
       lang: DEFAULT_LANGUAGE,
-      title: `${notFoundTitle} – ${t(UI.siteTitle, DEFAULT_LANGUAGE)}`,
-      description: t(UI.notFoundGeneric, DEFAULT_LANGUAGE),
+      title: bilingual(UI.notFoundHeading),
+      description: bilingual(UI.notFoundGeneric),
       url: null,
     }),
     html: await render({ lang: DEFAULT_LANGUAGE, slug: '' }),

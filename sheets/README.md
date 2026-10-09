@@ -7,8 +7,8 @@ by hand.
 
 | File                             | Tab name   | What it shows                                                                                      |
 | -------------------------------- | ---------- | -------------------------------------------------------------------------------------------------- |
-| [Roadmaps.csv](Roadmaps.csv)     | `Roadmaps` | The roadmap list (must be the first tab), both date formats, colours, a blank optional column      |
-| [ProductA.csv](ProductA.csv)     | `ProductA` | Every `Horizon` value, a Discovery phase, labels, nested details                                   |
+| [Roadmaps.csv](Roadmaps.csv)     | `Roadmaps` | The roadmap list (must be the first tab), both date formats, colours, a blank optional column, Welsh for one roadmap |
+| [ProductA.csv](ProductA.csv)     | `ProductA` | Every `Horizon` value, phases, labels, nested details, Welsh `(cy)` columns with some blanks |
 | [ProductB.csv](ProductB.csv)     | `ProductB` | A smaller roadmap with empty horizons and sections                                                 |
 
 ## Importing into Google Sheets

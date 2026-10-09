@@ -9,18 +9,28 @@ import {
   type Roadmap,
 } from '../src/lib/types.ts';
 
-const localised = z.strictObject({ en: z.string(), cy: z.string() });
+const localised = z
+  .strictObject({ en: z.string(), cy: z.string() })
+  .refine(
+    (value) => value.en.trim() !== '' || value.cy.trim() === '',
+    'Welsh text with no English',
+  );
+
+const nonEmpty = localised.refine(
+  (value) => value.en.trim() !== '',
+  'Empty English text',
+);
 
 const isoDate = z.iso.date();
 
 const item = z.strictObject({
-  title: localised.refine((value) => value.en.trim() !== '', 'Empty title'),
+  title: nonEmpty,
   description: localised,
-  outcome: localised.optional(),
-  phase: z.string().min(1).optional(),
-  labels: z.array(z.string().min(1)).min(1).optional(),
+  outcome: nonEmpty.optional(),
+  phase: nonEmpty.optional(),
+  labels: z.array(nonEmpty).min(1).optional(),
   details: z
-    .array(z.strictObject({ text: localised, level: z.int().nonnegative() }))
+    .array(z.strictObject({ text: nonEmpty, level: z.int().nonnegative() }))
     .min(1)
     .optional(),
 });
@@ -31,7 +41,7 @@ const roadmap = z.strictObject({
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'Invalid URL slug'),
   sheetName: z.string().min(1),
   meta: z.strictObject({
-    title: localised,
+    title: nonEmpty,
     statusLabel: localised,
     lastUpdated: z.union([z.literal(''), isoDate]),
     colour: z.string().regex(/^#[0-9a-f]{6}$/i, 'Invalid hex colour'),

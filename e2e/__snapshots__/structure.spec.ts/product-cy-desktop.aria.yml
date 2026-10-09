@@ -1,42 +1,42 @@
-- link "Skip to content":
+- link "Neidio i’r prif gynnwys":
   - /url: "#main-content"
 - banner:
-  - link "Digital Health and Care Wales roadmaps home":
-    - /url: /product-roadmaps/
-    - img "Digital Health and Care Wales"
-  - navigation "Roadmap sections":
+  - link "Hafan trywyddion Iechyd a Gofal Digidol Cymru":
+    - /url: /product-roadmaps/?lang=cy
+    - img "Iechyd a Gofal Digidol Cymru"
+  - navigation "Adrannau’r trywydd":
     - list:
       - listitem:
-        - link "About this roadmap":
+        - link "Am y trywydd hwn":
           - /url: "#about"
       - listitem:
-        - link "The roadmap":
+        - link "Y trywydd":
           - /url: "#roadmap"
   - group "Dewis iaith / Choose language":
-    - button "Cymraeg"
-    - button "English" [pressed]
+    - button "Cymraeg" [pressed]
+    - button "English"
 - main:
   - region "Product A roadmap":
     - paragraph:
-      - link "← All roadmaps":
-        - /url: /product-roadmaps/
-    - text: "Beta Last updated:"
-    - time: /1 October \d+/
+      - link "← Pob trywydd":
+        - /url: /product-roadmaps/?lang=cy
+    - text: "Beta Diweddarwyd ddiwethaf:"
+    - time: /October 1, \d+/
     - heading "Product A roadmap" [level=1]
     - paragraph: This roadmap shows what we're working on now, what's coming next and the direction we expect to take later.
-  - region "Our vision":
-    - heading "Our vision" [level=2]
+  - region "Ein gweledigaeth":
+    - heading "Ein gweledigaeth" [level=2]
     - paragraph: A short, ambitious statement of where Product A is heading. Leave blank to hide the "Our vision" section.
-  - region "Our value":
-    - heading "Our value" [level=2]
+  - region "Ein gwerth":
+    - heading "Ein gwerth" [level=2]
     - paragraph: What Product A does and who it helps. Also used as the summary on the landing page card.
-  - region "Now, Next and Later":
-    - heading "Now, Next and Later" [level=2]
-    - term: Now
+  - region "Nawr, Nesaf a Hwyrach":
+    - heading "Nawr, Nesaf a Hwyrach" [level=2]
+    - term: Nawr
     - definition: Work that is underway now and shaping the next changes to the service.
-    - term: Next
+    - term: Nesaf
     - definition: Work we expect to pick up soon as current delivery moves forward.
-    - term: Later
+    - term: Hwyrach
     - definition: Longer-term direction that will keep evolving as we learn more.
     - paragraph: Now is what we are actively working on. Next is what we expect to pick up soon. Later is the direction we're setting as we learn more with users and partners. We don't put dates on this work, and the order isn't a priority list.
   - region "Recently delivered":
@@ -47,54 +47,54 @@
       - heading "Recently shipped work" [level=3]
       - paragraph: Something we shipped in the last few weeks.
       - paragraph:
-        - strong: "Outcome:"
+        - strong: "Canlyniad:"
         - text: What users can do now.
-  - region "The roadmap":
-    - heading "The roadmap" [level=2]
+  - region "Y trywydd":
+    - heading "Y trywydd" [level=2]
     - paragraph: Each card shows a change we're working on now, planning to take on next, or working towards later.
     - list:
       - listitem:
-        - region "Now 3":
-          - heading "Now 3" [level=3]
+        - region "Nawr 3":
+          - heading "Nawr 3" [level=3]
           - article:
             - paragraph: Beta
-            - heading "Example card with every column" [level=4]
-            - paragraph: What this work is. Keep it to a sentence or two.
+            - heading "Cerdyn enghreifftiol gyda phob colofn" [level=4]
+            - paragraph: Beth yw’r gwaith hwn. Cadwch ef i frawddeg neu ddwy.
             - paragraph:
-              - strong: "Outcome:"
-              - text: What changes for users when it is done.
+              - strong: "Canlyniad:"
+              - text: Beth sy’n newid i ddefnyddwyr pan fydd wedi’i gwblhau.
             - group: What this covers
-            - text: Service X Service Y
+            - text: Gwasanaeth X Gwasanaeth Y
           - article:
             - heading "Minimal card" [level=4]
             - paragraph: Only Title and Horizon are required; everything else is optional.
           - article:
-            - heading "Card awaiting release" [level=4]
+            - heading "Cerdyn yn aros i gael ei ryddhau" [level=4]
             - paragraph: Work that is finished and waiting to go live.
             - paragraph:
-              - strong: "Outcome:"
+              - strong: "Canlyniad:"
               - text: Users get the change as soon as it is deployed.
             - text: Service X
       - listitem:
-        - region "Next 1":
-          - heading "Next 1" [level=3]
+        - region "Nesaf 1":
+          - heading "Nesaf 1" [level=3]
           - article:
             - paragraph: Alpha
             - heading "Card being explored" [level=4]
             - paragraph: Work we expect to pick up soon.
             - paragraph:
-              - strong: "Outcome:"
+              - strong: "Canlyniad:"
               - text: What we hope this will achieve.
       - listitem:
-        - region "Later 2":
-          - heading "Later 2" [level=3]
+        - region "Hwyrach 2":
+          - heading "Hwyrach 2" [level=3]
           - article:
-            - paragraph: Discovery
-            - heading "Discovery card" [level=4]
-            - paragraph: The Phase column is a free-text tag shown above the title.
+            - paragraph: Darganfod
+            - heading "Cerdyn darganfod" [level=4]
+            - paragraph: Mae’r golofn Phase yn dag testun rhydd a ddangosir uwchben y teitl.
             - paragraph:
-              - strong: "Outcome:"
-              - text: A clear understanding of the problem.
+              - strong: "Canlyniad:"
+              - text: Dealltwriaeth glir o’r broblem.
           - article:
             - heading "Longer-term idea" [level=4]
             - paragraph: Direction we expect to take as we learn more.
@@ -115,34 +115,34 @@
     - article:
       - heading "Something we are not doing" [level=3]
       - paragraph: Explain why this is out of scope for now.
-  - region "Accessibility statement":
-    - heading "Accessibility statement" [level=2]
-    - paragraph: We want as many people as possible to be able to use these roadmaps. We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA.
-    - paragraph: These roadmaps are in beta and still being tested, we welcome any feedback.
-  - region "Privacy":
-    - heading "Privacy" [level=2]
-    - paragraph: This site sets no tracking cookies and uses no third-party analytics. We do not share any personal data.
-    - paragraph: Fonts are self-hosted, so your visit is not shared with an external font service.
+  - region "Datganiad hygyrchedd":
+    - heading "Datganiad hygyrchedd" [level=2]
+    - paragraph: Rydym am i gymaint o bobl â phosibl allu defnyddio’r trywyddion hyn. Rydym yn anelu at gydymffurfio â Chanllawiau Hygyrchedd Cynnwys Gwe (WCAG) 2.2 ar lefel AA.
+    - paragraph: Mae’r trywyddion hyn yn fersiwn beta ac maen nhw’n dal i gael eu profi. Rydym yn croesawu unrhyw adborth.
+  - region "Preifatrwydd":
+    - heading "Preifatrwydd" [level=2]
+    - paragraph: Nid yw’r safle hwn yn gosod cwcis tracio nac yn defnyddio dadansoddeg trydydd parti. Nid ydym yn rhannu unrhyw ddata personol.
+    - paragraph: Mae’r ffontiau’n cael eu gwesteia gennym ni ein hunain, felly nid yw eich ymweliad yn cael ei rannu â gwasanaeth ffont allanol.
 - contentinfo:
-  - img "Digital Health and Care Wales"
-  - navigation "Footer links":
+  - img "Iechyd a Gofal Digidol Cymru"
+  - navigation "Dolenni troedyn":
     - list:
       - listitem:
-        - link "Give feedback":
+        - link "Rhoi adborth":
           - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/issues/new?template=roadmap-feedback.md
       - listitem:
-        - link "Accessibility statement":
+        - link "Datganiad hygyrchedd":
           - /url: "#accessibility"
       - listitem:
-        - link "Privacy":
+        - link "Preifatrwydd":
           - /url: "#privacy"
       - listitem:
-        - link "Roadmap data (JSON)":
+        - link "Data’r trywydd (JSON)":
           - /url: /product-roadmaps/producta/roadmap.json
       - listitem:
-        - link "Licence":
+        - link "Trwydded":
           - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/blob/main/LICENSE
       - listitem:
-        - link "This project on GitHub":
+        - link "Y gwaith ar GitHub":
           - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps
-  - paragraph: Digital Health and Care Wales
+  - paragraph: Digital Health and Care Wales / Iechyd a Gofal Digidol Cymru

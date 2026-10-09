@@ -44,6 +44,14 @@ describe('prerender', () => {
     expect(JSON.parse(files[0].content)).toEqual(first);
   });
 
+  it('prerenders in English even where there is Welsh', () => {
+    const second = snapshot[1];
+    const page = pages.find((p) => p.slug === second.slug);
+    expect(second.meta.title.cy).not.toBe('');
+    expect(page?.html).toContain(second.meta.title.en);
+    expect(page?.html).not.toContain(second.meta.title.cy);
+  });
+
   it('keeps 404.html out of search results', () => {
     const page = pages[pages.length - 1];
     expect(page?.head).toContain('<meta name="robots" content="noindex" />');

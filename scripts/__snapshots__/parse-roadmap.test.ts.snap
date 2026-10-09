@@ -27,7 +27,10 @@ exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
         ],
         "labels": undefined,
         "outcome": undefined,
-        "phase": "Live",
+        "phase": {
+          "cy": "",
+          "en": "Live",
+        },
         "title": {
           "cy": "",
           "en": "Earlier delivery this year",
@@ -37,18 +40,21 @@ exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
     "later": [
       {
         "description": {
-          "cy": "",
-          "en": "Phases that include the word "Discovery" are highlighted.",
+          "cy": "Mae’r golofn Phase yn dag testun rhydd a ddangosir uwchben y teitl.",
+          "en": "The Phase column is a free-text tag shown above the title.",
         },
         "details": undefined,
         "labels": undefined,
         "outcome": {
-          "cy": "",
+          "cy": "Dealltwriaeth glir o’r broblem.",
           "en": "A clear understanding of the problem.",
         },
-        "phase": "Discovery",
+        "phase": {
+          "cy": "Darganfod",
+          "en": "Discovery",
+        },
         "title": {
-          "cy": "",
+          "cy": "Cerdyn darganfod",
           "en": "Discovery card",
         },
       },
@@ -59,8 +65,14 @@ exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
         },
         "details": undefined,
         "labels": [
-          "Service Y",
-          "Service Z",
+          {
+            "cy": "",
+            "en": "Service Y",
+          },
+          {
+            "cy": "",
+            "en": "Service Z",
+          },
         ],
         "outcome": undefined,
         "phase": undefined,
@@ -82,7 +94,10 @@ exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
           "cy": "",
           "en": "What we hope this will achieve.",
         },
-        "phase": "Alpha",
+        "phase": {
+          "cy": "",
+          "en": "Alpha",
+        },
         "title": {
           "cy": "",
           "en": "Card being explored",
@@ -108,50 +123,59 @@ exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
     "now": [
       {
         "description": {
-          "cy": "",
+          "cy": "Beth yw’r gwaith hwn. Cadwch ef i frawddeg neu ddwy.",
           "en": "What this work is. Keep it to a sentence or two.",
         },
         "details": [
           {
             "level": 0,
             "text": {
-              "cy": "",
+              "cy": "Pwynt bwled cyntaf",
               "en": "First bullet point",
             },
           },
           {
             "level": 1,
             "text": {
-              "cy": "",
+              "cy": "Dechreuwch linell gyda "-" i’w nythu o dan y llinell uchod",
               "en": "Start a line with "-" to nest it under the line above",
             },
           },
           {
             "level": 2,
             "text": {
-              "cy": "",
+              "cy": "Defnyddiwch ddau gysylltnod i’w nythu eto",
               "en": "Use two dashes to nest it again",
             },
           },
           {
             "level": 0,
             "text": {
-              "cy": "",
+              "cy": "Pwynt bwled lefel uchaf arall",
               "en": "Another top-level bullet point",
             },
           },
         ],
         "labels": [
-          "Service X",
-          "Service Y",
+          {
+            "cy": "Gwasanaeth X",
+            "en": "Service X",
+          },
+          {
+            "cy": "Gwasanaeth Y",
+            "en": "Service Y",
+          },
         ],
         "outcome": {
-          "cy": "",
+          "cy": "Beth sy’n newid i ddefnyddwyr pan fydd wedi’i gwblhau.",
           "en": "What changes for users when it is done.",
         },
-        "phase": "Beta",
+        "phase": {
+          "cy": "Beta",
+          "en": "Beta",
+        },
         "title": {
-          "cy": "",
+          "cy": "Cerdyn enghreifftiol gyda phob colofn",
           "en": "Example card with every column",
         },
       },
@@ -176,7 +200,10 @@ exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
         },
         "details": undefined,
         "labels": [
-          "Service X",
+          {
+            "cy": "",
+            "en": "Service X",
+          },
         ],
         "outcome": {
           "cy": "",
@@ -184,7 +211,7 @@ exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
         },
         "phase": undefined,
         "title": {
-          "cy": "",
+          "cy": "Cerdyn yn aros i gael ei ryddhau",
           "en": "Card awaiting release",
         },
       },
@@ -246,7 +273,10 @@ exports[`parseRoadmap > matches the ProductB snapshot 1`] = `
         "details": undefined,
         "labels": undefined,
         "outcome": undefined,
-        "phase": "Alpha",
+        "phase": {
+          "cy": "",
+          "en": "Alpha",
+        },
         "title": {
           "cy": "",
           "en": "Prototype",
@@ -257,7 +287,7 @@ exports[`parseRoadmap > matches the ProductB snapshot 1`] = `
       {
         "description": {
           "cy": "",
-          "en": "Sharing data with Service X so users don't have to enter it twice.",
+          "en": "Sharing data with Service X so users don’t have to enter it twice.",
         },
         "details": [
           {
@@ -290,13 +320,19 @@ exports[`parseRoadmap > matches the ProductB snapshot 1`] = `
           },
         ],
         "labels": [
-          "Service X",
+          {
+            "cy": "",
+            "en": "Service X",
+          },
         ],
         "outcome": {
           "cy": "",
           "en": "Less duplicate data entry.",
         },
-        "phase": "Discovery",
+        "phase": {
+          "cy": "",
+          "en": "Discovery",
+        },
         "title": {
           "cy": "",
           "en": "Integration with another system",
@@ -312,7 +348,10 @@ exports[`parseRoadmap > matches the ProductB snapshot 1`] = `
         "details": undefined,
         "labels": undefined,
         "outcome": undefined,
-        "phase": "Beta",
+        "phase": {
+          "cy": "",
+          "en": "Beta",
+        },
         "title": {
           "cy": "",
           "en": "Wider rollout",
@@ -328,13 +367,19 @@ exports[`parseRoadmap > matches the ProductB snapshot 1`] = `
         },
         "details": undefined,
         "labels": [
-          "Service Z",
+          {
+            "cy": "",
+            "en": "Service Z",
+          },
         ],
         "outcome": {
           "cy": "",
           "en": "Users can complete the main task online.",
         },
-        "phase": "Alpha",
+        "phase": {
+          "cy": "",
+          "en": "Alpha",
+        },
         "title": {
           "cy": "",
           "en": "Building the core service",
@@ -364,15 +409,15 @@ exports[`parseRoadmap > matches the ProductB snapshot 1`] = `
     "colour": "#006747",
     "lastUpdated": "2026-09-15",
     "serviceDescription": {
-      "cy": "",
+      "cy": "Beth mae Cynnyrch B yn ei wneud a phwy mae’n ei helpu. Nid oes gan y trywydd hwn weledigaeth, felly mae’r adran honno wedi’i chuddio.",
       "en": "What Product B does and who it helps. This roadmap has no vision, so that section is hidden.",
     },
     "statusLabel": {
-      "cy": "",
+      "cy": "Alffa",
       "en": "Alpha",
     },
     "title": {
-      "cy": "",
+      "cy": "Trywydd Cynnyrch B",
       "en": "Product B roadmap",
     },
     "vision": {

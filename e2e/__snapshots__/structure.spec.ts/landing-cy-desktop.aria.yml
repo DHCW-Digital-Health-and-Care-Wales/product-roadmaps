@@ -1,0 +1,71 @@
+- link "Neidio i’r prif gynnwys":
+  - /url: "#main-content"
+- banner:
+  - link "Hafan trywyddion Iechyd a Gofal Digidol Cymru":
+    - /url: /product-roadmaps/?lang=cy
+    - img "Iechyd a Gofal Digidol Cymru"
+  - group "Dewis iaith / Choose language":
+    - button "Cymraeg" [pressed]
+    - button "English"
+- main:
+  - region "Trywyddion cynnyrch":
+    - text: Beta
+    - heading "Trywyddion cynnyrch" [level=1]
+    - paragraph: Gweld beth mae Iechyd a Gofal Digidol Cymru yn gweithio arno nawr, beth sy’n dod nesaf a’r cyfeiriad rydym yn disgwyl ei gymryd yn hwyrach.
+  - region "Dewis cynnyrch":
+    - heading "Dewis cynnyrch" [level=2]
+    - list:
+      - listitem:
+        - text: Beta Diweddarwyd
+        - time: /October 1, \d+/
+        - heading "Product A roadmap" [level=3]:
+          - link "Product A roadmap":
+            - /url: /product-roadmaps/producta/?lang=cy
+        - paragraph: What Product A does and who it helps. Also used as the summary on the landing page card.
+        - term: Nawr
+        - definition: "3"
+        - term: Nesaf
+        - definition: "1"
+        - term: Hwyrach
+        - definition: "2"
+      - listitem:
+        - text: Alffa Diweddarwyd
+        - time: /September \d+, \d+/
+        - heading "Trywydd Cynnyrch B" [level=3]:
+          - link "Trywydd Cynnyrch B":
+            - /url: /product-roadmaps/productb/?lang=cy
+        - paragraph: Beth mae Cynnyrch B yn ei wneud a phwy mae’n ei helpu. Nid oes gan y trywydd hwn weledigaeth, felly mae’r adran honno wedi’i chuddio.
+        - term: Nawr
+        - definition: "2"
+        - term: Nesaf
+        - definition: "1"
+        - term: Hwyrach
+        - definition: "1"
+  - region "Datganiad hygyrchedd":
+    - heading "Datganiad hygyrchedd" [level=2]
+    - paragraph: Rydym am i gymaint o bobl â phosibl allu defnyddio’r trywyddion hyn. Rydym yn anelu at gydymffurfio â Chanllawiau Hygyrchedd Cynnwys Gwe (WCAG) 2.2 ar lefel AA.
+    - paragraph: Mae’r trywyddion hyn yn fersiwn beta ac maen nhw’n dal i gael eu profi. Rydym yn croesawu unrhyw adborth.
+  - region "Preifatrwydd":
+    - heading "Preifatrwydd" [level=2]
+    - paragraph: Nid yw’r safle hwn yn gosod cwcis tracio nac yn defnyddio dadansoddeg trydydd parti. Nid ydym yn rhannu unrhyw ddata personol.
+    - paragraph: Mae’r ffontiau’n cael eu gwesteia gennym ni ein hunain, felly nid yw eich ymweliad yn cael ei rannu â gwasanaeth ffont allanol.
+- contentinfo:
+  - img "Iechyd a Gofal Digidol Cymru"
+  - navigation "Dolenni troedyn":
+    - list:
+      - listitem:
+        - link "Rhoi adborth":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/issues/new?template=roadmap-feedback.md
+      - listitem:
+        - link "Datganiad hygyrchedd":
+          - /url: "#accessibility"
+      - listitem:
+        - link "Preifatrwydd":
+          - /url: "#privacy"
+      - listitem:
+        - link "Trwydded":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/blob/main/LICENSE
+      - listitem:
+        - link "Y gwaith ar GitHub":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps
+  - paragraph: Digital Health and Care Wales / Iechyd a Gofal Digidol Cymru

@@ -23,7 +23,10 @@ contact Google.
 - The data behind each roadmap is published at
   `/product-roadmaps/<slug>/roadmap.json`, for example
   `/product-roadmaps/choose-pharmacy/roadmap.json`, and each page links to it
-  with `<link rel="alternate" type="application/json">`.
+  with `<link rel="alternate" type="application/json">`. Its shape is defined
+  by [scripts/roadmap-schema.ts](scripts/roadmap-schema.ts) and is not yet
+  versioned. Text fields are `{ "en": "…", "cy": "…" }`, with `cy` blank when
+  there is no Welsh.
 
 ## Run locally (Codespaces)
 
@@ -61,8 +64,9 @@ Graph URLs.
 
 ## Sheet format
 
-Row 1 of every tab is the header; column names are matched ignoring case and
-spaces, and extra columns (such as `Notes`) are ignored. Tabs not named on the
+Row 1 of every tab is the header; column names are matched ignoring case,
+accents, spaces and punctuation, and extra columns (such as `Notes`) are
+ignored. If two headers match the same column, only the first is used. Tabs not named on the
 first tab are never read, but the whole spreadsheet is visible to anyone with
 the link. [sheets/](sheets/) has example CSVs (fake data, not used by the site)
 for bootstrapping a spreadsheet.
@@ -87,7 +91,7 @@ for bootstrapping a spreadsheet.
 | `Description`     | What the work is.                                                                           |
 | `Outcome`         | What changes when it is done. Optional.                                                     |
 | `Horizon`         | `Now`, `Next`, `Later`, `Recently delivered`, `Delivered this year` or `Not doing`. Required. |
-| `Phase`           | Tag; "Discovery" is highlighted.                                                            |
+| `Phase`           | Free-text tag shown above the card title, for example `Discovery`.                          |
 | `Labels`          | Comma separated; each becomes a pill.                                                       |
 | `Details`         | Expandable "What this covers" list. One bullet per line; start a line with `-` to nest it.  |
 
@@ -96,12 +100,37 @@ every roadmap (intro, Now/Next/Later definitions, section headings) is in
 [src/lib/content.ts](src/lib/content.ts); interface text (headings, links and
 accessible names) is in [src/lib/strings.ts](src/lib/strings.ts).
 
+**Welsh (optional)**: any text column on either tab (`Title`, `Status label`,
+`Vision`, `Service description`, `Description`, `Outcome`, `Phase`, `Labels`,
+`Details`) can have a Welsh column with ` (cy)` added to its name, for example
+`Title (cy)` or `Phase (cy)`; `(Welsh)` and `(Cymraeg)` also work. Welsh is
+shown when the reader picks Cymraeg; if the column is missing or the cell is
+blank, the English is shown instead.
+
+`Labels (cy)` and `Details (cy)` are matched to the English by position, so
+they need the same number of labels or lines. Leave an entry blank, or put
+just `-`, to show the English for that entry (for example `Gwasanaeth X, -`).
+Nesting comes from the English, so Welsh lines may repeat or omit the `-`
+prefixes. If the counts differ, all the Welsh in that cell is ignored. Labels
+can't contain commas in either language.
+
+The sync warns about likely translation mistakes:
+
+- Welsh with no English (it is never shown).
+- Welsh that is the same as the English, for text of 3 or more words.
+- Placeholders such as `TODO` or `TBC`.
+- Welsh and English that differ a lot in length (one more than twice the
+  other in words, for text of 8 or more words).
+- Welsh headers for a column that can't have Welsh, such as `Colour (cy)`.
+
 To add a product, add a tab with the roadmap columns and a row for it on the
 first tab. Sheet mistakes (unknown horizons, rows with no title, missing
-optional columns) show as warnings on the deploy workflow run. A `Sheet` value
-with no matching tab, or a tab missing a required column (`Sheet` on the first
-tab; `Title` or `Horizon` on a roadmap tab), fails the sync, so the deploy
-fails and the previous site stays live.
+optional columns, likely translation mistakes) are listed, with row numbers,
+in the summary of the deploy workflow run. To check the sheet without
+deploying, run **Actions → Check the roadmap sheet → Run workflow**. A `Sheet`
+value with no matching tab, or a tab missing a required column (`Sheet` on the
+first tab; `Title` or `Horizon` on a roadmap tab), fails the sync, so the
+deploy fails and the previous site stays live.
 
 Keep text columns as plain text: the export guesses each column's type, and a
 lone number in a text column can come through blank.

@@ -14,7 +14,11 @@ const renderCard = (item: RoadmapItem) =>
     </LanguageProvider>,
   );
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  window.localStorage.clear();
+  window.history.replaceState(null, '', '/');
+});
 
 describe('RoadmapCard', () => {
   it('shows only the title when optional fields are missing', () => {
@@ -34,8 +38,8 @@ describe('RoadmapCard', () => {
       title: loc('Full card'),
       description: loc('What it is'),
       outcome: loc('Why it matters'),
-      phase: 'Discovery',
-      labels: ['Web', 'App'],
+      phase: loc('Discovery'),
+      labels: [loc('Web'), loc('App')],
     });
     expect(screen.getByText('What it is')).toBeTruthy();
     expect(screen.getByText('Outcome:')).toBeTruthy();
@@ -43,6 +47,20 @@ describe('RoadmapCard', () => {
     expect(screen.getByText('Discovery')).toBeTruthy();
     expect(screen.getByText('Web')).toBeTruthy();
     expect(screen.getByText('App')).toBeTruthy();
+  });
+
+  it('shows Welsh phase and labels, marking English fallbacks', () => {
+    window.history.replaceState(null, '', '/?lang=cy');
+    renderCard({
+      title: loc('Untranslated'),
+      description: loc(''),
+      phase: { en: 'Discovery', cy: 'Darganfod' },
+      labels: [{ en: 'Web', cy: 'Gwe' }, loc('App')],
+    });
+    expect(screen.getByText('Darganfod')).toBeTruthy();
+    expect(screen.getByText('Gwe').getAttribute('lang')).toBeNull();
+    expect(screen.getByText('App').getAttribute('lang')).toBe('en');
+    expect(screen.getByText('Untranslated').getAttribute('lang')).toBe('en');
   });
 
   it('nests detail lines under the line above', () => {

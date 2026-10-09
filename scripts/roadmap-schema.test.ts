@@ -48,4 +48,24 @@ describe('roadmap snapshot schema', () => {
     delete (data[0] as { items: Record<string, unknown> }).items.later;
     expect(() => validateSnapshot(data)).toThrow(/later/);
   });
+
+  it('rejects plain strings for phase and labels', () => {
+    const data = valid();
+    const item = data[0].items.now[0] as unknown as Record<string, unknown>;
+    item.phase = 'Beta';
+    item.labels = ['Web'];
+    expect(() => validateSnapshot(data)).toThrow(/phase[\s\S]*labels/);
+  });
+
+  it('rejects Welsh with no English', () => {
+    const data = valid();
+    data[0].items.now[0].description = { en: '', cy: 'Disgrifiad' };
+    expect(() => validateSnapshot(data)).toThrow(/Welsh text with no English/);
+  });
+
+  it('rejects an empty detail line', () => {
+    const data = valid();
+    data[0].items.now[0].details = [{ level: 0, text: { en: '', cy: '' } }];
+    expect(() => validateSnapshot(data)).toThrow(/Empty English text/);
+  });
 });

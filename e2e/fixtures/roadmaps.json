@@ -27,45 +27,57 @@
         {
           "title": {
             "en": "Example card with every column",
-            "cy": ""
+            "cy": "Cerdyn enghreifftiol gyda phob colofn"
           },
           "description": {
             "en": "What this work is. Keep it to a sentence or two.",
-            "cy": ""
+            "cy": "Beth yw’r gwaith hwn. Cadwch ef i frawddeg neu ddwy."
           },
           "outcome": {
             "en": "What changes for users when it is done.",
-            "cy": ""
+            "cy": "Beth sy’n newid i ddefnyddwyr pan fydd wedi’i gwblhau."
           },
-          "phase": "Beta",
-          "labels": ["Service X", "Service Y"],
+          "phase": {
+            "en": "Beta",
+            "cy": "Beta"
+          },
+          "labels": [
+            {
+              "en": "Service X",
+              "cy": "Gwasanaeth X"
+            },
+            {
+              "en": "Service Y",
+              "cy": "Gwasanaeth Y"
+            }
+          ],
           "details": [
             {
               "level": 0,
               "text": {
                 "en": "First bullet point",
-                "cy": ""
+                "cy": "Pwynt bwled cyntaf"
               }
             },
             {
               "level": 1,
               "text": {
                 "en": "Start a line with \"-\" to nest it under the line above",
-                "cy": ""
+                "cy": "Dechreuwch linell gyda \"-\" i’w nythu o dan y llinell uchod"
               }
             },
             {
               "level": 2,
               "text": {
                 "en": "Use two dashes to nest it again",
-                "cy": ""
+                "cy": "Defnyddiwch ddau gysylltnod i’w nythu eto"
               }
             },
             {
               "level": 0,
               "text": {
                 "en": "Another top-level bullet point",
-                "cy": ""
+                "cy": "Pwynt bwled lefel uchaf arall"
               }
             }
           ]
@@ -83,7 +95,7 @@
         {
           "title": {
             "en": "Card awaiting release",
-            "cy": ""
+            "cy": "Cerdyn yn aros i gael ei ryddhau"
           },
           "description": {
             "en": "Work that is finished and waiting to go live.",
@@ -93,7 +105,12 @@
             "en": "Users get the change as soon as it is deployed.",
             "cy": ""
           },
-          "labels": ["Service X"]
+          "labels": [
+            {
+              "en": "Service X",
+              "cy": ""
+            }
+          ]
         }
       ],
       "next": [
@@ -110,24 +127,30 @@
             "en": "What we hope this will achieve.",
             "cy": ""
           },
-          "phase": "Alpha"
+          "phase": {
+            "en": "Alpha",
+            "cy": ""
+          }
         }
       ],
       "later": [
         {
           "title": {
             "en": "Discovery card",
-            "cy": ""
+            "cy": "Cerdyn darganfod"
           },
           "description": {
-            "en": "Phases that include the word \"Discovery\" are highlighted.",
-            "cy": ""
+            "en": "The Phase column is a free-text tag shown above the title.",
+            "cy": "Mae’r golofn Phase yn dag testun rhydd a ddangosir uwchben y teitl."
           },
           "outcome": {
             "en": "A clear understanding of the problem.",
-            "cy": ""
+            "cy": "Dealltwriaeth glir o’r broblem."
           },
-          "phase": "Discovery"
+          "phase": {
+            "en": "Discovery",
+            "cy": "Darganfod"
+          }
         },
         {
           "title": {
@@ -138,7 +161,16 @@
             "en": "Direction we expect to take as we learn more.",
             "cy": ""
           },
-          "labels": ["Service Y", "Service Z"]
+          "labels": [
+            {
+              "en": "Service Y",
+              "cy": ""
+            },
+            {
+              "en": "Service Z",
+              "cy": ""
+            }
+          ]
         }
       ],
       "recently-delivered": [
@@ -167,7 +199,10 @@
             "en": "Something we delivered earlier in the year.",
             "cy": ""
           },
-          "phase": "Live",
+          "phase": {
+            "en": "Live",
+            "cy": ""
+          },
           "details": [
             {
               "level": 0,
@@ -206,11 +241,11 @@
     "meta": {
       "title": {
         "en": "Product B roadmap",
-        "cy": ""
+        "cy": "Trywydd Cynnyrch B"
       },
       "statusLabel": {
         "en": "Alpha",
-        "cy": ""
+        "cy": "Alffa"
       },
       "lastUpdated": "2026-09-15",
       "colour": "#006747",
@@ -220,7 +255,7 @@
       },
       "serviceDescription": {
         "en": "What Product B does and who it helps. This roadmap has no vision, so that section is hidden.",
-        "cy": ""
+        "cy": "Beth mae Cynnyrch B yn ei wneud a phwy mae’n ei helpu. Nid oes gan y trywydd hwn weledigaeth, felly mae’r adran honno wedi’i chuddio."
       }
     },
     "items": {
@@ -238,8 +273,16 @@
             "en": "Users can complete the main task online.",
             "cy": ""
           },
-          "phase": "Alpha",
-          "labels": ["Service Z"]
+          "phase": {
+            "en": "Alpha",
+            "cy": ""
+          },
+          "labels": [
+            {
+              "en": "Service Z",
+              "cy": ""
+            }
+          ]
         },
         {
           "title": {
@@ -266,7 +309,10 @@
             "en": "Making the service available to more teams.",
             "cy": ""
           },
-          "phase": "Beta"
+          "phase": {
+            "en": "Beta",
+            "cy": ""
+          }
         }
       ],
       "later": [
@@ -276,15 +322,23 @@
             "cy": ""
           },
           "description": {
-            "en": "Sharing data with Service X so users don't have to enter it twice.",
+            "en": "Sharing data with Service X so users don’t have to enter it twice.",
             "cy": ""
           },
           "outcome": {
             "en": "Less duplicate data entry.",
             "cy": ""
           },
-          "phase": "Discovery",
-          "labels": ["Service X"],
+          "phase": {
+            "en": "Discovery",
+            "cy": ""
+          },
+          "labels": [
+            {
+              "en": "Service X",
+              "cy": ""
+            }
+          ],
           "details": [
             {
               "level": 0,
@@ -328,7 +382,10 @@
             "en": "An early prototype we tested with a small group of users.",
             "cy": ""
           },
-          "phase": "Alpha"
+          "phase": {
+            "en": "Alpha",
+            "cy": ""
+          }
         }
       ],
       "not-doing": []

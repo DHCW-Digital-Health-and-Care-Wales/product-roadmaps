@@ -1,18 +1,13 @@
-import { useLanguage, type Lang } from '../lib/i18n';
-
-const OPTIONS: { value: Lang; label: string }[] = [
-  { value: 'cy', label: 'Cymraeg' },
-  { value: 'en', label: 'English' },
-];
+import { LANGUAGES, rememberLang, useLanguage } from '../lib/i18n';
+import { onNavigate, pathFor } from '../lib/router';
 
 /**
- * Language toggle. Switches all keyed display text and updates the document
- * lang attribute via the LanguageProvider. Implemented as a labelled group of
- * buttons so the current choice is conveyed in text and by aria-pressed, not
- * by colour alone.
+ * Language toggle: links to this page in each language, so it works without
+ * JavaScript. The current language is conveyed in text and by aria-current,
+ * not by colour alone.
  */
 export function LanguageToggle() {
-  const { lang, setLang } = useLanguage();
+  const { lang, route } = useLanguage();
 
   return (
     <div
@@ -20,15 +15,22 @@ export function LanguageToggle() {
       aria-label="Dewis iaith / Choose language"
       className="inline-flex rounded-sm border border-white/40"
     >
-      {OPTIONS.map((option) => {
+      {LANGUAGES.map((option) => {
         const isActive = lang === option.value;
+        const href = pathFor(option.value, route.slug);
         return (
-          <button
+          <a
             key={option.value}
-            type="button"
+            href={href}
             lang={option.value}
-            onClick={() => setLang(option.value)}
-            aria-pressed={isActive}
+            hrefLang={option.value}
+            onClick={(event) => {
+              rememberLang(option.value);
+              onNavigate(`${href}${window.location.hash}`, { scroll: false })(
+                event,
+              );
+            }}
+            aria-current={isActive ? 'page' : undefined}
             className={`relative px-3 py-1.5 text-sm font-medium transition-colors first:rounded-l-sm last:rounded-r-sm focus-visible:z-10 ${
               isActive
                 ? 'bg-white text-nhs-wales-blue'
@@ -36,7 +38,7 @@ export function LanguageToggle() {
             }`}
           >
             {option.label}
-          </button>
+          </a>
         );
       })}
     </div>

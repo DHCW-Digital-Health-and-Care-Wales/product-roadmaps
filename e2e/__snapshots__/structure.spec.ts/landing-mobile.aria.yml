@@ -2,11 +2,13 @@
   - /url: "#main-content"
 - banner:
   - link "Digital Health and Care Wales roadmaps home":
-    - /url: /product-roadmaps/
+    - /url: /product-roadmaps/en/
     - img "Digital Health and Care Wales"
   - group "Dewis iaith / Choose language":
-    - button "Cymraeg"
-    - button "English" [pressed]
+    - link "Cymraeg":
+      - /url: /product-roadmaps/cy/
+    - link "English":
+      - /url: /product-roadmaps/en/
 - main:
   - region "Product roadmaps":
     - text: Beta
@@ -20,7 +22,7 @@
         - time: /1 October \d+/
         - heading "Product A roadmap" [level=3]:
           - link "Product A roadmap":
-            - /url: /product-roadmaps/producta/
+            - /url: /product-roadmaps/en/producta/
         - paragraph: What Product A does and who it helps. Also used as the summary on the landing page card.
         - term: Now
         - definition: "3"
@@ -33,7 +35,7 @@
         - time: /\d+ September \d+/
         - heading "Product B roadmap" [level=3]:
           - link "Product B roadmap":
-            - /url: /product-roadmaps/productb/
+            - /url: /product-roadmaps/en/productb/
         - paragraph: What Product B does and who it helps. This roadmap has no vision, so that section is hidden.
         - term: Now
         - definition: "2"

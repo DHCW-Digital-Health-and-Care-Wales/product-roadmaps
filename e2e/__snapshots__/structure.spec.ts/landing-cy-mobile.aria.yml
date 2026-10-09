@@ -2,11 +2,13 @@
   - /url: "#main-content"
 - banner:
   - link "Hafan trywyddion Iechyd a Gofal Digidol Cymru":
-    - /url: /product-roadmaps/?lang=cy
+    - /url: /product-roadmaps/cy/
     - img "Iechyd a Gofal Digidol Cymru"
   - group "Dewis iaith / Choose language":
-    - button "Cymraeg" [pressed]
-    - button "English"
+    - link "Cymraeg":
+      - /url: /product-roadmaps/cy/
+    - link "English":
+      - /url: /product-roadmaps/en/
 - main:
   - region "Trywyddion cynnyrch":
     - text: Beta
@@ -17,10 +19,10 @@
     - list:
       - listitem:
         - text: Beta Diweddarwyd
-        - time: /October 1, \d+/
+        - time: /1 Hydref \d+/
         - heading "Product A roadmap" [level=3]:
           - link "Product A roadmap":
-            - /url: /product-roadmaps/producta/?lang=cy
+            - /url: /product-roadmaps/cy/producta/
         - paragraph: What Product A does and who it helps. Also used as the summary on the landing page card.
         - term: Nawr
         - definition: "3"
@@ -30,10 +32,10 @@
         - definition: "2"
       - listitem:
         - text: Alffa Diweddarwyd
-        - time: /September \d+, \d+/
+        - time: /\d+ Medi \d+/
         - heading "Trywydd Cynnyrch B" [level=3]:
           - link "Trywydd Cynnyrch B":
-            - /url: /product-roadmaps/productb/?lang=cy
+            - /url: /product-roadmaps/cy/productb/
         - paragraph: Beth mae Cynnyrch B yn ei wneud a phwy mae’n ei helpu. Nid oes gan y trywydd hwn weledigaeth, felly mae’r adran honno wedi’i chuddio.
         - term: Nawr
         - definition: "2"

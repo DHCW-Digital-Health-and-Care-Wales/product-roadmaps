@@ -2,7 +2,7 @@ import type { RoadmapMeta } from '../lib/types';
 import { useLanguage } from '../lib/i18n';
 import { ROADMAP_INTRO } from '../lib/content';
 import { formatDate } from '../lib/roadmap-helpers';
-import { onNavigate, productHref } from '../lib/router';
+import { onNavigate, pathFor } from '../lib/router';
 import { UI } from '../lib/strings';
 import { T } from './T';
 
@@ -23,8 +23,8 @@ export function RoadmapIntro({ meta }: { meta: RoadmapMeta }) {
       <div className="mx-auto max-w-content">
         <p className="mb-6">
           <a
-            href={productHref(null)}
-            onClick={onNavigate(null)}
+            href={pathFor(lang, null)}
+            onClick={onNavigate(pathFor(lang, null))}
             className="text-sm font-medium text-action underline underline-offset-4 hover:no-underline"
           >
             &larr; <T value={UI.allRoadmaps} />

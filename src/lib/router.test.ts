@@ -1,34 +1,35 @@
-// @vitest-environment jsdom
-import { afterEach, describe, expect, it } from 'vitest';
-import { pathFor, productHref, slugFromPath } from './router';
+import { describe, expect, it } from 'vitest';
+import { dataPathFor, pathFor, routeFromPath } from './router';
 
-afterEach(() => {
-  window.history.replaceState(null, '', '/');
-});
-
-describe('slugFromPath', () => {
+describe('routeFromPath', () => {
   it.each([
-    ['/product-roadmaps/', null],
-    ['/product-roadmaps/index.html', null],
-    ['/product-roadmaps', null],
-    ['/elsewhere/producta/', null],
-    ['/product-roadmaps/producta/', 'producta'],
-    ['/product-roadmaps/producta', 'producta'],
-    ['/product-roadmaps/producta/index.html', 'producta'],
-    ['/product-roadmaps/%E0/', '%E0'],
-  ])('%s gives %s', (path, slug) => {
-    expect(slugFromPath(path)).toBe(slug);
+    ['/product-roadmaps/', null, null],
+    ['/product-roadmaps/index.html', null, null],
+    ['/product-roadmaps', null, null],
+    ['/elsewhere/en/producta/', null, null],
+    ['/product-roadmaps/en/', 'en', null],
+    ['/product-roadmaps/cy', 'cy', null],
+    ['/product-roadmaps/cy/index.html', 'cy', null],
+    ['/product-roadmaps/en/producta/', 'en', 'producta'],
+    ['/product-roadmaps/cy/producta', 'cy', 'producta'],
+    ['/product-roadmaps/en/producta/index.html', 'en', 'producta'],
+    ['/product-roadmaps/en/cy/', 'en', 'cy'],
+    ['/product-roadmaps/en/%E0/', 'en', '%E0'],
+    ['/product-roadmaps/producta/', null, 'producta'],
+  ])('%s gives %s and %s', (path, lang, slug) => {
+    expect(routeFromPath(path)).toEqual({ lang, slug });
   });
 });
 
-describe('productHref', () => {
-  it('links to the product path', () => {
-    expect(pathFor(null)).toBe('/product-roadmaps/');
-    expect(productHref('producta')).toBe('/product-roadmaps/producta/');
+describe('pathFor', () => {
+  it('puts every page under its language', () => {
+    expect(pathFor('en', null)).toBe('/product-roadmaps/en/');
+    expect(pathFor('cy', 'producta')).toBe('/product-roadmaps/cy/producta/');
   });
 
-  it('keeps only the language parameter', () => {
-    window.history.replaceState(null, '', '/product-roadmaps/?lang=cy&x=1');
-    expect(productHref('producta')).toBe('/product-roadmaps/producta/?lang=cy');
+  it('publishes data once for both languages', () => {
+    expect(dataPathFor('producta')).toBe(
+      '/product-roadmaps/producta/roadmap.json',
+    );
   });
 });

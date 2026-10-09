@@ -41,18 +41,24 @@ test.afterEach(() => {
 test.describe('without JavaScript', () => {
   test.use({ javaScriptEnabled: false });
 
-  test('the landing page lists every roadmap', async ({ page }) => {
+  test('the site root goes to the English landing page', async ({ page }) => {
     await page.goto('./');
+    await expect(page).toHaveURL(/\/product-roadmaps\/en\/$/);
+    await expect(h1(page)).toHaveText('Product roadmaps');
+  });
+
+  test('the landing page lists every roadmap', async ({ page }) => {
+    await page.goto('en/');
     await expect(h1(page)).toHaveText('Product roadmaps');
     for (const roadmap of roadmaps) {
       await expect(
         page.getByRole('link', { name: roadmap.meta.title.en }),
-      ).toHaveAttribute('href', `/product-roadmaps/${roadmap.slug}/`);
+      ).toHaveAttribute('href', `/product-roadmaps/en/${roadmap.slug}/`);
     }
   });
 
   test('a product page has its content and meta tags', async ({ page }) => {
-    await page.goto(`${first.slug}/`);
+    await page.goto(`en/${first.slug}/`);
     await expect(h1(page)).toHaveText(title);
     await expect(
       page.getByRole('heading', { name: 'The roadmap' }),
@@ -64,8 +70,22 @@ test.describe('without JavaScript', () => {
     );
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
       'href',
-      new RegExp(`/product-roadmaps/${first.slug}/$`),
+      new RegExp(`/product-roadmaps/en/${first.slug}/$`),
     );
+  });
+
+  test('the language toggle opens the Welsh page', async ({ page }) => {
+    await page.goto(`en/${first.slug}/`);
+    await page.getByRole('link', { name: 'Cymraeg' }).click();
+
+    await expect(page).toHaveURL(
+      new RegExp(`/product-roadmaps/cy/${first.slug}/$`),
+    );
+    await expect(page.locator('html')).toHaveAttribute('lang', 'cy');
+    await expect(
+      page.getByRole('heading', { name: 'Y trywydd' }),
+    ).toBeVisible();
+    await expect(page).toHaveTitle(`${title} – Trywyddion IGDC`);
   });
 });
 
@@ -73,11 +93,11 @@ test.describe('navigation', () => {
   test('moves between pages without reloading, with back and forward', async ({
     page,
   }) => {
-    await page.goto('./');
+    await page.goto('en/');
     await page.getByRole('link', { name: title }).click();
 
     await expect(page).toHaveURL(
-      new RegExp(`/product-roadmaps/${first.slug}/$`),
+      new RegExp(`/product-roadmaps/en/${first.slug}/$`),
     );
     await expect(h1(page)).toHaveText(title);
     await expect(h1(page)).toBeFocused();
@@ -92,69 +112,81 @@ test.describe('navigation', () => {
   });
 
   test('opens a deep link', async ({ page }) => {
-    await page.goto(`${second.slug}/#roadmap`);
+    await page.goto(`en/${second.slug}/#roadmap`);
     await expect(h1(page)).toHaveText(second.meta.title.en);
   });
 
   test('shows not found for an unknown product', async ({ page }) => {
-    await page.goto('nope/');
+    await page.goto('en/nope/');
     await expect(h1(page)).toHaveText('Roadmap not found');
     await expect(page.getByText('called “nope”')).toBeVisible();
   });
 });
 
 test.describe('language', () => {
-  test('keeps the choice across navigation and visits', async ({ page }) => {
+  test('sends the site root to the chosen language', async ({ page }) => {
     await page.goto('./');
-    await page.getByRole('button', { name: 'Cymraeg' }).click();
+    await expect(page).toHaveURL(/\/product-roadmaps\/en\/$/);
+    await page.getByRole('link', { name: 'Cymraeg' }).click();
 
+    await expect(page).toHaveURL(/\/product-roadmaps\/cy\/$/);
     await expect(page.locator('html')).toHaveAttribute('lang', 'cy');
-    await expect(page).toHaveURL(/\?lang=cy$/);
     await expect(h1(page)).toHaveText('Trywyddion cynnyrch');
 
     await page.getByRole('link', { name: title }).click();
     await expect(page).toHaveURL(
-      new RegExp(`/product-roadmaps/${first.slug}/\\?lang=cy$`),
+      new RegExp(`/product-roadmaps/cy/${first.slug}/$`),
     );
     await expect(
       page.getByRole('heading', { name: 'Y trywydd' }),
     ).toBeVisible();
 
     await page.goto('./');
-    await expect(page.locator('html')).toHaveAttribute('lang', 'cy');
+    await expect(page).toHaveURL(/\/product-roadmaps\/cy\/$/);
     await expect(h1(page)).toHaveText('Trywyddion cynnyrch');
   });
 
-  test('keeps first-time visitors on clean URLs', async ({ page }) => {
-    await page.goto(`${first.slug}/`);
-    await expect(h1(page)).toHaveText(title);
-    expect(new URL(page.url()).search).toBe('');
+  test('switches in place, and back', async ({ page }) => {
+    await page.goto(`en/${first.slug}/#roadmap`);
+    await page.getByRole('link', { name: 'Cymraeg' }).click();
+
+    await expect(page).toHaveURL(
+      new RegExp(`/product-roadmaps/cy/${first.slug}/#roadmap$`),
+    );
+    await expect(page.locator('html')).toHaveAttribute('lang', 'cy');
+    await expect(
+      page.getByRole('heading', { name: 'Y trywydd' }),
+    ).toBeVisible();
+
+    await page.goBack();
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    await expect(
+      page.getByRole('heading', { name: 'The roadmap' }),
+    ).toBeVisible();
   });
 });
 
 test.describe('keyboard', () => {
-  test('both language buttons have an unclipped focus ring', async ({
-    page,
-  }) => {
-    await page.goto('./');
+  test('both language links have an unclipped focus ring', async ({ page }) => {
+    await page.goto('en/');
     const group = page.getByRole('group', {
       name: 'Dewis iaith / Choose language',
     });
     await expect(group).toHaveCSS('overflow', 'visible');
 
     for (const language of ['Cymraeg', 'English']) {
-      const button = group.getByRole('button', { name: language });
-      await tabTo(page, button);
-      await expect(button).toBeFocused();
-      await expect(button).toHaveCSS('outline-style', 'solid');
-      await expect(button).toHaveCSS('outline-width', '3px');
-      await expect(button).toHaveCSS('outline-color', 'rgb(248, 202, 77)');
-      await expect(button).toHaveCSS(
+      const link = group.getByRole('link', { name: language });
+      await tabTo(page, link);
+      await expect(link).toBeFocused();
+      await expect(link).toHaveCSS('outline-style', 'solid');
+      await expect(link).toHaveCSS('outline-width', '3px');
+      await expect(link).toHaveCSS('outline-color', 'rgb(248, 202, 77)');
+      await expect(link).toHaveCSS(
         'box-shadow',
         'rgb(27, 41, 74) 0px 0px 0px 6px',
       );
       expect(
-        await button.evaluate((element) => {
+        await link.evaluate((element) => {
           const sibling = Array.from(element.parentElement!.children).find(
             (child) => child !== element,
           )!;
@@ -167,13 +199,13 @@ test.describe('keyboard', () => {
       ).toBe(true);
 
       await page.keyboard.press('Enter');
-      await expect(button).toHaveAttribute('aria-pressed', 'true');
-      await expect(button).toBeFocused();
+      await expect(link).toHaveAttribute('aria-current', 'page');
+      await expect(link).toBeFocused();
     }
   });
 
   test('the skip link jumps past the header', async ({ page }) => {
-    await page.goto(`${first.slug}/`);
+    await page.goto(`en/${first.slug}/`);
     await page.keyboard.press('Tab');
     const skip = page.getByRole('link', { name: 'Skip to content' });
     await expect(skip).toBeFocused();
@@ -186,7 +218,7 @@ test.describe('keyboard', () => {
   });
 
   test('a keyboard user can open a roadmap', async ({ page }) => {
-    await page.goto('./');
+    await page.goto('en/');
     const link = page.getByRole('link', { name: title });
     await tabTo(page, link);
     await page.keyboard.press('Enter');
@@ -201,7 +233,7 @@ test.describe('mobile menu', () => {
     isMobile,
   }) => {
     test.skip(!isMobile, 'The menu button only shows on narrow screens');
-    await page.goto(`${first.slug}/`);
+    await page.goto(`en/${first.slug}/`);
 
     const button = page.getByRole('button', { name: 'Open menu' });
     await expect(button).toHaveAttribute('aria-expanded', 'false');
@@ -221,7 +253,7 @@ test.describe('mobile menu', () => {
 
 test.describe('accessibility (axe, including colour contrast)', () => {
   const pages = {
-    landing: './',
+    landing: '',
     product: `${first.slug}/`,
     'not found': 'nope/',
   };
@@ -229,7 +261,7 @@ test.describe('accessibility (axe, including colour contrast)', () => {
   for (const lang of ['en', 'cy']) {
     for (const [name, path] of Object.entries(pages)) {
       test(`${name} page in ${lang}`, async ({ page }) => {
-        await page.goto(`${path}?lang=${lang}`);
+        await page.goto(`${lang}/${path}`);
         await expect(h1(page)).toBeVisible();
         const results = await new AxeBuilder({ page })
           .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])

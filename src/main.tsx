@@ -8,8 +8,8 @@ import '@fontsource/roboto/700.css';
 import './index.css';
 import App from './App.tsx';
 import { LanguageProvider } from './components/LanguageProvider';
-import { readInitialLang } from './lib/i18n';
-import { slugFromPath } from './lib/router';
+import { preferredLang } from './lib/i18n';
+import { pathFor, routeFromPath } from './lib/router';
 
 const rootElement = document.getElementById('root');
 
@@ -25,14 +25,14 @@ const app = (
   </StrictMode>
 );
 
-// The build prerenders each page in the default language (scripts/prerender.ts).
+// The build prerenders each page in each language (scripts/prerender.ts).
 // Reuse that HTML only when the first render will match it exactly.
-const prerendered = rootElement.dataset.slug;
-if (
-  prerendered !== undefined &&
-  prerendered === (slugFromPath(window.location.pathname) ?? '') &&
-  !readInitialLang().explicit
-) {
+const route = routeFromPath(window.location.pathname);
+const { lang, slug } = rootElement.dataset;
+if (route.lang === null && route.slug === null) {
+  const { search, hash } = window.location;
+  window.location.replace(`${pathFor(preferredLang(), null)}${search}${hash}`);
+} else if (lang === route.lang && slug === (route.slug ?? '')) {
   hydrateRoot(rootElement, app);
 } else {
   createRoot(rootElement).render(app);

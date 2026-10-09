@@ -16,7 +16,6 @@ const renderCard = (item: RoadmapItem) =>
 
 afterEach(() => {
   cleanup();
-  window.localStorage.clear();
   window.history.replaceState(null, '', '/');
 });
 
@@ -50,7 +49,7 @@ describe('RoadmapCard', () => {
   });
 
   it('shows Welsh phase and labels, marking English fallbacks', () => {
-    window.history.replaceState(null, '', '/?lang=cy');
+    window.history.replaceState(null, '', '/product-roadmaps/cy/');
     renderCard({
       title: loc('Untranslated'),
       description: loc(''),

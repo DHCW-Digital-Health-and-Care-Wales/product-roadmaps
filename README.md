@@ -14,12 +14,15 @@ contact Google.
 
 - The first tab lists the roadmaps, one per row. The landing page shows them
   all. Other tabs are only read if a row on the first tab names them.
-- A product's URL is `/product-roadmaps/<sheet-name-as-slug>/`, for example
-  `/product-roadmaps/choose-pharmacy/`. Renaming the tab (and its **Sheet**
-  value) changes its URL.
-- The build prerenders every page to static HTML with its own title,
-  description and Open Graph tags, so the site works without JavaScript and
-  link previews show the right roadmap.
+- A product's URL is `/product-roadmaps/<lang>/<sheet-name-as-slug>/`, where
+  `<lang>` is `en` or `cy`, for example `/product-roadmaps/cy/choose-pharmacy/`.
+  Renaming the tab (and its **Sheet** value) changes its URL. The site root
+  sends visitors to the language they last chose, or Welsh if their browser
+  prefers it, otherwise English (always English without JavaScript).
+- The build prerenders every page in both languages to static HTML with its
+  own title, description, Open Graph and `hreflang` tags, so the site works
+  without JavaScript in English and Welsh, and link previews show the right
+  roadmap.
 - The data behind each roadmap is published at
   `/product-roadmaps/<slug>/roadmap.json`, for example
   `/product-roadmaps/choose-pharmacy/roadmap.json`, and each page links to it
@@ -36,7 +39,7 @@ npm run sync   # fetch the sheet into .data/roadmaps.json (gitignored)
 npm run dev
 ```
 
-Open the forwarded port 5173 at `/product-roadmaps/`. The spreadsheet ID is set
+Open the forwarded port 5173 at `/product-roadmaps/en/`. The spreadsheet ID is set
 in [scripts/sync-roadmaps.ts](scripts/sync-roadmaps.ts); override it with the
 `SHEET_ID` environment variable to test another sheet. To work offline, skip
 the sync and run `ROADMAPS_DATA=e2e/fixtures/roadmaps.json npm run dev`.
@@ -58,9 +61,9 @@ break them:
   Chrome or Chromium binary.
 
 `npm run build` runs `vite build`, then [scripts/prerender.ts](scripts/prerender.ts)
-writes `index.html` for the landing page and each product, `404.html` and
-`sitemap.xml`. Set `SITE_URL` to change the address used in canonical and Open
-Graph URLs.
+writes `index.html` for the site root and for each language's landing page and
+products, `404.html` and `sitemap.xml`. Set `SITE_URL` to change the address
+used in canonical, `hreflang` and Open Graph URLs.
 
 ## Sheet format
 

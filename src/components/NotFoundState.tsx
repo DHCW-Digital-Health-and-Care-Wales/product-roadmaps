@@ -1,11 +1,12 @@
 import { ArrowRight } from 'lucide-react';
-import { fill } from '../lib/i18n';
-import { onNavigate, productHref } from '../lib/router';
+import { fill, useLanguage } from '../lib/i18n';
+import { onNavigate, pathFor } from '../lib/router';
 import { UI } from '../lib/strings';
 import { T } from './T';
 
 /** An empty `slug` gives a generic message, for the prerendered 404.html. */
 export function NotFoundState({ slug }: { slug: string }) {
+  const { lang } = useLanguage();
   return (
     <section className="bg-surface-subtle px-4 pb-16 pt-28 sm:px-6 sm:pt-32">
       <div className="mx-auto max-w-content">
@@ -18,8 +19,8 @@ export function NotFoundState({ slug }: { slug: string }) {
           />
         </p>
         <a
-          href={productHref(null)}
-          onClick={onNavigate(null)}
+          href={pathFor(lang, null)}
+          onClick={onNavigate(pathFor(lang, null))}
           className="mt-6 inline-flex items-center gap-2 font-medium text-action underline underline-offset-4 hover:no-underline"
         >
           <T value={UI.viewAllRoadmaps} />

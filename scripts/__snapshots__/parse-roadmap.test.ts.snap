@@ -40,13 +40,13 @@ exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
     "later": [
       {
         "description": {
-          "cy": "Mae'r golofn Phase yn dag testun rhydd a ddangosir uwchben y teitl.",
+          "cy": "Mae’r golofn Phase yn dag testun rhydd a ddangosir uwchben y teitl.",
           "en": "The Phase column is a free-text tag shown above the title.",
         },
         "details": undefined,
         "labels": undefined,
         "outcome": {
-          "cy": "Dealltwriaeth glir o'r broblem.",
+          "cy": "Dealltwriaeth glir o’r broblem.",
           "en": "A clear understanding of the problem.",
         },
         "phase": {
@@ -123,7 +123,7 @@ exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
     "now": [
       {
         "description": {
-          "cy": "Beth yw'r gwaith hwn. Cadwch ef i frawddeg neu ddwy.",
+          "cy": "Beth yw’r gwaith hwn. Cadwch ef i frawddeg neu ddwy.",
           "en": "What this work is. Keep it to a sentence or two.",
         },
         "details": [
@@ -137,14 +137,14 @@ exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
           {
             "level": 1,
             "text": {
-              "cy": "Dechreuwch linell gyda "-" i'w nythu o dan y llinell uchod",
+              "cy": "Dechreuwch linell gyda "-" i’w nythu o dan y llinell uchod",
               "en": "Start a line with "-" to nest it under the line above",
             },
           },
           {
             "level": 2,
             "text": {
-              "cy": "Defnyddiwch ddau doriad i'w nythu eto",
+              "cy": "Defnyddiwch ddau gysylltnod i’w nythu eto",
               "en": "Use two dashes to nest it again",
             },
           },
@@ -167,7 +167,7 @@ exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
           },
         ],
         "outcome": {
-          "cy": "Beth sy'n newid i ddefnyddwyr pan fydd wedi'i gwblhau.",
+          "cy": "Beth sy’n newid i ddefnyddwyr pan fydd wedi’i gwblhau.",
           "en": "What changes for users when it is done.",
         },
         "phase": {
@@ -287,7 +287,7 @@ exports[`parseRoadmap > matches the ProductB snapshot 1`] = `
       {
         "description": {
           "cy": "",
-          "en": "Sharing data with Service X so users don't have to enter it twice.",
+          "en": "Sharing data with Service X so users don’t have to enter it twice.",
         },
         "details": [
           {
@@ -409,7 +409,7 @@ exports[`parseRoadmap > matches the ProductB snapshot 1`] = `
     "colour": "#006747",
     "lastUpdated": "2026-09-15",
     "serviceDescription": {
-      "cy": "Beth mae Cynnyrch B yn ei wneud a phwy mae'n ei helpu. Nid oes gan y trywydd hwn weledigaeth, felly mae'r adran honno wedi'i chuddio.",
+      "cy": "Beth mae Cynnyrch B yn ei wneud a phwy mae’n ei helpu. Nid oes gan y trywydd hwn weledigaeth, felly mae’r adran honno wedi’i chuddio.",
       "en": "What Product B does and who it helps. This roadmap has no vision, so that section is hidden.",
     },
     "statusLabel": {

@@ -114,6 +114,20 @@ describe('Welsh', () => {
     const roadmapHeading = screen.getByRole('heading', { name: 'Y trywydd' });
     expect(roadmapHeading.querySelector('[lang]')).toBeNull();
   });
+
+  it('shows Welsh sheet content where there is some', () => {
+    renderAt('/product-roadmaps/?lang=cy');
+    const welshTitle = screen.getByRole('link', { name: /Trywydd Cynnyrch B/ });
+    expect(welshTitle.querySelector('[lang]')).toBeNull();
+    cleanup();
+
+    renderAt(`/product-roadmaps/${first.slug}/?lang=cy`);
+    expect(screen.getByText('Darganfod').closest('[lang="en"]')).toBeNull();
+    expect(
+      screen.getByRole('heading', { name: 'Cerdyn darganfod' }),
+    ).toBeTruthy();
+    expect(screen.getByText('Minimal card').getAttribute('lang')).toBe('en');
+  });
 });
 
 describe('accessibility (axe)', () => {

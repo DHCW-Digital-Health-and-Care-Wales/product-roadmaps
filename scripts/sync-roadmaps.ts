@@ -5,13 +5,14 @@
  *
  * The first tab lists the roadmaps; each row's "Sheet" names the tab to load.
  */
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { appendFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import type { Roadmap } from '../src/lib/types.ts';
 import { parseCsv } from './csv.ts';
 import {
   hasColumn,
   parseRoadmap,
   parseRoadmapList,
+  takeWarnings,
   type Worksheet,
 } from './parse-roadmap.ts';
 import { validateSnapshot } from './roadmap-schema.ts';
@@ -45,29 +46,66 @@ async function fetchTab(name?: string): Promise<Worksheet> {
   };
 }
 
-const index = await fetchTab();
-const roadmaps: Roadmap[] = [];
+const markdownCell = (text: string) =>
+  text.replace(/[&<>|]/g, (c) => (c === '|' ? '\\|' : `&#${c.charCodeAt(0)};`));
 
-for (const listing of parseRoadmapList(index)) {
-  const tab = await fetchTab(listing.sheet);
-  if (hasColumn(tab, 'Sheet')) {
-    throw new Error(`No tab named "${listing.sheet}"; check the Sheet column.`);
-  }
-  const roadmap = parseRoadmap(listing, tab);
-  if (roadmaps.some((r) => r.slug === roadmap.slug)) {
-    throw new Error(`Two roadmaps share the URL slug "${roadmap.slug}"`);
-  }
-  roadmaps.push(roadmap);
+/**
+ * Lists sheet warnings in the workflow run summary. GitHub only shows the
+ * first few annotations per step, so there is one annotation pointing to it.
+ */
+function reportWarnings() {
+  const warnings = takeWarnings();
+  if (warnings.length === 0 || !process.env.GITHUB_ACTIONS) return;
+  console.log(
+    `::warning title=Sheet check::${warnings.length} sheet warning(s); see the run summary`,
+  );
+  const summary = process.env.GITHUB_STEP_SUMMARY;
+  if (!summary) return;
+  appendFileSync(
+    summary,
+    [
+      '## Sheet warnings',
+      '',
+      '| Tab | Row | Problem |',
+      '| --- | --- | --- |',
+      ...warnings.map(
+        (w) =>
+          `| ${markdownCell(w.sheet)} | ${w.row ?? ''} | ${markdownCell(w.message)} |`,
+      ),
+      '',
+    ].join('\n'),
+  );
 }
 
-if (roadmaps.length === 0) {
-  throw new Error('No roadmaps found; refusing to overwrite the snapshot.');
-}
+try {
+  const index = await fetchTab();
+  const roadmaps: Roadmap[] = [];
 
-const json = `${JSON.stringify(roadmaps, null, 2)}\n`;
-validateSnapshot(JSON.parse(json));
-mkdirSync(new URL('./', OUTPUT), { recursive: true });
-writeFileSync(OUTPUT, json);
-console.log(
-  `Wrote ${roadmaps.length} roadmaps: ${roadmaps.map((r) => r.sheetName).join(', ')}`,
-);
+  for (const listing of parseRoadmapList(index)) {
+    const tab = await fetchTab(listing.sheet);
+    if (hasColumn(tab, 'Sheet')) {
+      throw new Error(
+        `No tab named "${listing.sheet}"; check the Sheet column.`,
+      );
+    }
+    const roadmap = parseRoadmap(listing, tab);
+    if (roadmaps.some((r) => r.slug === roadmap.slug)) {
+      throw new Error(`Two roadmaps share the URL slug "${roadmap.slug}"`);
+    }
+    roadmaps.push(roadmap);
+  }
+
+  if (roadmaps.length === 0) {
+    throw new Error('No roadmaps found; refusing to overwrite the snapshot.');
+  }
+
+  const json = `${JSON.stringify(roadmaps, null, 2)}\n`;
+  validateSnapshot(JSON.parse(json));
+  mkdirSync(new URL('./', OUTPUT), { recursive: true });
+  writeFileSync(OUTPUT, json);
+  console.log(
+    `Wrote ${roadmaps.length} roadmaps: ${roadmaps.map((r) => r.sheetName).join(', ')}`,
+  );
+} finally {
+  reportWarnings();
+}

@@ -31,11 +31,11 @@
           },
           "description": {
             "en": "What this work is. Keep it to a sentence or two.",
-            "cy": "Beth yw'r gwaith hwn. Cadwch ef i frawddeg neu ddwy."
+            "cy": "Beth yw’r gwaith hwn. Cadwch ef i frawddeg neu ddwy."
           },
           "outcome": {
             "en": "What changes for users when it is done.",
-            "cy": "Beth sy'n newid i ddefnyddwyr pan fydd wedi'i gwblhau."
+            "cy": "Beth sy’n newid i ddefnyddwyr pan fydd wedi’i gwblhau."
           },
           "phase": {
             "en": "Beta",
@@ -63,14 +63,14 @@
               "level": 1,
               "text": {
                 "en": "Start a line with \"-\" to nest it under the line above",
-                "cy": "Dechreuwch linell gyda \"-\" i'w nythu o dan y llinell uchod"
+                "cy": "Dechreuwch linell gyda \"-\" i’w nythu o dan y llinell uchod"
               }
             },
             {
               "level": 2,
               "text": {
                 "en": "Use two dashes to nest it again",
-                "cy": "Defnyddiwch ddau doriad i'w nythu eto"
+                "cy": "Defnyddiwch ddau gysylltnod i’w nythu eto"
               }
             },
             {
@@ -141,11 +141,11 @@
           },
           "description": {
             "en": "The Phase column is a free-text tag shown above the title.",
-            "cy": "Mae'r golofn Phase yn dag testun rhydd a ddangosir uwchben y teitl."
+            "cy": "Mae’r golofn Phase yn dag testun rhydd a ddangosir uwchben y teitl."
           },
           "outcome": {
             "en": "A clear understanding of the problem.",
-            "cy": "Dealltwriaeth glir o'r broblem."
+            "cy": "Dealltwriaeth glir o’r broblem."
           },
           "phase": {
             "en": "Discovery",
@@ -255,7 +255,7 @@
       },
       "serviceDescription": {
         "en": "What Product B does and who it helps. This roadmap has no vision, so that section is hidden.",
-        "cy": "Beth mae Cynnyrch B yn ei wneud a phwy mae'n ei helpu. Nid oes gan y trywydd hwn weledigaeth, felly mae'r adran honno wedi'i chuddio."
+        "cy": "Beth mae Cynnyrch B yn ei wneud a phwy mae’n ei helpu. Nid oes gan y trywydd hwn weledigaeth, felly mae’r adran honno wedi’i chuddio."
       }
     },
     "items": {
@@ -322,7 +322,7 @@
             "cy": ""
           },
           "description": {
-            "en": "Sharing data with Service X so users don't have to enter it twice.",
+            "en": "Sharing data with Service X so users don’t have to enter it twice.",
             "cy": ""
           },
           "outcome": {

@@ -1,0 +1,148 @@
+- link "Neidio i’r prif gynnwys":
+  - /url: "#main-content"
+- banner:
+  - link "Hafan trywyddion Iechyd a Gofal Digidol Cymru":
+    - /url: /product-roadmaps/?lang=cy
+    - img "Iechyd a Gofal Digidol Cymru"
+  - navigation "Adrannau’r trywydd":
+    - list:
+      - listitem:
+        - link "Am y trywydd hwn":
+          - /url: "#about"
+      - listitem:
+        - link "Y trywydd":
+          - /url: "#roadmap"
+  - group "Dewis iaith / Choose language":
+    - button "Cymraeg" [pressed]
+    - button "English"
+- main:
+  - region "Product A roadmap":
+    - paragraph:
+      - link "← Pob trywydd":
+        - /url: /product-roadmaps/?lang=cy
+    - text: "Beta Diweddarwyd ddiwethaf:"
+    - time: /October 1, \d+/
+    - heading "Product A roadmap" [level=1]
+    - paragraph: This roadmap shows what we're working on now, what's coming next and the direction we expect to take later.
+  - region "Ein gweledigaeth":
+    - heading "Ein gweledigaeth" [level=2]
+    - paragraph: A short, ambitious statement of where Product A is heading. Leave blank to hide the "Our vision" section.
+  - region "Ein gwerth":
+    - heading "Ein gwerth" [level=2]
+    - paragraph: What Product A does and who it helps. Also used as the summary on the landing page card.
+  - region "Nawr, Nesaf a Hwyrach":
+    - heading "Nawr, Nesaf a Hwyrach" [level=2]
+    - term: Nawr
+    - definition: Work that is underway now and shaping the next changes to the service.
+    - term: Nesaf
+    - definition: Work we expect to pick up soon as current delivery moves forward.
+    - term: Hwyrach
+    - definition: Longer-term direction that will keep evolving as we learn more.
+    - paragraph: Now is what we are actively working on. Next is what we expect to pick up soon. Later is the direction we're setting as we learn more with users and partners. We don't put dates on this work, and the order isn't a priority list.
+  - region "Recently delivered":
+    - heading "Recently delivered" [level=2]
+    - text: "1"
+    - paragraph: Work we've completed recently and that is now live in the service.
+    - article:
+      - heading "Recently shipped work" [level=3]
+      - paragraph: Something we shipped in the last few weeks.
+      - paragraph:
+        - strong: "Canlyniad:"
+        - text: What users can do now.
+  - region "Y trywydd":
+    - heading "Y trywydd" [level=2]
+    - paragraph: Each card shows a change we're working on now, planning to take on next, or working towards later.
+    - list:
+      - listitem:
+        - region "Nawr 3":
+          - heading "Nawr 3" [level=3]
+          - article:
+            - paragraph: Beta
+            - heading "Cerdyn enghreifftiol gyda phob colofn" [level=4]
+            - paragraph: Beth yw’r gwaith hwn. Cadwch ef i frawddeg neu ddwy.
+            - paragraph:
+              - strong: "Canlyniad:"
+              - text: Beth sy’n newid i ddefnyddwyr pan fydd wedi’i gwblhau.
+            - group: What this covers
+            - text: Gwasanaeth X Gwasanaeth Y
+          - article:
+            - heading "Minimal card" [level=4]
+            - paragraph: Only Title and Horizon are required; everything else is optional.
+          - article:
+            - heading "Cerdyn yn aros i gael ei ryddhau" [level=4]
+            - paragraph: Work that is finished and waiting to go live.
+            - paragraph:
+              - strong: "Canlyniad:"
+              - text: Users get the change as soon as it is deployed.
+            - text: Service X
+      - listitem:
+        - region "Nesaf 1":
+          - heading "Nesaf 1" [level=3]
+          - article:
+            - paragraph: Alpha
+            - heading "Card being explored" [level=4]
+            - paragraph: Work we expect to pick up soon.
+            - paragraph:
+              - strong: "Canlyniad:"
+              - text: What we hope this will achieve.
+      - listitem:
+        - region "Hwyrach 2":
+          - heading "Hwyrach 2" [level=3]
+          - article:
+            - paragraph: Darganfod
+            - heading "Cerdyn darganfod" [level=4]
+            - paragraph: Mae’r golofn Phase yn dag testun rhydd a ddangosir uwchben y teitl.
+            - paragraph:
+              - strong: "Canlyniad:"
+              - text: Dealltwriaeth glir o’r broblem.
+          - article:
+            - heading "Longer-term idea" [level=4]
+            - paragraph: Direction we expect to take as we learn more.
+            - text: Service Y Service Z
+  - region "Other work we have delivered this year":
+    - heading "Other work we have delivered this year" [level=2]
+    - text: "1"
+    - paragraph: A broader view of the delivery this year that sits outside the main roadmap horizons.
+    - article:
+      - paragraph: Live
+      - heading "Earlier delivery this year" [level=3]
+      - paragraph: Something we delivered earlier in the year.
+      - group: What this covers
+  - region "Not doing right now":
+    - heading "Not doing right now" [level=2]
+    - text: "1"
+    - paragraph: Being clear about what we’re not doing keeps the focus where it matters.
+    - article:
+      - heading "Something we are not doing" [level=3]
+      - paragraph: Explain why this is out of scope for now.
+  - region "Datganiad hygyrchedd":
+    - heading "Datganiad hygyrchedd" [level=2]
+    - paragraph: Rydym am i gymaint o bobl â phosibl allu defnyddio’r trywyddion hyn. Rydym yn anelu at gydymffurfio â Chanllawiau Hygyrchedd Cynnwys Gwe (WCAG) 2.2 ar lefel AA.
+    - paragraph: Mae’r trywyddion hyn yn fersiwn beta ac maen nhw’n dal i gael eu profi. Rydym yn croesawu unrhyw adborth.
+  - region "Preifatrwydd":
+    - heading "Preifatrwydd" [level=2]
+    - paragraph: Nid yw’r safle hwn yn gosod cwcis tracio nac yn defnyddio dadansoddeg trydydd parti. Nid ydym yn rhannu unrhyw ddata personol.
+    - paragraph: Mae’r ffontiau’n cael eu gwesteia gennym ni ein hunain, felly nid yw eich ymweliad yn cael ei rannu â gwasanaeth ffont allanol.
+- contentinfo:
+  - img "Iechyd a Gofal Digidol Cymru"
+  - navigation "Dolenni troedyn":
+    - list:
+      - listitem:
+        - link "Rhoi adborth":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/issues/new?template=roadmap-feedback.md
+      - listitem:
+        - link "Datganiad hygyrchedd":
+          - /url: "#accessibility"
+      - listitem:
+        - link "Preifatrwydd":
+          - /url: "#privacy"
+      - listitem:
+        - link "Data’r trywydd (JSON)":
+          - /url: /product-roadmaps/producta/roadmap.json
+      - listitem:
+        - link "Trwydded":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/blob/main/LICENSE
+      - listitem:
+        - link "Y gwaith ar GitHub":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps
+  - paragraph: Digital Health and Care Wales / Iechyd a Gofal Digidol Cymru

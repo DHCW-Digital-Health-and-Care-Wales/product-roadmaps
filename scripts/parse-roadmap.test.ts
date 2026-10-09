@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { parseCsv } from './csv.ts';
 import {
+  checkTranslation,
   parseRoadmap,
   parseRoadmapList,
   slugify,
@@ -113,7 +114,74 @@ describe('parseRoadmap', () => {
     expect(roadmap.items.now[0]?.details?.map((d) => d.level)).toEqual([
       0, 1, 2, 0,
     ]);
-    expect(roadmap.items.now[0]?.labels).toEqual(['Service X', 'Service Y']);
+    expect(roadmap.items.now[0]?.labels).toEqual([
+      { en: 'Service X', cy: 'Gwasanaeth X' },
+      { en: 'Service Y', cy: 'Gwasanaeth Y' },
+    ]);
+  });
+
+  it('reads Welsh columns and falls back to English when blank', () => {
+    const [listing] = listings();
+    const roadmap = parseRoadmap(listing, fixture('ProductA'));
+    const [full, minimal] = roadmap.items.now;
+    expect(full?.title).toEqual({
+      en: 'Example card with every column',
+      cy: 'Cerdyn enghreifftiol gyda phob colofn',
+    });
+    expect(full?.details?.[1]?.text.cy).toBe(
+      'Dechreuwch linell gyda "-" i\'w nythu o dan y llinell uchod',
+    );
+    expect(minimal?.title.cy).toBe('');
+    expect(roadmap.items.later[0]?.phase).toEqual({
+      en: 'Discovery',
+      cy: 'Darganfod',
+    });
+  });
+
+  it('ignores Welsh lists that do not match the English', () => {
+    const [listing] = listings();
+    const roadmap = parseRoadmap(listing, {
+      name: 'ProductA',
+      rows: [
+        [
+          'Title',
+          'Horizon',
+          'Labels',
+          'Labels (cy)',
+          'Details',
+          'Details (cy)',
+        ],
+        ['Card', 'Now', 'A, B', 'A', 'One\n- Two', 'Un\n- Dau\nTri'],
+      ],
+    });
+    const [card] = roadmap.items.now;
+    expect(card?.labels).toEqual([
+      { en: 'A', cy: '' },
+      { en: 'B', cy: '' },
+    ]);
+    expect(card?.details?.map((d) => d.text.cy)).toEqual(['', '']);
+    expect(warnings).toHaveBeenCalledWith(
+      expect.stringContaining('Labels of "Card" has 2 English and 1 Welsh'),
+    );
+    expect(warnings).toHaveBeenCalledWith(
+      expect.stringContaining('Details of "Card" has 2 English and 3 Welsh'),
+    );
+  });
+
+  it('warns when the Welsh and English lengths differ a lot', () => {
+    const [listing] = listings();
+    parseRoadmap(listing, {
+      name: 'ProductA',
+      rows: [
+        ['Title', 'Horizon', 'Description', 'Description (cy)'],
+        ['Card', 'Now', 'one two three four five six seven eight', 'un dau'],
+      ],
+    });
+    expect(warnings).toHaveBeenCalledWith(
+      expect.stringContaining(
+        'Description of "Card" Welsh has 2 word(s) but English has 8',
+      ),
+    );
   });
 
   it('skips cards with an unknown horizon or no title', () => {
@@ -144,5 +212,32 @@ describe('parseRoadmap', () => {
         { name: '日本語', rows: [['Title', 'Horizon']] },
       ),
     ).toThrow(/no letters or digits/);
+  });
+});
+
+describe('checkTranslation', () => {
+  const words = (count: number) => Array(count).fill('gair').join(' ');
+
+  it.each([
+    ['no Welsh', words(30), ''],
+    ['similar lengths', words(30), words(25)],
+    ['short text', words(5), words(1)],
+    ['a short phrase that grows in Welsh', words(3), words(7)],
+    ['Welsh up to twice as long', words(10), words(20)],
+  ])('accepts %s', (_, en, cy) => {
+    expect(checkTranslation(en, cy)).toBeUndefined();
+  });
+
+  it.each([
+    ['much shorter Welsh', words(30), words(5)],
+    ['much longer Welsh', words(6), words(13)],
+    ['Welsh with no English', '', words(1)],
+    [
+      'short Welsh padded by nesting dashes',
+      words(8),
+      `-- -- -- -- ${words(3)}`,
+    ],
+  ])('flags %s', (_, en, cy) => {
+    expect(checkTranslation(en, cy)).toBeTruthy();
   });
 });

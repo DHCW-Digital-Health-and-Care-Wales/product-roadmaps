@@ -1,8 +1,9 @@
 /**
  * Roadmap content model. Content comes from a Google Sheet snapshot made at
  * build time in .data/roadmaps.json (see scripts/sync-roadmaps.ts); text shared by
- * every roadmap lives in src/lib/content.ts. Display text is language-keyed so
- * Welsh can be added later; empty Welsh falls back to English (src/lib/i18n.ts).
+ * every roadmap lives in src/lib/content.ts. Display text is language-keyed;
+ * Welsh comes from optional "(cy)" sheet columns and empty Welsh falls back to
+ * English (src/lib/i18n.ts).
  */
 
 // The single source of truth for where a card can appear. The sheet parser,
@@ -40,8 +41,8 @@ export interface RoadmapItem {
   title: Localised;
   description: Localised;
   outcome?: Localised;
-  phase?: string;
-  labels?: string[];
+  phase?: Localised;
+  labels?: Localised[];
   details?: DetailLine[];
 }
 

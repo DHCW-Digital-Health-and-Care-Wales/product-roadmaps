@@ -87,7 +87,7 @@ for bootstrapping a spreadsheet.
 | `Description`     | What the work is.                                                                           |
 | `Outcome`         | What changes when it is done. Optional.                                                     |
 | `Horizon`         | `Now`, `Next`, `Later`, `Recently delivered`, `Delivered this year` or `Not doing`. Required. |
-| `Phase`           | Tag; "Discovery" is highlighted.                                                            |
+| `Phase`           | Free-text tag shown above the card title, for example `Discovery`.                          |
 | `Labels`          | Comma separated; each becomes a pill.                                                       |
 | `Details`         | Expandable "What this covers" list. One bullet per line; start a line with `-` to nest it.  |
 
@@ -96,9 +96,22 @@ every roadmap (intro, Now/Next/Later definitions, section headings) is in
 [src/lib/content.ts](src/lib/content.ts); interface text (headings, links and
 accessible names) is in [src/lib/strings.ts](src/lib/strings.ts).
 
+**Welsh (optional)**: any text column on either tab (`Title`, `Status label`,
+`Vision`, `Service description`, `Description`, `Outcome`, `Phase`, `Labels`,
+`Details`) can have a Welsh column with ` (cy)` added to its name, for example
+`Title (cy)` or `Phase (cy)`. Welsh is shown when the reader picks Cymraeg; if
+the column is missing or the cell is blank, the English is shown instead.
+`Labels (cy)` and `Details (cy)` are matched to the English by position, so
+they need the same number of labels or lines (nesting comes from the English);
+if the counts differ the Welsh is ignored. The sync warns when Welsh and
+English differ a lot in length (one more than twice the other, for text of 8
+or more words) or when there is Welsh but no English, to catch missing or
+misplaced translations.
+
 To add a product, add a tab with the roadmap columns and a row for it on the
 first tab. Sheet mistakes (unknown horizons, rows with no title, missing
-optional columns) show as warnings on the deploy workflow run. A `Sheet` value
+optional columns, likely translation mistakes) show as warnings on the deploy
+workflow run. A `Sheet` value
 with no matching tab, or a tab missing a required column (`Sheet` on the first
 tab; `Title` or `Horizon` on a roadmap tab), fails the sync, so the deploy
 fails and the previous site stays live.

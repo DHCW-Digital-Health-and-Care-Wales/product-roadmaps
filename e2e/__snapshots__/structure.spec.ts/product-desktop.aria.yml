@@ -91,7 +91,7 @@
           - article:
             - paragraph: Discovery
             - heading "Discovery card" [level=4]
-            - paragraph: Phases that include the word "Discovery" are highlighted.
+            - paragraph: The Phase column is a free-text tag shown above the title.
             - paragraph:
               - strong: "Outcome:"
               - text: A clear understanding of the problem.

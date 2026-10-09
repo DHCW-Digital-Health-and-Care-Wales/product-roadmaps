@@ -60,11 +60,49 @@ export const slugify = (value: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
 
-const loc = (en = ''): Localised => ({ en: en.trim(), cy: '' });
-
 // Printed as GitHub Actions annotations so editors can spot sheet mistakes.
 function warn(sheet: string, message: string) {
   console.warn(`::warning title=${sheet}::${message}`);
+}
+
+// Welsh is optional: "Title (cy)" holds the Welsh for "Title", and a missing
+// column or blank cell falls back to English.
+const welshKey = (column: string) => key(`${column} (cy)`);
+
+// A gap in word count bigger than 2x usually means a missing or misplaced
+// translation. Short text is skipped as Welsh phrases often run longer.
+const MIN_WORDS_TO_COMPARE = 8;
+const MIN_LENGTH_RATIO = 0.5;
+
+const countWords = (text: string) =>
+  text.split(/\s+/).filter((word) => /[\p{L}\p{N}]/u.test(word)).length;
+
+/** Describes a likely translation mistake, or returns undefined. */
+export function checkTranslation(en: string, cy: string): string | undefined {
+  if (!cy) return undefined;
+  if (!en) return 'has Welsh but no English, so the Welsh is not shown';
+  const enWords = countWords(en);
+  const cyWords = countWords(cy);
+  const longer = Math.max(enWords, cyWords);
+  if (longer < MIN_WORDS_TO_COMPARE) return undefined;
+  if (Math.min(enWords, cyWords) / longer >= MIN_LENGTH_RATIO) return undefined;
+  return `Welsh has ${cyWords} word(s) but English has ${enWords}; check the translation`;
+}
+
+type Row = Record<string, string>;
+
+/** Reads a column and its optional Welsh column, warning about likely mistakes. */
+function readText(
+  sheet: string,
+  row: Row,
+  column: string,
+  label: string,
+): Localised {
+  const en = row[key(column)] ?? '';
+  const cy = row[welshKey(column)] ?? '';
+  const problem = checkTranslation(en, cy);
+  if (problem) warn(sheet, `${column} of "${label}" ${problem}`);
+  return { en, cy };
 }
 
 export const hasColumn = (sheet: Worksheet, name: string) =>
@@ -85,7 +123,7 @@ function checkColumns(sheet: Worksheet, columns: typeof CARD_COLUMNS) {
 }
 
 /** Row 1 is the header; returns the other rows keyed by normalised header. */
-function readTable(sheet: Worksheet): Record<string, string>[] {
+function readTable(sheet: Worksheet): Row[] {
   const [header = [], ...rows] = sheet.rows;
   const columns = header.map((cell) => key(cell));
   return rows
@@ -128,33 +166,87 @@ function safeColour(sheet: string, value: string): string {
   return DEFAULT_COLOUR;
 }
 
-/** One list entry per line; leading "-" characters nest an entry. */
-function parseDetails(text: string): DetailLine[] | undefined {
-  const lines = text
-    .split(/\r?\n/)
-    .map((line) => line.trim())
-    .filter(Boolean);
-  if (lines.length === 0) return undefined;
-
-  return lines.map((line) => ({
-    level: /^-*/.exec(line)?.[0].length ?? 0,
-    text: loc(line.replace(/^-+\s*/, '')),
-  }));
+/**
+ * Pairs English and Welsh list entries by position. If the counts differ the
+ * Welsh can't be matched up, so it is ignored with a warning.
+ */
+function pairLists(
+  sheet: string,
+  column: string,
+  label: string,
+  en: string[],
+  cy: string[],
+): Localised[] {
+  if (cy.length > 0 && cy.length !== en.length) {
+    warn(
+      sheet,
+      `${column} of "${label}" has ${en.length} English and ${cy.length} Welsh entries; the Welsh is ignored`,
+    );
+    cy = [];
+  }
+  return en.map((text, index) => ({ en: text, cy: cy[index] ?? '' }));
 }
 
-function toItem(row: Record<string, string>): RoadmapItem {
-  const labels = (row.labels ?? '')
+const splitLabels = (text: string) =>
+  text
     .split(/[,\n]/)
     .map((label) => label.trim())
     .filter(Boolean);
 
+const splitLines = (text: string) =>
+  text
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+
+const stripDashes = (line: string) => line.replace(/^-+\s*/, '');
+
+/**
+ * One list entry per line; leading "-" characters nest an entry. Welsh lines
+ * take their nesting from the English line in the same position.
+ */
+function parseDetails(
+  sheet: string,
+  row: Row,
+  label: string,
+): DetailLine[] | undefined {
+  const { en, cy } = readText(sheet, row, 'Details', label);
+  const lines = splitLines(en);
+  if (lines.length === 0) return undefined;
+
+  const texts = pairLists(
+    sheet,
+    'Details',
+    label,
+    lines.map(stripDashes),
+    splitLines(cy).map(stripDashes),
+  );
+  return lines.map((line, index) => ({
+    level: /^-*/.exec(line)?.[0].length ?? 0,
+    text: texts[index],
+  }));
+}
+
+function toItem(sheet: string, row: Row): RoadmapItem {
+  const label = row.title ?? '';
+  const text = (column: string) => readText(sheet, row, column, label);
+  const outcome = text('Outcome');
+  const phase = text('Phase');
+  const labels = pairLists(
+    sheet,
+    'Labels',
+    label,
+    splitLabels(row.labels ?? ''),
+    splitLabels(row[welshKey('Labels')] ?? ''),
+  );
+
   return {
-    title: loc(row.title),
-    description: loc(row.description),
-    outcome: row.outcome ? loc(row.outcome) : undefined,
-    phase: row.phase || undefined,
+    title: text('Title'),
+    description: text('Description'),
+    outcome: outcome.en ? outcome : undefined,
+    phase: phase.en ? phase : undefined,
     labels: labels.length > 0 ? labels : undefined,
-    details: parseDetails(row.details ?? ''),
+    details: parseDetails(sheet, row, label),
   };
 }
 
@@ -163,17 +255,22 @@ export function parseRoadmapList(sheet: Worksheet): Listing[] {
   checkColumns(sheet, LIST_COLUMNS);
   return readTable(sheet)
     .filter((row) => row.sheet)
-    .map((row) => ({
-      sheet: row.sheet,
-      meta: {
-        title: loc(row.title || row.sheet),
-        statusLabel: loc(row.statuslabel),
-        lastUpdated: toIsoDate(row.sheet, row.lastupdated ?? ''),
-        colour: safeColour(row.sheet, row.colour ?? ''),
-        vision: loc(row.vision),
-        serviceDescription: loc(row.servicedescription),
-      },
-    }));
+    .map((row) => {
+      const text = (column: string) =>
+        readText(sheet.name, row, column, row.sheet);
+      const title = text('Title');
+      return {
+        sheet: row.sheet,
+        meta: {
+          title: { ...title, en: title.en || row.sheet },
+          statusLabel: text('Status label'),
+          lastUpdated: toIsoDate(row.sheet, row.lastupdated ?? ''),
+          colour: safeColour(row.sheet, row.colour ?? ''),
+          vision: text('Vision'),
+          serviceDescription: text('Service description'),
+        },
+      };
+    });
 }
 
 /** Reads a roadmap tab: one card per row. */
@@ -202,7 +299,7 @@ export function parseRoadmap(listing: Listing, sheet: Worksheet): Roadmap {
       );
       continue;
     }
-    items[placement].push(toItem(row));
+    items[placement].push(toItem(sheet.name, row));
   }
 
   return {

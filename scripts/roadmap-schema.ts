@@ -11,14 +11,19 @@ import {
 
 const localised = z.strictObject({ en: z.string(), cy: z.string() });
 
+const nonEmpty = localised.refine(
+  (value) => value.en.trim() !== '',
+  'Empty English text',
+);
+
 const isoDate = z.iso.date();
 
 const item = z.strictObject({
   title: localised.refine((value) => value.en.trim() !== '', 'Empty title'),
   description: localised,
   outcome: localised.optional(),
-  phase: z.string().min(1).optional(),
-  labels: z.array(z.string().min(1)).min(1).optional(),
+  phase: nonEmpty.optional(),
+  labels: z.array(nonEmpty).min(1).optional(),
   details: z
     .array(z.strictObject({ text: localised, level: z.int().nonnegative() }))
     .min(1)

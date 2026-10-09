@@ -48,20 +48,13 @@ export function RoadmapCard({
   headingLevel?: 3 | 4;
 }) {
   const Heading = headingLevel === 3 ? 'h3' : 'h4';
-  const isDiscovery = item.phase?.toLowerCase().includes('discovery');
 
   return (
     <article className="rounded-card border border-border bg-surface p-4 shadow-xs">
       {item.phase ? (
         <p className="mb-2">
-          <span
-            className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-medium ${
-              isDiscovery
-                ? 'border-purple-300 bg-purple-50 text-purple-800'
-                : 'border-border-strong bg-surface-subtle text-ink-700'
-            }`}
-          >
-            {item.phase}
+          <span className="inline-flex items-center rounded-full border border-border-strong bg-surface-subtle px-2.5 py-0.5 text-xs font-medium text-ink-700">
+            <T value={item.phase} />
           </span>
         </p>
       ) : null}
@@ -94,10 +87,10 @@ export function RoadmapCard({
         <div className="mt-3 flex flex-wrap items-center gap-2">
           {item.labels.map((label) => (
             <span
-              key={label}
+              key={label.en}
               className="inline-flex items-center rounded-full bg-surface-muted px-2.5 py-0.5 text-xs font-medium text-ink-700"
             >
-              {label}
+              <T value={label} />
             </span>
           ))}
         </div>

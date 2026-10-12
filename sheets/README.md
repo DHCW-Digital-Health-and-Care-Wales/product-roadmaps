@@ -27,3 +27,23 @@ by hand.
 Optionally add a dropdown (**Data → Data validation**) for the `Horizon`
 column. Column meanings are documented in the
 [main README](../README.md#sheet-format).
+
+## Converting a Single Record backlog export
+
+`npm run backlog -- [backlog.csv] [--out <dir>] [--snapshot <file>]` converts
+a backlog export (default `.data/SRBacklog.csv`) into sheet CSVs in `.data/backlog/`:
+
+- `Roadmaps.csv`: one row per roadmap; add the rows (not the header) to the
+  first tab.
+- One CSV per roadmap, named after its tab; import each with **Insert new
+  sheet(s)**.
+
+Only rows whose `Now, Next, Later` is `Now`, `Next`, `Later` or `Done`
+(`Recently delivered`) are used. `PRODUCT DOMAINS` picks the roadmap (title
+cased, so `TESTINGS & RESULTS` becomes `Testings & Results`), `Item (REQUIRED)`
+is the title, `Description` is converted from HTML to text, and `Product`,
+`Healthcare Pathways`, `Strategic Programme` and `Organisation` become labels
+(blanks and values containing `N/A` are skipped). Rows with no domain are
+skipped with a warning. The script also writes `.data/roadmaps.json` from the
+generated CSVs, replacing the synced snapshot until the next `npm run sync`,
+so `npm run dev` previews the result.

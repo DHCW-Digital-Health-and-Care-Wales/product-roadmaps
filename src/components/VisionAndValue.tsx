@@ -20,7 +20,7 @@ export function VisionAndValue({ meta }: { meta: RoadmapMeta }) {
             <h2 id="vision-heading" className="text-2xl font-bold text-heading">
               <T value={UI.vision} />
             </h2>
-            <p className="mt-4 max-w-3xl text-lg leading-relaxed text-ink-900">
+            <p className="mt-4 max-w-3xl whitespace-pre-line text-lg leading-relaxed text-ink-900">
               <T value={meta.vision} />
             </p>
           </div>
@@ -40,7 +40,7 @@ export function VisionAndValue({ meta }: { meta: RoadmapMeta }) {
             >
               <T value={UI.value} />
             </h2>
-            <p className="mt-4 max-w-3xl text-lg leading-relaxed text-ink-900">
+            <p className="mt-4 max-w-3xl whitespace-pre-line text-lg leading-relaxed text-ink-900">
               <T value={meta.serviceDescription} />
             </p>
           </div>

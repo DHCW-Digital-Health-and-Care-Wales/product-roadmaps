@@ -1,7 +1,8 @@
 /**
  * Downloads the roadmap Google Sheet and writes the parsed roadmaps to
  * .data/roadmaps.json, which is gitignored. Run with `npm run sync`; the
- * deploy workflow does this before every build.
+ * deploy workflow does this before every build. Add `--include-disabled` to
+ * also load roadmaps whose Enabled column is not "Yes" (local dev only).
  *
  * The first tab lists the roadmaps; each row's "Sheet" names the tab to load.
  */
@@ -22,6 +23,8 @@ const SHEET_ID =
   process.env.SHEET_ID || '1wuk_pK1LpfLKmdbg6WsY_qKeBC5lcN4rlsjqkAxtflw';
 
 const OUTPUT = new URL('../.data/roadmaps.json', import.meta.url);
+
+const includeDisabled = process.argv.includes('--include-disabled');
 
 // The gviz CSV export can fetch a tab by name. An unknown name silently
 // returns the first tab, which callers detect by its "Sheet" column.
@@ -81,7 +84,7 @@ try {
   const index = await fetchTab();
   const roadmaps: Roadmap[] = [];
 
-  for (const listing of parseRoadmapList(index)) {
+  for (const listing of parseRoadmapList(index, { includeDisabled })) {
     const tab = await fetchTab(listing.sheet);
     if (hasColumn(tab, 'Sheet')) {
       throw new Error(

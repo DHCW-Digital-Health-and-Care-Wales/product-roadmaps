@@ -39,6 +39,9 @@ npm run sync   # fetch the sheet into .data/roadmaps.json (gitignored)
 npm run dev
 ```
 
+To preview roadmaps whose `Enabled` is not `Yes`, run
+`npm run sync -- --include-disabled`. Use it for local development only.
+
 Open the forwarded port 5173 at `/product-roadmaps/en/`. The spreadsheet ID is set
 in [scripts/sync-roadmaps.ts](scripts/sync-roadmaps.ts); override it with the
 `SHEET_ID` environment variable to test another sheet. To work offline, skip
@@ -85,6 +88,7 @@ for bootstrapping a spreadsheet.
 | Column                | Use                                                              |
 | --------------------- | ---------------------------------------------------------------- |
 | `Sheet`               | Name of the tab holding this roadmap's cards. Required.          |
+| `Enabled`             | `Yes` publishes the roadmap. Anything else, or blank, leaves it out (case-sensitive; no Welsh). |
 | `Title`               | Page heading and landing page card name.                         |
 | `Status label`        | Badge next to the title, for example `Beta`.                     |
 | `Last updated`        | `YYYY-MM-DD` or `DD/MM/YYYY`.                                    |
@@ -133,7 +137,10 @@ The sync warns about likely translation mistakes:
 - Welsh headers for a column that can't have Welsh, such as `Colour (cy)`.
 
 To add a product, add a tab with the roadmap columns and a row for it on the
-first tab. Sheet mistakes (unknown horizons, rows with no title, missing
+first tab, with `Enabled` set to `Yes`. A roadmap that is not enabled is not
+synced (its tab is not even fetched). The sync warns about an `Enabled` value
+that is neither `Yes` nor `No` (for example `yes`), and if the column is
+missing no roadmaps are published. Sheet mistakes (unknown horizons, rows with no title, missing
 optional columns, likely translation mistakes) are listed, with row numbers,
 in the summary of the deploy workflow run. To check the sheet without
 deploying, run **Actions → Check the roadmap sheet → Run workflow**. A `Sheet`

@@ -142,6 +142,9 @@
         - link "Roadmap data (JSON)":
           - /url: /product-roadmaps/producta/roadmap.json
       - listitem:
+        - link "List view":
+          - /url: /product-roadmaps/en/producta/?view=list
+      - listitem:
         - link "Licence":
           - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/blob/main/LICENSE
       - listitem:

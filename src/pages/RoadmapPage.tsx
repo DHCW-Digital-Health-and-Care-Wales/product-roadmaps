@@ -5,9 +5,17 @@ import { VisionAndValue } from '../components/VisionAndValue';
 import { HorizonExplainer } from '../components/HorizonExplainer';
 import { RoadmapSection } from '../components/RoadmapSection';
 import { RoadmapHorizons } from '../components/RoadmapHorizons';
+import { RoadmapList } from '../components/RoadmapList';
+import type { View } from '../lib/router';
 
 /** A single product roadmap, built from one tab of the Google Sheet. */
-export function RoadmapPage({ roadmap }: { roadmap: Roadmap }) {
+export function RoadmapPage({
+  roadmap,
+  view,
+}: {
+  roadmap: Roadmap;
+  view: View;
+}) {
   const sections = (placement: 'before' | 'after') =>
     SECTIONS.filter((section) => section.placement === placement).map(
       (section) => (
@@ -23,17 +31,26 @@ export function RoadmapPage({ roadmap }: { roadmap: Roadmap }) {
     <>
       <RoadmapIntro meta={roadmap.meta} />
       <VisionAndValue meta={roadmap.meta} />
-      <HorizonExplainer />
+      <HorizonExplainer view={view} />
 
-      {sections('before')}
+      {view === 'list' ? (
+        <RoadmapList key={roadmap.slug} roadmap={roadmap} />
+      ) : (
+        <>
+          {sections('before')}
 
-      <div id="roadmap" className="scroll-mt-28 bg-surface px-4 py-8 sm:px-6">
-        <div className="mx-auto max-w-content">
-          <RoadmapHorizons roadmap={roadmap} />
-        </div>
-      </div>
+          <div
+            id="roadmap"
+            className="scroll-mt-28 bg-surface px-4 py-8 sm:px-6"
+          >
+            <div className="mx-auto max-w-content">
+              <RoadmapHorizons roadmap={roadmap} />
+            </div>
+          </div>
 
-      {sections('after')}
+          {sections('after')}
+        </>
+      )}
     </>
   );
 }

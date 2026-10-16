@@ -1,6 +1,7 @@
 import { ChevronDown } from 'lucide-react';
 import type { Roadmap } from '../lib/types';
 import { HORIZONS, ROADMAP_DESCRIPTION, ROADMAP_HEADING } from '../lib/content';
+import { placementHeadingId } from '../lib/roadmap-helpers';
 import { HorizonPhase } from './HorizonPhase';
 import { T } from './T';
 
@@ -35,7 +36,7 @@ export function RoadmapHorizons({ roadmap }: { roadmap: Roadmap }) {
             <HorizonPhase
               label={horizon.label}
               items={roadmap.items[horizon.id]}
-              headingId={`horizon-${horizon.id}`}
+              headingId={placementHeadingId(horizon.id)}
               accent={accent}
             />
             {index < lastIndex ? (

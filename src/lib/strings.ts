@@ -34,6 +34,8 @@ export const UI = {
   roadmapData: { en: 'Roadmap data (JSON)', cy: 'Data’r trywydd (JSON)' },
   licence: { en: 'Licence', cy: 'Trwydded' },
   onGitHub: { en: 'This project on GitHub', cy: 'Y gwaith ar GitHub' },
+  listViewLink: { en: 'List view', cy: 'Golwg rhestr' },
+  cardViewLink: { en: 'Card view', cy: 'Golwg cardiau' },
 
   accessibilityHeading: {
     en: 'Accessibility statement',
@@ -78,6 +80,9 @@ export const UI = {
   value: { en: 'Our value', cy: 'Ein gwerth' },
   horizonsHeading: { en: 'Now, Next and Later', cy: 'Nawr, Nesaf a Hwyrach' },
   outcome: { en: 'Outcome:', cy: 'Canlyniad:' },
+  atAGlance: { en: 'At a glance', cy: 'Cipolwg' },
+  openAll: { en: 'Open all', cy: 'Agor y cyfan' },
+  closeAll: { en: 'Close all', cy: 'Cau’r cyfan' },
   nothingYet: {
     en: 'Nothing to show here yet.',
     cy: 'Dim byd i’w ddangos yma eto.',

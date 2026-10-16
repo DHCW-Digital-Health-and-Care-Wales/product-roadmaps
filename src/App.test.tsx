@@ -1,5 +1,11 @@
 // @vitest-environment jsdom
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import {
+  act,
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+} from '@testing-library/react';
 import axe from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import App from './App';
@@ -143,10 +149,98 @@ describe('Welsh', () => {
   });
 });
 
+describe('list view', () => {
+  it('explains the horizons as a list, after the note', () => {
+    renderAt(`/product-roadmaps/en/${first.slug}/?view=list`);
+    const section = screen
+      .getByRole('heading', { name: 'Now, Next and Later' })
+      .closest('section');
+    const note = screen.getByText(/^Now is what we are actively working on/);
+    const list = section?.querySelector('dl') ?? null;
+    expect(list?.querySelectorAll('dt')).toHaveLength(3);
+    expect(
+      list &&
+        note.compareDocumentPosition(list) & Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
+    expect(section?.querySelector('.rounded-card')).toBeNull();
+  });
+  it('follows the URL on back and forward', () => {
+    renderAt(`/product-roadmaps/en/${first.slug}/`);
+    act(() => {
+      window.history.pushState({}, '', '?view=list');
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    });
+    expect(
+      screen.getByRole('navigation', { name: 'At a glance' }),
+    ).toBeTruthy();
+    expect(screen.getByRole('link', { name: 'Card view' })).toBeTruthy();
+  });
+
+  it('shows cards unless the URL asks for the list', () => {
+    renderAt(`/product-roadmaps/en/${first.slug}/`);
+    expect(screen.getByRole('heading', { name: 'The roadmap' })).toBeTruthy();
+    expect(
+      screen.queryByRole('navigation', { name: 'At a glance' }),
+    ).toBeNull();
+  });
+
+  it('shows the list with ?view=list', () => {
+    renderAt(`/product-roadmaps/en/${first.slug}/?view=list`);
+    expect(screen.queryByRole('heading', { name: 'The roadmap' })).toBeNull();
+    expect(
+      screen.getByRole('navigation', { name: 'At a glance' }),
+    ).toBeTruthy();
+    expect(screen.getByRole('heading', { level: 2, name: 'Now' })).toBeTruthy();
+  });
+
+  it('keeps the list when switching language', () => {
+    renderAt(`/product-roadmaps/en/${first.slug}/?view=list`);
+    fireEvent.click(screen.getByRole('link', { name: 'Cymraeg' }));
+    expect(window.location.search).toBe('?view=list');
+    expect(screen.getByRole('navigation', { name: 'Cipolwg' })).toBeTruthy();
+  });
+
+  it('switches layout from the footer link', () => {
+    renderAt(`/product-roadmaps/en/${first.slug}/`);
+    fireEvent.click(screen.getByRole('link', { name: 'List view' }));
+    expect(window.location.search).toBe('?view=list');
+    expect(
+      screen.getByRole('navigation', { name: 'At a glance' }),
+    ).toBeTruthy();
+
+    fireEvent.click(screen.getByRole('link', { name: 'Card view' }));
+    expect(window.location.search).toBe('');
+    expect(screen.getByRole('heading', { name: 'The roadmap' })).toBeTruthy();
+  });
+
+  it('has no layout link off roadmap pages', () => {
+    renderAt('/product-roadmaps/en/');
+    expect(screen.queryByRole('link', { name: 'List view' })).toBeNull();
+  });
+
+  it('opens and closes every row', () => {
+    renderAt(`/product-roadmaps/en/${first.slug}/?view=list`);
+    const rows = [
+      ...document.querySelectorAll('#roadmap button[aria-expanded]'),
+    ];
+    expect(rows.length).toBeGreaterThan(1);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Open all' }));
+    for (const row of rows) {
+      expect(row.getAttribute('aria-expanded')).toBe('true');
+    }
+    fireEvent.click(screen.getByRole('button', { name: 'Close all' }));
+    for (const row of rows) {
+      expect(row.getAttribute('aria-expanded')).toBe('false');
+    }
+  });
+});
+
 describe('accessibility (axe)', () => {
   const pages = {
     landing: '',
     product: `${first.slug}/`,
+    'product list': `${first.slug}/?view=list`,
     'not found': 'nope/',
   };
 

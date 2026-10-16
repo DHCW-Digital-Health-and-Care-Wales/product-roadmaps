@@ -11,6 +11,9 @@ const SITE = 'https://example.org/product-roadmaps/';
 const pages = await renderPages(SITE);
 const [first] = snapshot;
 
+// Hydration re-renders once to add links that need JavaScript; act() must see it.
+Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true });
+
 describe('prerender', () => {
   it('renders the site root, every page in each language and a 404 page', () => {
     expect(pages.map((page) => page.file)).toEqual([

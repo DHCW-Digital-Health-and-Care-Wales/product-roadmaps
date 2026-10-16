@@ -9,7 +9,7 @@ import './index.css';
 import App from './App.tsx';
 import { LanguageProvider } from './components/LanguageProvider';
 import { preferredLang } from './lib/i18n';
-import { pathFor, routeFromPath } from './lib/router';
+import { pathFor, routeFromPath, viewFromSearch } from './lib/router';
 
 const rootElement = document.getElementById('root');
 
@@ -26,13 +26,18 @@ const app = (
 );
 
 // The build prerenders each page in each language (scripts/prerender.ts).
-// Reuse that HTML only when the first render will match it exactly.
+// Reuse that HTML only when the first render will match it exactly; roadmap
+// pages are always prerendered as cards.
 const route = routeFromPath(window.location.pathname);
 const { lang, slug } = rootElement.dataset;
+const { search, hash } = window.location;
 if (route.lang === null && route.slug === null) {
-  const { search, hash } = window.location;
   window.location.replace(`${pathFor(preferredLang(), null)}${search}${hash}`);
-} else if (lang === route.lang && slug === (route.slug ?? '')) {
+} else if (
+  lang === route.lang &&
+  slug === (route.slug ?? '') &&
+  (route.slug === null || viewFromSearch(search) === 'cards')
+) {
   hydrateRoot(rootElement, app);
 } else {
   createRoot(rootElement).render(app);

@@ -1,4 +1,9 @@
-import { useEffect, useState, type MouseEvent } from 'react';
+import {
+  useEffect,
+  useState,
+  useSyncExternalStore,
+  type MouseEvent,
+} from 'react';
 import { isLang, type Lang } from './i18n';
 
 /**
@@ -47,6 +52,43 @@ export function pathFor(lang: Lang, slug: string | null): string {
 /** A roadmap's published JSON, shared by both languages. */
 export function dataPathFor(slug: string): string {
   return `${BASE}${encodeURIComponent(slug)}/roadmap.json`;
+}
+
+/** How a roadmap is laid out: cards by default, or a list with `?view=list`. */
+export type View = 'cards' | 'list';
+
+/** Only exactly `view=list` opts in, so anything else matches the prerender. */
+export function viewFromSearch(search: string): View {
+  return new URLSearchParams(search).get('view') === 'list' ? 'list' : 'cards';
+}
+
+/** The current view. Always cards in the prerender, which has no URL. */
+export function useView(): View {
+  const [view, setView] = useState<View>(() =>
+    typeof window === 'undefined'
+      ? 'cards'
+      : viewFromSearch(window.location.search),
+  );
+  useEffect(() => {
+    const onPop = () => setView(viewFromSearch(window.location.search));
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
+  return view;
+}
+
+const subscribeNever = () => () => undefined;
+
+/**
+ * False in the prerender and while hydrating, so links that need JavaScript
+ * are left out of the static HTML.
+ */
+export function useHasJs(): boolean {
+  return useSyncExternalStore(
+    subscribeNever,
+    () => true,
+    () => false,
+  );
 }
 
 export function navigate(href: string, { scroll = true } = {}) {

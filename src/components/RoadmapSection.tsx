@@ -1,5 +1,6 @@
 import type { RoadmapItem } from '../lib/types';
 import type { SECTIONS } from '../lib/content';
+import { placementHeadingId } from '../lib/roadmap-helpers';
 import { UI } from '../lib/strings';
 import { RoadmapCard } from './RoadmapCard';
 import { T } from './T';
@@ -15,7 +16,7 @@ export function RoadmapSection({
   section: (typeof SECTIONS)[number];
   items: RoadmapItem[];
 }) {
-  const headingId = `section-${section.id}`;
+  const headingId = placementHeadingId(section.id);
 
   return (
     <section

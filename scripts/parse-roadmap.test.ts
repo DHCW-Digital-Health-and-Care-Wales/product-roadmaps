@@ -70,12 +70,75 @@ describe('parseRoadmapList', () => {
     expect(warnings).not.toHaveBeenCalled();
   });
 
+  it('leaves out roadmaps that are not enabled', () => {
+    const listings = parseRoadmapList(fixture('Roadmaps'));
+    expect(listings.map((l) => l.sheet)).not.toContain('ProductC');
+  });
+
+  it('can include disabled roadmaps for local development', () => {
+    const listings = parseRoadmapList(fixture('Roadmaps'), {
+      includeDisabled: true,
+    });
+    expect(listings.map((l) => l.sheet)).toEqual([
+      'ProductA',
+      'ProductB',
+      'ProductC',
+    ]);
+    expect(warnings).not.toHaveBeenCalled();
+  });
+
+  it('only publishes a row whose Enabled is exactly Yes', () => {
+    const list = (...enabled: (string | undefined)[]) =>
+      parseRoadmapList({
+        name: 'Roadmaps',
+        rows: [
+          ['Sheet', 'Enabled'],
+          ...enabled.map((value, i) => [`T${i}`, ...(value ? [value] : [])]),
+        ],
+      }).map((l) => l.sheet);
+    expect(list('Yes', 'No', '', undefined, 'yes', 'YES', 'Y', 'true')).toEqual(
+      ['T0'],
+    );
+  });
+
+  it('warns about an Enabled value that is not Yes or No', () => {
+    parseRoadmapList({
+      name: 'Roadmaps',
+      rows: [
+        ['Sheet', 'Enabled'],
+        ['A', 'Yes'],
+        ['B', 'No'],
+        ['C', ''],
+        ['D', 'yes'],
+      ],
+    });
+    const enabled = takeWarnings().filter((w) => w.row !== undefined);
+    expect(enabled).toEqual([
+      {
+        sheet: 'Roadmaps',
+        row: 5,
+        message: 'Enabled "yes" for "D" is not exactly "Yes"; not published',
+      },
+    ]);
+  });
+
+  it('publishes nothing, with a warning, when the Enabled column is missing', () => {
+    const listings = parseRoadmapList({
+      name: 'Roadmaps',
+      rows: [['Sheet'], ['A']],
+    });
+    expect(listings).toEqual([]);
+    expect(takeWarnings().map((w) => w.message)).toContain(
+      'Missing column "Enabled"; its values will be blank',
+    );
+  });
+
   it('replaces non-hex colours with the default', () => {
     const [listing] = parseRoadmapList({
       name: 'Roadmaps',
       rows: [
-        ['Sheet', 'Colour'],
-        ['X', 'red; background: url(x)'],
+        ['Sheet', 'Enabled', 'Colour'],
+        ['X', 'Yes', 'red; background: url(x)'],
       ],
     });
     expect(listing?.meta.colour).toBe('#325083');
@@ -93,6 +156,7 @@ describe('parseRoadmapList', () => {
       rows: [
         [
           'Sheet',
+          'Enabled',
           'Title',
           'Title (cy)',
           'Status label',
@@ -104,7 +168,20 @@ describe('parseRoadmapList', () => {
           'Service description',
           'Service description (cy)',
         ],
-        ['X', '', 'Trywydd X', 'Beta', 'Beta', '', '', 'V', 'G', 'S', 'D'],
+        [
+          'X',
+          'Yes',
+          '',
+          'Trywydd X',
+          'Beta',
+          'Beta',
+          '',
+          '',
+          'V',
+          'G',
+          'S',
+          'D',
+        ],
       ],
     });
     expect(listing?.meta).toMatchObject({
@@ -122,9 +199,9 @@ describe('warnings', () => {
     parseRoadmapList({
       name: 'Roadmaps',
       rows: [
-        ['Sheet', 'Colour'],
-        ['X', '#325083'],
-        ['Y', 'red'],
+        ['Sheet', 'Enabled', 'Colour'],
+        ['X', 'Yes', '#325083'],
+        ['Y', 'Yes', 'red'],
       ],
     });
     expect(takeWarnings().at(-1)).toEqual({

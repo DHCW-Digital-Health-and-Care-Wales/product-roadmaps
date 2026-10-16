@@ -38,6 +38,7 @@ const DEFAULT_COLOUR = '#325083';
 const LIST_COLUMNS = {
   required: ['Sheet'],
   optional: [
+    'Enabled',
     'Title',
     'Status label',
     'Last updated',
@@ -375,11 +376,36 @@ function toItem(ctx: RowContext): RoadmapItem {
   };
 }
 
-/** Reads the first tab: one roadmap per row, settings as columns. */
-export function parseRoadmapList(sheet: Worksheet): Listing[] {
+/** Only an exact "Yes" publishes a roadmap; anything else leaves it out. */
+function isEnabled(sheet: string, { line, cells }: ListRow): boolean {
+  const value = cells.enabled ?? '';
+  if (value === 'Yes') return true;
+  if (value && value !== 'No') {
+    warn(
+      sheet,
+      `Enabled "${value}" for "${cells.sheet}" is not exactly "Yes"; not published`,
+      line,
+    );
+  }
+  return false;
+}
+
+type ListRow = ReturnType<typeof readTable>[number];
+
+/**
+ * Reads the first tab: one roadmap per row, settings as columns. Rows that
+ * are not enabled are left out unless `includeDisabled` is set (local dev).
+ */
+export function parseRoadmapList(
+  sheet: Worksheet,
+  { includeDisabled = false } = {},
+): Listing[] {
   checkColumns(sheet, LIST_COLUMNS);
   return readTable(sheet, LIST_COLUMNS)
-    .filter(({ cells }) => cells.sheet)
+    .filter(
+      (row) =>
+        row.cells.sheet && (includeDisabled || isEnabled(sheet.name, row)),
+    )
     .map(({ line, cells }) => {
       const ctx = { sheet: sheet.name, line, label: cells.sheet, cells };
       return {

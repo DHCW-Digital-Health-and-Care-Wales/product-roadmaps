@@ -131,6 +131,49 @@ test.describe('navigation', () => {
     await expect(h1(page)).toHaveText(second.meta.title.en);
   });
 
+  test('shows the list view with ?view=list', async ({ page }) => {
+    await page.goto(`en/${first.slug}/?view=list`);
+    await expect(
+      page.getByRole('navigation', { name: 'At a glance' }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: 'The roadmap' }),
+    ).toHaveCount(0);
+
+    await page.getByRole('link', { name: 'Cymraeg' }).click();
+    await expect(page).toHaveURL(/\?view=list$/);
+    await expect(
+      page.getByRole('navigation', { name: 'Cipolwg' }),
+    ).toBeVisible();
+  });
+
+  test('switches layout from the footer, keeping focus, and back', async ({
+    page,
+  }) => {
+    await page.goto(`en/${first.slug}/`);
+    const toList = page.getByRole('link', { name: 'List view' });
+    await toList.focus();
+    await page.keyboard.press('Enter');
+
+    await expect(page).toHaveURL(/\?view=list$/);
+    await expect(
+      page.getByRole('navigation', { name: 'At a glance' }),
+    ).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Card view' })).toBeFocused();
+
+    await page.goBack();
+    await expect(
+      page.getByRole('heading', { name: 'The roadmap' }),
+    ).toBeVisible();
+  });
+
+  test('scrolls to a heading linked in the list view', async ({ page }) => {
+    await page.goto(`en/${first.slug}/?view=list#horizon-later`);
+    await expect(
+      page.getByRole('heading', { level: 2, name: 'Later', exact: true }),
+    ).toBeInViewport();
+  });
+
   test('shows not found for an unknown product', async ({ page }) => {
     await page.goto('en/nope/');
     await expect(h1(page)).toHaveText('Roadmap not found');

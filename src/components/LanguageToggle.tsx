@@ -26,9 +26,8 @@ export function LanguageToggle() {
             hrefLang={option.value}
             onClick={(event) => {
               rememberLang(option.value);
-              onNavigate(`${href}${window.location.hash}`, { scroll: false })(
-                event,
-              );
+              const { search, hash } = window.location;
+              onNavigate(`${href}${search}${hash}`, { scroll: false })(event);
             }}
             aria-current={isActive ? 'page' : undefined}
             className={`relative px-3 py-1.5 text-sm font-medium transition-colors first:rounded-l-sm last:rounded-r-sm focus-visible:z-10 ${

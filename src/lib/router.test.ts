@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { dataPathFor, pathFor, routeFromPath } from './router';
+import { dataPathFor, pathFor, routeFromPath, viewFromSearch } from './router';
 
 describe('routeFromPath', () => {
   it.each([
@@ -18,6 +18,18 @@ describe('routeFromPath', () => {
     ['/product-roadmaps/producta/', null, 'producta'],
   ])('%s gives %s and %s', (path, lang, slug) => {
     expect(routeFromPath(path)).toEqual({ lang, slug });
+  });
+});
+
+describe('viewFromSearch', () => {
+  it.each([
+    ['', 'cards'],
+    ['?view=cards', 'cards'],
+    ['?view=LIST', 'cards'],
+    ['?view=list', 'list'],
+    ['?x=1&view=list', 'list'],
+  ])('%s gives %s', (search, view) => {
+    expect(viewFromSearch(search)).toBe(view);
   });
 });
 

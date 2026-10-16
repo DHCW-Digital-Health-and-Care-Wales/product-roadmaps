@@ -1,14 +1,17 @@
 import { HORIZON_NOTE, HORIZONS } from '../lib/content';
+import type { View } from '../lib/router';
 import { UI } from '../lib/strings';
 import { T } from './T';
 
 /**
  * Plain-English explainer of what Now, Next and Later mean, plus the
  * forward-looking note that this shows direction and priorities rather than
- * firm commitments or dates.
+ * firm commitments or dates. The list view puts the note first and the
+ * horizons in a plain list instead of cards.
  */
-export function HorizonExplainer() {
+export function HorizonExplainer({ view }: { view: View }) {
   const headingId = 'horizons-explainer-heading';
+  const note = <T value={HORIZON_NOTE} />;
 
   return (
     <section
@@ -20,25 +23,45 @@ export function HorizonExplainer() {
           <T value={UI.horizonsHeading} />
         </h2>
 
-        <dl className="mt-6 grid gap-4 md:grid-cols-3">
-          {HORIZONS.map((horizon) => (
-            <div
-              key={horizon.id}
-              className="rounded-card border border-border bg-surface-subtle p-5"
-            >
-              <dt className="text-lg font-bold text-heading">
-                <T value={horizon.label} />
-              </dt>
-              <dd className="mt-2 leading-relaxed text-ink-900">
-                <T value={horizon.definition} />
-              </dd>
-            </div>
-          ))}
-        </dl>
+        {view === 'list' ? (
+          <div className="max-w-3xl">
+            <p className="mt-4 leading-relaxed text-ink-700">{note}</p>
+            <dl className="mt-6 divide-y divide-border border-y border-border">
+              {HORIZONS.map((horizon) => (
+                <div key={horizon.id} className="py-3">
+                  <dt className="text-lg font-bold text-heading">
+                    <T value={horizon.label} />
+                  </dt>
+                  <dd className="mt-1 leading-relaxed text-ink-900">
+                    <T value={horizon.definition} />
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        ) : (
+          <>
+            <dl className="mt-6 grid gap-4 md:grid-cols-3">
+              {HORIZONS.map((horizon) => (
+                <div
+                  key={horizon.id}
+                  className="rounded-card border border-border bg-surface-subtle p-5"
+                >
+                  <dt className="text-lg font-bold text-heading">
+                    <T value={horizon.label} />
+                  </dt>
+                  <dd className="mt-2 leading-relaxed text-ink-900">
+                    <T value={horizon.definition} />
+                  </dd>
+                </div>
+              ))}
+            </dl>
 
-        <p className="mt-6 max-w-3xl leading-relaxed text-ink-700">
-          <T value={HORIZON_NOTE} />
-        </p>
+            <p className="mt-6 max-w-3xl leading-relaxed text-ink-700">
+              {note}
+            </p>
+          </>
+        )}
       </div>
     </section>
   );

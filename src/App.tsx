@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { roadmaps } from './lib/roadmaps';
 import { useLanguage } from './lib/i18n';
+import { useView } from './lib/router';
 import { UI } from './lib/strings';
 import { T } from './components/T';
 import { SiteHeader } from './components/SiteHeader';
@@ -19,6 +20,7 @@ import { RoadmapPage } from './pages/RoadmapPage';
  */
 export default function App() {
   const { route, tr } = useLanguage();
+  const view = useView();
   const { slug } = route;
   const roadmap = slug ? roadmaps.find((r) => r.slug === slug) : undefined;
   const mainRef = useRef<HTMLElement>(null);
@@ -43,7 +45,7 @@ export default function App() {
   let content;
   if (slug === null) content = <LandingPage roadmaps={roadmaps} />;
   else if (!roadmap) content = <NotFoundState slug={slug} />;
-  else content = <RoadmapPage roadmap={roadmap} />;
+  else content = <RoadmapPage roadmap={roadmap} view={view} />;
 
   return (
     <>
@@ -60,7 +62,7 @@ export default function App() {
         <PrivacyNote />
       </main>
 
-      <SiteFooter dataSlug={roadmap?.slug} />
+      <SiteFooter dataSlug={roadmap?.slug} view={view} />
       <BackToTop />
     </>
   );

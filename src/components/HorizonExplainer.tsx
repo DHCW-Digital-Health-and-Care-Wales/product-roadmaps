@@ -1,13 +1,18 @@
 import { HORIZON_NOTE, HORIZONS } from '../lib/content';
 import type { View } from '../lib/router';
+import { placementHeadingId } from '../lib/roadmap-helpers';
 import { UI } from '../lib/strings';
 import { T } from './T';
+
+const horizonLink =
+  'text-action underline underline-offset-4 hover:decoration-2';
 
 /**
  * Plain-English explainer of what Now, Next and Later mean, plus the
  * forward-looking note that this shows direction and priorities rather than
  * firm commitments or dates. The list view puts the note first and the
- * horizons in a plain list instead of cards.
+ * horizons in a plain list instead of cards. Each horizon name links to its
+ * section further down the page.
  */
 export function HorizonExplainer({ view }: { view: View }) {
   const headingId = 'horizons-explainer-heading';
@@ -29,8 +34,13 @@ export function HorizonExplainer({ view }: { view: View }) {
             <dl className="mt-6 divide-y divide-border border-y border-border">
               {HORIZONS.map((horizon) => (
                 <div key={horizon.id} className="py-3">
-                  <dt className="text-lg font-bold text-heading">
-                    <T value={horizon.label} />
+                  <dt className="text-lg font-bold">
+                    <a
+                      href={`#${placementHeadingId(horizon.id)}`}
+                      className={horizonLink}
+                    >
+                      <T value={horizon.label} />
+                    </a>
                   </dt>
                   <dd className="mt-1 leading-relaxed text-ink-900">
                     <T value={horizon.definition} />
@@ -45,10 +55,15 @@ export function HorizonExplainer({ view }: { view: View }) {
               {HORIZONS.map((horizon) => (
                 <div
                   key={horizon.id}
-                  className="rounded-card border border-border bg-surface-subtle p-5"
+                  className="group relative rounded-card border border-border bg-surface-subtle p-5 transition-shadow hover:shadow-md card-focus-ring"
                 >
                   <dt className="text-lg font-bold text-heading">
-                    <T value={horizon.label} />
+                    <a
+                      href={`#${placementHeadingId(horizon.id)}`}
+                      className="after:absolute after:inset-0 after:content-[''] focus-visible:shadow-none focus-visible:outline-hidden group-hover:underline"
+                    >
+                      <T value={horizon.label} />
+                    </a>
                   </dt>
                   <dd className="mt-2 leading-relaxed text-ink-900">
                     <T value={horizon.definition} />

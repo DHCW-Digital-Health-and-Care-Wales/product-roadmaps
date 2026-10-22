@@ -84,7 +84,7 @@ export function RoadmapList({ roadmap }: { roadmap: Roadmap }) {
             <section
               key={g.id}
               aria-labelledby={placementHeadingId(g.id)}
-              className="mt-10"
+              className="mt-10 scroll-mt-28"
             >
               <h2
                 id={placementHeadingId(g.id)}

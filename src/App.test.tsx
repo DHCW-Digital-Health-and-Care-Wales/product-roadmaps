@@ -164,6 +164,24 @@ describe('list view', () => {
     ).toBeTruthy();
     expect(section?.querySelector('.rounded-card')).toBeNull();
   });
+  it('links each horizon in the explainer to its section', () => {
+    for (const view of ['', '?view=list']) {
+      renderAt(`/product-roadmaps/en/${first.slug}/${view}`);
+      for (const [name, id] of [
+        ['Now', 'horizon-now'],
+        ['Next', 'horizon-next'],
+        ['Later', 'horizon-later'],
+      ]) {
+        const section = screen
+          .getByRole('heading', { name: 'Now, Next and Later' })
+          .closest('section');
+        const link = section?.querySelector(`a[href="#${id}"]`);
+        expect(link?.textContent).toBe(name);
+        expect(document.getElementById(id)).toBeTruthy();
+      }
+      cleanup();
+    }
+  });
   it('follows the URL on back and forward', () => {
     renderAt(`/product-roadmaps/en/${first.slug}/`);
     act(() => {

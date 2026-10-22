@@ -34,11 +34,17 @@
     - paragraph: What Product A does and who it helps. Also used as the summary on the landing page card.
   - region "Nawr, Nesaf a Hwyrach":
     - heading "Nawr, Nesaf a Hwyrach" [level=2]
-    - term: Nawr
+    - term:
+      - link "Nawr":
+        - /url: "#horizon-now"
     - definition: Work that is underway now and shaping the next changes to the service.
-    - term: Nesaf
+    - term:
+      - link "Nesaf":
+        - /url: "#horizon-next"
     - definition: Work we expect to pick up soon as current delivery moves forward.
-    - term: Hwyrach
+    - term:
+      - link "Hwyrach":
+        - /url: "#horizon-later"
     - definition: Longer-term direction that will keep evolving as we learn more.
     - paragraph: Now is what we are actively working on. Next is what we expect to pick up soon. Later is the direction we're setting as we learn more with users and partners. We don't put dates on this work, and the order isn't a priority list.
   - region "Recently delivered":

@@ -29,3 +29,10 @@ export function parseCsv(text: string): string[][] {
   if (field || row.length > 0) rows.push([...row, field]);
   return rows;
 }
+
+const formatField = (field: string) =>
+  /[",\r\n]/.test(field) ? `"${field.replaceAll('"', '""')}"` : field;
+
+/** Writes RFC 4180 CSV that Google Sheets can import; the inverse of parseCsv. */
+export const formatCsv = (rows: string[][]): string =>
+  rows.map((row) => `${row.map(formatField).join(',')}\n`).join('');

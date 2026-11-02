@@ -21,7 +21,8 @@
     "test:e2e": "playwright test",
     "lighthouse": "ROADMAPS_DATA=e2e/fixtures/roadmaps.json npm run build && npx --yes @lhci/cli@0.15.1 autorun",
     "check": "npm run typecheck && npm run lint && npm run format:check && npm test",
-    "sync": "node scripts/sync-roadmaps.ts"
+    "sync": "node scripts/sync-roadmaps.ts",
+    "backlog": "node scripts/backlog-to-sheets.ts"
   },
   "dependencies": {
     "@fontsource/roboto": "^5.3.0",

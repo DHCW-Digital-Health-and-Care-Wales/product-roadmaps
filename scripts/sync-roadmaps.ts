@@ -6,23 +6,14 @@
  *
  * The first tab lists the roadmaps; each row's "Sheet" names the tab to load.
  */
-import { appendFileSync, mkdirSync, writeFileSync } from 'node:fs';
-import type { Roadmap } from '../src/lib/types.ts';
+import { appendFileSync } from 'node:fs';
+import { buildRoadmaps, writeSnapshot } from './build-snapshot.ts';
 import { parseCsv } from './csv.ts';
-import {
-  hasColumn,
-  parseRoadmap,
-  parseRoadmapList,
-  takeWarnings,
-  type Worksheet,
-} from './parse-roadmap.ts';
-import { validateSnapshot } from './roadmap-schema.ts';
+import { takeWarnings, type Worksheet } from './parse-roadmap.ts';
 
 // The spreadsheet must be shared as "Anyone with the link can view".
 const SHEET_ID =
   process.env.SHEET_ID || '1wuk_pK1LpfLKmdbg6WsY_qKeBC5lcN4rlsjqkAxtflw';
-
-const OUTPUT = new URL('../.data/roadmaps.json', import.meta.url);
 
 const includeDisabled = process.argv.includes('--include-disabled');
 
@@ -81,31 +72,10 @@ function reportWarnings() {
 }
 
 try {
-  const index = await fetchTab();
-  const roadmaps: Roadmap[] = [];
-
-  for (const listing of parseRoadmapList(index, { includeDisabled })) {
-    const tab = await fetchTab(listing.sheet);
-    if (hasColumn(tab, 'Sheet')) {
-      throw new Error(
-        `No tab named "${listing.sheet}"; check the Sheet column.`,
-      );
-    }
-    const roadmap = parseRoadmap(listing, tab);
-    if (roadmaps.some((r) => r.slug === roadmap.slug)) {
-      throw new Error(`Two roadmaps share the URL slug "${roadmap.slug}"`);
-    }
-    roadmaps.push(roadmap);
-  }
-
-  if (roadmaps.length === 0) {
-    throw new Error('No roadmaps found; refusing to overwrite the snapshot.');
-  }
-
-  const json = `${JSON.stringify(roadmaps, null, 2)}\n`;
-  validateSnapshot(JSON.parse(json));
-  mkdirSync(new URL('./', OUTPUT), { recursive: true });
-  writeFileSync(OUTPUT, json);
+  const roadmaps = await buildRoadmaps(await fetchTab(), fetchTab, {
+    includeDisabled,
+  });
+  writeSnapshot(roadmaps);
   console.log(
     `Wrote ${roadmaps.length} roadmaps: ${roadmaps.map((r) => r.sheetName).join(', ')}`,
   );

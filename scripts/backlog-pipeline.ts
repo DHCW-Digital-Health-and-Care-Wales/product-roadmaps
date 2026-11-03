@@ -5,7 +5,11 @@
  */
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { readBacklog, type BacklogReadResult } from './backlog.ts';
+import {
+  readBacklog,
+  type BacklogMapping,
+  type BacklogReadResult,
+} from './backlog.ts';
 import {
   buildSheets,
   tabFileName,
@@ -24,8 +28,12 @@ export interface Conversion extends BacklogReadResult {
 }
 
 /** `text` is the backlog CSV; `lastUpdated` an ISO date for the new roadmaps. */
-export function convertBacklog(text: string, lastUpdated: string): Conversion {
-  const backlog = readBacklog(parseCsv(text.replace(/^\uFEFF/, '')));
+export function convertBacklog(
+  text: string,
+  lastUpdated: string,
+  mapping?: BacklogMapping,
+): Conversion {
+  const backlog = readBacklog(parseCsv(text.replace(/^\uFEFF/, '')), mapping);
   return { ...backlog, sheets: buildSheets(backlog.items, lastUpdated) };
 }
 
@@ -52,7 +60,10 @@ const readWorksheet = (dir: string, file: string, name: string): Worksheet => ({
 
 /** Parses the CSVs written by writeSheetFiles, as the Google Sheet sync would. */
 export function readRoadmaps(dir: string): Promise<Roadmap[]> {
-  return buildRoadmaps(readWorksheet(dir, LIST_FILE, 'Roadmaps'), (name) =>
-    Promise.resolve(readWorksheet(dir, tabFileName(name), name)),
+  return buildRoadmaps(
+    readWorksheet(dir, LIST_FILE, 'Roadmaps'),
+    (name) => Promise.resolve(readWorksheet(dir, tabFileName(name), name)),
+    // The generated list has no Enabled column; this is for previewing.
+    { includeDisabled: true },
   );
 }

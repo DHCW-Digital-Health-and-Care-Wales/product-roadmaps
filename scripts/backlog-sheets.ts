@@ -78,7 +78,7 @@ export function buildSheets(
   for (const item of items) {
     const key = domainKey(item.domain);
     const group = groups.get(key) ?? {
-      name: toTabName(item.domain),
+      name: item.tabName ?? toTabName(item.domain),
       items: [],
     };
     group.items.push(item);

@@ -6,31 +6,56 @@
  */
 import { htmlToText } from './html-to-text.ts';
 
-/** Horizon values for the roadmap sheet's `Horizon` column, by backlog status. */
-const HORIZON_BY_STATUS = new Map([
-  ['now', 'Now'],
-  ['next', 'Next'],
-  ['later', 'Later'],
-  ['done', 'Recently delivered'],
-]);
+/** A column name, or `{ value }` for the same text on every row. */
+export type Field = string | { value: string };
 
-export const BACKLOG_COLUMNS = {
+/** Keeps rows whose column includes `includes` among its values, or is blank. */
+export type RowFilter =
+  { column: string; includes: string } | { column: string; blank: true };
+
+/** Which backlog columns feed each roadmap item field. */
+export interface BacklogMapping {
+  title: string;
+  description: string;
+  /** The roadmap name. */
+  domain: Field;
+  /** The status, translated to a horizon by `statuses`. */
+  status: Field;
+  /**
+   * Status value (any case) -> Horizon; rows with other values are ignored.
+   * Without it, any non-blank status is used as the horizon as it is.
+   */
+  statuses?: Record<string, string>;
+  /** Only rows passing this filter are used. */
+  only?: RowFilter;
+  /** In label order; each non-blank, non-"N/A" value becomes a label. */
+  labels: readonly string[];
+}
+
+export const DEFAULT_MAPPING: BacklogMapping = {
   title: 'Item (REQUIRED)',
   description: 'Description',
   domain: 'PRODUCT DOMAINS',
   status: 'Now, Next, Later',
-  // In label order; each non-blank, non-"N/A" value becomes a label.
+  statuses: {
+    now: 'Now',
+    next: 'Next',
+    later: 'Later',
+    done: 'Recently delivered',
+  },
   labels: [
     'Product',
     'Healthcare Pathways',
     'Strategic Programme',
     'Organisation',
   ],
-} as const;
+};
 
 export interface BacklogItem {
   /** Roadmap name as written in the backlog, e.g. "TESTINGS & RESULTS". */
   domain: string;
+  /** Tab name to use as written, instead of title-casing the domain. */
+  tabName?: string;
   title: string;
   /** Plain text; the backlog holds HTML. */
   description: string;
@@ -85,57 +110,82 @@ export function toLabels(cells: string[]): string[] {
     });
 }
 
-function findColumns(header: string[]) {
+function findColumns(header: string[], mapping: BacklogMapping) {
   const indexes = new Map(header.map((name, i) => [columnKey(name), i]));
   const find = (name: string) => indexes.get(columnKey(name));
   const wanted = [
-    BACKLOG_COLUMNS.title,
-    BACKLOG_COLUMNS.description,
-    BACKLOG_COLUMNS.domain,
-    BACKLOG_COLUMNS.status,
-    ...BACKLOG_COLUMNS.labels,
+    mapping.title,
+    mapping.description,
+    ...[mapping.domain, mapping.status].filter((f) => typeof f === 'string'),
+    ...(mapping.only ? [mapping.only.column] : []),
+    ...mapping.labels,
   ];
   const missing = wanted.filter((name) => find(name) === undefined);
   if (missing.length > 0) {
     throw new Error(`Backlog is missing column(s): ${missing.join(', ')}`);
   }
   const at = (name: string) => find(name)!;
+  const reader = (field: Field) => {
+    if (typeof field !== 'string') return () => field.value;
+    const index = at(field);
+    return (cells: string[]) => cells[index] ?? '';
+  };
+  const only = mapping.only;
+  const onlyIndex = only && at(only.column);
   return {
-    title: at(BACKLOG_COLUMNS.title),
-    description: at(BACKLOG_COLUMNS.description),
-    domain: at(BACKLOG_COLUMNS.domain),
-    status: at(BACKLOG_COLUMNS.status),
-    labels: BACKLOG_COLUMNS.labels.map(at),
+    title: at(mapping.title),
+    description: at(mapping.description),
+    domain: reader(mapping.domain),
+    status: reader(mapping.status),
+    labels: mapping.labels.map(at),
+    keep: (cells: string[]) => {
+      if (!only || onlyIndex === undefined) return true;
+      const values = splitValues(cells[onlyIndex] ?? '');
+      return 'blank' in only
+        ? values.length === 0
+        : values.map(columnKey).includes(columnKey(only.includes));
+    },
   };
 }
 
 /** `rows` is the parsed CSV, header first. */
-export function readBacklog(rows: string[][]): BacklogReadResult {
+export function readBacklog(
+  rows: string[][],
+  mapping: BacklogMapping = DEFAULT_MAPPING,
+): BacklogReadResult {
   const [header, ...body] = rows;
   if (!header) throw new Error('Backlog is empty');
-  const columns = findColumns(header);
+  const columns = findColumns(header, mapping);
+  const horizons =
+    mapping.statuses &&
+    new Map(
+      Object.entries(mapping.statuses).map(([k, v]) => [columnKey(k), v]),
+    );
   const items: BacklogItem[] = [];
   const skipped: SkippedRow[] = [];
 
   body.forEach((cells, index) => {
     const line = index + 2;
-    const horizon = HORIZON_BY_STATUS.get(
-      normalise(cells[columns.status] ?? '').toLowerCase(),
-    );
+    if (!columns.keep(cells)) return;
+    const status = normalise(columns.status(cells));
+    const horizon = horizons ? horizons.get(columnKey(status)) : status;
     if (!horizon) return;
 
     const title = normalise(cells[columns.title] ?? '');
-    const domain = normalise(cells[columns.domain] ?? '');
+    const domain = normalise(columns.domain(cells));
     if (!title || !domain) {
       skipped.push({
         line,
         title,
-        reason: title ? 'no PRODUCT DOMAINS value' : 'no Item title',
+        reason: title
+          ? `no ${typeof mapping.domain === 'string' ? mapping.domain : 'roadmap name'} value`
+          : 'no Item title',
       });
       return;
     }
     items.push({
       domain,
+      tabName: typeof mapping.domain === 'string' ? undefined : domain,
       title,
       description: htmlToText(cells[columns.description] ?? ''),
       horizon,

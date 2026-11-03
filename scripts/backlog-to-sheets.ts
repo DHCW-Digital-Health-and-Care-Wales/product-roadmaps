@@ -3,11 +3,13 @@
  * Google Sheets, and writes a snapshot of them to preview the site.
  *
  *   npm run backlog -- [backlog.csv] [--out <dir>] [--snapshot <file>]
+ *     [--mapping <name>]
  *
  * Defaults: .data/SRBacklog.csv, .data/backlog and .data/roadmaps.json (which
  * replaces the synced snapshot until the next `npm run sync`). Roadmaps.csv in
  * the output folder holds the rows to add to the first sheet. See
- * backlog.ts for the column mapping.
+ * backlog.ts for the column mapping; backlog-mappings.ts picks one per CSV
+ * file name, or by `--mapping`.
  */
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -17,12 +19,14 @@ import {
   readRoadmaps,
   writeSheetFiles,
 } from './backlog-pipeline.ts';
+import { pickMapping } from './backlog-mappings.ts';
 import { DEFAULT_SNAPSHOT, writeSnapshot } from './build-snapshot.ts';
 
 const { values, positionals } = parseArgs({
   allowPositionals: true,
   options: {
     out: { type: 'string', default: '.data/backlog' },
+    mapping: { type: 'string' },
     snapshot: { type: 'string', default: DEFAULT_SNAPSHOT },
   },
 });
@@ -34,6 +38,7 @@ const snapshot = resolve(values.snapshot);
 const { items, skipped, sheets } = convertBacklog(
   readFileSync(input, 'utf8'),
   new Date().toISOString().slice(0, 10),
+  pickMapping(input, values.mapping),
 );
 
 for (const { line, title, reason } of skipped) {

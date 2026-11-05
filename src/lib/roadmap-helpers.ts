@@ -14,6 +14,7 @@ import { UI } from './strings';
 import { compareText, fold } from './text';
 import {
   HORIZON_IDS,
+  type CategoryId,
   type Localised,
   type Placement,
   type Roadmap,
@@ -69,7 +70,6 @@ export function formatDate(iso: string, lang: 'cy' | 'en'): string {
 export const isExpandable = (item: RoadmapItem) =>
   Boolean(item.outcome ?? item.details);
 
-/** The id of a horizon's or section's heading, the same in both layouts. */
 /**
  * The roadmap title prefixed with its family, e.g. "Single Record | Nursing
  * Healthcare", for the page title. Each part falls back to English on its own.
@@ -90,6 +90,7 @@ export function titleWithFamily({
   };
 }
 
+/** The id of a horizon's or section's heading, the same in both layouts. */
 export function placementHeadingId(id: Placement): string {
   return (HORIZON_IDS as readonly Placement[]).includes(id)
     ? `horizon-${id}`
@@ -131,9 +132,6 @@ export const roadmapSummary = (roadmap: Roadmap): Localised =>
     ? roadmap.meta.serviceDescription
     : ROADMAP_INTRO;
 
-/** Id of the landing page's category links, which sections link back to. */
-export const CATEGORY_NAV_ID = 'categories';
-
 export const categorySectionId = (category: Category) =>
   `category-${category.id}`;
 
@@ -145,9 +143,13 @@ export const roadmapCount = (count: number): Localised =>
 
 export interface CategoryGroup {
   category: Category;
-  /** True for the "Other roadmaps" group, which has no jump-link tile. */
-  isOther: boolean;
   roadmaps: Roadmap[];
+}
+
+/** A landing page jump link: a named category and its number of matches. */
+export interface CategoryTile {
+  category: Category<CategoryId>;
+  count: number;
 }
 
 /**
@@ -170,19 +172,17 @@ export function groupByCategory(
     .map(({ roadmap }) => roadmap);
   const groups: CategoryGroup[] = CATEGORIES.map((category) => ({
     category,
-    isOther: false,
     roadmaps: sorted.filter((r) => r.meta.category === category.id),
   }));
   groups.push({
     category: OTHER_CATEGORY,
-    isOther: true,
     roadmaps: sorted.filter((r) => !r.meta.category),
   });
   return groups.filter((group) => group.roadmaps.length > 0);
 }
 
 /**
- * Whether a roadmap's title, family or summary, as shown in `lang`, contains
+ * Whether a roadmap's title, family or description, as shown in `lang`, contains
  * every word of the query, ignoring case and accents. A blank query matches
  * everything.
  */
@@ -193,10 +193,13 @@ export function matchesSearch(
 ): boolean {
   const words = fold(query).split(/\s+/).filter(Boolean);
   if (words.length === 0) return true;
-  const { title, family } = roadmap.meta;
-  const text = fold(
-    [title, family, roadmapSummary(roadmap)].map((v) => t(v, lang)).join(' '),
-  );
+  const { title, family, serviceDescription } = roadmap.meta;
+  // Not roadmapSummary(): its generic fallback text would match every roadmap
+  // without a description. A family needs English to be shown, so to match.
+  const fields = family.en
+    ? [title, family, serviceDescription]
+    : [title, serviceDescription];
+  const text = fold(fields.map((v) => t(v, lang)).join(' '));
   return words.every((word) => text.includes(word));
 }
 
@@ -210,3 +213,21 @@ export const filterGroups = (
     roadmaps.filter((roadmap) => matchesSearch(roadmap, query, lang)),
     lang,
   );
+
+/**
+ * One tile per named category that has any roadmaps, so the tiles stay put
+ * while searching, counting the matches in `shown` (the search results).
+ * "Other roadmaps" never has a tile.
+ */
+export const categoryTiles = (
+  roadmaps: Roadmap[],
+  shown: CategoryGroup[],
+): CategoryTile[] =>
+  CATEGORIES.filter((category) =>
+    roadmaps.some((r) => r.meta.category === category.id),
+  ).map((category) => ({
+    category,
+    count:
+      shown.find((group) => group.category.id === category.id)?.roadmaps
+        .length ?? 0,
+  }));

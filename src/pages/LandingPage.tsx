@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Roadmap } from '../lib/types';
 import { useLanguage } from '../lib/i18n';
-import { filterGroups } from '../lib/roadmap-helpers';
+import { categoryTiles, filterGroups } from '../lib/roadmap-helpers';
 import { UI } from '../lib/strings';
 import { CategorySection } from '../components/CategorySection';
 import { CategoryTiles } from '../components/CategoryTiles';
@@ -38,7 +38,7 @@ export function LandingPage({ roadmaps }: { roadmaps: Roadmap[] }) {
           <p className="mt-4 max-w-3xl text-lg leading-relaxed text-ink-900">
             <T value={UI.landingIntro} />
           </p>
-          <CategoryTiles groups={groups} />
+          <CategoryTiles tiles={categoryTiles(roadmaps, groups)} />
         </div>
       </section>
 

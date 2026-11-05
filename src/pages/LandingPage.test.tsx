@@ -64,7 +64,7 @@ const tiles = () => {
   const nav = screen.queryByRole('navigation', { name: 'Browse by category' });
   return nav
     ? within(nav)
-        .getAllByRole('link')
+        .queryAllByRole('link')
         .map((link) => link.getAttribute('href'))
     : [];
 };
@@ -72,8 +72,8 @@ const tiles = () => {
 const sectionHeadings = () =>
   screen
     .queryAllByRole('heading', { level: 2 })
-    .map((h) => h.textContent)
-    .filter((text) => text !== 'Browse by category');
+    .filter((h) => !h.closest('nav'))
+    .map((h) => h.textContent);
 
 const cardTitles = (section: string) =>
   within(screen.getByRole('region', { name: section }))
@@ -172,7 +172,7 @@ describe('LandingPage', () => {
     expect(coreCard?.textContent).not.toContain('Single Record');
   });
 
-  it('filters cards, tiles and sections, announcing the count', () => {
+  it('filters cards and sections, announcing the count', () => {
     renderLanding([uncategorised, ...categorised]);
     const status = screen.getByRole('status');
     expect(status.textContent).toBe('5 roadmaps');
@@ -180,22 +180,80 @@ describe('LandingPage', () => {
     search('  record ');
     expect(sectionHeadings()).toEqual(['Hospital & Specialist Care']);
     expect(cardTitles('Hospital & Specialist Care')).toEqual(['Patients']);
-    expect(tiles()).toEqual(['#category-hospital-specialist-care']);
-    expect(
-      screen.getByRole('link', { name: /Hospital & Specialist Care/ })
-        .textContent,
-    ).toContain('1 roadmap');
     pause();
     expect(status.textContent).toBe('Showing 1 of 5 roadmaps');
 
     search('about MISC');
     expect(sectionHeadings()).toEqual(['Other roadmaps']);
-    expect(tiles()).toEqual([]);
 
     search('');
     expect(sectionHeadings()).toHaveLength(4);
     pause();
     expect(status.textContent).toBe('5 roadmaps');
+  });
+
+  it('keeps every category tile while searching, updating the counts', () => {
+    renderLanding([uncategorised, ...categorised]);
+    const nav = screen.getByRole('navigation', { name: 'Browse by category' });
+    const tile = (name: string) =>
+      within(nav)
+        .getAllByRole('listitem')
+        .find((item) => item.textContent?.includes(name))!;
+    const names = [
+      'Public Health & Apps',
+      'GP & Community Services',
+      'Hospital & Specialist Care',
+    ];
+    expect(within(nav).getAllByRole('listitem')).toHaveLength(3);
+
+    search('record');
+    expect(within(nav).getAllByRole('listitem')).toHaveLength(3);
+    expect(tile('Hospital & Specialist Care').textContent).toContain(
+      '1 roadmap',
+    );
+    expect(
+      within(tile('Hospital & Specialist Care'))
+        .getByRole('link')
+        .getAttribute('href'),
+    ).toBe('#category-hospital-specialist-care');
+    // A category with no matches has no section, so its tile is plain text.
+    for (const name of ['Public Health & Apps', 'GP & Community Services']) {
+      expect(tile(name).textContent).toContain('0 roadmaps');
+      expect(within(tile(name)).queryByRole('link')).toBeNull();
+    }
+
+    search('about MISC');
+    expect(within(nav).getAllByRole('listitem')).toHaveLength(3);
+    expect(tiles()).toEqual([]);
+
+    search('');
+    for (const name of names) {
+      expect(within(tile(name)).getByRole('link')).toBeTruthy();
+    }
+  });
+
+  it('describes the search with hint text', () => {
+    renderLanding(categorised);
+    const box = screen.getByRole('searchbox', { name: 'Find a product' });
+    const hint = document.getElementById(box.getAttribute('aria-describedby')!);
+    expect(hint?.textContent).toBe(
+      'Search by name, product family or description',
+    );
+  });
+
+  it('does not match the generic intro shown on cards with no description', () => {
+    const bare: Roadmap = {
+      ...uncategorised,
+      meta: { ...uncategorised.meta, serviceDescription: loc('') },
+    };
+    renderLanding([bare, ...categorised]);
+    // The card shows the intro, which mentions "direction".
+    expect(
+      screen.getByRole('link', { name: 'Miscellany' }).closest('li')
+        ?.textContent,
+    ).toContain('direction');
+    search('direction');
+    expect(screen.getByText(/No roadmaps match your search/)).toBeTruthy();
   });
 
   it('says when nothing matches', () => {

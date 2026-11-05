@@ -69,6 +69,10 @@ export const UI = {
   browseCategories: { en: 'Browse by category', cy: 'Pori yn ôl categori' },
   searchRoadmaps: { en: 'Search roadmaps', cy: 'Chwilio trywyddion' },
   findProduct: { en: 'Find a product', cy: 'Dod o hyd i gynnyrch' },
+  findProductHint: {
+    en: 'Search by name, product family or description',
+    cy: 'Chwilio yn ôl enw, teulu cynnyrch neu ddisgrifiad',
+  },
   // Welsh uses the singular noun after a number, so "{count} trywydd".
   roadmapCount: { en: '{count} roadmaps', cy: '{count} trywydd' },
   roadmapCountOne: { en: '1 roadmap', cy: '1 trywydd' },

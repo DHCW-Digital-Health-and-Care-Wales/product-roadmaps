@@ -22,6 +22,7 @@
             - /url: "#category-gp-community-services"
   - search "Chwilio trywyddion":
     - text: Dod o hyd i gynnyrch
+    - paragraph: Chwilio yn ôl enw, teulu cynnyrch neu ddisgrifiad
     - searchbox "Dod o hyd i gynnyrch"
     - status: 2 trywydd
   - region "Meddygon Teulu a Gwasanaethau Cymunedol":

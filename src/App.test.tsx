@@ -10,6 +10,8 @@ import axe from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import App from './App';
 import { LanguageProvider } from './components/LanguageProvider';
+import { titleWithFamily } from './lib/roadmap-helpers';
+import type { Roadmap } from './lib/types';
 import snapshot from '../e2e/fixtures/roadmaps.json';
 
 const [first] = snapshot;
@@ -110,6 +112,26 @@ describe('App routing', () => {
   it('does not steal focus on the first render', () => {
     renderAt(`/product-roadmaps/en/${first.slug}/`);
     expect(document.activeElement).toBe(document.body);
+  });
+});
+
+describe('Roadmap page title', () => {
+  // The h1 renders the family and title separately (to mark English fallbacks),
+  // so check it never drifts from the shared "Family | Title" text.
+  it.each(
+    (snapshot as Roadmap[]).flatMap((roadmap) =>
+      (['en', 'cy'] as const).map(
+        (lang) => [roadmap.slug, lang, roadmap] as const,
+      ),
+    ),
+  )('the %s heading in %s matches the page title', (slug, lang, roadmap) => {
+    renderAt(`/product-roadmaps/${lang}/${slug}/`);
+    const expected =
+      titleWithFamily(roadmap.meta)[lang] || titleWithFamily(roadmap.meta).en;
+    expect(screen.getByRole('heading', { level: 1 }).textContent).toBe(
+      expected,
+    );
+    expect(document.title.startsWith(`${expected} – `)).toBe(true);
   });
 });
 

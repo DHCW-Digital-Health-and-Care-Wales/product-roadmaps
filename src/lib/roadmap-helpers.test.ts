@@ -8,6 +8,7 @@ import {
   placementHeadingId,
   roadmapGroups,
   titleWithFamily,
+  categoryTiles,
 } from './roadmap-helpers';
 import type { CategoryId, Roadmap } from './types';
 import fixture from '../../e2e/fixtures/roadmaps.json';
@@ -131,7 +132,6 @@ describe('groupByCategory', () => {
   const ids = (roadmaps: Roadmap[], lang: 'en' | 'cy' = 'en') =>
     groupByCategory(roadmaps, lang).map((g) => [
       g.category.id,
-      g.isOther,
       g.roadmaps.map((r) => r.slug),
     ]);
 
@@ -144,9 +144,9 @@ describe('groupByCategory', () => {
         roadmap('gamma', 'gp-community-services', { en: 'Gamma' }),
       ]),
     ).toEqual([
-      ['public-health-apps', false, ['alpha', 'beta']],
-      ['gp-community-services', false, ['gamma']],
-      ['national-systems-data', false, ['zeta']],
+      ['public-health-apps', ['alpha', 'beta']],
+      ['gp-community-services', ['gamma']],
+      ['national-systems-data', ['zeta']],
     ]);
   });
 
@@ -155,7 +155,7 @@ describe('groupByCategory', () => {
       [roadmap('a', 'tests-scans-results', { en: 'A' })],
       'en',
     );
-    expect(groups.some((g) => g.isOther)).toBe(false);
+    expect(groups.some((g) => g.category.id === 'other')).toBe(false);
   });
 
   it('puts roadmaps with no category in a last Other group', () => {
@@ -165,8 +165,8 @@ describe('groupByCategory', () => {
         roadmap('a', 'hospital-specialist-care', { en: 'A' }),
       ]),
     ).toEqual([
-      ['hospital-specialist-care', false, ['a']],
-      ['other', true, ['other']],
+      ['hospital-specialist-care', ['a']],
+      ['other', ['other']],
     ]);
   });
 
@@ -175,8 +175,8 @@ describe('groupByCategory', () => {
       roadmap('b-slug', 'public-health-apps', { en: 'Same' }),
       roadmap('a-slug', 'public-health-apps', { en: 'same' }),
     ];
-    expect(ids(roadmaps)[0]?.[2]).toEqual(['a-slug', 'b-slug']);
-    expect(ids([...roadmaps].reverse())[0]?.[2]).toEqual(['a-slug', 'b-slug']);
+    expect(ids(roadmaps)[0]?.[1]).toEqual(['a-slug', 'b-slug']);
+    expect(ids([...roadmaps].reverse())[0]?.[1]).toEqual(['a-slug', 'b-slug']);
   });
 
   it('sorts by the Welsh title, falling back to English', () => {
@@ -184,8 +184,8 @@ describe('groupByCategory', () => {
       roadmap('one', 'public-health-apps', { en: 'Apple', cy: 'Zebra' }),
       roadmap('two', 'public-health-apps', { en: 'Banana' }),
     ];
-    expect(ids(roadmaps, 'en')[0]?.[2]).toEqual(['one', 'two']);
-    expect(ids(roadmaps, 'cy')[0]?.[2]).toEqual(['two', 'one']);
+    expect(ids(roadmaps, 'en')[0]?.[1]).toEqual(['one', 'two']);
+    expect(ids(roadmaps, 'cy')[0]?.[1]).toEqual(['two', 'one']);
   });
 });
 
@@ -222,6 +222,29 @@ describe('matchesSearch', () => {
     const english = roadmap('e', '', { en: 'Pathology' });
     expect(matchesSearch(english, 'patholog', 'cy')).toBe(true);
   });
+
+  it('does not search the generic intro shown when there is no description', () => {
+    const bare = roadmap(
+      'b',
+      '',
+      { en: 'Pathology' },
+      { serviceDescription: { en: '', cy: '' } },
+    );
+    for (const word of ['roadmap', 'working', 'direction', 'later']) {
+      expect(matchesSearch(bare, word, 'en')).toBe(false);
+      expect(matchesSearch(bare, word, 'cy')).toBe(false);
+    }
+  });
+
+  it('ignores a family that has only Welsh, as the card hides it', () => {
+    const welshFamily = roadmap(
+      'w',
+      '',
+      { en: 'Pathology', cy: 'Patholeg' },
+      { family: { en: '', cy: 'Cofnod' } },
+    );
+    expect(matchesSearch(welshFamily, 'cofnod', 'cy')).toBe(false);
+  });
 });
 
 describe('filterGroups', () => {
@@ -251,5 +274,36 @@ describe('filterGroups', () => {
       ['other', ['d']],
     ]);
     expect(groups('nothing')).toEqual([]);
+  });
+});
+
+describe('categoryTiles', () => {
+  const roadmaps = [
+    roadmap('a', 'public-health-apps', { en: 'Vaccines' }),
+    roadmap('c', 'national-systems-data', { en: 'Data' }),
+    roadmap('d', '', { en: 'Misc' }),
+  ];
+  const tiles = (query: string) =>
+    categoryTiles(roadmaps, filterGroups(roadmaps, query, 'en')).map((tile) => [
+      tile.category.id,
+      tile.count,
+    ]);
+
+  it('has a tile per non-empty named category, never Other', () => {
+    expect(tiles('')).toEqual([
+      ['public-health-apps', 1],
+      ['national-systems-data', 1],
+    ]);
+  });
+
+  it('keeps every tile while searching, counting only the matches', () => {
+    expect(tiles('data')).toEqual([
+      ['public-health-apps', 0],
+      ['national-systems-data', 1],
+    ]);
+    expect(tiles('misc')).toEqual([
+      ['public-health-apps', 0],
+      ['national-systems-data', 0],
+    ]);
   });
 });

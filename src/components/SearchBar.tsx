@@ -45,8 +45,12 @@ export function SearchBar({
         <label htmlFor={id} className="block font-medium text-heading">
           <T value={UI.findProduct} />
         </label>
+        <p id={`${id}-hint`} className="mt-0.5 text-sm text-ink-700">
+          <T value={UI.findProductHint} />
+        </p>
         <input
           id={id}
+          aria-describedby={`${id}-hint`}
           type="search"
           autoComplete="off"
           value={query}

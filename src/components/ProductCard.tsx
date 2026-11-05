@@ -40,8 +40,8 @@ export function ProductCard({ roadmap }: { roadmap: Roadmap }) {
         </div>
 
         {meta.family.en ? (
+          // The swatch matches the colour band, linking a family across categories.
           <p className="mt-3 flex items-center gap-2 text-sm font-medium text-ink-700">
-            {/* Matches the card's colour band, so cards in the same family can be spotted across categories. */}
             <span
               aria-hidden="true"
               className="h-3 w-3 shrink-0 rounded-xs border border-black/10"
@@ -69,7 +69,8 @@ export function ProductCard({ roadmap }: { roadmap: Roadmap }) {
           </p>
         ) : null}
 
-        <dl className="mt-5 flex flex-wrap gap-2">
+        {/* mt-auto pins the counts and link to the bottom, so they line up across a row. */}
+        <dl className="mt-auto flex flex-wrap gap-2 pt-5">
           {HORIZONS.map((horizon) => (
             <div
               key={horizon.id}
@@ -87,7 +88,7 @@ export function ProductCard({ roadmap }: { roadmap: Roadmap }) {
 
         <p
           aria-hidden="true"
-          className="mt-auto inline-flex items-center gap-1 pt-6 font-medium text-action"
+          className="inline-flex items-center gap-1 pt-6 font-medium text-action"
         >
           <T value={UI.viewRoadmap} />
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />

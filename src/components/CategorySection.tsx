@@ -11,7 +11,11 @@ export function CategorySection({
 }) {
   const id = categorySectionId(category);
   return (
-    <section id={id} aria-labelledby={`${id}-heading`} className="pt-10">
+    <section
+      id={id}
+      aria-labelledby={`${id}-heading`}
+      className="pt-10 [section+&]:pt-16"
+    >
       <div className="flex items-center gap-3.5">
         <CategoryIcon category={category} size="large" />
         <div>

@@ -4,6 +4,7 @@
  */
 import { z } from 'zod';
 import {
+  CATEGORY_IDS,
   PLACEMENT_IDS,
   type Placement,
   type Roadmap,
@@ -42,6 +43,8 @@ const roadmap = z.strictObject({
   sheetName: z.string().min(1),
   meta: z.strictObject({
     title: nonEmpty,
+    category: z.union([z.literal(''), z.enum(CATEGORY_IDS)]),
+    family: localised,
     statusLabel: localised,
     lastUpdated: z.union([z.literal(''), isoDate]),
     colour: z.string().regex(/^#[0-9a-f]{6}$/i, 'Invalid hex colour'),

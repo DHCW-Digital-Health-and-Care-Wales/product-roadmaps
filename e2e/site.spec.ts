@@ -1,10 +1,15 @@
 import { readFileSync } from 'node:fs';
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Locator, type Page } from '@playwright/test';
+import { CATEGORY_SHEET_VALUES, type CategoryId } from '../src/lib/types.ts';
 
 interface SnapshotRoadmap {
   slug: string;
-  meta: { title: { en: string } };
+  meta: {
+    title: { en: string };
+    family: { en: string };
+    category: CategoryId | '';
+  };
 }
 
 const roadmaps = JSON.parse(
@@ -12,6 +17,12 @@ const roadmaps = JSON.parse(
 ) as SnapshotRoadmap[];
 const [first, second] = roadmaps;
 const title = first.meta.title.en;
+// Roadmap pages put the family in front of the title.
+const fullTitle = (roadmap: SnapshotRoadmap) =>
+  roadmap.meta.family.en
+    ? `${roadmap.meta.family.en} | ${roadmap.meta.title.en}`
+    : roadmap.meta.title.en;
+const pageTitle = fullTitle(first);
 
 const h1 = (page: Page) => page.getByRole('heading', { level: 1 });
 
@@ -64,14 +75,14 @@ test.describe('without JavaScript', () => {
 
   test('a product page has its content and meta tags', async ({ page }) => {
     await page.goto(`en/${first.slug}/`);
-    await expect(h1(page)).toHaveText(title);
+    await expect(h1(page)).toHaveText(pageTitle);
     await expect(
       page.getByRole('heading', { name: 'The roadmap' }),
     ).toBeVisible();
-    await expect(page).toHaveTitle(`${title} – DHCW roadmaps`);
+    await expect(page).toHaveTitle(`${pageTitle} – DHCW roadmaps`);
     await expect(page.locator('meta[property="og:title"]')).toHaveAttribute(
       'content',
-      `${title} – DHCW roadmaps`,
+      `${pageTitle} – DHCW roadmaps`,
     );
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
       'href',
@@ -90,7 +101,7 @@ test.describe('without JavaScript', () => {
     await expect(
       page.getByRole('heading', { name: 'Y trywydd' }),
     ).toBeVisible();
-    await expect(page).toHaveTitle(`${title} – Trywyddion IGDC`);
+    await expect(page).toHaveTitle(`${pageTitle} – Trywyddion IGDC`);
   });
 
   test('a missing page is in Welsh and English', async ({ page }) => {
@@ -114,21 +125,21 @@ test.describe('navigation', () => {
     await expect(page).toHaveURL(
       new RegExp(`/product-roadmaps/en/${first.slug}/$`),
     );
-    await expect(h1(page)).toHaveText(title);
+    await expect(h1(page)).toHaveText(pageTitle);
     await expect(h1(page)).toBeFocused();
-    await expect(page).toHaveTitle(`${title} – DHCW roadmaps`);
+    await expect(page).toHaveTitle(`${pageTitle} – DHCW roadmaps`);
 
     await page.goBack();
     await expect(h1(page)).toHaveText('Product roadmaps');
     await expect(h1(page)).toBeFocused();
 
     await page.goForward();
-    await expect(h1(page)).toHaveText(title);
+    await expect(h1(page)).toHaveText(pageTitle);
   });
 
   test('opens a deep link', async ({ page }) => {
     await page.goto(`en/${second.slug}/#roadmap`);
-    await expect(h1(page)).toHaveText(second.meta.title.en);
+    await expect(h1(page)).toHaveText(fullTitle(second));
   });
 
   test('shows the list view with ?view=list', async ({ page }) => {
@@ -280,8 +291,44 @@ test.describe('keyboard', () => {
     const link = page.getByRole('link', { name: title });
     await tabTo(page, link);
     await page.keyboard.press('Enter');
-    await expect(h1(page)).toHaveText(title);
+    await expect(h1(page)).toHaveText(pageTitle);
     await expect(h1(page)).toBeFocused();
+  });
+});
+
+test.describe('landing page', () => {
+  test('jumps to a category and filters with the search', async ({ page }) => {
+    const category = roadmaps.find((r) => r.meta.category)?.meta.category;
+    if (!category) throw new Error('The fixture needs a categorised roadmap');
+    await page.goto('en/');
+    const categories = page.getByRole('navigation', {
+      name: 'Browse by category',
+    });
+    await categories
+      .getByRole('link', { name: CATEGORY_SHEET_VALUES[category] })
+      .click();
+    await expect(page).toHaveURL(new RegExp(`#category-${category}$`));
+    await expect(
+      page.getByRole('heading', {
+        level: 2,
+        name: CATEGORY_SHEET_VALUES[category],
+      }),
+    ).toBeInViewport();
+
+    const search = page.getByRole('searchbox', { name: 'Find a product' });
+    await search.fill(second.meta.title.en);
+    await expect(page.getByRole('status')).toHaveText(
+      `Showing 1 of ${roadmaps.length} roadmaps`,
+    );
+    await expect(page.getByRole('link', { name: title })).toHaveCount(0);
+    await expect(
+      page.getByRole('link', { name: second.meta.title.en }),
+    ).toBeVisible();
+
+    await search.fill('no such product');
+    await expect(page.getByText(/No roadmaps match your search/)).toBeVisible();
+    await search.fill('');
+    await expect(page.getByRole('link', { name: title })).toBeVisible();
   });
 });
 

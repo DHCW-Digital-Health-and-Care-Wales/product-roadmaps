@@ -7,6 +7,11 @@
         "en": "Product A roadmap",
         "cy": ""
       },
+      "category": "gp-community-services",
+      "family": {
+        "en": "Single Record",
+        "cy": ""
+      },
       "statusLabel": {
         "en": "Beta",
         "cy": ""
@@ -242,6 +247,11 @@
       "title": {
         "en": "Product B roadmap",
         "cy": "Trywydd Cynnyrch B"
+      },
+      "category": "",
+      "family": {
+        "en": "Medicines & Diagnostics",
+        "cy": "Meddyginiaethau a Diagnosteg"
       },
       "statusLabel": {
         "en": "Alpha",

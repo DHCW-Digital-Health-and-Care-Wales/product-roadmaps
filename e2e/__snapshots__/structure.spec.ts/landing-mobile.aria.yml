@@ -14,12 +14,25 @@
     - text: Beta
     - heading "Product roadmaps" [level=1]
     - paragraph: See what Digital Health and Care Wales is working on now, what’s coming next and the direction we expect to take later.
-  - region "Choose a product":
-    - heading "Choose a product" [level=2]
+    - navigation "Browse by category":
+      - heading "Browse by category" [level=2]
+      - list:
+        - listitem:
+          - link "GP & Community Services GP practices, community pharmacies and care closer to home 1 roadmap":
+            - /url: "#category-gp-community-services"
+  - search "Search roadmaps":
+    - text: Find a product
+    - paragraph: Search by name, product family or description
+    - searchbox "Find a product"
+    - status: 2 roadmaps
+  - region "GP & Community Services":
+    - heading "GP & Community Services" [level=2]
+    - paragraph: GP practices, community pharmacies and care closer to home
     - list:
       - listitem:
         - text: Beta Updated
         - time: /1 October \d+/
+        - paragraph: Single Record
         - heading "Product A roadmap" [level=3]:
           - link "Product A roadmap":
             - /url: /product-roadmaps/en/producta/
@@ -30,9 +43,14 @@
         - definition: "1"
         - term: Later
         - definition: "2"
+  - region "Other roadmaps":
+    - heading "Other roadmaps" [level=2]
+    - paragraph: Roadmaps not yet in a category
+    - list:
       - listitem:
         - text: Alpha Updated
         - time: /\d+ September \d+/
+        - paragraph: Medicines & Diagnostics
         - heading "Product B roadmap" [level=3]:
           - link "Product B roadmap":
             - /url: /product-roadmaps/en/productb/

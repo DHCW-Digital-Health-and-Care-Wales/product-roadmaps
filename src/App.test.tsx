@@ -10,6 +10,8 @@ import axe from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import App from './App';
 import { LanguageProvider } from './components/LanguageProvider';
+import { titleWithFamily } from './lib/roadmap-helpers';
+import type { Roadmap } from './lib/types';
 import snapshot from '../e2e/fixtures/roadmaps.json';
 
 const [first] = snapshot;
@@ -60,12 +62,14 @@ describe('App routing', () => {
     expect(document.title).toBe('DHCW roadmaps');
   });
 
-  it('shows a product roadmap', () => {
+  it('shows a product roadmap, titled with its family', () => {
+    const fullTitle = `${first.meta.family.en} | ${first.meta.title.en}`;
+    expect(first.meta.family.en).not.toBe('');
     renderAt(`/product-roadmaps/en/${first.slug}/`);
     expect(
-      screen.getByRole('heading', { level: 1, name: first.meta.title.en }),
+      screen.getByRole('heading', { level: 1, name: fullTitle }),
     ).toBeTruthy();
-    expect(document.title).toBe(`${first.meta.title.en} – DHCW roadmaps`);
+    expect(document.title).toBe(`${fullTitle} – DHCW roadmaps`);
   });
 
   it('links to a roadmap’s JSON only on its own page', () => {
@@ -98,7 +102,9 @@ describe('App routing', () => {
       `/product-roadmaps/cy/${first.slug}/`,
     );
     const heading = screen.getByRole('heading', { level: 1 });
-    expect(heading.textContent).toBe(first.meta.title.en);
+    expect(heading.textContent).toBe(
+      `${first.meta.family.en} | ${first.meta.title.en}`,
+    );
     expect(document.activeElement).toBe(heading);
     expect(document.title).toContain(first.meta.title.en);
   });
@@ -106,6 +112,26 @@ describe('App routing', () => {
   it('does not steal focus on the first render', () => {
     renderAt(`/product-roadmaps/en/${first.slug}/`);
     expect(document.activeElement).toBe(document.body);
+  });
+});
+
+describe('Roadmap page title', () => {
+  // The h1 renders the family and title separately (to mark English fallbacks),
+  // so check it never drifts from the shared "Family | Title" text.
+  it.each(
+    (snapshot as Roadmap[]).flatMap((roadmap) =>
+      (['en', 'cy'] as const).map(
+        (lang) => [roadmap.slug, lang, roadmap] as const,
+      ),
+    ),
+  )('the %s heading in %s matches the page title', (slug, lang, roadmap) => {
+    renderAt(`/product-roadmaps/${lang}/${slug}/`);
+    const expected =
+      titleWithFamily(roadmap.meta)[lang] || titleWithFamily(roadmap.meta).en;
+    expect(screen.getByRole('heading', { level: 1 }).textContent).toBe(
+      expected,
+    );
+    expect(document.title.startsWith(`${expected} – `)).toBe(true);
   });
 });
 
@@ -127,9 +153,9 @@ describe('Welsh', () => {
   it('marks English fallbacks with lang="en"', () => {
     renderAt(`/product-roadmaps/cy/${first.slug}/`);
     const title = screen.getByRole('heading', { level: 1 });
-    expect(title.querySelector('[lang="en"]')?.textContent).toBe(
-      first.meta.title.en,
-    );
+    expect(
+      [...title.querySelectorAll('[lang="en"]')].map((el) => el.textContent),
+    ).toEqual([first.meta.family.en, first.meta.title.en]);
     const roadmapHeading = screen.getByRole('heading', { name: 'Y trywydd' });
     expect(roadmapHeading.querySelector('[lang]')).toBeNull();
   });

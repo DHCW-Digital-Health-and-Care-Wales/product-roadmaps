@@ -14,12 +14,25 @@
     - text: Beta
     - heading "Trywyddion cynnyrch" [level=1]
     - paragraph: Gweld beth mae Iechyd a Gofal Digidol Cymru yn gweithio arno nawr, beth sy’n dod nesaf a’r cyfeiriad rydym yn disgwyl ei gymryd yn hwyrach.
-  - region "Dewis cynnyrch":
-    - heading "Dewis cynnyrch" [level=2]
+    - navigation "Pori yn ôl categori":
+      - heading "Pori yn ôl categori" [level=2]
+      - list:
+        - listitem:
+          - link "Meddygon Teulu a Gwasanaethau Cymunedol Meddygfeydd, fferyllfeydd cymunedol a gofal yn nes at adref 1 trywydd":
+            - /url: "#category-gp-community-services"
+  - search "Chwilio trywyddion":
+    - text: Dod o hyd i gynnyrch
+    - paragraph: Chwilio yn ôl enw, teulu cynnyrch neu ddisgrifiad
+    - searchbox "Dod o hyd i gynnyrch"
+    - status: 2 trywydd
+  - region "Meddygon Teulu a Gwasanaethau Cymunedol":
+    - heading "Meddygon Teulu a Gwasanaethau Cymunedol" [level=2]
+    - paragraph: Meddygfeydd, fferyllfeydd cymunedol a gofal yn nes at adref
     - list:
       - listitem:
         - text: Beta Diweddarwyd
         - time: /1 Hydref \d+/
+        - paragraph: Single Record
         - heading "Product A roadmap" [level=3]:
           - link "Product A roadmap":
             - /url: /product-roadmaps/cy/producta/
@@ -30,9 +43,14 @@
         - definition: "1"
         - term: Hwyrach
         - definition: "2"
+  - region "Trywyddion eraill":
+    - heading "Trywyddion eraill" [level=2]
+    - paragraph: Trywyddion nad ydynt mewn categori eto
+    - list:
       - listitem:
         - text: Alffa Diweddarwyd
         - time: /\d+ Medi \d+/
+        - paragraph: Meddyginiaethau a Diagnosteg
         - heading "Trywydd Cynnyrch B" [level=3]:
           - link "Trywydd Cynnyrch B":
             - /url: /product-roadmaps/cy/productb/

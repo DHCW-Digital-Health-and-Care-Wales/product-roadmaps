@@ -237,7 +237,12 @@ exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
     ],
   },
   "meta": {
+    "category": "gp-community-services",
     "colour": "#325083",
+    "family": {
+      "cy": "",
+      "en": "Single Record",
+    },
     "lastUpdated": "2026-10-01",
     "serviceDescription": {
       "cy": "",
@@ -406,7 +411,12 @@ exports[`parseRoadmap > matches the ProductB snapshot 1`] = `
     "recently-delivered": [],
   },
   "meta": {
+    "category": "",
     "colour": "#006747",
+    "family": {
+      "cy": "Meddyginiaethau a Diagnosteg",
+      "en": "Medicines & Diagnostics",
+    },
     "lastUpdated": "2026-09-15",
     "serviceDescription": {
       "cy": "Beth mae Cynnyrch B yn ei wneud a phwy mae’n ei helpu. Nid oes gan y trywydd hwn weledigaeth, felly mae’r adran honno wedi’i chuddio.",

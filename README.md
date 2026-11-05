@@ -90,11 +90,30 @@ for bootstrapping a spreadsheet.
 | `Sheet`               | Name of the tab holding this roadmap's cards. Required.          |
 | `Enabled`             | `Yes` publishes the roadmap. Anything else, or blank, leaves it out (case-sensitive; no Welsh). |
 | `Title`               | Page heading and landing page card name.                         |
+| `Category`            | Landing page group: one of the categories listed below, matched ignoring case and spaces. Blank puts the roadmap under "Other roadmaps". |
+| `Family`              | Optional product family, for example `Single Record`. Shown above the landing page card title, and on the roadmap page as `Single Record \| Nursing Healthcare`. |
 | `Status label`        | Badge next to the title, for example `Beta`.                     |
 | `Last updated`        | `YYYY-MM-DD` or `DD/MM/YYYY`.                                    |
 | `Colour`              | Hex highlight colour, for example `#325083`.                     |
 | `Vision`              | "Our vision" section. Leave blank to hide.                       |
 | `Service description` | "Our value" section and landing page summary. Blank hides it.    |
+
+`Category` must be one of these, and the landing page shows them in this
+order (best set up as a dropdown with **Data → Data validation**):
+
+- `Public Health & Apps`
+- `GP & Community Services`
+- `Tests, Scans & Results`
+- `Urgent & Emergency Care`
+- `Hospital & Specialist Care`
+- `National Systems & Data`
+
+Each category has a jump link at the top of the landing page; roadmaps with a
+blank category are listed last under "Other roadmaps", which has no jump link.
+Any other value is reported as a sheet warning and treated as blank. The
+categories' Welsh names, descriptions, icons and colours are in
+[src/lib/content.ts](src/lib/content.ts); the sheet only picks one. Within a
+category, roadmaps are sorted by title.
 
 **Roadmap tabs**: one row per card.
 
@@ -113,9 +132,9 @@ every roadmap (intro, Now/Next/Later definitions, section headings) is in
 [src/lib/content.ts](src/lib/content.ts); interface text (headings, links and
 accessible names) is in [src/lib/strings.ts](src/lib/strings.ts).
 
-**Welsh (optional)**: any text column on either tab (`Title`, `Status label`,
-`Vision`, `Service description`, `Description`, `Outcome`, `Phase`, `Labels`,
-`Details`) can have a Welsh column with ` (cy)` added to its name, for example
+**Welsh (optional)**: any text column on either tab (`Title`, `Family`,
+`Status label`, `Vision`, `Service description`, `Description`, `Outcome`,
+`Phase`, `Labels`, `Details`) can have a Welsh column with ` (cy)` added to its name, for example
 `Title (cy)` or `Phase (cy)`; `(Welsh)` and `(Cymraeg)` also work. Welsh is
 shown when the reader picks Cymraeg; if the column is missing or the cell is
 blank, the English is shown instead.
@@ -140,13 +159,13 @@ To add a product, add a tab with the roadmap columns and a row for it on the
 first tab, with `Enabled` set to `Yes`. A roadmap that is not enabled is not
 synced (its tab is not even fetched). The sync warns about an `Enabled` value
 that is neither `Yes` nor `No` (for example `yes`), and if the column is
-missing no roadmaps are published. Sheet mistakes (unknown horizons, rows with no title, missing
-optional columns, likely translation mistakes) are listed, with row numbers,
-in the summary of the deploy workflow run. To check the sheet without
-deploying, run **Actions → Check the roadmap sheet → Run workflow**. A `Sheet`
-value with no matching tab, or a tab missing a required column (`Sheet` on the
-first tab; `Title` or `Horizon` on a roadmap tab), fails the sync, so the
-deploy fails and the previous site stays live.
+missing no roadmaps are published. Sheet mistakes (unknown horizons, rows with
+no title, missing optional columns, unknown categories, likely translation
+mistakes) are listed, with row numbers, in the summary of the deploy workflow
+run. To check the sheet without deploying, run **Actions → Check the roadmap
+sheet → Run workflow**. A `Sheet` value with no matching tab, or a tab missing
+a required column (`Sheet` on the first tab; `Title` or `Horizon` on a roadmap
+tab), fails the sync, so the deploy fails and the previous site stays live.
 
 Keep text columns as plain text: the export guesses each column's type, and a
 lone number in a text column can come through blank.

@@ -7,7 +7,7 @@ by hand.
 
 | File                             | Tab name   | What it shows                                                                                      |
 | -------------------------------- | ---------- | -------------------------------------------------------------------------------------------------- |
-| [Roadmaps.csv](Roadmaps.csv)     | `Roadmaps` | The roadmap list (must be the first tab), the `Enabled` column, both date formats, colours, a blank optional column, Welsh for one roadmap |
+| [Roadmaps.csv](Roadmaps.csv)     | `Roadmaps` | The roadmap list (must be the first tab), the `Enabled` column, categories (one blank, so "Other roadmaps"), families, both date formats, colours, a blank optional column, Welsh for one roadmap |
 | [ProductA.csv](ProductA.csv)     | `ProductA` | Every `Horizon` value, phases, labels, nested details, Welsh `(cy)` columns with some blanks |
 | [ProductB.csv](ProductB.csv)     | `ProductB` | A smaller roadmap with empty horizons and sections                                                 |
 | [ProductC.csv](ProductC.csv)     | `ProductC` | A roadmap that is listed with `Enabled` = `No`, so it is not published                            |
@@ -25,6 +25,6 @@ by hand.
    `SHEET_ID=<id from the spreadsheet URL> npm run sync && npm run dev`.
    This overwrites `.data/roadmaps.json`, which is gitignored.
 
-Optionally add a dropdown (**Data → Data validation**) for the `Horizon`
-column. Column meanings are documented in the
+Optionally add dropdowns (**Data → Data validation**) for the `Horizon`
+column and the `Category` column on `Roadmaps`. Column meanings are documented in the
 [main README](../README.md#sheet-format).

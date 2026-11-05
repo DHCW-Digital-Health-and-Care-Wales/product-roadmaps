@@ -1,10 +1,24 @@
 /**
- * Text shared by every roadmap. Product managers only fill in what differs per
- * product in the Google Sheet; everything here is the same on every page.
+ * Text shared by every roadmap, and the landing page categories. Product
+ * managers only fill in what differs per product in the Google Sheet;
+ * everything here is the same on every page.
  */
 import {
+  Ambulance,
+  Database,
+  FlaskConical,
+  Hospital,
+  House,
+  LayoutGrid,
+  ShieldPlus,
+  type LucideIcon,
+} from 'lucide-react';
+import {
+  CATEGORY_IDS,
+  CATEGORY_SHEET_VALUES,
   HORIZON_IDS,
   SECTION_IDS,
+  type CategoryId,
   type Horizon,
   type Localised,
   type SectionId,
@@ -99,3 +113,95 @@ const SECTION_TEXT: Record<
 };
 
 export const SECTIONS = SECTION_IDS.map((id) => ({ id, ...SECTION_TEXT[id] }));
+
+/** Id of the "Other roadmaps" group, for roadmaps with no Category. */
+export type CategoryKey = CategoryId | 'other';
+
+/** A landing page group of roadmaps. */
+export interface Category<Id extends CategoryKey = CategoryKey> {
+  id: Id;
+  label: Localised;
+  description: Localised;
+  /** Icon background, at least 3:1 contrast against white. */
+  colour: string;
+  icon: LucideIcon;
+}
+
+// The English label is the sheet's Category value (CATEGORY_SHEET_VALUES).
+const CATEGORY_DETAILS: Record<
+  CategoryId,
+  Omit<Category, 'id' | 'label'> & { cy: string }
+> = {
+  'public-health-apps': {
+    cy: 'Iechyd y Cyhoedd ac Apiau',
+    description: {
+      en: 'Vaccination, screening and digital services for the public',
+      cy: 'Brechu, sgrinio a gwasanaethau digidol i’r cyhoedd',
+    },
+    colour: '#0b7a5a',
+    icon: ShieldPlus,
+  },
+  'gp-community-services': {
+    cy: 'Meddygon Teulu a Gwasanaethau Cymunedol',
+    description: {
+      en: 'GP practices, community pharmacies and care closer to home',
+      cy: 'Meddygfeydd, fferyllfeydd cymunedol a gofal yn nes at adref',
+    },
+    colour: '#325083',
+    icon: House,
+  },
+  'tests-scans-results': {
+    cy: 'Profion, Sganiau a Chanlyniadau',
+    description: {
+      en: 'Requesting tests, laboratory systems and reporting results',
+      cy: 'Gwneud cais am brofion, systemau labordy ac adrodd ar ganlyniadau',
+    },
+    colour: '#0e7189',
+    icon: FlaskConical,
+  },
+  'urgent-emergency-care': {
+    cy: 'Gofal Brys ac Argyfwng',
+    description: {
+      en: 'Emergency departments and unscheduled care',
+      cy: 'Adrannau achosion brys a gofal heb ei drefnu',
+    },
+    colour: '#b3261e',
+    icon: Ambulance,
+  },
+  'hospital-specialist-care': {
+    cy: 'Gofal Ysbyty ac Arbenigol',
+    description: {
+      en: 'Hospital records, nursing, pharmacy and specialist services',
+      cy: 'Cofnodion ysbyty, nyrsio, fferylliaeth a gwasanaethau arbenigol',
+    },
+    colour: '#6b3fa0',
+    icon: Hospital,
+  },
+  'national-systems-data': {
+    cy: 'Systemau a Data Cenedlaethol',
+    description: {
+      en: 'Shared records, national data and connecting systems',
+      cy: 'Cofnodion a rennir, data cenedlaethol a systemau cysylltu',
+    },
+    colour: '#7a4a00',
+    icon: Database,
+  },
+};
+
+/** Landing page categories in display order. */
+export const CATEGORIES: Category<CategoryId>[] = CATEGORY_IDS.map((id) => {
+  const { cy, ...details } = CATEGORY_DETAILS[id];
+  return { id, label: { en: CATEGORY_SHEET_VALUES[id], cy }, ...details };
+});
+
+/** The last landing page group, for roadmaps with no Category. */
+export const OTHER_CATEGORY: Category<'other'> = {
+  id: 'other',
+  label: { en: 'Other roadmaps', cy: 'Trywyddion eraill' },
+  description: {
+    en: 'Roadmaps not yet in a category',
+    cy: 'Trywyddion nad ydynt mewn categori eto',
+  },
+  colour: '#5a6675',
+  icon: LayoutGrid,
+};

@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { CATEGORY_IDS, CATEGORY_SHEET_VALUES } from '../src/lib/types.ts';
 import { parseCsv } from './csv.ts';
 import {
   checkTranslation,
@@ -159,6 +160,9 @@ describe('parseRoadmapList', () => {
           'Enabled',
           'Title',
           'Title (cy)',
+          'Category',
+          'Family',
+          'Family (cy)',
           'Status label',
           'Status label (Welsh)',
           'Last updated',
@@ -173,6 +177,9 @@ describe('parseRoadmapList', () => {
           'Yes',
           '',
           'Trywydd X',
+          'Urgent & Emergency Care',
+          'Single Record',
+          'Cofnod Sengl',
           'Beta',
           'Beta',
           '',
@@ -186,11 +193,102 @@ describe('parseRoadmapList', () => {
     });
     expect(listing?.meta).toMatchObject({
       title: { en: 'X', cy: 'Trywydd X' },
+      category: 'urgent-emergency-care',
+      family: { en: 'Single Record', cy: 'Cofnod Sengl' },
       statusLabel: { en: 'Beta', cy: 'Beta' },
       vision: { en: 'V', cy: 'G' },
       serviceDescription: { en: 'S', cy: 'D' },
     });
     expect(warnings).not.toHaveBeenCalled();
+  });
+});
+
+describe('Category and Family', () => {
+  const list = (...rows: string[][]) =>
+    parseRoadmapList({
+      name: 'Roadmaps',
+      rows: [['Sheet', 'Enabled', 'Category', 'Family'], ...rows],
+    });
+  // Leaves out the warnings about columns these small lists don't have.
+  const rowWarnings = () => takeWarnings().filter((w) => w.row !== undefined);
+
+  it('reads the fixture categories and families', () => {
+    const listings = parseRoadmapList(fixture('Roadmaps'), {
+      includeDisabled: true,
+    });
+    expect(
+      listings.map((l) => [l.sheet, l.meta.category, l.meta.family]),
+    ).toEqual([
+      ['ProductA', 'gp-community-services', { en: 'Single Record', cy: '' }],
+      [
+        'ProductB',
+        '',
+        {
+          en: 'Medicines & Diagnostics',
+          cy: 'Meddyginiaethau a Diagnosteg',
+        },
+      ],
+      ['ProductC', 'tests-scans-results', { en: '', cy: '' }],
+    ]);
+  });
+
+  it('accepts every dropdown value, ignoring case and spaces', () => {
+    const values = CATEGORY_IDS.map((id) => CATEGORY_SHEET_VALUES[id]);
+    expect(
+      list(...values.map((value, i) => [`T${i}`, 'Yes', value, ''])).map(
+        (l) => l.meta.category,
+      ),
+    ).toEqual([...CATEGORY_IDS]);
+    expect(
+      list(
+        ['A', 'Yes', '  public health & APPS ', ''],
+        ['B', 'Yes', 'tests, scans &results', ''],
+      ).map((l) => l.meta.category),
+    ).toEqual(['public-health-apps', 'tests-scans-results']);
+    expect(rowWarnings()).toEqual([]);
+  });
+
+  it('leaves a blank category and family blank', () => {
+    const [listing] = list(['A', 'Yes', '', '']);
+    expect(listing?.meta.category).toBe('');
+    expect(listing?.meta.family).toEqual({ en: '', cy: '' });
+    expect(rowWarnings()).toEqual([]);
+  });
+
+  it('warns about an unknown category and treats it as blank', () => {
+    const [, listing] = list(
+      ['A', 'Yes', 'Hospital & Specialist Care', ''],
+      ['B', 'Yes', 'Dentistry', ''],
+    );
+    expect(listing?.meta.category).toBe('');
+    const [warning, ...rest] = rowWarnings();
+    expect(rest).toEqual([]);
+    expect(warning).toMatchObject({ sheet: 'Roadmaps', row: 3 });
+    expect(warning?.message).toMatch(
+      /^Category "Dentistry" for "B" is not one of /,
+    );
+    for (const value of Object.values(CATEGORY_SHEET_VALUES)) {
+      expect(warning?.message).toContain(`"${value}"`);
+    }
+    expect(warning?.message).toMatch(/shown under "Other roadmaps"$/);
+  });
+
+  it('still reads a list without the new columns, with warnings', () => {
+    const [listing] = parseRoadmapList({
+      name: 'Roadmaps',
+      rows: [
+        ['Sheet', 'Enabled'],
+        ['A', 'Yes'],
+      ],
+    });
+    expect(listing?.meta.category).toBe('');
+    expect(listing?.meta.family).toEqual({ en: '', cy: '' });
+    expect(takeWarnings().map((w) => w.message)).toEqual(
+      expect.arrayContaining([
+        'Missing column "Category"; its values will be blank',
+        'Missing column "Family"; its values will be blank',
+      ]),
+    );
   });
 });
 

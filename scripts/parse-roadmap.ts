@@ -4,7 +4,10 @@
  * names the tab holding that roadmap's cards. See README.md for the columns.
  */
 import {
+  CATEGORY_IDS,
+  CATEGORY_SHEET_VALUES,
   PLACEMENT_IDS,
+  type CategoryId,
   type DetailLine,
   type Localised,
   type Placement,
@@ -12,6 +15,7 @@ import {
   type RoadmapItem,
   type RoadmapMeta,
 } from '../src/lib/types.ts';
+import { fold } from '../src/lib/text.ts';
 
 export interface Worksheet {
   name: string;
@@ -40,13 +44,15 @@ const LIST_COLUMNS = {
   optional: [
     'Enabled',
     'Title',
+    'Category',
+    'Family',
     'Status label',
     'Last updated',
     'Colour',
     'Vision',
     'Service description',
   ],
-  welsh: ['Title', 'Status label', 'Vision', 'Service description'],
+  welsh: ['Title', 'Family', 'Status label', 'Vision', 'Service description'],
 };
 
 const CARD_COLUMNS = {
@@ -57,16 +63,19 @@ const CARD_COLUMNS = {
 
 type Columns = typeof CARD_COLUMNS;
 
-// Folds accents first so Welsh letters such as ŵ and ŷ keep their base letter.
-const fold = (value: string) =>
-  value.normalize('NFKD').replace(/\p{M}/gu, '').toLowerCase();
-
+// Column and value matching ignores case, accents, spaces and punctuation.
 const key = (value = '') => fold(value).replace(/[^a-z0-9]/g, '');
 
 // Values accepted in a card's "Horizon" column, so "Recently delivered" matches
 // 'recently-delivered'.
 const PLACEMENTS = new Map<string, Placement>(
   PLACEMENT_IDS.map((placement) => [key(placement), placement]),
+);
+
+// Values accepted in the list's "Category" column, so " gp & community
+// services" matches 'gp-community-services'.
+const CATEGORIES = new Map<string, CategoryId>(
+  CATEGORY_IDS.map((id) => [key(CATEGORY_SHEET_VALUES[id]), id]),
 );
 
 export const slugify = (value: string) =>
@@ -376,6 +385,26 @@ function toItem(ctx: RowContext): RoadmapItem {
   };
 }
 
+/**
+ * Matches a Category ignoring case, spaces and punctuation. Blank, or a value
+ * that isn't one of the dropdown options (with a warning), returns '', which
+ * shows the roadmap under "Other roadmaps".
+ */
+function parseCategory(ctx: RowContext): CategoryId | '' {
+  // Read directly, not with readText(), as Category has no Welsh column.
+  const value = ctx.cells.category ?? '';
+  if (!value) return '';
+  const category = CATEGORIES.get(key(value));
+  if (category) return category;
+  const allowed = CATEGORY_IDS.map((id) => `"${CATEGORY_SHEET_VALUES[id]}"`);
+  warn(
+    ctx.sheet,
+    `Category "${value}" for "${ctx.label}" is not one of ${allowed.join(', ')}; shown under "Other roadmaps"`,
+    ctx.line,
+  );
+  return '';
+}
+
 /** Only an exact "Yes" publishes a roadmap; anything else leaves it out. */
 function isEnabled(sheet: string, { line, cells }: ListRow): boolean {
   const value = cells.enabled ?? '';
@@ -412,6 +441,8 @@ export function parseRoadmapList(
         sheet: cells.sheet,
         meta: {
           title: readText(ctx, 'Title', cells.sheet),
+          category: parseCategory(ctx),
+          family: readText(ctx, 'Family'),
           statusLabel: readText(ctx, 'Status label'),
           lastUpdated: toIsoDate(sheet.name, cells.lastupdated ?? '', line),
           colour: safeColour(sheet.name, cells.colour ?? '', line),

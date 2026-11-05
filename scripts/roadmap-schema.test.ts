@@ -43,6 +43,12 @@ describe('roadmap snapshot schema', () => {
     expect(() => validateSnapshot(data)).toThrow(/hex colour/);
   });
 
+  it('rejects an unknown category', () => {
+    const data: unknown[] = valid();
+    (data[0] as { meta: { category: string } }).meta.category = 'dentistry';
+    expect(() => validateSnapshot(data)).toThrow(/category/);
+  });
+
   it('rejects a missing placement', () => {
     const data: unknown[] = valid();
     delete (data[0] as { items: Record<string, unknown> }).items.later;

@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { roadmaps } from './lib/roadmaps';
 import { useLanguage } from './lib/i18n';
+import { titleWithFamily } from './lib/roadmap-helpers';
 import { useView } from './lib/router';
 import { UI } from './lib/strings';
 import { T } from './components/T';
@@ -29,7 +30,7 @@ export default function App() {
   useEffect(() => {
     const site = tr(UI.siteTitle);
     let page: string | undefined;
-    if (roadmap) page = tr(roadmap.meta.title);
+    if (roadmap) page = tr(titleWithFamily(roadmap.meta));
     else if (slug !== null) page = tr(UI.notFoundHeading);
     document.title = page ? `${page} – ${site}` : site;
   }, [roadmap, slug, tr]);

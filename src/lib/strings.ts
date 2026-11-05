@@ -66,7 +66,20 @@ export const UI = {
     en: 'See what Digital Health and Care Wales is working on now, what’s coming next and the direction we expect to take later.',
     cy: 'Gweld beth mae Iechyd a Gofal Digidol Cymru yn gweithio arno nawr, beth sy’n dod nesaf a’r cyfeiriad rydym yn disgwyl ei gymryd yn hwyrach.',
   },
-  chooseProduct: { en: 'Choose a product', cy: 'Dewis cynnyrch' },
+  browseCategories: { en: 'Browse by category', cy: 'Pori yn ôl categori' },
+  searchRoadmaps: { en: 'Search roadmaps', cy: 'Chwilio trywyddion' },
+  findProduct: { en: 'Find a product', cy: 'Dod o hyd i gynnyrch' },
+  // Welsh uses the singular noun after a number, so "{count} trywydd".
+  roadmapCount: { en: '{count} roadmaps', cy: '{count} trywydd' },
+  roadmapCountOne: { en: '1 roadmap', cy: '1 trywydd' },
+  showingRoadmaps: {
+    en: 'Showing {shown} of {total} roadmaps',
+    cy: 'Yn dangos {shown} o {total} trywydd',
+  },
+  noMatches: {
+    en: 'No roadmaps match your search. Try a different word.',
+    cy: 'Does dim trywyddion yn cyfateb i’ch chwiliad. Rhowch gynnig ar air gwahanol.',
+  },
   noRoadmaps: {
     en: 'No roadmaps have been published yet.',
     cy: 'Does dim trywyddion wedi’u cyhoeddi eto.',

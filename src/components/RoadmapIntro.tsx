@@ -51,6 +51,11 @@ export function RoadmapIntro({ meta }: { meta: RoadmapMeta }) {
           tabIndex={-1}
           className="mt-4 text-3xl font-bold text-heading sm:text-4xl"
         >
+          {meta.family.en ? (
+            <>
+              <T value={meta.family} /> |{' '}
+            </>
+          ) : null}
           <T value={meta.title} />
         </h1>
 

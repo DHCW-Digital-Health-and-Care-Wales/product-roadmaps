@@ -44,7 +44,7 @@ describe('prerender', () => {
     const page = pages.find((p) => p.file === `en/${first.slug}/index.html`);
     expect(page?.html).toContain(first.meta.title.en);
     expect(page?.head).toContain(
-      `<title>${first.meta.title.en} – DHCW roadmaps</title>`,
+      `<title>${first.meta.family.en} | ${first.meta.title.en} – DHCW roadmaps</title>`,
     );
     expect(page?.head).toContain(
       `<link rel="canonical" href="${SITE}en/${first.slug}/" />`,
@@ -94,7 +94,31 @@ describe('prerender', () => {
     expect(welsh?.lang).toBe('cy');
     expect(welsh?.route).toEqual({ lang: 'cy', slug: second.slug });
     expect(welsh?.html).toContain(second.meta.title.cy);
-    expect(welsh?.head).toContain(`<title>${second.meta.title.cy} – `);
+    expect(welsh?.head).toContain(
+      `<title>${second.meta.family.cy} | ${second.meta.title.cy} – `,
+    );
+  });
+
+  it('lists every roadmap, with the search shown before and after hydrating', async () => {
+    const page = pages.find((p) => p.file === 'en/index.html');
+    for (const roadmap of snapshot) {
+      expect(page?.html).toContain(roadmap.meta.title.en);
+    }
+    window.history.replaceState(null, '', '/product-roadmaps/en/');
+    document.body.innerHTML = `<div id="root">${page?.html ?? ''}</div>`;
+    const search = () => document.querySelector('[role="search"]');
+    expect(search()).not.toBeNull();
+
+    const root = await act(() =>
+      hydrateRoot(
+        document.getElementById('root')!,
+        <LanguageProvider>
+          <App />
+        </LanguageProvider>,
+      ),
+    );
+    expect(search()).not.toBeNull();
+    act(() => root.unmount());
   });
 
   it('keeps 404.html out of search results, in both languages', () => {
@@ -106,8 +130,9 @@ describe('prerender', () => {
     expect(page?.html).toContain('href="/product-roadmaps/cy/"');
   });
 
-  it.each(['en', 'cy'])('hydrates in %s without mismatches', async (lang) => {
-    const path = `${lang}/${first.slug}/`;
+  it.each(
+    ['en', 'cy'].flatMap((lang) => [`${lang}/`, `${lang}/${first.slug}/`]),
+  )('hydrates %s without mismatches', async (path) => {
     const page = pages.find((p) => p.file === `${path}index.html`);
     window.history.replaceState(null, '', `/product-roadmaps/${path}`);
     document.body.innerHTML = `<div id="root">${page?.html ?? ''}</div>`;

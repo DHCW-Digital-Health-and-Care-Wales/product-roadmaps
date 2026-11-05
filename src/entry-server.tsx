@@ -9,6 +9,7 @@ import App from './App';
 import { LanguageProvider } from './components/LanguageProvider';
 import { ROADMAP_INTRO } from './lib/content';
 import { DEFAULT_LANGUAGE, LANGUAGES, t, type Lang } from './lib/i18n';
+import { titleWithFamily } from './lib/roadmap-helpers';
 import { roadmaps } from './lib/roadmaps';
 import { dataPathFor, pathFor, type Route } from './lib/router';
 import { UI } from './lib/strings';
@@ -144,7 +145,7 @@ export async function renderPages(siteUrl: string): Promise<Page[]> {
         languagePage(
           lang,
           slug,
-          meta.title,
+          titleWithFamily(meta),
           meta.serviceDescription.en ? meta.serviceDescription : ROADMAP_INTRO,
         ),
       ),

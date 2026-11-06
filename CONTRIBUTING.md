@@ -41,8 +41,10 @@ Thanks for helping improve the DHCW product roadmaps site.
   journeys in `e2e/`. If you change page structure or text on purpose, update the
   ARIA snapshots with `npm run test:e2e -- --update-snapshots` and check the
   diff in `e2e/__snapshots__/` before committing it.
-- **Privacy**: don't add cookies, analytics or calls to third-party services.
-  Visitors' browsers should only ever load files from this site.
+- **Privacy**: don't add cookies, other analytics or calls to third-party
+  services. The only exception is the Simple Analytics script in
+  [index.html](index.html). Visitors' browsers should otherwise only load files
+  from this site.
 - **Dependencies**: prefer none. Dependabot keeps existing ones up to date.
 
 ## Branch protection

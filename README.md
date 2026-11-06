@@ -170,6 +170,17 @@ tab), fails the sync, so the deploy fails and the previous site stays live.
 Keep text columns as plain text: the export guesses each column's type, and a
 lone number in a text column can come through blank.
 
+## Analytics
+
+The site uses [Simple Analytics](https://www.simpleanalytics.com/), a
+privacy-first service that sets no cookies and collects no personal data, to
+count visits. The script is loaded from `scripts.simpleanalyticscdn.com` by
+the async `<script>` at the end of the `<body>` in [index.html](index.html), so
+it is on every prerendered page. It also needs a Simple Analytics website
+entry for the deployed domain; visits from `localhost` are ignored. The
+privacy note in [src/lib/strings.ts](src/lib/strings.ts) describes this, so
+keep the two in step. Nothing else is loaded from a third party.
+
 ## Sync and deploy
 
 - [.github/workflows/deploy.yml](.github/workflows/deploy.yml) builds and

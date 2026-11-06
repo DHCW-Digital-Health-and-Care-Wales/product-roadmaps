@@ -129,7 +129,7 @@
     - paragraph: These roadmaps are in beta and still being tested, we welcome any feedback.
   - region "Privacy":
     - heading "Privacy" [level=2]
-    - paragraph: This site sets no tracking cookies and uses no third-party analytics. We do not share any personal data.
+    - paragraph: This site sets no cookies. We use Simple Analytics, a privacy-first service that does not use cookies or collect personal data, to count visits.
     - paragraph: Fonts are self-hosted, so your visit is not shared with an external font service.
 - contentinfo:
   - img "Digital Health and Care Wales"

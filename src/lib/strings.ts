@@ -52,8 +52,8 @@ export const UI = {
 
   privacyHeading: { en: 'Privacy', cy: 'Preifatrwydd' },
   privacyTracking: {
-    en: 'This site sets no tracking cookies and uses no third-party analytics. We do not share any personal data.',
-    cy: 'Nid yw’r safle hwn yn gosod cwcis tracio nac yn defnyddio dadansoddeg trydydd parti. Nid ydym yn rhannu unrhyw ddata personol.',
+    en: 'This site sets no cookies. We use Simple Analytics, a privacy-first service that does not use cookies or collect personal data, to count visits.',
+    cy: 'Nid yw’r safle hwn yn gosod cwcis. Rydym yn defnyddio Simple Analytics, gwasanaeth sy’n rhoi blaenoriaeth i breifatrwydd ac nad yw’n defnyddio cwcis nac yn casglu data personol, i gyfrif ymweliadau.',
   },
   privacyFonts: {
     en: 'Fonts are self-hosted, so your visit is not shared with an external font service.',

@@ -2,9 +2,9 @@ import { UI } from '../lib/strings';
 import { T } from './T';
 
 /**
- * Privacy note. The site sets no tracking cookies, uses no third-party
- * analytics and self-hosts its fonts, so there is nothing for visitors to
- * consent to.
+ * Privacy note. The site sets no cookies, counts visits with cookie-free
+ * Simple Analytics and self-hosts its fonts, so there is nothing for visitors
+ * to consent to.
  */
 export function PrivacyNote() {
   const headingId = 'privacy-heading';

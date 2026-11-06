@@ -1,4 +1,5 @@
 import { StrictMode } from 'react';
+import { flushSync } from 'react-dom';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 // Self-hosted Roboto (DHCW digital interface font). Bundled into the build so
 // no third-party font service is called.
@@ -40,5 +41,13 @@ if (route.lang === null && route.slug === null) {
 ) {
   hydrateRoot(rootElement, app);
 } else {
-  createRoot(rootElement).render(app);
+  // The browser's own fragment scroll can run before this render adds the target.
+  // eslint-disable-next-line @eslint-react/dom-no-flush-sync -- the target must exist before scrolling
+  flushSync(() => createRoot(rootElement).render(app));
+  if (hash.length > 1) {
+    // Instant, like the browser's own jump; the page's smooth scrolling would animate from the top.
+    document
+      .getElementById(hash.slice(1))
+      ?.scrollIntoView({ behavior: 'instant' });
+  }
 }

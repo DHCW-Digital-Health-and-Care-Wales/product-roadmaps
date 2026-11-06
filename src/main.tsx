@@ -45,6 +45,9 @@ if (route.lang === null && route.slug === null) {
   // eslint-disable-next-line @eslint-react/dom-no-flush-sync -- the target must exist before scrolling
   flushSync(() => createRoot(rootElement).render(app));
   if (hash.length > 1) {
-    document.getElementById(hash.slice(1))?.scrollIntoView();
+    // Instant, like the browser's own jump; the page's smooth scrolling would animate from the top.
+    document
+      .getElementById(hash.slice(1))
+      ?.scrollIntoView({ behavior: 'instant' });
   }
 }

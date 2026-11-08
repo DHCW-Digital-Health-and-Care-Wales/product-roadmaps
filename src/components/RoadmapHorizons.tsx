@@ -1,11 +1,7 @@
 import { ChevronDown } from 'lucide-react';
 import type { Roadmap, OrgFilter } from '../lib/types';
 import { HORIZONS, ROADMAP_DESCRIPTION, ROADMAP_HEADING } from '../lib/content';
-import {
-  emptyText,
-  filterItems,
-  placementHeadingId,
-} from '../lib/roadmap-helpers';
+import { filterItems, placementHeadingId } from '../lib/roadmap-helpers';
 import { HorizonPhase } from './HorizonPhase';
 import { T } from './T';
 
@@ -47,7 +43,7 @@ export function RoadmapHorizons({
               label={horizon.label}
               items={filterItems(roadmap.items[horizon.id], filter)}
               total={roadmap.items[horizon.id].length}
-              empty={emptyText(filter)}
+              filter={filter}
               headingId={placementHeadingId(horizon.id)}
               accent={accent}
             />

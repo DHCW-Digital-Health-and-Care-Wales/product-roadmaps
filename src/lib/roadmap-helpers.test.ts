@@ -3,6 +3,7 @@ import {
   countItems,
   countText,
   emptyText,
+  showHiddenItems,
   filterGroups,
   filterItems,
   formatDate,
@@ -180,11 +181,28 @@ describe('countText', () => {
 });
 
 describe('emptyText', () => {
-  it('names the organisation while filtered', () => {
-    expect(emptyText(NO_ORG_FILTER).en).toBe('Nothing to show here yet.');
-    expect(emptyText(cardiff)).toEqual({
+  it('names the organisation while the filter hides items', () => {
+    expect(emptyText(NO_ORG_FILTER, 0).en).toBe('Nothing to show here yet.');
+    expect(emptyText(cardiff, 2)).toEqual({
       en: 'Nothing for Cardiff and Vale here.',
       cy: 'Dim byd ar gyfer Caerdydd a’r Fro yma.',
+    });
+  });
+
+  it('says there is nothing yet when there are no items to hide', () => {
+    expect(emptyText(cardiff, 0).en).toBe('Nothing to show here yet.');
+  });
+});
+
+describe('showHiddenItems', () => {
+  it('counts the hidden items, in the singular for one', () => {
+    expect(showHiddenItems(1)).toEqual({
+      en: 'Show 1 hidden item',
+      cy: 'Dangos 1 eitem gudd',
+    });
+    expect(showHiddenItems(3)).toEqual({
+      en: 'Show 3 hidden items',
+      cy: 'Dangos 3 eitem gudd',
     });
   });
 });

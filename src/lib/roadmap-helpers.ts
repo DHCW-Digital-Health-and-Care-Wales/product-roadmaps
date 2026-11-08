@@ -165,11 +165,24 @@ export const countText = (count: ItemCount): Localised =>
     ? { en: String(count.total), cy: String(count.total) }
     : countOf(count);
 
-/** What an empty section or horizon says, naming the filter's organisation. */
-export const emptyText = ({ org }: OrgFilter): Localised =>
-  org
-    ? fill(UI.nothingFor, { organisation: organisation(org).short })
+/** How many of an empty section's `total` items the filter hides. */
+export const hiddenCount = ({ org }: OrgFilter, total: number): number =>
+  org ? total : 0;
+
+/**
+ * What an empty section or horizon says: naming the filter's organisation when
+ * the filter hides its items, otherwise that there's nothing yet.
+ */
+export const emptyText = (filter: OrgFilter, total: number): Localised =>
+  filter.org && hiddenCount(filter, total) > 0
+    ? fill(UI.nothingFor, { organisation: organisation(filter.org).short })
     : UI.nothingYet;
+
+/** The button that shows the items the filter hides in an empty section. */
+export const showHiddenItems = (count: number): Localised =>
+  count === 1
+    ? UI.showHiddenItemsOne
+    : fill(UI.showHiddenItems, { count: String(count) });
 
 /** Organisations that any item is for, in display order. */
 export function organisationsWithWork(roadmaps: Roadmap[]): OrganisationId[] {

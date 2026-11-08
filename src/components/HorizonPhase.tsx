@@ -1,5 +1,6 @@
-import type { Localised } from '../lib/types';
+import type { Localised, OrgFilter } from '../lib/types';
 import { countText, type ShownItem } from '../lib/roadmap-helpers';
+import { EmptyItems } from './EmptyItems';
 import { RoadmapCard } from './RoadmapCard';
 import { T } from './T';
 
@@ -9,8 +10,7 @@ interface HorizonPhaseProps {
   items: ShownItem[];
   /** The number of items before filtering. */
   total: number;
-  /** Shown when no items match. */
-  empty: Localised;
+  filter: OrgFilter;
   headingId: string;
   accent: string;
 }
@@ -27,7 +27,7 @@ export function HorizonPhase({
   label,
   items,
   total,
-  empty,
+  filter,
   headingId,
   accent,
 }: HorizonPhaseProps) {
@@ -58,9 +58,12 @@ export function HorizonPhase({
             ))}
           </div>
         ) : (
-          <p className="text-sm italic text-ink-500">
-            <T value={empty} />
-          </p>
+          <EmptyItems
+            filter={filter}
+            total={total}
+            headingId={headingId}
+            className="text-sm italic text-ink-500"
+          />
         )}
       </div>
     </section>

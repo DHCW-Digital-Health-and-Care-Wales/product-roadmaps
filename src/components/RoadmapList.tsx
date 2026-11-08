@@ -3,12 +3,12 @@ import type { Roadmap, OrgFilter } from '../lib/types';
 import { fill, useLanguage } from '../lib/i18n';
 import {
   countOf,
-  emptyText,
   isExpandable,
   placementHeadingId,
   roadmapGroups,
 } from '../lib/roadmap-helpers';
 import { UI } from '../lib/strings';
+import { EmptyItems } from './EmptyItems';
 import { RoadmapListItem } from './RoadmapListItem';
 import { T } from './T';
 
@@ -136,9 +136,12 @@ export function RoadmapList({
                   })}
                 </ul>
               ) : (
-                <p className="py-4 text-ink-700">
-                  <T value={emptyText(filter)} />
-                </p>
+                <EmptyItems
+                  filter={filter}
+                  total={g.total}
+                  headingId={placementHeadingId(g.id)}
+                  className="py-4 text-ink-700"
+                />
               )}
             </section>
           ))}

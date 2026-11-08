@@ -350,6 +350,10 @@ test.describe('organisation filter', () => {
   // Where an element is on screen, to check it doesn't jump.
   const top = (locator: Locator) =>
     locator.evaluate((element) => element.getBoundingClientRect().top);
+  // Chromium keeps content in place by itself as the page changes above it,
+  // which would hide a failure to; Safari doesn't.
+  const withoutScrollAnchoring = (page: Page) =>
+    page.addStyleTag({ content: '* { overflow-anchor: none }' });
 
   test('filters the landing page and carries the filter to a roadmap and back', async ({
     page,
@@ -409,6 +413,7 @@ test.describe('organisation filter', () => {
     page,
   }) => {
     await page.goto(`en/${first.slug}/`);
+    await withoutScrollAnchoring(page);
     const pill = page
       .getByRole('button', { name: 'Filter by Cardiff and Vale' })
       .first();
@@ -436,6 +441,29 @@ test.describe('organisation filter', () => {
     await expect(pill).toBeFocused();
   });
 
+  test('an empty section shows its hidden items in place', async ({ page }) => {
+    await page.goto(`en/${first.slug}/?org=cavuhb`);
+    await withoutScrollAnchoring(page);
+    const section = page.getByRole('region', { name: /^Recently delivered/ });
+    const show = section.getByRole('button', { name: 'Show 1 hidden item' });
+    // The button just below the header, with the section's heading above the
+    // screen and filtered-out items above that.
+    await show.evaluate((element) =>
+      element.scrollIntoView({ block: 'start', behavior: 'instant' }),
+    );
+    expect(await top(section.getByRole('heading').first())).toBeLessThan(0);
+    const before = await top(section);
+
+    await show.click();
+    await expect(page).not.toHaveURL(/org=/);
+    const card = section.getByRole('heading', {
+      name: 'Recently shipped work',
+    });
+    await expect(card).toBeFocused();
+    await expect(card).toBeInViewport();
+    expect(Math.abs((await top(section)) - before)).toBeLessThanOrEqual(1);
+  });
+
   test('the header opens the filter', async ({ page, isMobile }) => {
     await page.goto(`en/${first.slug}/?org=cavuhb`);
     await page
@@ -455,6 +483,7 @@ test.describe('organisation filter', () => {
     page,
   }) => {
     await page.goto(`en/${first.slug}/?org=cavuhb`);
+    await withoutScrollAnchoring(page);
     await page
       .locator('#roadmap')
       .evaluate((element) =>

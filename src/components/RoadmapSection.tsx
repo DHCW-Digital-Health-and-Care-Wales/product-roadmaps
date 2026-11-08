@@ -1,10 +1,11 @@
-import type { Localised } from '../lib/types';
+import type { OrgFilter } from '../lib/types';
 import type { SECTIONS } from '../lib/content';
 import {
   countText,
   placementHeadingId,
   type ShownItem,
 } from '../lib/roadmap-helpers';
+import { EmptyItems } from './EmptyItems';
 import { RoadmapCard } from './RoadmapCard';
 import { T } from './T';
 
@@ -16,15 +17,14 @@ export function RoadmapSection({
   section,
   items,
   total,
-  empty,
+  filter,
 }: {
   section: (typeof SECTIONS)[number];
   /** The items that match the organisation filter. */
   items: ShownItem[];
   /** The number of items before filtering. */
   total: number;
-  /** Shown when no items match. */
-  empty: Localised;
+  filter: OrgFilter;
 }) {
   const headingId = placementHeadingId(section.id);
 
@@ -56,11 +56,12 @@ export function RoadmapSection({
             ))}
           </div>
         ) : (
-          <div className="mt-6 rounded-card border border-border bg-surface-subtle p-5">
-            <p className="font-medium text-ink-700">
-              <T value={empty} />
-            </p>
-          </div>
+          <EmptyItems
+            filter={filter}
+            total={total}
+            headingId={headingId}
+            className="mt-6 rounded-card border border-border bg-surface-subtle p-5 font-medium text-ink-700"
+          />
         )}
       </div>
     </section>

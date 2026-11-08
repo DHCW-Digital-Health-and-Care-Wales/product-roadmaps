@@ -1,6 +1,6 @@
 import type { OrganisationId, Roadmap, OrgFilter } from '../lib/types';
 import { SECTIONS } from '../lib/content';
-import { emptyText, filterItems } from '../lib/roadmap-helpers';
+import { filterItems } from '../lib/roadmap-helpers';
 import type { View } from '../lib/router';
 import { RoadmapIntro } from '../components/RoadmapIntro';
 import { OrgFilterDisclosure } from '../components/OrgFilterDisclosure';
@@ -38,7 +38,7 @@ export function RoadmapPage({
           section={section}
           items={filterItems(roadmap.items[section.id], filter)}
           total={roadmap.items[section.id].length}
-          empty={emptyText(filter)}
+          filter={filter}
         />
       ),
     );

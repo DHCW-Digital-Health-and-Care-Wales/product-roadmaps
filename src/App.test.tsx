@@ -409,6 +409,31 @@ describe('organisation filter', () => {
     expect(document.activeElement?.closest('[data-filter-card]')).toBeTruthy();
   });
 
+  it.each(['', '&view=list'])(
+    'shows the items the filter hides from an empty section%s',
+    (view) => {
+      renderAt(`${productPage}?org=cavuhb${view}`);
+      const next = within(screen.getByRole('region', { name: /^Next/ }));
+      expect(next.getByText('Nothing for Cardiff and Vale here.')).toBeTruthy();
+
+      fireEvent.click(next.getByRole('button', { name: 'Show 1 hidden item' }));
+      expect(window.location.search).toBe(view.replace('&', '?'));
+      // Focus moves to the item that takes the button's place.
+      expect(document.activeElement).toBe(
+        next.getByRole('heading', { name: 'Card being explored' }),
+      );
+    },
+  );
+
+  it('offers nothing to show in a section with no items', () => {
+    renderAt(`/product-roadmaps/en/${snapshot[1].slug}/?org=cavuhb`);
+    const delivered = within(
+      screen.getByRole('region', { name: /^Recently delivered/ }),
+    );
+    expect(delivered.getByText('Nothing to show here yet.')).toBeTruthy();
+    expect(delivered.queryByRole('button')).toBeNull();
+  });
+
   it('follows the URL on back and forward', () => {
     renderAt(productPage);
     act(() => {

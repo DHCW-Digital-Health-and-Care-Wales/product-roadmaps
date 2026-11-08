@@ -166,6 +166,14 @@ export const UI = {
     en: 'Nothing for {organisation} here.',
     cy: 'Dim byd ar gyfer {organisation} yma.',
   },
+  showHiddenItems: {
+    en: 'Show {count} hidden items',
+    cy: 'Dangos {count} eitem gudd',
+  },
+  showHiddenItemsOne: {
+    en: 'Show 1 hidden item',
+    cy: 'Dangos 1 eitem gudd',
+  },
   showingItemsFor: {
     en: 'Showing {shown} of {total} items for {organisation}',
     cy: 'Yn dangos {shown} o {total} eitem ar gyfer {organisation}',

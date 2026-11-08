@@ -11,10 +11,11 @@
       - /url: /product-roadmaps/en/producta/
   - button "Agor y ddewislen"
 - main:
+  - status
   - region "Single Record | Product A roadmap":
-    - paragraph:
-      - link "← Pob trywydd":
-        - /url: /product-roadmaps/cy/
+    - link "← Pob trywydd":
+      - /url: /product-roadmaps/cy/
+    - group: Hidlo yn ôl sefydliad
     - text: "Beta Diweddarwyd ddiwethaf:"
     - time: /1 Hydref \d+/
     - heading "Single Record | Product A roadmap" [level=1]
@@ -50,6 +51,9 @@
       - paragraph:
         - strong: "Canlyniad:"
         - text: What users can do now.
+      - paragraph:
+        - text: "Sefydliadau:"
+        - button "Hidlo yn ôl Bae Abertawe"
   - region "Y trywydd":
     - heading "Y trywydd" [level=2]
     - paragraph: Each card shows a change we're working on now, planning to take on next, or working towards later.
@@ -66,6 +70,10 @@
               - text: Beth sy’n newid i ddefnyddwyr pan fydd wedi’i gwblhau.
             - group: What this covers
             - text: Gwasanaeth X Gwasanaeth Y
+            - paragraph:
+              - text: "Sefydliadau:"
+              - button "Hidlo yn ôl Caerdydd a’r Fro"
+              - button "Hidlo yn ôl Bae Abertawe"
           - article:
             - heading "Minimal card" [level=4]
             - paragraph: Only Title and Horizon are required; everything else is optional.
@@ -76,6 +84,9 @@
               - strong: "Canlyniad:"
               - text: Users get the change as soon as it is deployed.
             - text: Service X
+            - paragraph:
+              - text: "Sefydliadau:"
+              - button "Hidlo yn ôl Cymru gyfan"
       - listitem:
         - region "Nesaf 1":
           - heading "Nesaf 1" [level=3]
@@ -86,6 +97,10 @@
             - paragraph:
               - strong: "Canlyniad:"
               - text: What we hope this will achieve.
+            - paragraph:
+              - text: "Sefydliadau:"
+              - button "Hidlo yn ôl Betsi Cadwaladr"
+              - button "Hidlo yn ôl Hywel Dda"
       - listitem:
         - region "Hwyrach 2":
           - heading "Hwyrach 2" [level=3]
@@ -96,10 +111,16 @@
             - paragraph:
               - strong: "Canlyniad:"
               - text: Dealltwriaeth glir o’r broblem.
+            - paragraph:
+              - text: "Sefydliadau:"
+              - button "Hidlo yn ôl Caerdydd a’r Fro"
           - article:
             - heading "Longer-term idea" [level=4]
             - paragraph: Direction we expect to take as we learn more.
             - text: Service Y Service Z
+            - paragraph:
+              - text: "Sefydliadau:"
+              - button "Hidlo yn ôl Cymru gyfan"
   - region "Other work we have delivered this year":
     - heading "Other work we have delivered this year" [level=2]
     - text: "1"
@@ -109,6 +130,9 @@
       - heading "Earlier delivery this year" [level=3]
       - paragraph: Something we delivered earlier in the year.
       - group: What this covers
+      - paragraph:
+        - text: "Sefydliadau:"
+        - button "Hidlo yn ôl Cymru gyfan"
   - region "Not doing right now":
     - heading "Not doing right now" [level=2]
     - text: "1"

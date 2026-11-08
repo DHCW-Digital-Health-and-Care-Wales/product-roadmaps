@@ -121,6 +121,17 @@ describe('prerender', () => {
     act(() => root.unmount());
   });
 
+  it('leaves the organisation filter out without JavaScript', () => {
+    const landing = pages.find((p) => p.file === 'en/index.html');
+    const product = pages.find((p) => p.file === `en/${first.slug}/index.html`);
+    for (const page of [landing, product]) {
+      expect(page?.html).not.toContain('Filter by organisation');
+    }
+    // The pills are plain labels, not toggle buttons.
+    expect(product?.html).toContain('Cardiff and Vale');
+    expect(product?.html).not.toContain('aria-pressed');
+  });
+
   it('keeps 404.html out of search results, in both languages', () => {
     const page = pages[pages.length - 1];
     expect(page?.head).toContain('<meta name="robots" content="noindex" />');

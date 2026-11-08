@@ -6,10 +6,13 @@
 import {
   CATEGORY_IDS,
   CATEGORY_SHEET_VALUES,
+  ORGANISATION_IDS,
+  ORGANISATION_SHEET_VALUES,
   PLACEMENT_IDS,
   type CategoryId,
   type DetailLine,
   type Localised,
+  type OrganisationId,
   type Placement,
   type Roadmap,
   type RoadmapItem,
@@ -57,7 +60,14 @@ const LIST_COLUMNS = {
 
 const CARD_COLUMNS = {
   required: ['Title', 'Horizon'],
-  optional: ['Description', 'Outcome', 'Phase', 'Labels', 'Details'],
+  optional: [
+    'Description',
+    'Outcome',
+    'Phase',
+    'Labels',
+    'Organisations',
+    'Details',
+  ],
   welsh: ['Title', 'Description', 'Outcome', 'Phase', 'Labels', 'Details'],
 };
 
@@ -76,6 +86,12 @@ const PLACEMENTS = new Map<string, Placement>(
 // services" matches 'gp-community-services'.
 const CATEGORIES = new Map<string, CategoryId>(
   CATEGORY_IDS.map((id) => [key(CATEGORY_SHEET_VALUES[id]), id]),
+);
+
+// Values accepted in a card's "Organisations" column, so " cavuhb" matches
+// 'cavuhb'.
+const ORGANISATIONS = new Map<string, OrganisationId>(
+  ORGANISATION_IDS.map((id) => [key(ORGANISATION_SHEET_VALUES[id]), id]),
 );
 
 export const slugify = (value: string) =>
@@ -372,6 +388,33 @@ function parseLabels(ctx: RowContext): Localised[] | undefined {
   return labels.length > 0 ? labels : undefined;
 }
 
+/**
+ * Reads the comma-separated organisation codes, in ORGANISATION_IDS order.
+ * Codes that aren't dropdown options are left out with a warning.
+ */
+function parseOrganisations(ctx: RowContext): OrganisationId[] | undefined {
+  // Read directly, not with readText(), as Organisations has no Welsh column.
+  const found = new Set<OrganisationId>();
+  for (const value of splitEntries(ctx.cells.organisations ?? '', /[,\n]/)) {
+    if (!value) continue;
+    const id = ORGANISATIONS.get(key(value));
+    if (id) {
+      found.add(id);
+      continue;
+    }
+    const allowed = ORGANISATION_IDS.map(
+      (org) => `"${ORGANISATION_SHEET_VALUES[org]}"`,
+    );
+    warn(
+      ctx.sheet,
+      `Organisation "${value}" for "${ctx.label}" is not one of ${allowed.join(', ')}; left out`,
+      ctx.line,
+    );
+  }
+  const organisations = ORGANISATION_IDS.filter((id) => found.has(id));
+  return organisations.length > 0 ? organisations : undefined;
+}
+
 function toItem(ctx: RowContext): RoadmapItem {
   const outcome = readText(ctx, 'Outcome');
   const phase = readText(ctx, 'Phase');
@@ -382,6 +425,7 @@ function toItem(ctx: RowContext): RoadmapItem {
     phase: phase.en ? phase : undefined,
     labels: parseLabels(ctx),
     details: parseDetails(ctx),
+    organisations: parseOrganisations(ctx),
   };
 }
 

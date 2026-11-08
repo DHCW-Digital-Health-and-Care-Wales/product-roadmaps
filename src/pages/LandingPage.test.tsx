@@ -10,11 +10,16 @@ import {
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { LanguageProvider } from '../components/LanguageProvider';
 import { ANNOUNCE_DELAY_MS } from '../components/SearchBar';
-import type { CategoryId, Roadmap } from '../lib/types';
+import {
+  type CategoryId,
+  type Roadmap,
+  NO_ORG_FILTER,
+  type OrgFilter,
+} from '../lib/types';
 import { LandingPage } from './LandingPage';
 import fixture from '../../e2e/fixtures/roadmaps.json';
 
-const [base] = fixture as Roadmap[];
+const [base, withoutCardiff] = fixture as Roadmap[];
 const loc = (en: string, cy = '') => ({ en, cy });
 
 const roadmap = (
@@ -51,11 +56,15 @@ const categorised = [
 ];
 const uncategorised = roadmap('misc', '', 'Miscellany');
 
-const renderLanding = (roadmaps: Roadmap[], lang = 'en') => {
+const renderLanding = (
+  roadmaps: Roadmap[],
+  lang = 'en',
+  filter = NO_ORG_FILTER,
+) => {
   window.history.replaceState(null, '', `/product-roadmaps/${lang}/`);
   return render(
     <LanguageProvider>
-      <LandingPage roadmaps={roadmaps} />
+      <LandingPage roadmaps={roadmaps} filter={filter} />
     </LanguageProvider>,
   );
 };
@@ -343,5 +352,58 @@ describe('LandingPage', () => {
       screen.getByText('No roadmaps have been published yet.'),
     ).toBeTruthy();
     expect(screen.queryByRole('search')).toBeNull();
+  });
+
+  describe('filtered by organisation', () => {
+    // The fixture's first roadmap has 2 of its 9 items for Cardiff and Vale
+    // alone; its second has none.
+    const cardiffOnly: OrgFilter = { org: 'cavuhb', includeNational: false };
+    const roadmaps = [
+      ...categorised,
+      {
+        ...roadmap('dental', 'public-health-apps', 'Dental'),
+        items: withoutCardiff.items,
+      },
+    ];
+
+    it('hides roadmaps without matching items, recounting the tiles', () => {
+      renderLanding(roadmaps, 'en', cardiffOnly);
+      expect(screen.queryByRole('link', { name: 'Dental' })).toBeNull();
+      expect(
+        screen.getByRole('link', { name: /Public Health & Apps/ }).textContent,
+      ).toContain('1 roadmap');
+      expect(screen.getByRole('status').textContent).toBe(
+        'Showing 4 of 5 roadmaps for Cardiff and Vale',
+      );
+    });
+
+    it('counts only the matching items on each card', () => {
+      renderLanding([categorised[0]], 'en', cardiffOnly);
+      const card = screen
+        .getByRole('link', { name: categorised[0].meta.title.en })
+        .closest('li')!;
+      expect(card.textContent).toContain('2 of 9 items for Cardiff and Vale');
+      const now = within(card).getByText('Now').closest('div');
+      expect(now?.textContent).toBe('Now1');
+    });
+
+    it('offers to show every organisation when nothing matches', () => {
+      renderLanding([withoutCardiff], 'en', cardiffOnly);
+      expect(
+        screen.getByText('No roadmaps have work for Cardiff and Vale yet.'),
+      ).toBeTruthy();
+      expect(
+        screen.getByRole('button', { name: 'Show all organisations' }),
+      ).toBeTruthy();
+
+      cleanup();
+      renderLanding(roadmaps, 'en', cardiffOnly);
+      search('dentistry');
+      expect(
+        screen.getByText(
+          'No roadmaps match your search for Cardiff and Vale. Try a different word.',
+        ),
+      ).toBeTruthy();
+    });
   });
 });

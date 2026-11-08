@@ -1,18 +1,31 @@
-import type { RoadmapMeta } from '../lib/types';
+import type { ReactNode } from 'react';
+import type { RoadmapMeta, OrgFilter } from '../lib/types';
 import { useLanguage } from '../lib/i18n';
 import { ROADMAP_INTRO } from '../lib/content';
 import { formatDate } from '../lib/roadmap-helpers';
-import { onNavigate, pathFor } from '../lib/router';
+import { onNavigate, pathFor, withOrgFilter } from '../lib/router';
 import { UI } from '../lib/strings';
 import { T } from './T';
 
 /**
  * Title section: a link back to all roadmaps, the roadmap title, status label,
  * a visible "last updated" date and the short intro. Rendered as the page's
- * primary heading.
+ * primary heading. The back link keeps the organisation filter, `controls` sit
+ * beside it and `children` go after the intro.
  */
-export function RoadmapIntro({ meta }: { meta: RoadmapMeta }) {
+export function RoadmapIntro({
+  meta,
+  filter,
+  controls,
+  children,
+}: {
+  meta: RoadmapMeta;
+  filter: OrgFilter;
+  controls?: ReactNode;
+  children?: ReactNode;
+}) {
   const { lang } = useLanguage();
+  const back = withOrgFilter(pathFor(lang, null), filter);
 
   return (
     <section
@@ -21,15 +34,16 @@ export function RoadmapIntro({ meta }: { meta: RoadmapMeta }) {
       className="scroll-mt-28 bg-surface-subtle px-4 pb-12 pt-28 sm:px-6 sm:pt-32"
     >
       <div className="mx-auto max-w-content">
-        <p className="mb-6">
+        <div className="mb-6 flex flex-wrap items-start gap-x-8 gap-y-3">
           <a
-            href={pathFor(lang, null)}
-            onClick={onNavigate(pathFor(lang, null))}
+            href={back}
+            onClick={onNavigate(back)}
             className="text-sm font-medium text-action underline underline-offset-4 hover:no-underline"
           >
             &larr; <T value={UI.allRoadmaps} />
           </a>
-        </p>
+          {controls}
+        </div>
         <div className="flex flex-wrap items-center gap-3">
           {meta.statusLabel.en ? (
             <span className="inline-flex items-center rounded-full bg-heading px-3 py-1 text-sm font-medium text-white">
@@ -62,6 +76,7 @@ export function RoadmapIntro({ meta }: { meta: RoadmapMeta }) {
         <p className="mt-4 max-w-3xl text-lg leading-relaxed text-ink-900">
           <T value={ROADMAP_INTRO} />
         </p>
+        {children}
       </div>
     </section>
   );

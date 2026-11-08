@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import logoImage from '../assets/dhcw-logo.png';
 import { useLanguage } from '../lib/i18n';
-import type { Localised } from '../lib/types';
-import { onNavigate, pathFor } from '../lib/router';
+import type { Localised, OrgFilter } from '../lib/types';
+import { onNavigate, pathFor, withOrgFilter } from '../lib/router';
 import { UI } from '../lib/strings';
+import { FilterChip, FilterStrip } from './HeaderFilter';
 import { LanguageToggle } from './LanguageToggle';
 import { T } from './T';
 
@@ -15,24 +16,28 @@ const NAV_LINKS: { href: string; label: Localised }[] = [
 
 /**
  * Fixed brand header: NHS Wales Blue bar with the DHCW logo (linking to all
- * roadmaps), in-page navigation on product pages and the language toggle.
- * Collapses to a menu button on narrow screens.
+ * roadmaps), in-page navigation on product pages, the organisation filter
+ * while one is set, and the language toggle. Collapses to a menu button on
+ * narrow screens, with the filter on a line of its own.
  */
 export function SiteHeader({
+  filter,
   showSectionLinks = false,
 }: {
+  filter: OrgFilter;
   showSectionLinks?: boolean;
 }) {
   const { lang, tr } = useLanguage();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navLinks = showSectionLinks ? NAV_LINKS : [];
+  const home = withOrgFilter(pathFor(lang, null), filter);
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-nhs-wales-blue text-white shadow-md">
       <div className="mx-auto flex max-w-content items-center justify-between gap-4 px-4 py-3 sm:px-6">
         <a
-          href={pathFor(lang, null)}
-          onClick={onNavigate(pathFor(lang, null))}
+          href={home}
+          onClick={onNavigate(home)}
           className="flex items-center"
           aria-label={tr(UI.homeLink)}
         >
@@ -61,6 +66,7 @@ export function SiteHeader({
             </nav>
           ) : null}
 
+          {filter.org ? <FilterChip org={filter.org} /> : null}
           <LanguageToggle />
 
           {navLinks.length > 0 ? (
@@ -83,6 +89,8 @@ export function SiteHeader({
           ) : null}
         </div>
       </div>
+
+      {filter.org ? <FilterStrip org={filter.org} /> : null}
 
       {mobileMenuOpen && navLinks.length > 0 && (
         <nav

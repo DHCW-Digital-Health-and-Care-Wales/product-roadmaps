@@ -1,7 +1,10 @@
-import type { RoadmapItem } from '../lib/types';
+import type { Localised } from '../lib/types';
 import type { SECTIONS } from '../lib/content';
-import { placementHeadingId } from '../lib/roadmap-helpers';
-import { UI } from '../lib/strings';
+import {
+  countText,
+  placementHeadingId,
+  type ShownItem,
+} from '../lib/roadmap-helpers';
 import { RoadmapCard } from './RoadmapCard';
 import { T } from './T';
 
@@ -12,9 +15,16 @@ import { T } from './T';
 export function RoadmapSection({
   section,
   items,
+  total,
+  empty,
 }: {
   section: (typeof SECTIONS)[number];
-  items: RoadmapItem[];
+  /** The items that match the organisation filter. */
+  items: ShownItem[];
+  /** The number of items before filtering. */
+  total: number;
+  /** Shown when no items match. */
+  empty: Localised;
 }) {
   const headingId = placementHeadingId(section.id);
 
@@ -29,7 +39,7 @@ export function RoadmapSection({
             <T value={section.heading} />
           </h2>
           <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-full border border-border bg-surface-subtle px-2 text-xs font-semibold text-ink-700">
-            {items.length}
+            <T value={countText({ shown: items.length, total })} />
           </span>
         </div>
 
@@ -39,16 +49,16 @@ export function RoadmapSection({
 
         {items.length > 0 ? (
           <div className="mt-6 grid gap-4 md:grid-cols-3">
-            {items.map((item, index) => (
-              // Static list from the snapshot; never reordered or filtered.
-              // eslint-disable-next-line @eslint-react/no-array-index-key
+            {items.map(({ item, index }) => (
+              // The place in the unfiltered list, so a card keeps its element
+              // as the filter changes.
               <RoadmapCard key={index} item={item} headingLevel={3} />
             ))}
           </div>
         ) : (
           <div className="mt-6 rounded-card border border-border bg-surface-subtle p-5">
             <p className="font-medium text-ink-700">
-              <T value={UI.nothingYet} />
+              <T value={empty} />
             </p>
           </div>
         )}

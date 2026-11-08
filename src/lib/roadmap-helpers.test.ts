@@ -1,21 +1,42 @@
 import { describe, expect, it } from 'vitest';
 import {
+  countItems,
+  countText,
+  emptyText,
   filterGroups,
+  filterItems,
   formatDate,
   groupByCategory,
   isExpandable,
+  itemMatches,
+  itemsStatus,
   matchesSearch,
+  organisationsWithWork,
   placementHeadingId,
   roadmapGroups,
+  roadmapsStatus,
   titleWithFamily,
   categoryTiles,
 } from './roadmap-helpers';
-import type { CategoryId, Roadmap } from './types';
+import {
+  type CategoryId,
+  type OrganisationId,
+  type Roadmap,
+  NO_ORG_FILTER,
+  type OrgFilter,
+} from './types';
 import fixture from '../../e2e/fixtures/roadmaps.json';
 
 const snapshot = fixture as Roadmap[];
 
 const loc = (en: string) => ({ en, cy: '' });
+
+// In the fixture, ProductA has 5 of its 9 items for Cardiff and Vale counting
+// all-Wales work (2 without), and ProductB 1 of 5 (0 without).
+const [productA, productB] = snapshot;
+const cardiff: OrgFilter = { org: 'cavuhb', includeNational: true };
+const cardiffOnly: OrgFilter = { org: 'cavuhb', includeNational: false };
+const allWales: OrgFilter = { org: 'national', includeNational: true };
 
 describe('isExpandable', () => {
   it.each([
@@ -96,6 +117,114 @@ describe('roadmapGroups', () => {
       ['delivered-this-year', false],
       ['not-doing', false],
     ]);
+  });
+
+  it('keeps only matching items, with their place and the total', () => {
+    const later = roadmapGroups(productA, cardiffOnly).find(
+      (g) => g.id === 'later',
+    );
+    expect(later?.items.map((shown) => shown.index)).toEqual([0]);
+    expect(later?.total).toBe(2);
+  });
+});
+
+describe('itemMatches', () => {
+  const item = (organisations?: OrganisationId[]) => ({
+    title: loc('Card'),
+    description: loc(''),
+    organisations,
+  });
+
+  it.each<[string, OrganisationId[] | undefined, OrgFilter, boolean]>([
+    ['anything without a filter', undefined, NO_ORG_FILTER, true],
+    ['its own organisation', ['cavuhb', 'sbuhb'], cardiff, true],
+    ['not another organisation', ['sbuhb'], cardiff, false],
+    ['not an item with no organisations', undefined, cardiff, false],
+    ['all-Wales work when included', ['national'], cardiff, true],
+    ['not all-Wales work when left out', ['national'], cardiffOnly, false],
+    ['all-Wales work for all of Wales', ['national'], allWales, true],
+    ['not one organisation for all of Wales', ['cavuhb'], allWales, false],
+  ])('matches %s', (_, organisations, filter, expected) => {
+    expect(itemMatches(item(organisations), filter)).toBe(expected);
+  });
+});
+
+describe('filterItems', () => {
+  it('keeps each matching item with its place in the full list', () => {
+    expect(
+      filterItems(productA.items.now, cardiffOnly).map((s) => s.index),
+    ).toEqual([0]);
+    expect(
+      filterItems(productA.items.now, cardiff).map((s) => s.index),
+    ).toEqual([0, 2]);
+  });
+});
+
+describe('countItems', () => {
+  it('counts matches across every section and horizon', () => {
+    expect(countItems(productA, NO_ORG_FILTER)).toEqual({ shown: 9, total: 9 });
+    expect(countItems(productA, cardiff)).toEqual({ shown: 5, total: 9 });
+    expect(countItems(productA, cardiffOnly)).toEqual({ shown: 2, total: 9 });
+    expect(countItems(productA, allWales)).toEqual({ shown: 3, total: 9 });
+  });
+});
+
+describe('countText', () => {
+  it('shows the total only when items are hidden', () => {
+    expect(countText({ shown: 5, total: 5 })).toEqual({ en: '5', cy: '5' });
+    expect(countText({ shown: 2, total: 5 })).toEqual({
+      en: '2 of 5',
+      cy: '2 o 5',
+    });
+  });
+});
+
+describe('emptyText', () => {
+  it('names the organisation while filtered', () => {
+    expect(emptyText(NO_ORG_FILTER).en).toBe('Nothing to show here yet.');
+    expect(emptyText(cardiff)).toEqual({
+      en: 'Nothing for Cardiff and Vale here.',
+      cy: 'Dim byd ar gyfer Caerdydd a’r Fro yma.',
+    });
+  });
+});
+
+describe('organisationsWithWork', () => {
+  it('lists the organisations with any items, in display order', () => {
+    expect(organisationsWithWork(snapshot)).toEqual([
+      'national',
+      'bcuhb',
+      'cavuhb',
+      'hduhb',
+      'sbuhb',
+      'phw',
+    ]);
+  });
+});
+
+describe('itemsStatus', () => {
+  const count = { shown: 5, total: 9 };
+
+  it('names the organisation in full, and any all-Wales work', () => {
+    expect(itemsStatus(count, cardiff).en).toBe(
+      'Showing 5 of 9 items for Cardiff and Vale University Health Board, including all-Wales work',
+    );
+    expect(itemsStatus(count, cardiff, { withAllWales: false }).en).toBe(
+      'Showing 5 of 9 items for Cardiff and Vale University Health Board',
+    );
+    expect(itemsStatus(count, cardiffOnly).en).toBe(
+      'Showing 5 of 9 items for Cardiff and Vale University Health Board',
+    );
+    expect(itemsStatus({ shown: 3, total: 9 }, allWales).en).toBe(
+      'Showing 3 of 9 items for All Wales (national)',
+    );
+  });
+
+  it('gives the total without a filter', () => {
+    expect(itemsStatus({ shown: 9, total: 9 }, NO_ORG_FILTER)).toEqual({
+      en: 'Showing all 9 items',
+      cy: 'Yn dangos pob un o’r 9 eitem',
+    });
   });
 });
 
@@ -274,6 +403,33 @@ describe('filterGroups', () => {
       ['other', ['d']],
     ]);
     expect(groups('nothing')).toEqual([]);
+  });
+
+  it('keeps only roadmaps with work for the organisation', () => {
+    const slugs = (query: string, filter: OrgFilter) =>
+      filterGroups(snapshot, query, 'en', filter).flatMap((g) =>
+        g.roadmaps.map((r) => r.slug),
+      );
+    expect(slugs('', cardiff)).toEqual(['producta', 'productb']);
+    expect(slugs('', cardiffOnly)).toEqual(['producta']);
+    expect(slugs(productB.meta.title.en, cardiff)).toEqual(['productb']);
+    expect(slugs(productB.meta.title.en, cardiffOnly)).toEqual([]);
+  });
+});
+
+describe('roadmapsStatus', () => {
+  it.each<[string, OrgFilter, string]>([
+    ['', NO_ORG_FILTER, '14 roadmaps'],
+    ['data', NO_ORG_FILTER, 'Showing 12 of 14 roadmaps'],
+    [
+      '',
+      cardiff,
+      'Showing 12 of 14 roadmaps for Cardiff and Vale, including all-Wales work',
+    ],
+    ['', cardiffOnly, 'Showing 12 of 14 roadmaps for Cardiff and Vale'],
+    ['', allWales, 'Showing 12 of 14 roadmaps for All Wales'],
+  ])('for "%s" and %o is "%s"', (query, filter, expected) => {
+    expect(roadmapsStatus(12, 14, query, filter).en).toBe(expected);
   });
 });
 

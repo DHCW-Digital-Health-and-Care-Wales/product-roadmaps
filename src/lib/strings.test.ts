@@ -28,4 +28,15 @@ describe('fill', () => {
       fill({ en: 'Hi {name}', cy: 'Helo {name}' }, { name: 'Ann' }),
     ).toEqual({ en: 'Hi Ann', cy: 'Helo Ann' });
   });
+
+  it('fills each language from a localised value, falling back to English', () => {
+    const value = { en: 'For {org}', cy: 'Ar gyfer {org}' };
+    expect(fill(value, { org: { en: 'Powys', cy: 'Powys (cy)' } })).toEqual({
+      en: 'For Powys',
+      cy: 'Ar gyfer Powys (cy)',
+    });
+    expect(fill(value, { org: { en: 'HEIW', cy: '' } }).cy).toBe(
+      'Ar gyfer HEIW',
+    );
+  });
 });

@@ -2,12 +2,13 @@ import type { RoadmapItem } from '../lib/types';
 import { DETAILS_HEADING } from '../lib/content';
 import { UI } from '../lib/strings';
 import { DetailList } from './DetailList';
+import { OrgPills } from './OrgPills';
 import { T } from './T';
 
 /**
- * A single roadmap item. Shows the title, description, outcome, details and
- * any labels. Never shows a date: the roadmap communicates priority and
- * confidence, not committed dates.
+ * A single roadmap item. Shows the title, description, outcome, details, any
+ * labels and the organisations it is for. Never shows a date: the roadmap
+ * communicates priority and confidence, not committed dates.
  */
 export function RoadmapCard({
   item,
@@ -19,7 +20,10 @@ export function RoadmapCard({
   const Heading = headingLevel === 3 ? 'h3' : 'h4';
 
   return (
-    <article className="rounded-card border border-border bg-surface p-4 shadow-xs">
+    <article
+      data-filter-card=""
+      className="rounded-card border border-border bg-surface p-4 shadow-xs"
+    >
       {item.phase ? (
         <p className="mb-2">
           <span className="inline-flex items-center rounded-full border border-border-strong bg-surface-subtle px-2.5 py-0.5 text-xs font-medium text-ink-700">
@@ -27,7 +31,11 @@ export function RoadmapCard({
           </span>
         </p>
       ) : null}
-      <Heading className="font-bold text-heading">
+      <Heading
+        data-filter-focus=""
+        tabIndex={-1}
+        className="font-bold text-heading"
+      >
         <T value={item.title} />
       </Heading>
       {item.description.en ? (
@@ -63,6 +71,13 @@ export function RoadmapCard({
             </span>
           ))}
         </div>
+      ) : null}
+
+      {item.organisations ? (
+        <OrgPills
+          organisations={item.organisations}
+          className="mt-3 border-t border-border pt-3"
+        />
       ) : null}
     </article>
   );

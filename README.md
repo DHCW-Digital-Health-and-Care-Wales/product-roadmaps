@@ -125,7 +125,23 @@ category, roadmaps are sorted by title.
 | `Horizon`         | `Now`, `Next`, `Later`, `Recently delivered`, `Delivered this year` or `Not doing`. Required. |
 | `Phase`           | Free-text tag shown above the card title, for example `Discovery`.                          |
 | `Labels`          | Comma separated; each becomes a pill.                                                       |
+| `Organisations`   | Who the work is for: organisation codes from the list below, comma separated. Optional.     |
 | `Details`         | Expandable "What this covers" list. One bullet per line; start a line with `-` to nest it.  |
+
+`Organisations` takes these codes, matched ignoring case and spaces:
+
+- `National`: work for every organisation in Wales, such as national systems
+- Health boards: `ABUHB`, `BCUHB`, `CAVUHB`, `CTMUHB`, `HDUHB`, `PTHB`, `SBUHB`
+- NHS trusts: `VUNHST`, `WAST`, `PHW`
+- Special health authorities: `HEIW`
+
+For example, `CAVUHB, SBUHB`. The cards show each organisation as a button
+that filters the page, and the "Filter by organisation" control on the landing
+and roadmap pages uses them. Its "Include all-Wales work" option also shows
+`National` cards. Any other code is reported as a sheet warning and left out,
+and a blank cell means the card is shown only when no filter is set. The
+organisations' names in English and Welsh are in
+[src/lib/content.ts](src/lib/content.ts). `Organisations` has no Welsh column.
 
 Cards appear in sheet order within their horizon or section. Text shared by
 every roadmap (intro, Now/Next/Later definitions, section headings) is in

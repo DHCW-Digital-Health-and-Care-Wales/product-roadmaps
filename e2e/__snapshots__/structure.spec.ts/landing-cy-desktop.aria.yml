@@ -24,6 +24,7 @@
     - text: Dod o hyd i gynnyrch
     - paragraph: Chwilio yn ôl enw, teulu cynnyrch neu ddisgrifiad
     - searchbox "Dod o hyd i gynnyrch"
+    - group: Hidlo yn ôl sefydliad
     - status: 2 trywydd
   - region "Meddygon Teulu a Gwasanaethau Cymunedol":
     - heading "Meddygon Teulu a Gwasanaethau Cymunedol" [level=2]

@@ -1,22 +1,41 @@
-import { ArrowRight } from 'lucide-react';
-import type { Roadmap } from '../lib/types';
-import { useLanguage } from '../lib/i18n';
-import { HORIZONS } from '../lib/content';
-import { formatDate, roadmapSummary } from '../lib/roadmap-helpers';
-import { onNavigate, pathFor } from '../lib/router';
+import { ArrowRight, Building2 } from 'lucide-react';
+import type { Roadmap, OrgFilter } from '../lib/types';
+import { fill, useLanguage } from '../lib/i18n';
+import { HORIZONS, organisation } from '../lib/content';
+import {
+  countItems,
+  countOf,
+  filterItems,
+  formatDate,
+  roadmapSummary,
+} from '../lib/roadmap-helpers';
+import { onNavigate, pathFor, withOrgFilter } from '../lib/router';
 import { UI } from '../lib/strings';
 import { T } from './T';
 
-/** A landing page card linking to a roadmap. */
-export function ProductCard({ roadmap }: { roadmap: Roadmap }) {
+/**
+ * A landing page card linking to a roadmap. While filtered, it says how many
+ * items are for the organisation and counts only those.
+ */
+export function ProductCard({
+  roadmap,
+  filter,
+}: {
+  roadmap: Roadmap;
+  filter: OrgFilter;
+}) {
   const { lang } = useLanguage();
+  const href = withOrgFilter(pathFor(lang, roadmap.slug), filter);
   const { meta } = roadmap;
   const accent = meta.colour;
   const summary = roadmapSummary(roadmap);
   const headingId = `product-${roadmap.slug}`;
 
   return (
-    <li className="group relative flex flex-col overflow-hidden rounded-card border border-border bg-surface shadow-xs transition-shadow hover:shadow-md card-focus-ring">
+    <li
+      data-filter-card=""
+      className="group relative flex flex-col overflow-hidden rounded-card border border-border bg-surface shadow-xs transition-shadow hover:shadow-md card-focus-ring"
+    >
       <div
         aria-hidden="true"
         className="h-1.5"
@@ -55,8 +74,9 @@ export function ProductCard({ roadmap }: { roadmap: Roadmap }) {
           className={`${meta.family.en ? 'mt-1' : 'mt-3'} text-xl font-bold text-heading`}
         >
           <a
-            href={pathFor(lang, roadmap.slug)}
-            onClick={onNavigate(pathFor(lang, roadmap.slug))}
+            data-filter-focus=""
+            href={href}
+            onClick={onNavigate(href)}
             className="after:absolute after:inset-0 after:content-[''] focus-visible:shadow-none focus-visible:outline-hidden group-hover:underline"
           >
             <T value={meta.title} />
@@ -70,21 +90,38 @@ export function ProductCard({ roadmap }: { roadmap: Roadmap }) {
         ) : null}
 
         {/* mt-auto pins the counts and link to the bottom, so they line up across a row. */}
-        <dl className="mt-auto flex flex-wrap gap-2 pt-5">
-          {HORIZONS.map((horizon) => (
-            <div
-              key={horizon.id}
-              className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface-subtle px-3 py-1 text-sm"
-            >
-              <dt className="text-ink-700">
-                <T value={horizon.label} />
-              </dt>
-              <dd className="font-semibold text-heading">
-                {roadmap.items[horizon.id].length}
-              </dd>
-            </div>
-          ))}
-        </dl>
+        <div className="mt-auto pt-5">
+          {filter.org ? (
+            <p className="mb-3 flex items-center gap-1.5 text-sm text-ink-700">
+              <Building2 aria-hidden="true" className="h-4 w-4 shrink-0" />
+              <span>
+                <strong className="font-semibold text-heading">
+                  <T value={countOf(countItems(roadmap, filter))} />
+                </strong>{' '}
+                <T
+                  value={fill(UI.itemsFor, {
+                    organisation: organisation(filter.org).short,
+                  })}
+                />
+              </span>
+            </p>
+          ) : null}
+          <dl className="flex flex-wrap gap-2">
+            {HORIZONS.map((horizon) => (
+              <div
+                key={horizon.id}
+                className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface-subtle px-3 py-1 text-sm"
+              >
+                <dt className="text-ink-700">
+                  <T value={horizon.label} />
+                </dt>
+                <dd className="font-semibold text-heading">
+                  {filterItems(roadmap.items[horizon.id], filter).length}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
 
         <p
           aria-hidden="true"

@@ -24,6 +24,7 @@
     - text: Find a product
     - paragraph: Search by name, product family or description
     - searchbox "Find a product"
+    - group: Filter by organisation
     - status: 2 roadmaps
   - region "GP & Community Services":
     - heading "GP & Community Services" [level=2]

@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, render, screen, within } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import type { RoadmapItem } from '../lib/types';
 import { LanguageProvider } from './LanguageProvider';
@@ -75,5 +75,20 @@ describe('RoadmapCard', () => {
     const top = container.querySelector('details > ul');
     expect(top?.children).toHaveLength(2);
     expect(top?.querySelector('li > ul > li')?.textContent).toBe('Child');
+  });
+
+  it('shows the organisations as toggle buttons, marking the filtered one', () => {
+    window.history.replaceState(null, '', '/product-roadmaps/en/x/?org=cavuhb');
+    renderCard({
+      title: loc('Card'),
+      description: loc(''),
+      organisations: ['national', 'cavuhb', 'sbuhb'],
+    });
+    const card = within(screen.getByRole('article'));
+    const pressed = (name: string) =>
+      card.getByRole('button', { name }).getAttribute('aria-pressed');
+    expect(pressed('Filter by All Wales')).toBe('false');
+    expect(pressed('Filter by Cardiff and Vale')).toBe('true');
+    expect(pressed('Filter by Swansea Bay')).toBe('false');
   });
 });

@@ -49,6 +49,15 @@ describe('roadmap snapshot schema', () => {
     expect(() => validateSnapshot(data)).toThrow(/category/);
   });
 
+  it('rejects an unknown or empty organisation list', () => {
+    const data = valid();
+    const item = data[0].items.now[0] as unknown as Record<string, unknown>;
+    item.organisations = ['cardiff'];
+    expect(() => validateSnapshot(data)).toThrow(/organisations/);
+    item.organisations = [];
+    expect(() => validateSnapshot(data)).toThrow(/organisations/);
+  });
+
   it('rejects a missing placement', () => {
     const data: unknown[] = valid();
     delete (data[0] as { items: Record<string, unknown> }).items.later;

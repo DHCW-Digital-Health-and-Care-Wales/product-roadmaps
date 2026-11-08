@@ -5,6 +5,7 @@ import {
   type MouseEvent,
 } from 'react';
 import { isLang, type Lang } from './i18n';
+import { isOrganisationId, NO_ORG_FILTER, type OrgFilter } from './types';
 
 /**
  * Path routing: every page sits under its language, `<base><lang>/` for the
@@ -75,6 +76,90 @@ export function useView(): View {
     return () => window.removeEventListener('popstate', onPop);
   }, []);
   return view;
+}
+
+/**
+ * The filter in a query string: `org=<id>`, plus `all=no` to leave out
+ * all-Wales work. An unknown `org` is ignored, and `all=no` means nothing when
+ * the organisation is all of Wales itself.
+ */
+export function orgFilterFromSearch(search: string): OrgFilter {
+  const params = new URLSearchParams(search);
+  const org = params.get('org');
+  if (!isOrganisationId(org)) return NO_ORG_FILTER;
+  return {
+    org,
+    includeNational: org === 'national' || params.get('all') !== 'no',
+  };
+}
+
+/** `href` with the filter's params in place of any it had, keeping the rest. */
+export function withOrgFilter(href: string, filter: OrgFilter): string {
+  const [beforeHash, hash] = splitAt(href, '#');
+  const [path, query] = splitAt(beforeHash, '?');
+  const params = new URLSearchParams(query);
+  params.delete('org');
+  params.delete('all');
+  if (filter.org) {
+    params.set('org', filter.org);
+    if (filter.org !== 'national' && !filter.includeNational) {
+      params.set('all', 'no');
+    }
+  }
+  const search = params.toString();
+  return `${path}${search ? `?${search}` : ''}${hash ? `#${hash}` : ''}`;
+}
+
+function splitAt(value: string, separator: string): [string, string] {
+  const at = value.indexOf(separator);
+  return at === -1 ? [value, ''] : [value.slice(0, at), value.slice(at + 1)];
+}
+
+const sameOrgFilter = (a: OrgFilter, b: OrgFilter) =>
+  a.org === b.org && a.includeNational === b.includeNational;
+
+const subscribePopState = (onChange: () => void) => {
+  window.addEventListener('popstate', onChange);
+  return () => window.removeEventListener('popstate', onChange);
+};
+
+// useSyncExternalStore needs the same object until the filter changes.
+let lastSearch: string | null = null;
+let lastFilter = NO_ORG_FILTER;
+function currentOrgFilter(): OrgFilter {
+  const { search } = window.location;
+  if (search !== lastSearch) {
+    lastSearch = search;
+    const next = orgFilterFromSearch(search);
+    if (!sameOrgFilter(next, lastFilter)) lastFilter = next;
+  }
+  return lastFilter;
+}
+
+/**
+ * The organisation filter in the URL. None in the prerender and while
+ * hydrating; src/main.tsx renders afresh rather than hydrate a filtered URL.
+ */
+export function useOrgFilter(): OrgFilter {
+  return useSyncExternalStore(
+    subscribePopState,
+    currentOrgFilter,
+    () => NO_ORG_FILTER,
+  );
+}
+
+/**
+ * Sets the filter in the URL. It replaces the history entry, so Back leaves
+ * the page as it was rather than stepping through each change.
+ */
+export function setOrgFilter(filter: OrgFilter) {
+  const { pathname, search, hash } = window.location;
+  window.history.replaceState(
+    window.history.state,
+    '',
+    withOrgFilter(`${pathname}${search}${hash}`, filter),
+  );
+  window.dispatchEvent(new PopStateEvent('popstate'));
 }
 
 const subscribeNever = () => () => undefined;

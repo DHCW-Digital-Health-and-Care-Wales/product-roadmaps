@@ -88,6 +88,64 @@ export const UI = {
     en: 'No roadmaps have been published yet.',
     cy: 'Does dim trywyddion wedi’u cyhoeddi eto.',
   },
+
+  // The organisation filter. {organisation} is a name from ORGANISATIONS.
+  filterByOrganisation: {
+    en: 'Filter by organisation',
+    cy: 'Hidlo yn ôl sefydliad',
+  },
+  filteredByOrganisation: {
+    en: 'Filtered by organisation: {organisation}',
+    cy: 'Wedi’i hidlo yn ôl sefydliad: {organisation}',
+  },
+  filteredBy: {
+    en: 'Filtered by: {organisation}',
+    cy: 'Wedi’i hidlo yn ôl: {organisation}',
+  },
+  organisationLabel: { en: 'Organisation', cy: 'Sefydliad' },
+  organisationHint: {
+    en: 'Show only roadmaps and work for this organisation',
+    cy: 'Dangos trywyddion a gwaith ar gyfer y sefydliad hwn yn unig',
+  },
+  allOrganisations: { en: 'All organisations', cy: 'Pob sefydliad' },
+  includeAllWales: {
+    en: 'Include all-Wales work',
+    cy: 'Cynnwys gwaith Cymru gyfan',
+  },
+  includeAllWalesHint: {
+    en: 'Work for every organisation in Wales, such as national systems',
+    cy: 'Gwaith ar gyfer pob sefydliad yng Nghymru, fel systemau cenedlaethol',
+  },
+  clearFilter: { en: 'Clear filter', cy: 'Clirio’r hidlydd' },
+  clear: { en: 'Clear', cy: 'Clirio' },
+  showingRoadmapsFor: {
+    en: 'Showing {shown} of {total} roadmaps for {organisation}',
+    cy: 'Yn dangos {shown} o {total} trywydd ar gyfer {organisation}',
+  },
+  showingRoadmapsForWithNational: {
+    en: 'Showing {shown} of {total} roadmaps for {organisation}, including all-Wales work',
+    cy: 'Yn dangos {shown} o {total} trywydd ar gyfer {organisation}, gan gynnwys gwaith Cymru gyfan',
+  },
+  noMatchesFor: {
+    en: 'No roadmaps match your search for {organisation}. Try a different word.',
+    cy: 'Does dim trywyddion yn cyfateb i’ch chwiliad ar gyfer {organisation}. Rhowch gynnig ar air gwahanol.',
+  },
+  noWorkFor: {
+    en: 'No roadmaps have work for {organisation} yet.',
+    cy: 'Does dim trywyddion â gwaith ar gyfer {organisation} eto.',
+  },
+  showAllOrganisations: {
+    en: 'Show all organisations',
+    cy: 'Dangos pob sefydliad',
+  },
+  // A product card's share of items, e.g. "5 of 9" then "items for Powys".
+  countOf: { en: '{shown} of {total}', cy: '{shown} o {total}' },
+  // After a filtered count in the list view's "At a glance", e.g. "2 of 5".
+  ofTotal: { en: 'of {total}', cy: 'o {total}' },
+  itemsFor: {
+    en: 'items for {organisation}',
+    cy: 'eitem ar gyfer {organisation}',
+  },
   updated: { en: 'Updated', cy: 'Diweddarwyd' },
   viewRoadmap: { en: 'View roadmap', cy: 'Gweld y trywydd' },
 
@@ -103,6 +161,42 @@ export const UI = {
   nothingYet: {
     en: 'Nothing to show here yet.',
     cy: 'Dim byd i’w ddangos yma eto.',
+  },
+  nothingFor: {
+    en: 'Nothing for {organisation} here.',
+    cy: 'Dim byd ar gyfer {organisation} yma.',
+  },
+  showingItemsFor: {
+    en: 'Showing {shown} of {total} items for {organisation}',
+    cy: 'Yn dangos {shown} o {total} eitem ar gyfer {organisation}',
+  },
+  showingItemsForWithNational: {
+    en: 'Showing {shown} of {total} items for {organisation}, including all-Wales work',
+    cy: 'Yn dangos {shown} o {total} eitem ar gyfer {organisation}, gan gynnwys gwaith Cymru gyfan',
+  },
+  showingAllItems: {
+    en: 'Showing all {total} items',
+    cy: 'Yn dangos pob un o’r {total} eitem',
+  },
+  includesAllWales: {
+    en: 'Includes work for all of Wales.',
+    cy: 'Mae’n cynnwys gwaith ar gyfer Cymru gyfan.',
+  },
+  filterHelp: {
+    en: 'The count next to each heading shows how many items match. Select an organisation on any card to switch to it.',
+    cy: 'Mae’r rhif wrth ymyl pob pennawd yn dangos faint o eitemau sy’n cyfateb. Dewiswch sefydliad ar unrhyw gerdyn i newid iddo.',
+  },
+  showAllItems: { en: 'Show all items', cy: 'Dangos pob eitem' },
+  organisationsLabel: { en: 'Organisations:', cy: 'Sefydliadau:' },
+  // Hidden text before an organisation pill's name.
+  filterByPill: { en: 'Filter by', cy: 'Hidlo yn ôl' },
+  showAllItemsAgain: {
+    en: 'Show all items again',
+    cy: 'Dangos pob eitem eto',
+  },
+  showOnlyWorkFor: {
+    en: 'Show only work for {organisation}',
+    cy: 'Dangos gwaith ar gyfer {organisation} yn unig',
   },
 
   notFoundHeading: {

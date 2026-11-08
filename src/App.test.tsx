@@ -5,6 +5,7 @@ import {
   fireEvent,
   render,
   screen,
+  within,
 } from '@testing-library/react';
 import axe from 'axe-core';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -280,11 +281,171 @@ describe('list view', () => {
   });
 });
 
+describe('organisation filter', () => {
+  const productPage = `/product-roadmaps/en/${first.slug}/`;
+  const header = () => within(screen.getByRole('banner'));
+  const status = () => screen.getByText(/^Showing \d+ of \d+ roadmaps/);
+  const cardTitles = () =>
+    screen
+      .getAllByRole('heading', { level: 3 })
+      .map((heading) => heading.textContent);
+
+  it('filters the landing page from the dropdown and tick box', () => {
+    renderAt('/product-roadmaps/en/');
+    fireEvent.click(screen.getByText('Filter by organisation'));
+    fireEvent.change(screen.getByLabelText('Organisation'), {
+      target: { value: 'cavuhb' },
+    });
+    expect(window.location.search).toBe('?org=cavuhb');
+    expect(status().textContent).toBe(
+      'Showing 2 of 2 roadmaps for Cardiff and Vale, including all-Wales work',
+    );
+    expect(screen.getByText('5 of 9')).toBeTruthy();
+
+    fireEvent.click(screen.getByLabelText('Include all-Wales work'));
+    expect(window.location.search).toBe('?org=cavuhb&all=no');
+    expect(status().textContent).toBe(
+      'Showing 1 of 2 roadmaps for Cardiff and Vale',
+    );
+    expect(cardTitles()).toHaveLength(1);
+
+    fireEvent.click(
+      within(screen.getByRole('main')).getByRole('button', {
+        name: 'Clear filter',
+      }),
+    );
+    expect(window.location.search).toBe('');
+    expect(document.activeElement).toBe(screen.getByLabelText('Organisation'));
+    expect(screen.getByRole('status').textContent).toBe('2 roadmaps');
+  });
+
+  it('opens the filter and keeps it in links when the URL has one', () => {
+    renderAt('/product-roadmaps/en/?org=cavuhb&all=no');
+    expect(document.querySelector('details')?.open).toBe(true);
+    expect(
+      screen
+        .getByRole('link', { name: first.meta.title.en })
+        .getAttribute('href'),
+    ).toBe(`${productPage}?org=cavuhb&all=no`);
+    expect(
+      screen.getByRole('link', { name: 'Cymraeg' }).getAttribute('href'),
+    ).toBe('/product-roadmaps/cy/?org=cavuhb&all=no');
+  });
+
+  it('leaves the filter out of the header on a missing page', () => {
+    renderAt('/product-roadmaps/en/nope/?org=cavuhb');
+    expect(header().queryByRole('button', { name: 'Clear filter' })).toBeNull();
+  });
+
+  it('shows how many items match on a roadmap, and clears from the banner', () => {
+    renderAt(`${productPage}?org=cavuhb&all=no`);
+    expect(screen.getByRole('link', { name: '← All roadmaps' })).toHaveProperty(
+      'href',
+      `${window.location.origin}/product-roadmaps/en/?org=cavuhb&all=no`,
+    );
+    expect(
+      screen.getByText(
+        'Showing 2 of 9 items for Cardiff and Vale University Health Board',
+      ),
+    ).toBeTruthy();
+    expect(
+      screen.getByRole('heading', { level: 3, name: /^Now/ }).textContent,
+    ).toContain('1 of 3');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Show all items' }));
+    expect(window.location.search).toBe('');
+    expect(document.activeElement?.id).toBe('roadmap-title');
+    expect(screen.queryByRole('button', { name: 'Show all items' })).toBeNull();
+  });
+
+  it('toggles the filter from a pill, keeping focus on it and announcing it', () => {
+    renderAt(productPage);
+    const announcer = screen
+      .getAllByRole('status')
+      .find((region) => region.classList.contains('sr-only'));
+    expect(announcer?.textContent).toBe('');
+
+    const [pill] = screen.getAllByRole('button', {
+      name: 'Filter by Swansea Bay',
+    });
+    expect(pill.getAttribute('aria-pressed')).toBe('false');
+    fireEvent.click(pill);
+    expect(window.location.search).toBe('?org=sbuhb');
+    expect(pill.getAttribute('aria-pressed')).toBe('true');
+    expect(document.activeElement).toBe(pill);
+    expect(announcer?.textContent).toBe(
+      'Showing 5 of 9 items for Swansea Bay University Health Board, including all-Wales work',
+    );
+    expect(
+      screen
+        .getAllByRole('button', { name: 'Filter by All Wales' })
+        .every((button) => button.getAttribute('aria-pressed') === 'false'),
+    ).toBe(true);
+
+    fireEvent.click(pill);
+    expect(window.location.search).toBe('');
+    expect(pill.getAttribute('aria-pressed')).toBe('false');
+    expect(announcer?.textContent).toBe('Showing all 9 items');
+  });
+
+  it('shows the filter in the header, opening or clearing it', () => {
+    // jsdom has no scrollIntoView.
+    Element.prototype.scrollIntoView = vi.fn();
+    renderAt(`${productPage}?org=cavuhb`);
+    fireEvent.click(
+      header().getByRole('button', {
+        name: 'Filtered by organisation: Cardiff and Vale',
+      }),
+    );
+    expect(document.querySelector('details')?.open).toBe(true);
+    expect(document.activeElement).toBe(screen.getByLabelText('Organisation'));
+    expect(header().getByText('Filtered by: Cardiff and Vale')).toBeTruthy();
+
+    const [clear] = header().getAllByRole('button', { name: 'Clear filter' });
+    fireEvent.click(clear);
+    expect(window.location.search).toBe('');
+    expect(header().queryByRole('button', { name: 'Clear filter' })).toBeNull();
+    // Focus moves into the first card on screen.
+    expect(document.activeElement?.closest('[data-filter-card]')).toBeTruthy();
+  });
+
+  it('follows the URL on back and forward', () => {
+    renderAt(productPage);
+    act(() => {
+      window.history.pushState({}, '', '?org=bcuhb&all=no');
+      window.dispatchEvent(new PopStateEvent('popstate'));
+    });
+    // In the banner, and announced.
+    expect(
+      screen.getAllByText(
+        'Showing 1 of 9 items for Betsi Cadwaladr University Health Board',
+      ),
+    ).toHaveLength(2);
+  });
+
+  it('filters the list view, keeping the filter when changing layout', () => {
+    renderAt(`${productPage}?view=list&org=cavuhb&all=no`);
+    const glance = screen.getByRole('navigation', { name: 'At a glance' });
+    expect(within(glance).getByRole('link', { name: /Now/ }).textContent).toBe(
+      '1 of 3Now',
+    );
+    expect(
+      screen.getByRole('heading', { level: 2, name: /^Now ?1 of 3$/ }),
+    ).toBeTruthy();
+    expect(
+      screen.getByRole('link', { name: 'Card view' }).getAttribute('href'),
+    ).toBe(`${productPage}?org=cavuhb&all=no`);
+  });
+});
+
 describe('accessibility (axe)', () => {
   const pages = {
     landing: '',
+    'filtered landing': '?org=cavuhb',
     product: `${first.slug}/`,
+    'filtered product': `${first.slug}/?org=cavuhb&all=no`,
     'product list': `${first.slug}/?view=list`,
+    'filtered product list': `${first.slug}/?view=list&org=sbuhb`,
     'not found': 'nope/',
   };
 

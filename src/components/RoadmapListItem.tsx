@@ -5,11 +5,13 @@ import { DETAILS_HEADING } from '../lib/content';
 import { isExpandable } from '../lib/roadmap-helpers';
 import { UI } from '../lib/strings';
 import { DetailList } from './DetailList';
+import { OrgPills } from './OrgPills';
 import { T } from './T';
 
 /**
  * One row in the list view. The title opens the outcome and details when the
- * item has either; otherwise it is a plain heading.
+ * item has either; otherwise it is a plain heading. Organisation pills filter
+ * the page.
  */
 export function RoadmapListItem({
   item,
@@ -29,8 +31,8 @@ export function RoadmapListItem({
   );
 
   return (
-    <li className="border-b border-border py-4">
-      <h3 className="text-heading">
+    <li data-filter-card="" className="border-b border-border py-4">
+      <h3 data-filter-focus="" tabIndex={-1} className="text-heading">
         {expandable ? (
           <button
             type="button"
@@ -100,6 +102,10 @@ export function RoadmapListItem({
             </span>
           ))}
         </p>
+      ) : null}
+
+      {item.organisations ? (
+        <OrgPills organisations={item.organisations} className="mt-2" />
       ) : null}
     </li>
   );

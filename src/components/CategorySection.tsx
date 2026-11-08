@@ -1,4 +1,5 @@
 import { categorySectionId, type CategoryGroup } from '../lib/roadmap-helpers';
+import type { OrgFilter } from '../lib/types';
 import { CategoryIcon } from './CategoryIcon';
 import { ProductCard } from './ProductCard';
 import { T } from './T';
@@ -6,8 +7,10 @@ import { T } from './T';
 /** One category's heading and roadmap cards. */
 export function CategorySection({
   group: { category, roadmaps },
+  filter,
 }: {
   group: CategoryGroup;
+  filter: OrgFilter;
 }) {
   const id = categorySectionId(category);
   return (
@@ -29,7 +32,7 @@ export function CategorySection({
       </div>
       <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {roadmaps.map((roadmap) => (
-          <ProductCard key={roadmap.slug} roadmap={roadmap} />
+          <ProductCard key={roadmap.slug} roadmap={roadmap} filter={filter} />
         ))}
       </ul>
     </section>

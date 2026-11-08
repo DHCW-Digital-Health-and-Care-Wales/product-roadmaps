@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { roadmaps } from './lib/roadmaps';
 import { useLanguage } from './lib/i18n';
-import { titleWithFamily } from './lib/roadmap-helpers';
-import { useView } from './lib/router';
+import { organisationsWithWork, titleWithFamily } from './lib/roadmap-helpers';
+import { NO_ORG_FILTER } from './lib/types';
+import { useOrgFilter, useView } from './lib/router';
 import { UI } from './lib/strings';
 import { T } from './components/T';
 import { SiteHeader } from './components/SiteHeader';
@@ -22,6 +23,7 @@ import { RoadmapPage } from './pages/RoadmapPage';
 export default function App() {
   const { route, tr } = useLanguage();
   const view = useView();
+  const filter = useOrgFilter();
   const { slug } = route;
   const roadmap = slug ? roadmaps.find((r) => r.slug === slug) : undefined;
   const mainRef = useRef<HTMLElement>(null);
@@ -43,10 +45,24 @@ export default function App() {
     mainRef.current?.querySelector('h1')?.focus();
   }, [slug]);
 
+  // Only pages with the filter's controls show it in the header.
+  const hasOrgFilter = slug === null ? roadmaps.length > 0 : Boolean(roadmap);
+
   let content;
-  if (slug === null) content = <LandingPage roadmaps={roadmaps} />;
-  else if (!roadmap) content = <NotFoundState slug={slug} />;
-  else content = <RoadmapPage roadmap={roadmap} view={view} />;
+  if (slug === null) {
+    content = <LandingPage roadmaps={roadmaps} filter={filter} />;
+  } else if (!roadmap) {
+    content = <NotFoundState slug={slug} />;
+  } else {
+    content = (
+      <RoadmapPage
+        roadmap={roadmap}
+        view={view}
+        filter={filter}
+        organisations={organisationsWithWork(roadmaps)}
+      />
+    );
+  }
 
   return (
     <>
@@ -55,7 +71,10 @@ export default function App() {
       </a>
 
       <span id="top" />
-      <SiteHeader showSectionLinks={Boolean(roadmap)} />
+      <SiteHeader
+        filter={hasOrgFilter ? filter : NO_ORG_FILTER}
+        showSectionLinks={Boolean(roadmap)}
+      />
 
       <main id="main-content" ref={mainRef}>
         {content}
@@ -63,7 +82,7 @@ export default function App() {
         <PrivacyNote />
       </main>
 
-      <SiteFooter dataSlug={roadmap?.slug} view={view} />
+      <SiteFooter dataSlug={roadmap?.slug} view={view} filter={filter} />
       <BackToTop />
     </>
   );

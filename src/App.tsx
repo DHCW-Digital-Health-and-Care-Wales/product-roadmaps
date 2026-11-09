@@ -70,7 +70,7 @@ export default function App() {
         <T value={UI.skipLink} />
       </a>
 
-      <span id="top" />
+      <span id="top" tabIndex={-1} />
       <SiteHeader
         filter={hasOrgFilter ? filter : NO_ORG_FILTER}
         showSectionLinks={Boolean(roadmap)}

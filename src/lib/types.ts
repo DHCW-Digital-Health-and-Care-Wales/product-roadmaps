@@ -136,7 +136,7 @@ export interface RoadmapMeta {
   category: CategoryId | '';
   /**
    * Optional programme or family name, shown above the landing page card title
-   * and as "Family | Title" on the roadmap page.
+   * and as "Family: Title" in the roadmap page's heading and title.
    */
   family: Localised;
   statusLabel: Localised;

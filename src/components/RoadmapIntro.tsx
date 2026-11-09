@@ -5,13 +5,16 @@ import { ROADMAP_INTRO } from '../lib/content';
 import { formatDate } from '../lib/roadmap-helpers';
 import { onNavigate, pathFor, withOrgFilter } from '../lib/router';
 import { UI } from '../lib/strings';
+import { FamilyLabel } from './FamilyLabel';
 import { T } from './T';
 
 /**
- * Title section: a link back to all roadmaps, the roadmap title, status label,
- * a visible "last updated" date and the short intro. Rendered as the page's
- * primary heading. The back link keeps the organisation filter, `controls` sit
- * beside it and `children` go after the intro.
+ * Title section: a link back to all roadmaps, the family label, the roadmap
+ * title, status label, a visible "last updated" date and the short intro.
+ * Rendered as the page's primary heading. The back link keeps the organisation
+ * filter, `controls` sit beside it and `children` go after the intro. The
+ * background is tinted with the roadmap's colour, which is decorative and never
+ * used for text.
  */
 export function RoadmapIntro({
   meta,
@@ -31,7 +34,11 @@ export function RoadmapIntro({
     <section
       id="about"
       aria-labelledby="roadmap-title"
-      className="scroll-mt-28 bg-surface-subtle px-4 pb-12 pt-28 sm:px-6 sm:pt-32"
+      className="scroll-mt-28 border-b-4 px-4 pb-12 pt-28 sm:px-6 sm:pt-32"
+      style={{
+        backgroundColor: `color-mix(in srgb, ${meta.colour} 7%, var(--color-surface-subtle))`,
+        borderBottomColor: meta.colour,
+      }}
     >
       <div className="mx-auto max-w-content">
         <div className="mb-6 flex flex-wrap items-start gap-x-8 gap-y-3">
@@ -67,7 +74,10 @@ export function RoadmapIntro({
         >
           {meta.family.en ? (
             <>
-              <T value={meta.family} /> |{' '}
+              <FamilyLabel meta={meta} as="span" className="mb-1">
+                {/* Not sr-only: its absolute position adds a space before the colon in the name. */}
+                <span className="[clip-path:inset(50%)]">:</span>
+              </FamilyLabel>{' '}
             </>
           ) : null}
           <T value={meta.title} />

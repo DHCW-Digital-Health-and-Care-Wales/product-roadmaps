@@ -11,6 +11,7 @@ import {
 } from '../lib/roadmap-helpers';
 import { onNavigate, pathFor, withOrgFilter } from '../lib/router';
 import { UI } from '../lib/strings';
+import { FamilyLabel } from './FamilyLabel';
 import { T } from './T';
 
 /**
@@ -60,14 +61,7 @@ export function ProductCard({
 
         {meta.family.en ? (
           // The swatch matches the colour band, linking a family across categories.
-          <p className="mt-3 flex items-center gap-2 text-sm font-medium text-ink-700">
-            <span
-              aria-hidden="true"
-              className="h-3 w-3 shrink-0 rounded-xs border border-black/10"
-              style={{ backgroundColor: accent }}
-            />
-            <T value={meta.family} />
-          </p>
+          <FamilyLabel meta={meta} className="mt-3" />
         ) : null}
         <h3
           id={headingId}

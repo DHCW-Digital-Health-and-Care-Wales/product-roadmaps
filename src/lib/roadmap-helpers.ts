@@ -77,7 +77,7 @@ export const isExpandable = (item: RoadmapItem) =>
   Boolean(item.outcome ?? item.details);
 
 /**
- * The roadmap title prefixed with its family, e.g. "Single Record | Nursing
+ * The roadmap title prefixed with its family, e.g. "Single Record: Nursing
  * Healthcare", for the page title. Each part falls back to English on its own.
  */
 export function titleWithFamily({
@@ -88,7 +88,7 @@ export function titleWithFamily({
     const name = t(title, lang);
     // Like the landing page card, a family needs English to be shown.
     const prefix = family.en ? t(family, lang) : '';
-    return prefix ? `${prefix} | ${name}` : name;
+    return prefix ? `${prefix}: ${name}` : name;
   };
   return {
     en: join('en'),

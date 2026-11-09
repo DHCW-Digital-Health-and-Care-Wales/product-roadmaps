@@ -91,10 +91,10 @@ for bootstrapping a spreadsheet.
 | `Enabled`             | `Yes` publishes the roadmap. Anything else, or blank, leaves it out (case-sensitive; no Welsh). |
 | `Title`               | Page heading and landing page card name.                         |
 | `Category`            | Landing page group: one of the categories listed below, matched ignoring case and spaces. Blank puts the roadmap under "Other roadmaps". |
-| `Family`              | Optional product family, for example `Single Record`. Shown above the landing page card title, and on the roadmap page as `Single Record \| Nursing Healthcare`. |
+| `Family`              | Optional product family, for example `Single Record`. Shown with a swatch in the roadmap's colour above the title on the landing page card and the roadmap page. The roadmap page's heading and title read `Single Record: Nursing Healthcare`. |
 | `Status label`        | Badge next to the title, for example `Beta`.                     |
 | `Last updated`        | `YYYY-MM-DD` or `DD/MM/YYYY`.                                    |
-| `Colour`              | Hex highlight colour, for example `#325083`.                     |
+| `Colour`              | Hex highlight colour, for example `#325083`. Used on the landing page card and to tint the roadmap page's intro. |
 | `Vision`              | "Our vision" section. Leave blank to hide.                       |
 | `Service description` | "Our value" section and landing page summary. Blank hides it.    |
 

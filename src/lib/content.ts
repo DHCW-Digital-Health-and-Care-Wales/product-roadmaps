@@ -33,7 +33,7 @@ export const ROADMAP_INTRO: Localised = {
 };
 
 export const HORIZON_NOTE: Localised = {
-  en: "Now is what we are actively working on. Next is what we expect to pick up soon. Later is the direction we're setting as we learn more with users and partners. We don't put dates on this work, and the order isn't a priority list.",
+  en: "We don't put dates on this work, and the order isn't a priority list.",
   cy: '',
 };
 

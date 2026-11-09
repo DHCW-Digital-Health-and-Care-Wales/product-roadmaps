@@ -127,3 +127,20 @@ export function useLanguage(): LanguageContextValue {
   }
   return context;
 }
+
+/**
+ * Resolves a value in the active language. `lang` is set only when the text
+ * fell back to English, for the element that shows it, so screen readers
+ * switch pronunciation (WCAG 3.1.2).
+ */
+export function useResolved(value: Localised): {
+  text: string;
+  lang: Lang | undefined;
+} {
+  const { lang } = useLanguage();
+  const resolved = resolve(value, lang);
+  return {
+    text: resolved.text,
+    lang: resolved.lang === lang ? undefined : resolved.lang,
+  };
+}

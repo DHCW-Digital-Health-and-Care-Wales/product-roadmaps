@@ -65,7 +65,7 @@ describe('RoadmapListItem', () => {
     expect(panel?.hidden).toBe(true);
   });
 
-  it('shows the outcome on one line and details under their heading', () => {
+  it('shows the outcome and details under their headings', () => {
     renderItem({
       title: loc('Full item'),
       description: loc(''),
@@ -75,8 +75,8 @@ describe('RoadmapListItem', () => {
         { text: loc('Child'), level: 1 },
       ],
     });
-    expect(screen.getByText('Outcome:').parentElement?.textContent).toBe(
-      'Outcome: Why it matters',
+    expect(screen.getByText('Outcome').nextElementSibling?.textContent).toBe(
+      'Why it matters',
     );
     const heading = screen.getByText('What this covers');
     const list = screen.getByText('Parent').closest('ul');
@@ -84,6 +84,20 @@ describe('RoadmapListItem', () => {
     expect(
       screen.getByText('Child').closest('ul')?.parentElement?.closest('ul'),
     ).toBe(list);
+  });
+
+  it('renders bullet lines in the description and outcome as lists', () => {
+    const { container } = renderItem({
+      title: loc('Bullets'),
+      description: loc('This will:\n- add search,\n- go live'),
+      outcome: loc('- faster results;'),
+    });
+    expect(screen.getByText('This will:').tagName).toBe('P');
+    expect(
+      Array.from(container.querySelectorAll('li ul li')).map(
+        (li) => li.textContent,
+      ),
+    ).toEqual(['add search', 'go live', 'faster results']);
   });
 
   it('puts the panel between the description and the labels', () => {

@@ -1,4 +1,4 @@
-import { resolve, useLanguage } from '../lib/i18n';
+import { useResolved } from '../lib/i18n';
 import type { Localised } from '../lib/types';
 
 /**
@@ -6,11 +6,6 @@ import type { Localised } from '../lib/types';
  * readers switch pronunciation (WCAG 3.1.2). Use `tr()` for attributes.
  */
 export function T({ value }: { value: Localised }) {
-  const { lang } = useLanguage();
-  const resolved = resolve(value, lang);
-  return resolved.lang === lang ? (
-    resolved.text
-  ) : (
-    <span lang={resolved.lang}>{resolved.text}</span>
-  );
+  const { text, lang } = useResolved(value);
+  return lang ? <span lang={lang}>{text}</span> : text;
 }

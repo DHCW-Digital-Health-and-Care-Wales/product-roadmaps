@@ -40,7 +40,7 @@
       - link "Hwyrach":
         - /url: "#horizon-later"
     - definition: Longer-term direction that will keep evolving as we learn more.
-    - paragraph: Now is what we are actively working on. Next is what we expect to pick up soon. Later is the direction we're setting as we learn more with users and partners. We don't put dates on this work, and the order isn't a priority list.
+    - paragraph: We don't put dates on this work, and the order isn't a priority list.
   - region "Recently delivered":
     - heading "Recently delivered" [level=2]
     - text: "1"
@@ -48,9 +48,8 @@
     - article:
       - heading "Recently shipped work" [level=3]
       - paragraph: Something we shipped in the last few weeks.
-      - paragraph:
-        - strong: "Canlyniad:"
-        - text: What users can do now.
+      - paragraph: Canlyniad
+      - paragraph: What users can do now.
       - paragraph:
         - text: "Sefydliadau:"
         - button "Hidlo yn ôl Bae Abertawe"
@@ -65,11 +64,10 @@
             - paragraph: Beta
             - heading "Cerdyn enghreifftiol gyda phob colofn" [level=4]
             - paragraph: Beth yw’r gwaith hwn. Cadwch ef i frawddeg neu ddwy.
-            - paragraph:
-              - strong: "Canlyniad:"
-              - text: Beth sy’n newid i ddefnyddwyr pan fydd wedi’i gwblhau.
-            - group: What this covers
-            - text: Gwasanaeth X Gwasanaeth Y
+            - paragraph: Canlyniad
+            - paragraph: Beth sy’n newid i ddefnyddwyr pan fydd wedi’i gwblhau.
+            - group: "What this covers : Cerdyn enghreifftiol gyda phob colofn"
+            - paragraph: "Tagiau: Gwasanaeth X , Gwasanaeth Y"
             - paragraph:
               - text: "Sefydliadau:"
               - button "Hidlo yn ôl Caerdydd a’r Fro"
@@ -80,10 +78,9 @@
           - article:
             - heading "Cerdyn yn aros i gael ei ryddhau" [level=4]
             - paragraph: Work that is finished and waiting to go live.
-            - paragraph:
-              - strong: "Canlyniad:"
-              - text: Users get the change as soon as it is deployed.
-            - text: Service X
+            - paragraph: Canlyniad
+            - paragraph: Users get the change as soon as it is deployed.
+            - paragraph: "Tagiau: Service X"
             - paragraph:
               - text: "Sefydliadau:"
               - button "Hidlo yn ôl Cymru gyfan"
@@ -94,9 +91,8 @@
             - paragraph: Alpha
             - heading "Card being explored" [level=4]
             - paragraph: Work we expect to pick up soon.
-            - paragraph:
-              - strong: "Canlyniad:"
-              - text: What we hope this will achieve.
+            - paragraph: Canlyniad
+            - paragraph: What we hope this will achieve.
             - paragraph:
               - text: "Sefydliadau:"
               - button "Hidlo yn ôl Betsi Cadwaladr"
@@ -108,16 +104,15 @@
             - paragraph: Darganfod
             - heading "Cerdyn darganfod" [level=4]
             - paragraph: Mae’r golofn Phase yn dag testun rhydd a ddangosir uwchben y teitl.
-            - paragraph:
-              - strong: "Canlyniad:"
-              - text: Dealltwriaeth glir o’r broblem.
+            - paragraph: Canlyniad
+            - paragraph: Dealltwriaeth glir o’r broblem.
             - paragraph:
               - text: "Sefydliadau:"
               - button "Hidlo yn ôl Caerdydd a’r Fro"
           - article:
             - heading "Longer-term idea" [level=4]
             - paragraph: Direction we expect to take as we learn more.
-            - text: Service Y Service Z
+            - paragraph: "Tagiau: Service Y , Service Z"
             - paragraph:
               - text: "Sefydliadau:"
               - button "Hidlo yn ôl Cymru gyfan"
@@ -129,7 +124,7 @@
       - paragraph: Live
       - heading "Earlier delivery this year" [level=3]
       - paragraph: Something we delivered earlier in the year.
-      - group: What this covers
+      - group: "What this covers : Earlier delivery this year"
       - paragraph:
         - text: "Sefydliadau:"
         - button "Hidlo yn ôl Cymru gyfan"

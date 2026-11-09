@@ -8,11 +8,10 @@ const horizonLink =
   'text-action underline underline-offset-4 hover:decoration-2';
 
 /**
- * Plain-English explainer of what Now, Next and Later mean, plus the
- * forward-looking note that this shows direction and priorities rather than
- * firm commitments or dates. The list view puts the note first and the
- * horizons in a plain list instead of cards. Each horizon name links to its
- * section further down the page.
+ * Plain-English explainer of what Now, Next and Later mean, plus a note that
+ * the work has no dates and its order isn't a priority list. The list view
+ * puts the note first and the horizons in a plain list instead of cards. Each
+ * horizon name links to its section further down the page.
  */
 export function HorizonExplainer({ view }: { view: View }) {
   const headingId = 'horizons-explainer-heading';

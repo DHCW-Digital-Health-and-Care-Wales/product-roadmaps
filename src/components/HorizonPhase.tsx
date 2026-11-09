@@ -45,7 +45,7 @@ export function HorizonPhase({
           <T value={countText({ shown: items.length, total })} />
         </span>
       </h3>
-      <div className="p-4">
+      <div className="p-3 sm:p-4">
         {items.length > 0 ? (
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {items.map(({ item, index }) => (

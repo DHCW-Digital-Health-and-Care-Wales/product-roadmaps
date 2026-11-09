@@ -44,7 +44,7 @@ describe('prerender', () => {
     const page = pages.find((p) => p.file === `en/${first.slug}/index.html`);
     expect(page?.html).toContain(first.meta.title.en);
     expect(page?.head).toContain(
-      `<title>${first.meta.family.en} | ${first.meta.title.en} – DHCW roadmaps</title>`,
+      `<title>${first.meta.family.en}: ${first.meta.title.en} – DHCW roadmaps</title>`,
     );
     expect(page?.head).toContain(
       `<link rel="canonical" href="${SITE}en/${first.slug}/" />`,
@@ -95,7 +95,7 @@ describe('prerender', () => {
     expect(welsh?.route).toEqual({ lang: 'cy', slug: second.slug });
     expect(welsh?.html).toContain(second.meta.title.cy);
     expect(welsh?.head).toContain(
-      `<title>${second.meta.family.cy} | ${second.meta.title.cy} – `,
+      `<title>${second.meta.family.cy}: ${second.meta.title.cy} – `,
     );
   });
 

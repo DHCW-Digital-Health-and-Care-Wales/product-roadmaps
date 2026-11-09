@@ -60,7 +60,7 @@ describe('titleWithFamily', () => {
         title: localised('Nursing Healthcare'),
         family: localised('Single Record'),
       }),
-    ).toEqual({ en: 'Single Record | Nursing Healthcare', cy: '' });
+    ).toEqual({ en: 'Single Record: Nursing Healthcare', cy: '' });
   });
 
   it('is just the title when there is no family', () => {
@@ -78,7 +78,7 @@ describe('titleWithFamily', () => {
         title: localised('Pathology', 'Patholeg'),
         family: localised('Medicines & Diagnostics'),
       }).cy,
-    ).toBe('Medicines & Diagnostics | Patholeg');
+    ).toBe('Medicines & Diagnostics: Patholeg');
     expect(
       titleWithFamily({
         title: localised('Pathology'),
@@ -87,7 +87,7 @@ describe('titleWithFamily', () => {
           'Meddyginiaethau a Diagnosteg',
         ),
       }).cy,
-    ).toBe('Meddyginiaethau a Diagnosteg | Pathology');
+    ).toBe('Meddyginiaethau a Diagnosteg: Pathology');
   });
 
   it('ignores a family that has only Welsh, as the landing page card does', () => {

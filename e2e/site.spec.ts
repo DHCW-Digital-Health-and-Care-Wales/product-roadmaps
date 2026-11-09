@@ -20,7 +20,7 @@ const title = first.meta.title.en;
 // Roadmap pages put the family in front of the title.
 const fullTitle = (roadmap: SnapshotRoadmap) =>
   roadmap.meta.family.en
-    ? `${roadmap.meta.family.en} | ${roadmap.meta.title.en}`
+    ? `${roadmap.meta.family.en}: ${roadmap.meta.title.en}`
     : roadmap.meta.title.en;
 const pageTitle = fullTitle(first);
 
@@ -76,6 +76,10 @@ test.describe('without JavaScript', () => {
   test('a product page has its content and meta tags', async ({ page }) => {
     await page.goto(`en/${first.slug}/`);
     await expect(h1(page)).toHaveText(pageTitle);
+    // toHaveText reads text content; the accessible name can differ in spacing.
+    await expect(
+      page.getByRole('heading', { level: 1, name: pageTitle, exact: true }),
+    ).toBeVisible();
     await expect(
       page.getByRole('heading', { name: 'The roadmap' }),
     ).toBeVisible();

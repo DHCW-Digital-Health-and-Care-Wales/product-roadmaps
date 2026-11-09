@@ -64,7 +64,7 @@ describe('App routing', () => {
   });
 
   it('shows a product roadmap, titled with its family', () => {
-    const fullTitle = `${first.meta.family.en} | ${first.meta.title.en}`;
+    const fullTitle = `${first.meta.family.en}: ${first.meta.title.en}`;
     expect(first.meta.family.en).not.toBe('');
     renderAt(`/product-roadmaps/en/${first.slug}/`);
     expect(
@@ -104,7 +104,7 @@ describe('App routing', () => {
     );
     const heading = screen.getByRole('heading', { level: 1 });
     expect(heading.textContent).toBe(
-      `${first.meta.family.en} | ${first.meta.title.en}`,
+      `${first.meta.family.en}: ${first.meta.title.en}`,
     );
     expect(document.activeElement).toBe(heading);
     expect(document.title).toContain(first.meta.title.en);
@@ -118,7 +118,7 @@ describe('App routing', () => {
 
 describe('Roadmap page title', () => {
   // The h1 renders the family and title separately (to mark English fallbacks),
-  // so check it never drifts from the shared "Family | Title" text.
+  // so check it never drifts from the shared "Family: Title" text.
   it.each(
     (snapshot as Roadmap[]).flatMap((roadmap) =>
       (['en', 'cy'] as const).map(

@@ -12,7 +12,6 @@ interface HorizonPhaseProps {
   total: number;
   filter: OrgFilter;
   headingId: string;
-  accent: string;
 }
 
 /**
@@ -29,13 +28,11 @@ export function HorizonPhase({
   total,
   filter,
   headingId,
-  accent,
 }: HorizonPhaseProps) {
   return (
     <section
       aria-labelledby={headingId}
       className="scroll-mt-28 overflow-hidden rounded-card border border-border bg-surface"
-      style={{ borderLeft: `4px solid ${accent}` }}
     >
       <h3
         id={headingId}

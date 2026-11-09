@@ -6,6 +6,7 @@ import { isExpandable } from '../lib/roadmap-helpers';
 import { UI } from '../lib/strings';
 import { DetailList } from './DetailList';
 import { OrgPills } from './OrgPills';
+import { RichText } from './RichText';
 import { T } from './T';
 
 /**
@@ -56,9 +57,10 @@ export function RoadmapListItem({
       </h3>
 
       {item.description.en ? (
-        <p className="mt-1 whitespace-pre-line leading-relaxed text-ink-700">
-          <T value={item.description} />
-        </p>
+        <RichText
+          value={item.description}
+          className="mt-1 leading-relaxed text-ink-700"
+        />
       ) : null}
 
       {expandable ? (
@@ -68,12 +70,12 @@ export function RoadmapListItem({
           className="mt-3 space-y-3 leading-relaxed text-ink-900"
         >
           {item.outcome ? (
-            <p className="whitespace-pre-line">
-              <strong className="font-bold">
+            <div>
+              <p className="font-bold">
                 <T value={UI.outcome} />
-              </strong>{' '}
-              <T value={item.outcome} />
-            </p>
+              </p>
+              <RichText value={item.outcome} className="mt-1" />
+            </div>
           ) : null}
           {item.details ? (
             <div>

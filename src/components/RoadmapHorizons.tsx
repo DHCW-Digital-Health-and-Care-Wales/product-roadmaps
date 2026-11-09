@@ -45,7 +45,6 @@ export function RoadmapHorizons({
               total={roadmap.items[horizon.id].length}
               filter={filter}
               headingId={placementHeadingId(horizon.id)}
-              accent={accent}
             />
             {index < lastIndex ? (
               <div

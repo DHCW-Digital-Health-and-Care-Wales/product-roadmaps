@@ -182,7 +182,7 @@ describe('list view', () => {
     const section = screen
       .getByRole('heading', { name: 'Now, Next and Later' })
       .closest('section');
-    const note = screen.getByText(/^Now is what we are actively working on/);
+    const note = screen.getByText(/^We don't put dates on this work/);
     const list = section?.querySelector('dl') ?? null;
     expect(list?.querySelectorAll('dt')).toHaveLength(3);
     expect(

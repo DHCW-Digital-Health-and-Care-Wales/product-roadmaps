@@ -120,11 +120,11 @@ category, roadmaps are sorted by title.
 | Column            | Use                                                                                         |
 | ----------------- | ------------------------------------------------------------------------------------------- |
 | `Title`           | Card heading. Required.                                                                     |
-| `Description`     | What the work is.                                                                           |
-| `Outcome`         | What changes when it is done. Optional.                                                     |
+| `Description`     | What the work is. Each line shows as its own paragraph; start lines with `- ` to make a bullet list. |
+| `Outcome`         | What changes when it is done. Optional. Lines and `- ` bullets work as in `Description`.    |
 | `Horizon`         | `Now`, `Next`, `Later`, `Recently delivered`, `Delivered this year` or `Not doing`. Required. |
 | `Phase`           | Free-text tag shown above the card title, for example `Discovery`.                          |
-| `Labels`          | Comma separated; each becomes a pill.                                                       |
+| `Labels`          | Comma separated; each becomes a tag.                                                        |
 | `Organisations`   | Who the work is for: organisation codes from the list below, comma separated. Optional.     |
 | `Details`         | Expandable "What this covers" list. One bullet per line; start a line with `-` to nest it.  |
 

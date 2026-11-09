@@ -40,7 +40,7 @@
       - link "Later":
         - /url: "#horizon-later"
     - definition: Longer-term direction that will keep evolving as we learn more.
-    - paragraph: Now is what we are actively working on. Next is what we expect to pick up soon. Later is the direction we're setting as we learn more with users and partners. We don't put dates on this work, and the order isn't a priority list.
+    - paragraph: We don't put dates on this work, and the order isn't a priority list.
   - region "Recently delivered":
     - heading "Recently delivered" [level=2]
     - text: "1"
@@ -48,9 +48,8 @@
     - article:
       - heading "Recently shipped work" [level=3]
       - paragraph: Something we shipped in the last few weeks.
-      - paragraph:
-        - strong: "Outcome:"
-        - text: What users can do now.
+      - paragraph: Outcome
+      - paragraph: What users can do now.
       - paragraph:
         - text: "Organisations:"
         - button "Filter by Swansea Bay"
@@ -65,11 +64,10 @@
             - paragraph: Beta
             - heading "Example card with every column" [level=4]
             - paragraph: What this work is. Keep it to a sentence or two.
-            - paragraph:
-              - strong: "Outcome:"
-              - text: What changes for users when it is done.
-            - group: What this covers
-            - text: Service X Service Y
+            - paragraph: Outcome
+            - paragraph: What changes for users when it is done.
+            - group: "What this covers : Example card with every column"
+            - paragraph: "Tags: Service X , Service Y"
             - paragraph:
               - text: "Organisations:"
               - button "Filter by Cardiff and Vale"
@@ -80,10 +78,9 @@
           - article:
             - heading "Card awaiting release" [level=4]
             - paragraph: Work that is finished and waiting to go live.
-            - paragraph:
-              - strong: "Outcome:"
-              - text: Users get the change as soon as it is deployed.
-            - text: Service X
+            - paragraph: Outcome
+            - paragraph: Users get the change as soon as it is deployed.
+            - paragraph: "Tags: Service X"
             - paragraph:
               - text: "Organisations:"
               - button "Filter by All Wales"
@@ -94,9 +91,8 @@
             - paragraph: Alpha
             - heading "Card being explored" [level=4]
             - paragraph: Work we expect to pick up soon.
-            - paragraph:
-              - strong: "Outcome:"
-              - text: What we hope this will achieve.
+            - paragraph: Outcome
+            - paragraph: What we hope this will achieve.
             - paragraph:
               - text: "Organisations:"
               - button "Filter by Betsi Cadwaladr"
@@ -108,16 +104,15 @@
             - paragraph: Discovery
             - heading "Discovery card" [level=4]
             - paragraph: The Phase column is a free-text tag shown above the title.
-            - paragraph:
-              - strong: "Outcome:"
-              - text: A clear understanding of the problem.
+            - paragraph: Outcome
+            - paragraph: A clear understanding of the problem.
             - paragraph:
               - text: "Organisations:"
               - button "Filter by Cardiff and Vale"
           - article:
             - heading "Longer-term idea" [level=4]
             - paragraph: Direction we expect to take as we learn more.
-            - text: Service Y Service Z
+            - paragraph: "Tags: Service Y , Service Z"
             - paragraph:
               - text: "Organisations:"
               - button "Filter by All Wales"
@@ -129,7 +124,7 @@
       - paragraph: Live
       - heading "Earlier delivery this year" [level=3]
       - paragraph: Something we delivered earlier in the year.
-      - group: What this covers
+      - group: "What this covers : Earlier delivery this year"
       - paragraph:
         - text: "Organisations:"
         - button "Filter by All Wales"

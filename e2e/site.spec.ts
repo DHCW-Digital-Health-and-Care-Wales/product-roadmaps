@@ -104,6 +104,18 @@ test.describe('without JavaScript', () => {
     await expect(page).toHaveTitle(`${pageTitle} – Trywyddion IGDC`);
   });
 
+  test('a filtered link shows every item, without the filter', async ({
+    page,
+  }) => {
+    await page.goto(`en/${first.slug}/?org=cavuhb`);
+    await expect(h1(page)).toHaveText(pageTitle);
+    await expect(page.locator('#org-filter')).toHaveCount(0);
+    await expect(page.getByRole('button', { name: /^Filter by/ })).toHaveCount(
+      0,
+    );
+    await expect(page.getByText('Swansea Bay').first()).toBeVisible();
+  });
+
   test('a missing page is in Welsh and English', async ({ page }) => {
     await page.goto('cy/nope/');
     await expect(h1(page)).toHaveText(
@@ -332,6 +344,204 @@ test.describe('landing page', () => {
   });
 });
 
+test.describe('organisation filter', () => {
+  const withNational =
+    'Showing 2 of 2 roadmaps for Cardiff and Vale, including all-Wales work';
+  // Where an element is on screen, to check it doesn't jump.
+  const top = (locator: Locator) =>
+    locator.evaluate((element) => element.getBoundingClientRect().top);
+  // Chromium keeps content in place by itself as the page changes above it,
+  // which would hide a failure to; Safari doesn't.
+  const withoutScrollAnchoring = (page: Page) =>
+    page.addStyleTag({ content: '* { overflow-anchor: none }' });
+
+  test('filters the landing page and carries the filter to a roadmap and back', async ({
+    page,
+  }) => {
+    await page.goto('en/');
+    await page.getByText('Filter by organisation').click();
+    await page
+      .getByRole('combobox', { name: 'Organisation' })
+      .selectOption('cavuhb');
+    await expect(page).toHaveURL(/\/en\/\?org=cavuhb$/);
+    await expect(page.getByRole('status')).toHaveText(withNational);
+
+    await page
+      .getByRole('checkbox', { name: 'Include all-Wales work' })
+      .click();
+    await expect(page).toHaveURL(/\?org=cavuhb&all=no$/);
+    await expect(page.getByRole('status')).toHaveText(
+      'Showing 1 of 2 roadmaps for Cardiff and Vale',
+    );
+    await expect(
+      page.getByRole('link', { name: second.meta.title.en }),
+    ).toHaveCount(0);
+    await expect(
+      page.getByText('2 of 9 items for Cardiff and Vale'),
+    ).toBeVisible();
+
+    await page.getByRole('link', { name: title }).click();
+    await expect(page).toHaveURL(
+      new RegExp(`/en/${first.slug}/\\?org=cavuhb&all=no$`),
+    );
+    await expect(h1(page)).toBeFocused();
+    await expect(
+      page.getByText('Showing 2 of 9 items for Cardiff and Vale').first(),
+    ).toBeVisible();
+    await expect(
+      page.getByRole('link', { name: '← All roadmaps' }),
+    ).toHaveAttribute('href', '/product-roadmaps/en/?org=cavuhb&all=no');
+
+    await page.getByRole('link', { name: 'Cymraeg' }).click();
+    await expect(page).toHaveURL(/\/cy\/.*\?org=cavuhb&all=no$/);
+    await page.goBack();
+
+    await page.goBack();
+    await expect(h1(page)).toHaveText('Product roadmaps');
+    await expect(
+      page.getByRole('combobox', { name: 'Organisation' }),
+    ).toHaveValue('cavuhb');
+    await expect(page.getByRole('status')).toHaveText(
+      'Showing 1 of 2 roadmaps for Cardiff and Vale',
+    );
+
+    await page.goForward();
+    await expect(h1(page)).toHaveText(pageTitle);
+  });
+
+  test('a pill filters the roadmap and keeps its card in place', async ({
+    page,
+  }) => {
+    await page.goto(`en/${first.slug}/`);
+    await withoutScrollAnchoring(page);
+    const pill = page
+      .getByRole('button', { name: 'Filter by Cardiff and Vale' })
+      .first();
+    // Below the sticky header, with filtered-out items above it.
+    await pill.evaluate((element) =>
+      element.scrollIntoView({ block: 'center', behavior: 'instant' }),
+    );
+    const before = await top(pill);
+
+    await pill.click();
+    await expect(page).toHaveURL(/\?org=cavuhb$/);
+    await expect(pill).toHaveAttribute('aria-pressed', 'true');
+    await expect(pill).toBeFocused();
+    expect(Math.abs((await top(pill)) - before)).toBeLessThanOrEqual(1);
+    await expect(
+      page.getByRole('heading', { name: 'Recently shipped work' }),
+    ).toHaveCount(0);
+    await expect(
+      page.getByRole('status').filter({ hasText: 'Cardiff and Vale' }),
+    ).toHaveCount(1);
+
+    await pill.click();
+    await expect(page).not.toHaveURL(/org=/);
+    await expect(pill).toHaveAttribute('aria-pressed', 'false');
+    await expect(pill).toBeFocused();
+  });
+
+  test('an empty section shows its hidden items in place', async ({ page }) => {
+    await page.goto(`en/${first.slug}/?org=cavuhb`);
+    await withoutScrollAnchoring(page);
+    const section = page.getByRole('region', { name: /^Recently delivered/ });
+    const show = section.getByRole('button', { name: 'Show 1 hidden item' });
+    // The button just below the header, with the section's heading above the
+    // screen and filtered-out items above that.
+    await show.evaluate((element) =>
+      element.scrollIntoView({ block: 'start', behavior: 'instant' }),
+    );
+    expect(await top(section.getByRole('heading').first())).toBeLessThan(0);
+    const before = await top(section);
+
+    await show.click();
+    await expect(page).not.toHaveURL(/org=/);
+    const card = section.getByRole('heading', {
+      name: 'Recently shipped work',
+    });
+    await expect(card).toBeFocused();
+    await expect(card).toBeInViewport();
+    expect(Math.abs((await top(section)) - before)).toBeLessThanOrEqual(1);
+  });
+
+  test('the header opens the filter', async ({ page, isMobile }) => {
+    await page.goto(`en/${first.slug}/?org=cavuhb`);
+    await page
+      .getByRole('banner')
+      .getByRole('button', {
+        name: isMobile
+          ? 'Filtered by: Cardiff and Vale'
+          : 'Filtered by organisation: Cardiff and Vale',
+      })
+      .click();
+    const select = page.getByRole('combobox', { name: 'Organisation' });
+    await expect(select).toBeFocused();
+    await expect(select).toBeInViewport();
+  });
+
+  test('the header clears the filter, keeping the first card in place', async ({
+    page,
+  }) => {
+    await page.goto(`en/${first.slug}/?org=cavuhb`);
+    await withoutScrollAnchoring(page);
+    await page
+      .locator('#roadmap')
+      .evaluate((element) =>
+        element.scrollIntoView({ block: 'start', behavior: 'instant' }),
+      );
+    // The first card on screen, which the filtered-out item above would move.
+    const card = page.getByRole('article').filter({
+      has: page.getByRole('heading', {
+        name: 'Example card with every column',
+      }),
+    });
+    const before = await top(card);
+
+    const clear = page
+      .getByRole('banner')
+      .getByRole('button', { name: 'Clear filter' });
+    await clear.click();
+    await expect(page).not.toHaveURL(/org=/);
+    await expect(clear).toHaveCount(0);
+    expect(Math.abs((await top(card)) - before)).toBeLessThanOrEqual(1);
+    await expect(card.locator('[data-filter-focus]')).toBeFocused();
+  });
+
+  test('fits a 320px screen, clear of the header and without scrolling sideways', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 320, height: 640 });
+    for (const path of ['en/?org=cavuhb', `cy/${first.slug}/?org=cavuhb`]) {
+      await page.goto(path);
+      // The strip under the header doesn't cover the top of the page.
+      expect(
+        await page.evaluate(() => {
+          const header = document.querySelector('header')!;
+          const intro = document.querySelector('main section')!;
+          return (
+            intro.getBoundingClientRect().top +
+              parseFloat(getComputedStyle(intro).paddingTop) >
+            header.getBoundingClientRect().bottom
+          );
+        }),
+      ).toBe(true);
+      // Open on the landing page while filtered, but not on a roadmap.
+      const filter = page.locator('#org-filter');
+      if ((await filter.getAttribute('open')) === null) {
+        await filter.locator('summary').click();
+      }
+      await expect(
+        page.getByRole('combobox', { name: /Organisation|Sefydliad/ }),
+      ).toBeVisible();
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= window.innerWidth,
+        ),
+      ).toBe(true);
+    }
+  });
+});
+
 test.describe('mobile menu', () => {
   test('opens, lists the sections and closes after choosing one', async ({
     page,
@@ -361,6 +571,8 @@ test.describe('accessibility (axe, including colour contrast)', () => {
     landing: '',
     product: `${first.slug}/`,
     'not found': 'nope/',
+    'filtered landing': '?org=cavuhb',
+    'filtered product': `${first.slug}/?org=cavuhb&all=no`,
   };
 
   for (const lang of ['en', 'cy']) {

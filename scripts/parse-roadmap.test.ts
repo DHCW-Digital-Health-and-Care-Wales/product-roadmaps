@@ -1,6 +1,11 @@
 import { readFileSync } from 'node:fs';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { CATEGORY_IDS, CATEGORY_SHEET_VALUES } from '../src/lib/types.ts';
+import {
+  CATEGORY_IDS,
+  CATEGORY_SHEET_VALUES,
+  ORGANISATION_IDS,
+  ORGANISATION_SHEET_VALUES,
+} from '../src/lib/types.ts';
 import { parseCsv } from './csv.ts';
 import {
   checkTranslation,
@@ -289,6 +294,50 @@ describe('Category and Family', () => {
         'Missing column "Family"; its values will be blank',
       ]),
     );
+  });
+});
+
+describe('Organisations', () => {
+  const cards = (...values: string[]) =>
+    parseRoadmap(parseRoadmapList(fixture('Roadmaps'))[0], {
+      name: 'ProductA',
+      rows: [
+        ['Title', 'Horizon', 'Organisations'],
+        ...values.map((value, i) => [`Card ${i}`, 'Now', value]),
+      ],
+    }).items.now.map((item) => item.organisations);
+  const rowWarnings = () => takeWarnings().filter((w) => w.row !== undefined);
+
+  it('accepts every dropdown value, ignoring case and spaces', () => {
+    const values = ORGANISATION_IDS.map((id) => ORGANISATION_SHEET_VALUES[id]);
+    expect(cards(values.join(', '), ' cavuhb ,NATIONAL')).toEqual([
+      [...ORGANISATION_IDS],
+      ['national', 'cavuhb'],
+    ]);
+    expect(rowWarnings()).toEqual([]);
+  });
+
+  it('puts codes in list order, drops repeats and leaves blank cells out', () => {
+    expect(cards('WAST, ABUHB\nWAST,', '')).toEqual([
+      ['abuhb', 'wast'],
+      undefined,
+    ]);
+    expect(rowWarnings()).toEqual([]);
+  });
+
+  it('warns about an unknown code and leaves it out', () => {
+    expect(cards('CAVUHB, Cardiff', 'Dentistry')).toEqual([
+      ['cavuhb'],
+      undefined,
+    ]);
+    const [first, second, ...rest] = rowWarnings();
+    expect(rest).toEqual([]);
+    expect(first).toMatchObject({ sheet: 'ProductA', row: 2 });
+    expect(first?.message).toMatch(
+      /^Organisation "Cardiff" for "Card 0" is not one of "National", "ABUHB", /,
+    );
+    expect(first?.message).toMatch(/"HEIW"; left out$/);
+    expect(second).toMatchObject({ row: 3 });
   });
 });
 

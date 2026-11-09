@@ -1,5 +1,10 @@
 import { LANGUAGES, rememberLang, useLanguage } from '../lib/i18n';
-import { onNavigate, pathFor } from '../lib/router';
+import {
+  onNavigate,
+  pathFor,
+  useOrgFilter,
+  withOrgFilter,
+} from '../lib/router';
 
 /**
  * Language toggle: links to this page in each language, so it works without
@@ -8,6 +13,7 @@ import { onNavigate, pathFor } from '../lib/router';
  */
 export function LanguageToggle() {
   const { lang, route } = useLanguage();
+  const filter = useOrgFilter();
 
   return (
     <div
@@ -17,7 +23,9 @@ export function LanguageToggle() {
     >
       {LANGUAGES.map((option) => {
         const isActive = lang === option.value;
-        const href = pathFor(option.value, route.slug);
+        const path = pathFor(option.value, route.slug);
+        // The filter is in the link too, so it is kept in a new tab.
+        const href = withOrgFilter(path, filter);
         return (
           <a
             key={option.value}
@@ -27,7 +35,7 @@ export function LanguageToggle() {
             onClick={(event) => {
               rememberLang(option.value);
               const { search, hash } = window.location;
-              onNavigate(`${href}${search}${hash}`, { scroll: false })(event);
+              onNavigate(`${path}${search}${hash}`, { scroll: false })(event);
             }}
             aria-current={isActive ? 'page' : undefined}
             className={`relative px-3 py-1.5 text-sm font-medium transition-colors first:rounded-l-sm last:rounded-r-sm focus-visible:z-10 ${

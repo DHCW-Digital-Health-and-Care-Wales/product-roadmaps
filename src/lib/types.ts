@@ -52,6 +52,62 @@ export const CATEGORY_SHEET_VALUES: Record<CategoryId, string> = {
   'national-systems-data': 'National Systems & Data',
 };
 
+/**
+ * Organisations a card's work is for, in display order. Each id is the
+ * lower-case code the sheet's "Organisations" column uses
+ * (ORGANISATION_SHEET_VALUES), and is the `org` value in filter URLs.
+ * 'national' is work for every organisation in Wales. Names are in
+ * src/lib/content.ts.
+ */
+export const ORGANISATION_IDS = [
+  'national',
+  'abuhb',
+  'bcuhb',
+  'cavuhb',
+  'ctmuhb',
+  'hduhb',
+  'pthb',
+  'sbuhb',
+  'vunhst',
+  'wast',
+  'phw',
+  'heiw',
+] as const;
+
+export type OrganisationId = (typeof ORGANISATION_IDS)[number];
+
+export const isOrganisationId = (
+  value: string | null,
+): value is OrganisationId =>
+  (ORGANISATION_IDS as readonly (string | null)[]).includes(value);
+
+/**
+ * The organisation filter: work for `org`, and, unless `includeNational` is
+ * false, work for all of Wales. `org` null shows everything.
+ */
+export interface OrgFilter {
+  org: OrganisationId | null;
+  includeNational: boolean;
+}
+
+export const NO_ORG_FILTER: OrgFilter = { org: null, includeNational: true };
+
+/** The allowed values of the sheet's "Organisations" column. */
+export const ORGANISATION_SHEET_VALUES: Record<OrganisationId, string> = {
+  national: 'National',
+  abuhb: 'ABUHB',
+  bcuhb: 'BCUHB',
+  cavuhb: 'CAVUHB',
+  ctmuhb: 'CTMUHB',
+  hduhb: 'HDUHB',
+  pthb: 'PTHB',
+  sbuhb: 'SBUHB',
+  vunhst: 'VUNHST',
+  wast: 'WAST',
+  phw: 'PHW',
+  heiw: 'HEIW',
+};
+
 export interface Localised {
   cy: string;
   en: string;
@@ -70,6 +126,8 @@ export interface RoadmapItem {
   phase?: Localised;
   labels?: Localised[];
   details?: DetailLine[];
+  /** Who the work is for, in ORGANISATION_IDS order. */
+  organisations?: OrganisationId[];
 }
 
 export interface RoadmapMeta {

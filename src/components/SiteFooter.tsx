@@ -5,9 +5,10 @@ import {
   onNavigate,
   pathFor,
   useHasJs,
+  withOrgFilter,
   type View,
 } from '../lib/router';
-import type { Localised } from '../lib/types';
+import type { Localised, OrgFilter } from '../lib/types';
 import { UI } from '../lib/strings';
 import { T } from './T';
 
@@ -27,14 +28,16 @@ interface FooterLink {
  * Footer: feedback route, links to the accessibility statement and privacy
  * note, the licence and a link back to the GitHub repository. On a roadmap
  * page (`dataSlug`) it also links to that roadmap's published JSON and to the
- * other layout (cards or list).
+ * other layout (cards or list), keeping the organisation filter.
  */
 export function SiteFooter({
   dataSlug,
   view,
+  filter,
 }: {
   dataSlug?: string;
   view: View;
+  filter: OrgFilter;
 }) {
   const { lang, tr } = useLanguage();
   const hasJs = useHasJs();
@@ -70,7 +73,10 @@ export function SiteFooter({
             ? [
                 {
                   key: 'layout',
-                  href: `${pathFor(lang, dataSlug)}${toList ? '?view=list' : ''}`,
+                  href: withOrgFilter(
+                    `${pathFor(lang, dataSlug)}${toList ? '?view=list' : ''}`,
+                    filter,
+                  ),
                   label: toList ? UI.listViewLink : UI.cardViewLink,
                   kind: 'app' as const,
                 },

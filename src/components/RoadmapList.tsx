@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import type { Roadmap } from '../lib/types';
-import { useLanguage } from '../lib/i18n';
+import type { Roadmap, OrgFilter } from '../lib/types';
+import { fill, useLanguage } from '../lib/i18n';
 import {
+  countOf,
   isExpandable,
   placementHeadingId,
   roadmapGroups,
 } from '../lib/roadmap-helpers';
 import { UI } from '../lib/strings';
+import { EmptyItems } from './EmptyItems';
 import { RoadmapListItem } from './RoadmapListItem';
 import { T } from './T';
 
@@ -18,13 +20,23 @@ const linkButton =
  * section and horizon as rows that open to show the outcome and details.
  * Shown instead of the cards with `?view=list`.
  */
-export function RoadmapList({ roadmap }: { roadmap: Roadmap }) {
+export function RoadmapList({
+  roadmap,
+  filter,
+}: {
+  roadmap: Roadmap;
+  filter: OrgFilter;
+}) {
   const { tr } = useLanguage();
   const [open, setOpen] = useState<ReadonlySet<string>>(() => new Set());
 
-  const groups = roadmapGroups(roadmap);
+  const groups = roadmapGroups(roadmap, filter);
+  // Keyed by the place in the unfiltered list, so rows stay open while filtering.
+  const keyOf = (id: string, index: number) => `${id}-${index}`;
   const expandable = groups.flatMap((g) =>
-    g.items.flatMap((item, i) => (isExpandable(item) ? [`${g.id}-${i}`] : [])),
+    g.items.flatMap(({ item, index }) =>
+      isExpandable(item) ? [keyOf(g.id, index)] : [],
+    ),
   );
 
   const toggle = (key: string) => {
@@ -51,6 +63,16 @@ export function RoadmapList({ roadmap }: { roadmap: Roadmap }) {
                     >
                       <span className="block text-3xl leading-tight font-bold text-heading">
                         {g.items.length}
+                        {g.items.length < g.total ? (
+                          <span className="text-base font-normal text-ink-700">
+                            {' '}
+                            <T
+                              value={fill(UI.ofTotal, {
+                                total: String(g.total),
+                              })}
+                            />
+                          </span>
+                        ) : null}
                       </span>
                       <span className="text-sm text-ink-700">
                         <T value={g.heading} />
@@ -88,14 +110,21 @@ export function RoadmapList({ roadmap }: { roadmap: Roadmap }) {
             >
               <h2
                 id={placementHeadingId(g.id)}
-                className="border-b-2 border-heading pb-2 text-2xl font-bold text-heading"
+                className="flex flex-wrap items-center gap-x-3 border-b-2 border-heading pb-2 text-2xl font-bold text-heading"
               >
                 <T value={g.heading} />
+                {filter.org ? (
+                  <span className="inline-flex h-6 items-center rounded-full border border-border bg-surface-subtle px-2 text-xs font-semibold text-ink-700">
+                    <T
+                      value={countOf({ shown: g.items.length, total: g.total })}
+                    />
+                  </span>
+                ) : null}
               </h2>
               {g.items.length > 0 ? (
                 <ul>
-                  {g.items.map((item, i) => {
-                    const key = `${g.id}-${i}`;
+                  {g.items.map(({ item, index }) => {
+                    const key = keyOf(g.id, index);
                     return (
                       <RoadmapListItem
                         key={key}
@@ -107,9 +136,12 @@ export function RoadmapList({ roadmap }: { roadmap: Roadmap }) {
                   })}
                 </ul>
               ) : (
-                <p className="py-4 text-ink-700">
-                  <T value={UI.nothingYet} />
-                </p>
+                <EmptyItems
+                  filter={filter}
+                  total={g.total}
+                  headingId={placementHeadingId(g.id)}
+                  className="py-4 text-ink-700"
+                />
               )}
             </section>
           ))}

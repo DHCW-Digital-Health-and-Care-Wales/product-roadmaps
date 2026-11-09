@@ -1,21 +1,38 @@
 import { useState } from 'react';
-import type { Roadmap } from '../lib/types';
-import { useLanguage } from '../lib/i18n';
-import { categoryTiles, filterGroups } from '../lib/roadmap-helpers';
+import { type Roadmap, NO_ORG_FILTER, type OrgFilter } from '../lib/types';
+import { organisation } from '../lib/content';
+import { openOrgFilter } from '../lib/focus';
+import { fill, useLanguage } from '../lib/i18n';
+import {
+  categoryTiles,
+  filterGroups,
+  filterRoadmaps,
+  organisationsWithWork,
+  roadmapsStatus,
+} from '../lib/roadmap-helpers';
+import { setOrgFilter } from '../lib/router';
 import { UI } from '../lib/strings';
 import { CategorySection } from '../components/CategorySection';
 import { CategoryTiles } from '../components/CategoryTiles';
+import { OrgFilterDisclosure } from '../components/OrgFilterDisclosure';
 import { SearchBar } from '../components/SearchBar';
 import { T } from '../components/T';
 
 /**
- * Landing page: introduces the roadmaps, with jump links to each category and
- * a search that filters the cards. Without JavaScript every roadmap is listed.
+ * Landing page: introduces the roadmaps, with jump links to each category, a
+ * search and an organisation filter that narrow the cards. Without JavaScript
+ * every roadmap is listed.
  */
-export function LandingPage({ roadmaps }: { roadmaps: Roadmap[] }) {
+export function LandingPage({
+  roadmaps,
+  filter,
+}: {
+  roadmaps: Roadmap[];
+  filter: OrgFilter;
+}) {
   const { lang } = useLanguage();
   const [query, setQuery] = useState('');
-  const groups = filterGroups(roadmaps, query, lang);
+  const groups = filterGroups(roadmaps, query, lang, filter);
   const shown = groups.reduce((sum, group) => sum + group.roadmaps.length, 0);
 
   return (
@@ -49,17 +66,30 @@ export function LandingPage({ roadmaps }: { roadmaps: Roadmap[] }) {
               <SearchBar
                 query={query}
                 onQueryChange={setQuery}
-                shown={shown}
-                total={roadmaps.length}
-              />
+                status={(q) =>
+                  roadmapsStatus(
+                    filterRoadmaps(roadmaps, q, lang, filter).length,
+                    roadmaps.length,
+                    q,
+                    filter,
+                  )
+                }
+              >
+                <OrgFilterDisclosure
+                  filter={filter}
+                  organisations={organisationsWithWork(roadmaps)}
+                  defaultOpen={Boolean(filter.org)}
+                  className="mt-4"
+                />
+              </SearchBar>
               {groups.map((group) => (
-                <CategorySection key={group.category.id} group={group} />
+                <CategorySection
+                  key={group.category.id}
+                  group={group}
+                  filter={filter}
+                />
               ))}
-              {shown === 0 ? (
-                <p className="mt-8 rounded-card border border-border bg-surface-subtle p-5 font-medium text-ink-700">
-                  <T value={UI.noMatches} />
-                </p>
-              ) : null}
+              {shown === 0 ? <NoMatches query={query} filter={filter} /> : null}
             </>
           ) : (
             <p className="rounded-card border border-border bg-surface-subtle p-5 font-medium text-ink-700">
@@ -69,5 +99,37 @@ export function LandingPage({ roadmaps }: { roadmaps: Roadmap[] }) {
         </div>
       </div>
     </>
+  );
+}
+
+/** Says nothing matches, offering to clear the filter if there is one. */
+function NoMatches({ query, filter }: { query: string; filter: OrgFilter }) {
+  const box =
+    'mt-8 rounded-card border border-border bg-surface-subtle p-5 font-medium text-ink-700';
+  if (!filter.org) {
+    return (
+      <p className={box}>
+        <T value={UI.noMatches} />
+      </p>
+    );
+  }
+  const vars = { organisation: organisation(filter.org).short };
+  return (
+    <div className={box}>
+      <p>
+        <T value={fill(query.trim() ? UI.noMatchesFor : UI.noWorkFor, vars)} />
+      </p>
+      <button
+        type="button"
+        onClick={() => {
+          setOrgFilter(NO_ORG_FILTER);
+          // The button goes, so move focus to the filter.
+          openOrgFilter();
+        }}
+        className="mt-3 text-action underline underline-offset-4 hover:decoration-2"
+      >
+        <T value={UI.showAllOrganisations} />
+      </button>
+    </div>
   );
 }

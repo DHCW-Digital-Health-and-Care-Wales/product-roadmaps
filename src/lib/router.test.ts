@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { dataPathFor, pathFor, routeFromPath, viewFromSearch } from './router';
+import { NO_ORG_FILTER } from './types';
+import {
+  dataPathFor,
+  orgFilterFromSearch,
+  pathFor,
+  routeFromPath,
+  viewFromSearch,
+  withOrgFilter,
+} from './router';
 
 describe('routeFromPath', () => {
   it.each([
@@ -43,5 +51,54 @@ describe('pathFor', () => {
     expect(dataPathFor('producta')).toBe(
       '/product-roadmaps/producta/roadmap.json',
     );
+  });
+});
+
+describe('orgFilterFromSearch', () => {
+  it.each([
+    ['', NO_ORG_FILTER],
+    ['?org=cavuhb', { org: 'cavuhb', includeNational: true }],
+    ['?view=list&org=cavuhb&all=no', { org: 'cavuhb', includeNational: false }],
+    ['?org=cavuhb&all=yes', { org: 'cavuhb', includeNational: true }],
+    ['?org=national&all=no', { org: 'national', includeNational: true }],
+    ['?org=CAVUHB', NO_ORG_FILTER],
+    ['?org=nowhere&all=no', NO_ORG_FILTER],
+    ['?all=no', NO_ORG_FILTER],
+  ])('%s gives %o', (search, filter) => {
+    expect(orgFilterFromSearch(search)).toEqual(filter);
+  });
+});
+
+describe('withOrgFilter', () => {
+  const page = '/product-roadmaps/en/producta/';
+
+  it('adds the filter, keeping other params and the hash', () => {
+    expect(
+      withOrgFilter(`${page}?view=list#roadmap`, {
+        org: 'cavuhb',
+        includeNational: false,
+      }),
+    ).toBe(`${page}?view=list&org=cavuhb&all=no#roadmap`);
+    expect(
+      withOrgFilter(page, { org: 'national', includeNational: false }),
+    ).toBe(`${page}?org=national`);
+  });
+
+  it('replaces or removes a filter already there', () => {
+    expect(
+      withOrgFilter(`${page}?org=cavuhb&all=no`, {
+        org: 'sbuhb',
+        includeNational: true,
+      }),
+    ).toBe(`${page}?org=sbuhb`);
+    expect(withOrgFilter(`${page}?org=cavuhb&all=no`, NO_ORG_FILTER)).toBe(
+      page,
+    );
+  });
+
+  it('round-trips through orgFilterFromSearch', () => {
+    const filter = { org: 'wast', includeNational: false } as const;
+    const href = withOrgFilter(page, filter);
+    expect(orgFilterFromSearch(href.slice(href.indexOf('?')))).toEqual(filter);
   });
 });

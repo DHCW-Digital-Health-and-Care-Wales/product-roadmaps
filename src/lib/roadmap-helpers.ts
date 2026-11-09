@@ -4,9 +4,11 @@
 import {
   CATEGORIES,
   HORIZONS,
+  ORGANISATIONS,
   OTHER_CATEGORY,
   ROADMAP_INTRO,
   SECTIONS,
+  organisation,
   type Category,
 } from './content';
 import { fill, t, type Lang } from './i18n';
@@ -14,12 +16,16 @@ import { UI } from './strings';
 import { compareText, fold } from './text';
 import {
   HORIZON_IDS,
+  PLACEMENT_IDS,
   type CategoryId,
   type Localised,
+  type OrganisationId,
   type Placement,
   type Roadmap,
   type RoadmapItem,
   type RoadmapMeta,
+  NO_ORG_FILTER,
+  type OrgFilter,
 } from './types';
 
 // Not Intl: some browsers lack Welsh locale data, which would also break hydration.
@@ -97,31 +103,151 @@ export function placementHeadingId(id: Placement): string {
     : `section-${id}`;
 }
 
+/**
+ * Whether an item is for the filter's organisation. All-Wales items are for
+ * every organisation, so they match too unless `includeNational` is false.
+ * Filtering on all of Wales itself matches only all-Wales items.
+ */
+export function itemMatches(
+  item: RoadmapItem,
+  { org, includeNational }: OrgFilter,
+): boolean {
+  if (!org) return true;
+  const orgs = item.organisations ?? [];
+  return orgs.includes(org) || (includeNational && orgs.includes('national'));
+}
+
+/** Whether the filter is for one organisation and takes in all-Wales work. */
+export const includesAllWales = ({ org, includeNational }: OrgFilter) =>
+  org !== null && org !== 'national' && includeNational;
+
+/** An item with its place in the unfiltered list, which keys it while filtering. */
+export interface ShownItem {
+  item: RoadmapItem;
+  index: number;
+}
+
+/** The items that match the filter, in order. */
+export const filterItems = (
+  items: RoadmapItem[],
+  filter: OrgFilter,
+): ShownItem[] =>
+  items.flatMap((item, index) =>
+    itemMatches(item, filter) ? [{ item, index }] : [],
+  );
+
+export interface ItemCount {
+  shown: number;
+  total: number;
+}
+
+/** How many of a roadmap's items, in every section and horizon, match. */
+export function countItems(roadmap: Roadmap, filter: OrgFilter): ItemCount {
+  const items = PLACEMENT_IDS.flatMap((id) => roadmap.items[id]);
+  return {
+    shown: items.filter((item) => itemMatches(item, filter)).length,
+    total: items.length,
+  };
+}
+
+const countVars = ({ shown, total }: ItemCount) => ({
+  shown: String(shown),
+  total: String(total),
+});
+
+/** "2 of 5". */
+export const countOf = (count: ItemCount): Localised =>
+  fill(UI.countOf, countVars(count));
+
+/** "2 of 5" while some items are hidden, otherwise just "5". */
+export const countText = (count: ItemCount): Localised =>
+  count.shown === count.total
+    ? { en: String(count.total), cy: String(count.total) }
+    : countOf(count);
+
+/** How many of an empty section's `total` items the filter hides. */
+export const hiddenCount = ({ org }: OrgFilter, total: number): number =>
+  org ? total : 0;
+
+/**
+ * What an empty section or horizon says: naming the filter's organisation when
+ * the filter hides its items, otherwise that there's nothing yet.
+ */
+export const emptyText = (filter: OrgFilter, total: number): Localised =>
+  filter.org && hiddenCount(filter, total) > 0
+    ? fill(UI.nothingFor, { organisation: organisation(filter.org).short })
+    : UI.nothingYet;
+
+/** The button that shows the items the filter hides in an empty section. */
+export const showHiddenItems = (count: number): Localised =>
+  count === 1
+    ? UI.showHiddenItemsOne
+    : fill(UI.showHiddenItems, { count: String(count) });
+
+/** Organisations that any item is for, in display order. */
+export function organisationsWithWork(roadmaps: Roadmap[]): OrganisationId[] {
+  const used = new Set(
+    roadmaps.flatMap((roadmap) =>
+      PLACEMENT_IDS.flatMap((id) =>
+        roadmap.items[id].flatMap((item) => item.organisations ?? []),
+      ),
+    ),
+  );
+  return ORGANISATIONS.filter((o) => used.has(o.id)).map((o) => o.id);
+}
+
+/**
+ * A filtered roadmap's summary, e.g. "Showing 5 of 9 items for Cardiff and
+ * Vale University Health Board", adding ", including all-Wales work" if
+ * `withAllWales` and the filter takes it in. "Showing all 9 items" without a
+ * filter.
+ */
+export function itemsStatus(
+  count: ItemCount,
+  filter: OrgFilter,
+  { withAllWales = true } = {},
+): Localised {
+  if (!filter.org) {
+    return fill(UI.showingAllItems, { total: String(count.total) });
+  }
+  return fill(
+    withAllWales && includesAllWales(filter)
+      ? UI.showingItemsForWithNational
+      : UI.showingItemsFor,
+    { ...countVars(count), organisation: organisation(filter.org).name },
+  );
+}
+
 export interface PlacementGroup {
   id: Placement;
   heading: Localised;
-  items: RoadmapItem[];
+  /** The items that match the filter. */
+  items: ShownItem[];
+  /** The number of items before filtering. */
+  total: number;
   /** Counted in the list view's "At a glance" summary. */
   glance: boolean;
 }
 
-/** Every section and horizon in page order. */
-export function roadmapGroups(roadmap: Roadmap): PlacementGroup[] {
+/** Every section and horizon in page order, with the items that match. */
+export function roadmapGroups(
+  roadmap: Roadmap,
+  filter: OrgFilter = NO_ORG_FILTER,
+): PlacementGroup[] {
+  const group = (id: Placement, heading: Localised, glance: boolean) => ({
+    id,
+    heading,
+    items: filterItems(roadmap.items[id], filter),
+    total: roadmap.items[id].length,
+    glance,
+  });
   const sectionGroups = (placement: 'before' | 'after') =>
-    SECTIONS.filter((s) => s.placement === placement).map((s) => ({
-      id: s.id,
-      heading: s.heading,
-      items: roadmap.items[s.id],
-      glance: placement === 'before',
-    }));
+    SECTIONS.filter((s) => s.placement === placement).map((s) =>
+      group(s.id, s.heading, placement === 'before'),
+    );
   return [
     ...sectionGroups('before'),
-    ...HORIZONS.map((h) => ({
-      id: h.id,
-      heading: h.label,
-      items: roadmap.items[h.id],
-      glance: true,
-    })),
+    ...HORIZONS.map((h) => group(h.id, h.label, true)),
     ...sectionGroups('after'),
   ];
 }
@@ -203,16 +329,53 @@ export function matchesSearch(
   return words.every((word) => text.includes(word));
 }
 
-/** The groups of roadmaps that match the search query. */
+/**
+ * The roadmaps that match the search query and have work for the filter's
+ * organisation.
+ */
+export const filterRoadmaps = (
+  roadmaps: Roadmap[],
+  query: string,
+  lang: Lang,
+  filter: OrgFilter = NO_ORG_FILTER,
+): Roadmap[] =>
+  roadmaps.filter(
+    (roadmap) =>
+      matchesSearch(roadmap, query, lang) &&
+      (!filter.org || countItems(roadmap, filter).shown > 0),
+  );
+
+/** The groups of roadmaps that match the search query and the filter. */
 export const filterGroups = (
   roadmaps: Roadmap[],
   query: string,
   lang: Lang,
+  filter: OrgFilter = NO_ORG_FILTER,
 ): CategoryGroup[] =>
-  groupByCategory(
-    roadmaps.filter((roadmap) => matchesSearch(roadmap, query, lang)),
-    lang,
-  );
+  groupByCategory(filterRoadmaps(roadmaps, query, lang, filter), lang);
+
+/**
+ * The landing page's result count: the total, or how many match the search
+ * and filter, e.g. "Showing 12 of 14 roadmaps for Cardiff and Vale, including
+ * all-Wales work".
+ */
+export function roadmapsStatus(
+  shown: number,
+  total: number,
+  query: string,
+  filter: OrgFilter,
+): Localised {
+  const counts = countVars({ shown, total });
+  if (filter.org) {
+    return fill(
+      includesAllWales(filter)
+        ? UI.showingRoadmapsForWithNational
+        : UI.showingRoadmapsFor,
+      { ...counts, organisation: organisation(filter.org).short },
+    );
+  }
+  return query.trim() ? fill(UI.showingRoadmaps, counts) : roadmapCount(total);
+}
 
 /**
  * One tile per named category that has any roadmaps, so the tiles stay put

@@ -84,6 +84,20 @@
     scroll-behavior: smooth;
     scroll-padding-top: 7rem;
   }
+
+  /* On narrow screens the organisation filter's strip (FilterStrip) makes the
+     fixed header taller, so the page moves down to match. */
+  :root {
+    --filter-strip-height: 2.5rem;
+  }
+  @variant max-sm {
+    html:has([data-filter-strip]) {
+      scroll-padding-top: calc(7rem + var(--filter-strip-height));
+    }
+    header:has([data-filter-strip]) ~ main {
+      padding-top: var(--filter-strip-height);
+    }
+  }
 }
 
 /* Keep motion minimal and never essential. */

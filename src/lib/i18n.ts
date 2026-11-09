@@ -89,14 +89,21 @@ export function resolve(
   return { text: value.en, lang: 'en' };
 }
 
-/** Replaces `{name}` placeholders in both languages. */
+/**
+ * Replaces `{name}` placeholders in both languages. A localised value fills
+ * each language with its own text, falling back to English.
+ */
 export function fill(
   value: Localised,
-  vars: Record<string, string>,
+  vars: Record<string, string | Localised>,
 ): Localised {
-  const sub = (text: string) =>
-    text.replace(/\{(\w+)\}/g, (match, name: string) => vars[name] ?? match);
-  return { en: sub(value.en), cy: sub(value.cy) };
+  const sub = (text: string, lang: Lang) =>
+    text.replace(/\{(\w+)\}/g, (match, name: string) => {
+      const v = vars[name];
+      if (v === undefined) return match;
+      return typeof v === 'string' ? v : t(v, lang);
+    });
+  return { en: sub(value.en, 'en'), cy: sub(value.cy, 'cy') };
 }
 
 /** The set of English strings still awaiting Welsh, for dev tooling. */

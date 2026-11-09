@@ -5,6 +5,7 @@
 import { z } from 'zod';
 import {
   CATEGORY_IDS,
+  ORGANISATION_IDS,
   PLACEMENT_IDS,
   type Placement,
   type Roadmap,
@@ -34,6 +35,7 @@ const item = z.strictObject({
     .array(z.strictObject({ text: nonEmpty, level: z.int().nonnegative() }))
     .min(1)
     .optional(),
+  organisations: z.array(z.enum(ORGANISATION_IDS)).min(1).optional(),
 });
 
 const items = z.array(item);

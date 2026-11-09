@@ -1,7 +1,7 @@
 import { ChevronDown } from 'lucide-react';
-import type { Roadmap } from '../lib/types';
+import type { Roadmap, OrgFilter } from '../lib/types';
 import { HORIZONS, ROADMAP_DESCRIPTION, ROADMAP_HEADING } from '../lib/content';
-import { placementHeadingId } from '../lib/roadmap-helpers';
+import { filterItems, placementHeadingId } from '../lib/roadmap-helpers';
 import { HorizonPhase } from './HorizonPhase';
 import { T } from './T';
 
@@ -13,7 +13,13 @@ import { T } from './T';
  * decorative connector between phases signals progression without relying on
  * colour to carry meaning.
  */
-export function RoadmapHorizons({ roadmap }: { roadmap: Roadmap }) {
+export function RoadmapHorizons({
+  roadmap,
+  filter,
+}: {
+  roadmap: Roadmap;
+  filter: OrgFilter;
+}) {
   const headingId = 'roadmap-heading';
   const accent = roadmap.meta.colour;
   const lastIndex = HORIZONS.length - 1;
@@ -35,7 +41,9 @@ export function RoadmapHorizons({ roadmap }: { roadmap: Roadmap }) {
           <li key={horizon.id}>
             <HorizonPhase
               label={horizon.label}
-              items={roadmap.items[horizon.id]}
+              items={filterItems(roadmap.items[horizon.id], filter)}
+              total={roadmap.items[horizon.id].length}
+              filter={filter}
               headingId={placementHeadingId(horizon.id)}
               accent={accent}
             />

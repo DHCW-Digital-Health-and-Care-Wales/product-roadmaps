@@ -1,11 +1,16 @@
-import type { Localised, RoadmapItem } from '../lib/types';
-import { UI } from '../lib/strings';
+import type { Localised, OrgFilter } from '../lib/types';
+import { countText, type ShownItem } from '../lib/roadmap-helpers';
+import { EmptyItems } from './EmptyItems';
 import { RoadmapCard } from './RoadmapCard';
 import { T } from './T';
 
 interface HorizonPhaseProps {
   label: Localised;
-  items: RoadmapItem[];
+  /** The items that match the organisation filter. */
+  items: ShownItem[];
+  /** The number of items before filtering. */
+  total: number;
+  filter: OrgFilter;
   headingId: string;
   accent: string;
 }
@@ -21,6 +26,8 @@ interface HorizonPhaseProps {
 export function HorizonPhase({
   label,
   items,
+  total,
+  filter,
   headingId,
   accent,
 }: HorizonPhaseProps) {
@@ -38,22 +45,25 @@ export function HorizonPhase({
           <T value={label} />
         </span>
         <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-full border border-white/30 bg-white/10 px-2 text-xs font-semibold text-white">
-          {items.length}
+          <T value={countText({ shown: items.length, total })} />
         </span>
       </h3>
       <div className="p-4">
         {items.length > 0 ? (
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-            {items.map((item, index) => (
-              // Static list from the snapshot; never reordered or filtered.
-              // eslint-disable-next-line @eslint-react/no-array-index-key
+            {items.map(({ item, index }) => (
+              // The place in the unfiltered list, so a card keeps its element
+              // as the filter changes.
               <RoadmapCard key={index} item={item} />
             ))}
           </div>
         ) : (
-          <p className="text-sm italic text-ink-500">
-            <T value={UI.nothingYet} />
-          </p>
+          <EmptyItems
+            filter={filter}
+            total={total}
+            headingId={headingId}
+            className="text-sm italic text-ink-500"
+          />
         )}
       </div>
     </section>

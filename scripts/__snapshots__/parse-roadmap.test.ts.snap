@@ -269,6 +269,7 @@ exports[`parseRoadmap > matches the ProductA snapshot 1`] = `
       "en": "Single Record",
     },
     "lastUpdated": "2026-10-01",
+    "productLead": "Alex Jones",
     "serviceDescription": {
       "cy": "",
       "en": "What Product A does and who it helps. Also used as the summary on the landing page card.",
@@ -455,6 +456,7 @@ exports[`parseRoadmap > matches the ProductB snapshot 1`] = `
       "en": "Medicines & Diagnostics",
     },
     "lastUpdated": "2026-09-15",
+    "productLead": "",
     "serviceDescription": {
       "cy": "Beth mae Cynnyrch B yn ei wneud a phwy mae’n ei helpu. Nid oes gan y trywydd hwn weledigaeth, felly mae’r adran honno wedi’i chuddio.",
       "en": "What Product B does and who it helps. This roadmap has no vision, so that section is hidden.",

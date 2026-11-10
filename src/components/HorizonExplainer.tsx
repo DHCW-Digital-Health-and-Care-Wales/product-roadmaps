@@ -9,8 +9,9 @@ const horizonLink =
 
 /**
  * Plain-English explainer of what Now, Next and Later mean, plus a note that
- * the work has no dates and its order isn't a priority list. The list view
- * puts the note first and the horizons in a plain list instead of cards. Each
+ * the work has no dates and its order isn't a priority list. The cards view
+ * shows the horizons as a quiet three-column strip with the note below; the
+ * list view puts the note first and the horizons in a plain list. Each
  * horizon name links to its section further down the page.
  */
 export function HorizonExplainer({ view }: { view: View }) {
@@ -20,7 +21,9 @@ export function HorizonExplainer({ view }: { view: View }) {
   return (
     <section
       aria-labelledby={headingId}
-      className="border-b border-border bg-surface px-4 py-12 sm:px-6"
+      className={`border-b border-border px-4 sm:px-6 ${
+        view === 'list' ? 'bg-surface py-12' : 'bg-surface-subtle py-8'
+      }`}
     >
       <div className="mx-auto max-w-content">
         <h2 id={headingId} className="text-2xl font-bold text-heading">
@@ -50,30 +53,25 @@ export function HorizonExplainer({ view }: { view: View }) {
           </div>
         ) : (
           <>
-            <dl className="mt-6 grid gap-4 md:grid-cols-3">
+            <dl className="mt-4 grid gap-x-8 gap-y-3 md:grid-cols-3">
               {HORIZONS.map((horizon) => (
-                <div
-                  key={horizon.id}
-                  className="group relative rounded-card border border-border bg-surface-subtle p-5 transition-shadow hover:shadow-md card-focus-ring"
-                >
-                  <dt className="text-lg font-bold text-heading">
+                <div key={horizon.id}>
+                  <dt className="font-bold">
                     <a
                       href={`#${placementHeadingId(horizon.id)}`}
-                      className="after:absolute after:inset-0 after:content-[''] focus-visible:shadow-none focus-visible:outline-hidden group-hover:underline"
+                      className={horizonLink}
                     >
                       <T value={horizon.label} />
                     </a>
                   </dt>
-                  <dd className="mt-2 leading-relaxed text-ink-900">
+                  <dd className="mt-1 leading-relaxed text-ink-700">
                     <T value={horizon.definition} />
                   </dd>
                 </div>
               ))}
             </dl>
 
-            <p className="mt-6 max-w-3xl leading-relaxed text-ink-700">
-              {note}
-            </p>
+            <p className="mt-4 max-w-3xl text-sm text-ink-700">{note}</p>
           </>
         )}
       </div>

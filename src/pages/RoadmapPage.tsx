@@ -8,7 +8,7 @@ import {
   FilterAnnouncer,
   FilterBanner,
 } from '../components/RoadmapFilterStatus';
-import { VisionAndValue } from '../components/VisionAndValue';
+import { OurValue } from '../components/OurValue';
 import { HorizonExplainer } from '../components/HorizonExplainer';
 import { RoadmapSection } from '../components/RoadmapSection';
 import { RoadmapHorizons } from '../components/RoadmapHorizons';
@@ -59,7 +59,7 @@ export function RoadmapPage({
       >
         <FilterBanner roadmap={roadmap} filter={filter} />
       </RoadmapIntro>
-      <VisionAndValue meta={roadmap.meta} />
+      <OurValue meta={roadmap.meta} />
       <HorizonExplainer view={view} />
 
       {view === 'list' ? (

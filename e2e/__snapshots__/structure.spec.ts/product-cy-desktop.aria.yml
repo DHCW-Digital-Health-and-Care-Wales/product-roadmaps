@@ -23,11 +23,11 @@
     - link "← Pob trywydd":
       - /url: /product-roadmaps/cy/
     - group: Hidlo yn ôl sefydliad
-    - text: "Beta Diweddarwyd ddiwethaf:"
-    - time: /1 Hydref \d+/
     - 'heading "Single Record: Product A roadmap" [level=1]'
-    - paragraph: This roadmap shows what we're working on now, what's coming next and the direction we expect to take later.
-  - region "Ein gweledigaeth":
+    - paragraph:
+      - text: "Beta Diweddarwyd ddiwethaf:"
+      - time: /1 Hydref \d+/
+      - text: "Arweinydd cynnyrch: Alex Jones"
     - heading "Ein gweledigaeth" [level=2]
     - paragraph: A short, ambitious statement of where Product A is heading. Leave blank to hide the "Our vision" section.
   - region "Ein gwerth":

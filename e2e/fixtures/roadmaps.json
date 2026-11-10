@@ -25,7 +25,8 @@
       "serviceDescription": {
         "en": "What Product A does and who it helps. Also used as the summary on the landing page card.",
         "cy": ""
-      }
+      },
+      "productLead": "Alex Jones"
     },
     "items": {
       "now": [
@@ -273,7 +274,8 @@
       "serviceDescription": {
         "en": "What Product B does and who it helps. This roadmap has no vision, so that section is hidden.",
         "cy": "Beth mae Cynnyrch B yn ei wneud a phwy mae’n ei helpu. Nid oes gan y trywydd hwn weledigaeth, felly mae’r adran honno wedi’i chuddio."
-      }
+      },
+      "productLead": ""
     },
     "items": {
       "now": [

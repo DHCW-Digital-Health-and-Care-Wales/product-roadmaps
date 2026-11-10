@@ -71,7 +71,7 @@ export function RoadmapPage({
 
           <div
             id="roadmap"
-            className="scroll-mt-28 bg-surface px-4 py-8 sm:px-6"
+            className="scroll-mt-28 bg-surface px-4 py-12 sm:px-6"
           >
             <div className="mx-auto max-w-content">
               <RoadmapHorizons roadmap={roadmap} filter={filter} />

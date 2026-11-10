@@ -23,7 +23,7 @@ export function RoadmapHorizons({
   const lastIndex = HORIZONS.length - 1;
 
   return (
-    <section aria-labelledby={headingId} className="py-10">
+    <section aria-labelledby={headingId}>
       <h2 id={headingId} className="text-2xl font-bold text-heading">
         <T value={ROADMAP_HEADING} />
       </h2>

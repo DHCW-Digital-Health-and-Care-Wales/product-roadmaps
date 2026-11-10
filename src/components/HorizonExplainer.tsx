@@ -71,7 +71,9 @@ export function HorizonExplainer({ view }: { view: View }) {
               ))}
             </dl>
 
-            <p className="mt-4 max-w-3xl text-sm text-ink-700">{note}</p>
+            <p className="mt-4 max-w-3xl leading-relaxed text-ink-700">
+              {note}
+            </p>
           </>
         )}
       </div>

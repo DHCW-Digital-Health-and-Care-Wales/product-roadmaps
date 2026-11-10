@@ -493,7 +493,6 @@ export function parseRoadmapList(
           colour: safeColour(sheet.name, cells.colour ?? '', line),
           vision: readText(ctx, 'Vision'),
           serviceDescription: readText(ctx, 'Service description'),
-          // Read directly, not with readText(), as a name has no Welsh column.
           productLead: cells.productlead ?? '',
         },
       };

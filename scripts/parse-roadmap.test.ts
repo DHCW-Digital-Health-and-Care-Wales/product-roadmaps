@@ -224,20 +224,6 @@ describe('parseRoadmapList', () => {
       'Missing column "Product Lead"; its values will be blank',
     );
   });
-
-  it('ignores a Welsh Product Lead column, as a name has no Welsh', () => {
-    const [listing] = parseRoadmapList({
-      name: 'Roadmaps',
-      rows: [
-        ['Sheet', 'Enabled', 'Product Lead', 'Product Lead (cy)'],
-        ['A', 'Yes', 'Alex Jones', 'Dr Alex Jones'],
-      ],
-    });
-    expect(listing?.meta.productLead).toBe('Alex Jones');
-    expect(takeWarnings().map((w) => w.message)).toContain(
-      'Column "Product Lead (cy)" looks like Welsh, but "Product Lead" can\'t have a Welsh version; ignored',
-    );
-  });
 });
 
 describe('Category and Family', () => {

@@ -16,8 +16,8 @@ import { T } from './T';
  * caption inside the h1, then the status label, "last updated" date and
  * product lead, each shown only if set: stacked on small screens, on one line
  * from `sm`. The roadmap's "Our vision" follows, or the generic intro if it
- * has none, then `children`. The background is tinted with the roadmap's
- * colour, which is decorative and never used for text.
+ * has none, then `children`. A 4px edge in the roadmap's colour closes the
+ * section; the colour is decorative and never used for text.
  */
 export function RoadmapIntro({
   meta,
@@ -44,11 +44,8 @@ export function RoadmapIntro({
       // (32px from sm), less than the landing page's pt-28/pt-32 so the
       // roadmap's title comes sooner. index.css moves <main> down further while
       // the mobile filter strip shows.
-      className="scroll-mt-28 border-b-4 px-4 pb-8 pt-24 sm:px-6 sm:pb-10 sm:pt-30"
-      style={{
-        backgroundColor: `color-mix(in srgb, ${meta.colour} 7%, var(--color-surface-subtle))`,
-        borderBottomColor: meta.colour,
-      }}
+      className="scroll-mt-28 border-b-4 bg-surface-subtle px-4 pb-8 pt-24 sm:px-6 sm:pb-10 sm:pt-30"
+      style={{ borderBottomColor: meta.colour }}
     >
       {/* From xl the filter gets its own column, so opening it doesn't push the
           title down. The column has a fixed width so the text doesn't reflow,

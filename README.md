@@ -94,7 +94,7 @@ for bootstrapping a spreadsheet.
 | `Family`              | Optional product family, for example `Single Record`. Shown with a swatch in the roadmap's colour above the title on the landing page card and the roadmap page. The roadmap page's heading and title read `Single Record: Nursing Healthcare`. |
 | `Status label`        | Badge under the title, for example `Beta`.                       |
 | `Last updated`        | `YYYY-MM-DD` or `DD/MM/YYYY`.                                    |
-| `Colour`              | Hex highlight colour, for example `#325083`. Used on the landing page card and to tint the roadmap page's intro. |
+| `Colour`              | Hex highlight colour, for example `#325083`. Used on the landing page card and as the edge under the roadmap page's intro. |
 | `Vision`              | "Our vision", at the top of the roadmap page under the title. Leave blank to show a general intro sentence instead. |
 | `Service description` | "Our value" section and landing page summary. Blank hides it.    |
 | `Product Lead`        | "Product lead" under the title on the roadmap page. Blank hides it. |

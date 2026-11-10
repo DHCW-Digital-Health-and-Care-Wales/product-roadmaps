@@ -145,6 +145,11 @@ export interface RoadmapMeta {
   colour: string;
   vision: Localised;
   serviceDescription: Localised;
+  /**
+   * Name shown as "Product lead" under the roadmap page's title; '' hides it.
+   * A person's name, so it is the same in both languages.
+   */
+  productLead: string;
 }
 
 export interface Roadmap {

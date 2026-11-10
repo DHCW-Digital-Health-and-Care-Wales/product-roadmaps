@@ -151,6 +151,7 @@ export const UI = {
 
   allRoadmaps: { en: 'All roadmaps', cy: 'Pob trywydd' },
   lastUpdated: { en: 'Last updated', cy: 'Diweddarwyd ddiwethaf' },
+  productLead: { en: 'Product lead', cy: 'Arweinydd cynnyrch' },
   vision: { en: 'Our vision', cy: 'Ein gweledigaeth' },
   value: { en: 'Our value', cy: 'Ein gwerth' },
   horizonsHeading: { en: 'Now, Next and Later', cy: 'Nawr, Nesaf a Hwyrach' },

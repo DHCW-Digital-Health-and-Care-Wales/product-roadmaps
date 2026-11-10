@@ -17,8 +17,9 @@ const NAV_LINKS: { href: string; label: Localised }[] = [
 /**
  * Fixed brand header: NHS Wales Blue bar with the DHCW logo (linking to all
  * roadmaps), in-page navigation on product pages, the organisation filter
- * while one is set, and the language toggle. Collapses to a menu button on
- * narrow screens, with the filter on a line of its own.
+ * while one is set, and the language toggle. Below `lg` the section links
+ * move into a menu button, so the filter chip and language toggle fit on one
+ * line; below `sm` the filter goes on a line of its own.
  */
 export function SiteHeader({
   filter,
@@ -50,7 +51,7 @@ export function SiteHeader({
 
         <div className="flex items-center gap-3">
           {navLinks.length > 0 ? (
-            <nav aria-label={tr(UI.sectionsNav)} className="hidden md:block">
+            <nav aria-label={tr(UI.sectionsNav)} className="hidden lg:block">
               <ul className="flex items-center gap-2">
                 {navLinks.map((link) => (
                   <li key={link.href}>
@@ -75,7 +76,7 @@ export function SiteHeader({
               onClick={() => setMobileMenuOpen((open) => !open)}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-nav"
-              className="rounded-sm p-2 transition-colors hover:bg-white/15 md:hidden"
+              className="rounded-sm p-2 transition-colors hover:bg-white/15 lg:hidden"
             >
               <span className="sr-only">
                 {tr(mobileMenuOpen ? UI.closeMenu : UI.openMenu)}
@@ -96,7 +97,7 @@ export function SiteHeader({
         <nav
           id="mobile-nav"
           aria-label={tr(UI.sectionsNav)}
-          className="border-t border-white/20 px-4 pb-4 md:hidden"
+          className="border-t border-white/20 px-4 pb-4 lg:hidden"
         >
           <ul className="flex flex-col gap-1 pt-2">
             {navLinks.map((link) => (

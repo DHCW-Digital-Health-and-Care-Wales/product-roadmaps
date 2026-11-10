@@ -29,10 +29,7 @@ export function RoadmapSection({
   const headingId = placementHeadingId(section.id);
 
   return (
-    <section
-      aria-labelledby={headingId}
-      className="border-b border-border bg-surface px-4 py-12 sm:px-6"
-    >
+    <section aria-labelledby={headingId} className="page-section bg-surface">
       <div className="mx-auto max-w-content">
         <div className="flex items-center gap-2">
           <h2 id={headingId} className="text-2xl font-bold text-heading">
@@ -48,7 +45,7 @@ export function RoadmapSection({
         </p>
 
         {items.length > 0 ? (
-          <div className="mt-6 grid gap-4 md:grid-cols-3">
+          <div className="card-grid mt-6">
             {items.map(({ item, index }) => (
               // The place in the unfiltered list, so a card keeps its element
               // as the filter changes.

@@ -55,7 +55,7 @@
         - heading "Product B roadmap" [level=3]:
           - link "Product B roadmap":
             - /url: /product-roadmaps/en/productb/
-        - paragraph: What Product B does and who it helps. This roadmap has no vision, so that section is hidden.
+        - paragraph: What Product B does and who it helps. This roadmap has no vision, so a general intro sentence shows instead.
         - term: Now
         - definition: "2"
         - term: Next

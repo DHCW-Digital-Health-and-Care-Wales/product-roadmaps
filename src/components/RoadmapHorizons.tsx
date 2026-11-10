@@ -23,7 +23,7 @@ export function RoadmapHorizons({
   const lastIndex = HORIZONS.length - 1;
 
   return (
-    <section aria-labelledby={headingId} className="py-10">
+    <section aria-labelledby={headingId}>
       <h2 id={headingId} className="text-2xl font-bold text-heading">
         <T value={ROADMAP_HEADING} />
       </h2>
@@ -32,7 +32,7 @@ export function RoadmapHorizons({
         <T value={ROADMAP_DESCRIPTION} />
       </p>
 
-      <ol className="mt-8 space-y-8">
+      <ol className="mt-8 space-y-3">
         {HORIZONS.map((horizon, index) => (
           <li key={horizon.id}>
             <HorizonPhase
@@ -45,7 +45,7 @@ export function RoadmapHorizons({
             {index < lastIndex ? (
               <div
                 aria-hidden="true"
-                className="flex flex-col items-center pt-8 text-ink-300"
+                className="flex flex-col items-center pt-3 text-ink-300"
               >
                 <ChevronDown className="h-6 w-6" strokeWidth={2.5} />
               </div>

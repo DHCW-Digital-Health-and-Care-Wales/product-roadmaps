@@ -30,12 +30,21 @@ export function OrgFilterDisclosure({
   filter,
   organisations,
   defaultOpen = false,
+  align = 'start',
   className = '',
 }: {
   filter: OrgFilter;
   /** The organisations to offer, usually those with any work. */
   organisations: readonly OrganisationId[];
   defaultOpen?: boolean;
+  /**
+   * `end` puts the link and the panel against the right-hand edge, so the link
+   * stays above the panel's right edge when it opens. It is for a caller that
+   * floats something beside the link, as the roadmap intro floats its back
+   * link: the link becomes a block that sits beside the float, and the panel
+   * clears it to open underneath at full width.
+   */
+  align?: 'start' | 'end';
   className?: string;
 }) {
   const { tr } = useLanguage();
@@ -49,6 +58,7 @@ export function OrgFilterDisclosure({
     (o) => organisations.includes(o.id) || o.id === org,
   );
   if (!hasJs || options.length === 0) return null;
+  const end = align === 'end';
 
   return (
     <details
@@ -57,8 +67,12 @@ export function OrgFilterDisclosure({
       onToggle={(event) => setOpen(event.currentTarget.open)}
       className={`group ${className}`}
     >
-      <summary className="inline-flex cursor-pointer list-none items-center gap-1.5 rounded-sm text-sm font-medium text-action [&::-webkit-details-marker]:hidden">
-        <ListFilter aria-hidden="true" className="h-4 w-4 shrink-0" />
+      {/* Icons sit on the first line of text (mt-0.5 centres a 16px icon in
+          the 20px line), so they stay beside it when the label wraps. */}
+      <summary
+        className={`${end ? 'ml-auto flex w-fit' : 'inline-flex'} cursor-pointer list-none items-start gap-1.5 rounded-sm text-sm font-medium text-action [&::-webkit-details-marker]:hidden`}
+      >
+        <ListFilter aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0" />
         <span className={linkText}>
           <T
             value={
@@ -72,11 +86,13 @@ export function OrgFilterDisclosure({
         </span>
         <ChevronDown
           aria-hidden="true"
-          className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180"
+          className="mt-0.5 h-4 w-4 shrink-0 transition-transform group-open:rotate-180"
         />
       </summary>
 
-      <div className="mt-3 max-w-xl rounded-card border border-border bg-surface p-4">
+      <div
+        className={`mt-3 max-w-xl rounded-card border border-border bg-surface p-4 ${end ? 'clear-both ml-auto' : ''}`}
+      >
         <label
           htmlFor={ORG_SELECT_ID}
           className="block font-medium text-heading"

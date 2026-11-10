@@ -52,6 +52,7 @@ const roadmap = z.strictObject({
     colour: z.string().regex(/^#[0-9a-f]{6}$/i, 'Invalid hex colour'),
     vision: localised,
     serviceDescription: localised,
+    productLead: z.string(),
   }),
   items: z.strictObject(
     Object.fromEntries(PLACEMENT_IDS.map((id) => [id, items])) as Record<

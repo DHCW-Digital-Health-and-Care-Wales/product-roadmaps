@@ -42,7 +42,7 @@ export function FilterChip({ org }: { org: OrganisationId }) {
         <button
           type="button"
           onClick={openFilter}
-          className="inline-flex items-center gap-1.5 rounded-l-full py-1 pl-3 pr-2 font-medium hover:bg-white/15"
+          className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-l-full py-1 pl-3 pr-2 font-medium hover:bg-white/15"
         >
           <ListFilter aria-hidden="true" className="h-4 w-4 shrink-0" />
           <span className="sr-only">

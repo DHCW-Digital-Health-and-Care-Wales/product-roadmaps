@@ -8,7 +8,7 @@ import {
   FilterAnnouncer,
   FilterBanner,
 } from '../components/RoadmapFilterStatus';
-import { VisionAndValue } from '../components/VisionAndValue';
+import { OurValue } from '../components/OurValue';
 import { HorizonExplainer } from '../components/HorizonExplainer';
 import { RoadmapSection } from '../components/RoadmapSection';
 import { RoadmapHorizons } from '../components/RoadmapHorizons';
@@ -53,13 +53,14 @@ export function RoadmapPage({
           <OrgFilterDisclosure
             filter={filter}
             organisations={organisations}
+            align="end"
             className="min-w-0 max-w-full"
           />
         }
       >
         <FilterBanner roadmap={roadmap} filter={filter} />
       </RoadmapIntro>
-      <VisionAndValue meta={roadmap.meta} />
+      <OurValue meta={roadmap.meta} />
       <HorizonExplainer view={view} />
 
       {view === 'list' ? (
@@ -68,10 +69,7 @@ export function RoadmapPage({
         <>
           {sections('before')}
 
-          <div
-            id="roadmap"
-            className="scroll-mt-28 bg-surface px-4 py-8 sm:px-6"
-          >
+          <div id="roadmap" className="page-section scroll-mt-28 bg-surface">
             <div className="mx-auto max-w-content">
               <RoadmapHorizons roadmap={roadmap} filter={filter} />
             </div>

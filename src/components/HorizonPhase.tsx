@@ -47,7 +47,7 @@ export function HorizonPhase({
       </h3>
       <div className="p-3 sm:p-4">
         {items.length > 0 ? (
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="card-grid">
             {items.map(({ item, index }) => (
               // The place in the unfiltered list, so a card keeps its element
               // as the filter changes.

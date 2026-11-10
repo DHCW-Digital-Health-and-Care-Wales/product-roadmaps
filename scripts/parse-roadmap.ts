@@ -54,6 +54,7 @@ const LIST_COLUMNS = {
     'Colour',
     'Vision',
     'Service description',
+    'Product Lead',
   ],
   welsh: ['Title', 'Family', 'Status label', 'Vision', 'Service description'],
 };
@@ -492,6 +493,7 @@ export function parseRoadmapList(
           colour: safeColour(sheet.name, cells.colour ?? '', line),
           vision: readText(ctx, 'Vision'),
           serviceDescription: readText(ctx, 'Service description'),
+          productLead: cells.productlead ?? '',
         },
       };
     });

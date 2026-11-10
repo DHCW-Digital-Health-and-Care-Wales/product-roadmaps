@@ -58,6 +58,11 @@
   }
 }
 
+@utility page-section {
+  /* A full-width section of a roadmap page, so they all share one rhythm. */
+  @apply border-b border-border px-4 py-8 sm:px-6 sm:py-10;
+}
+
 @layer base {
   body {
     @apply bg-surface text-ink-900 font-sans antialiased;

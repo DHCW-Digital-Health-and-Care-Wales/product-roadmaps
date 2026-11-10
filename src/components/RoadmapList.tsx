@@ -48,10 +48,7 @@ export function RoadmapList({
   };
 
   return (
-    <div
-      id="roadmap"
-      className="scroll-mt-28 border-b border-border bg-surface px-4 py-8 sm:px-6 sm:py-10"
-    >
+    <div id="roadmap" className="page-section scroll-mt-28 bg-surface">
       <div className="mx-auto max-w-content">
         <div className="max-w-3xl">
           <nav aria-label={tr(UI.atAGlance)}>

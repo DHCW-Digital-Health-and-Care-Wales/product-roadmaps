@@ -69,10 +69,7 @@ export function RoadmapPage({
         <>
           {sections('before')}
 
-          <div
-            id="roadmap"
-            className="scroll-mt-28 border-b border-border bg-surface px-4 py-8 sm:px-6 sm:py-10"
-          >
+          <div id="roadmap" className="page-section scroll-mt-28 bg-surface">
             <div className="mx-auto max-w-content">
               <RoadmapHorizons roadmap={roadmap} filter={filter} />
             </div>

@@ -24,10 +24,7 @@ const linkText = 'underline underline-offset-4 hover:decoration-2';
  * "Filter by organisation": a quiet disclosure with a dropdown of the
  * organisations in `organisations`, a tick box for all-Wales work, and a
  * button to clear the filter. Used on the landing page and on roadmaps. Needs
- * JavaScript, so it is left out of the prerender. `align="end"` puts the link
- * and the panel against the right-hand edge, so the link stays above the
- * panel's right edge when it opens, and the panel clears anything floated
- * beside the link.
+ * JavaScript, so it is left out of the prerender.
  */
 export function OrgFilterDisclosure({
   filter,
@@ -40,6 +37,13 @@ export function OrgFilterDisclosure({
   /** The organisations to offer, usually those with any work. */
   organisations: readonly OrganisationId[];
   defaultOpen?: boolean;
+  /**
+   * `end` puts the link and the panel against the right-hand edge, so the link
+   * stays above the panel's right edge when it opens. It is for a caller that
+   * floats something beside the link, as the roadmap intro floats its back
+   * link: the link becomes a block that sits beside the float, and the panel
+   * clears it to open underneath at full width.
+   */
   align?: 'start' | 'end';
   className?: string;
 }) {

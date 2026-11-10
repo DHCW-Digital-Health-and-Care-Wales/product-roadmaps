@@ -14,7 +14,7 @@ export function OurValue({ meta }: { meta: RoadmapMeta }) {
     <section
       id="service-description"
       aria-labelledby="service-description-heading"
-      className="border-b border-border bg-surface px-4 py-8 sm:px-6 sm:py-10"
+      className="page-section bg-surface"
     >
       <div className="mx-auto max-w-content">
         <h2

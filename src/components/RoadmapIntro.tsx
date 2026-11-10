@@ -12,12 +12,12 @@ import { T } from './T';
  * Title section, rendered as the page's primary heading. A link back to all
  * roadmaps sits on the left of the top row and `controls` (the organisation
  * filter) on the right, in a column of its own from `xl`; the back link keeps
- * the organisation filter. Below
- * them come the title, with the family as a caption inside the h1, then one
- * line of status label, "last updated" date and product lead, each shown only
- * if set. The roadmap's "Our vision" follows, or the generic intro if it has
- * none, then `children`. The background is tinted with the roadmap's colour,
- * which is decorative and never used for text.
+ * the organisation filter. Below them come the title, with the family as a
+ * caption inside the h1, then the status label, "last updated" date and
+ * product lead, each shown only if set: stacked on small screens, on one line
+ * from `sm`. The roadmap's "Our vision" follows, or the generic intro if it
+ * has none, then `children`. The background is tinted with the roadmap's
+ * colour, which is decorative and never used for text.
  */
 export function RoadmapIntro({
   meta,
@@ -40,8 +40,10 @@ export function RoadmapIntro({
     <section
       id="about"
       aria-labelledby="roadmap-title"
-      // Top padding clears the fixed SiteHeader (72px, 88px from sm); index.css
-      // moves <main> down further while the mobile filter strip shows.
+      // Top padding clears the fixed SiteHeader (72px, 88px from sm) by 24px
+      // (32px from sm), less than the landing page's pt-28/pt-32 so the
+      // roadmap's title comes sooner. index.css moves <main> down further while
+      // the mobile filter strip shows.
       className="scroll-mt-28 border-b-4 px-4 pb-8 pt-24 sm:px-6 sm:pb-10 sm:pt-30"
       style={{
         backgroundColor: `color-mix(in srgb, ${meta.colour} 7%, var(--color-surface-subtle))`,
@@ -108,6 +110,8 @@ export function RoadmapIntro({
               {meta.productLead ? (
                 <span className="relative">
                   {meta.lastUpdated ? (
+                    // -left-3 is half the parent's gap-x-6, which centres the
+                    // dot in the gap; change the two together.
                     <span
                       aria-hidden="true"
                       className="absolute -left-3 hidden -translate-x-1/2 text-ink-500 sm:inline"

@@ -41,7 +41,7 @@ describe('RoadmapIntro', () => {
     );
   });
 
-  it('shows the status, date and product lead on one line', () => {
+  it('shows the status, date and product lead, with a hidden dot before the lead', () => {
     renderIntro({
       statusLabel: loc('Beta'),
       lastUpdated: '2026-10-01',

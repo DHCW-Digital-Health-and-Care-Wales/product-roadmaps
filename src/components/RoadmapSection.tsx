@@ -29,10 +29,7 @@ export function RoadmapSection({
   const headingId = placementHeadingId(section.id);
 
   return (
-    <section
-      aria-labelledby={headingId}
-      className="border-b border-border bg-surface px-4 py-8 sm:px-6 sm:py-10"
-    >
+    <section aria-labelledby={headingId} className="page-section bg-surface">
       <div className="mx-auto max-w-content">
         <div className="flex items-center gap-2">
           <h2 id={headingId} className="text-2xl font-bold text-heading">

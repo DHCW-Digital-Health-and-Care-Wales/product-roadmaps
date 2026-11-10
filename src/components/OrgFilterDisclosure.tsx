@@ -67,10 +67,12 @@ export function OrgFilterDisclosure({
       onToggle={(event) => setOpen(event.currentTarget.open)}
       className={`group ${className}`}
     >
+      {/* Icons sit on the first line of text (mt-0.5 centres a 16px icon in
+          the 20px line), so they stay beside it when the label wraps. */}
       <summary
-        className={`${end ? 'ml-auto flex w-fit' : 'inline-flex'} cursor-pointer list-none items-center gap-1.5 rounded-sm text-sm font-medium text-action [&::-webkit-details-marker]:hidden`}
+        className={`${end ? 'ml-auto flex w-fit' : 'inline-flex'} cursor-pointer list-none items-start gap-1.5 rounded-sm text-sm font-medium text-action [&::-webkit-details-marker]:hidden`}
       >
-        <ListFilter aria-hidden="true" className="h-4 w-4 shrink-0" />
+        <ListFilter aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0" />
         <span className={linkText}>
           <T
             value={
@@ -84,7 +86,7 @@ export function OrgFilterDisclosure({
         </span>
         <ChevronDown
           aria-hidden="true"
-          className="h-4 w-4 shrink-0 transition-transform group-open:rotate-180"
+          className="mt-0.5 h-4 w-4 shrink-0 transition-transform group-open:rotate-180"
         />
       </summary>
 

@@ -29,7 +29,7 @@
       - time: /1 October \d+/
       - text: "Product lead: Alex Jones"
     - heading "Our vision" [level=2]
-    - paragraph: A short, ambitious statement of where Product A is heading. Leave blank to hide the "Our vision" section.
+    - paragraph: A short, ambitious statement of where Product A is heading. Leave blank to show a general intro sentence instead.
   - region "Our value":
     - heading "Our value" [level=2]
     - paragraph: What Product A does and who it helps. Also used as the summary on the landing page card.

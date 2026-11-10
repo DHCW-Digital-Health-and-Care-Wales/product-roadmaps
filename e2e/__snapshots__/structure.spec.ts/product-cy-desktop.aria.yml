@@ -29,7 +29,7 @@
       - time: /1 Hydref \d+/
       - text: "Arweinydd cynnyrch: Alex Jones"
     - heading "Ein gweledigaeth" [level=2]
-    - paragraph: A short, ambitious statement of where Product A is heading. Leave blank to hide the "Our vision" section.
+    - paragraph: A short, ambitious statement of where Product A is heading. Leave blank to show a general intro sentence instead.
   - region "Ein gwerth":
     - heading "Ein gwerth" [level=2]
     - paragraph: What Product A does and who it helps. Also used as the summary on the landing page card.

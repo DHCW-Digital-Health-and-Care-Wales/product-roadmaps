@@ -19,7 +19,7 @@
       "lastUpdated": "2026-10-01",
       "colour": "#325083",
       "vision": {
-        "en": "A short, ambitious statement of where Product A is heading. Leave blank to hide the \"Our vision\" section.",
+        "en": "A short, ambitious statement of where Product A is heading. Leave blank to show a general intro sentence instead.",
         "cy": ""
       },
       "serviceDescription": {
@@ -272,8 +272,8 @@
         "cy": ""
       },
       "serviceDescription": {
-        "en": "What Product B does and who it helps. This roadmap has no vision, so that section is hidden.",
-        "cy": "Beth mae Cynnyrch B yn ei wneud a phwy mae’n ei helpu. Nid oes gan y trywydd hwn weledigaeth, felly mae’r adran honno wedi’i chuddio."
+        "en": "What Product B does and who it helps. This roadmap has no vision, so a general intro sentence shows instead.",
+        "cy": "Beth mae Cynnyrch B yn ei wneud a phwy mae’n ei helpu. Nid oes gan y trywydd hwn weledigaeth, felly mae brawddeg gyflwyno gyffredinol yn ymddangos yn lle hynny."
       },
       "productLead": ""
     },

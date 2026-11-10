@@ -52,18 +52,19 @@ export function RoadmapIntro({
           title down. The column has a fixed width so the text doesn't reflow,
           and the 1fr row takes any extra height when the panel is taller. */}
       <div className="mx-auto max-w-content xl:grid xl:grid-cols-[minmax(0,1fr)_22rem] xl:grid-rows-[auto_1fr] xl:gap-x-12">
-        <div className="flex flex-wrap items-start justify-between gap-x-8 gap-y-3 xl:contents">
+        {/* Below xl the back link floats left, so the filter link sits beside
+            it and its panel opens underneath at full width without moving
+            the link. */}
+        <div className="flow-root xl:contents">
           <a
             href={back}
             onClick={onNavigate(back)}
-            className="text-sm font-medium text-action underline underline-offset-4 hover:no-underline xl:col-start-1 xl:row-start-1 xl:justify-self-start"
+            className="float-left mr-8 text-sm font-medium text-action underline underline-offset-4 hover:no-underline xl:col-start-1 xl:row-start-1 xl:justify-self-start"
           >
             &larr; <T value={UI.allRoadmaps} />
           </a>
           {controls ? (
-            // ml-auto keeps the filter on the right when it wraps onto its own
-            // line; from xl it fills its column instead.
-            <div className="ml-auto min-w-0 max-w-full xl:col-start-2 xl:row-span-2 xl:row-start-1 xl:ml-0">
+            <div className="min-w-0 xl:col-start-2 xl:row-span-2 xl:row-start-1">
               {controls}
             </div>
           ) : null}
@@ -87,9 +88,10 @@ export function RoadmapIntro({
           </h1>
 
           {hasMeta ? (
-            // overflow-hidden clips the separator when the product lead wraps to
+            // Stacked on small screens. From sm it's one line, where
+            // overflow-hidden clips the separator if the product lead wraps to
             // the start of a line, so it only shows between items.
-            <p className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2 overflow-hidden text-sm text-ink-700">
+            <p className="mt-3 flex flex-col items-start gap-x-6 gap-y-2 overflow-hidden text-sm text-ink-700 sm:flex-row sm:flex-wrap sm:items-center">
               {meta.statusLabel.en ? (
                 <span className="inline-flex items-center rounded-full bg-heading px-3 py-1 font-medium text-white">
                   <T value={meta.statusLabel} />
@@ -108,7 +110,7 @@ export function RoadmapIntro({
                   {meta.lastUpdated ? (
                     <span
                       aria-hidden="true"
-                      className="absolute -left-3 -translate-x-1/2 text-ink-500"
+                      className="absolute -left-3 hidden -translate-x-1/2 text-ink-500 sm:inline"
                     >
                       ·
                     </span>

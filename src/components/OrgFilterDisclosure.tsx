@@ -26,7 +26,8 @@ const linkText = 'underline underline-offset-4 hover:decoration-2';
  * button to clear the filter. Used on the landing page and on roadmaps. Needs
  * JavaScript, so it is left out of the prerender. `align="end"` puts the link
  * and the panel against the right-hand edge, so the link stays above the
- * panel's right edge when it opens.
+ * panel's right edge when it opens, and the panel clears anything floated
+ * beside the link.
  */
 export function OrgFilterDisclosure({
   filter,
@@ -84,7 +85,7 @@ export function OrgFilterDisclosure({
       </summary>
 
       <div
-        className={`mt-3 max-w-xl rounded-card border border-border bg-surface p-4 ${end ? 'ml-auto' : ''}`}
+        className={`mt-3 max-w-xl rounded-card border border-border bg-surface p-4 ${end ? 'clear-both ml-auto' : ''}`}
       >
         <label
           htmlFor={ORG_SELECT_ID}

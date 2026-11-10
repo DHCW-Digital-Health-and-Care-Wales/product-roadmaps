@@ -61,7 +61,9 @@ export function RoadmapIntro({
             &larr; <T value={UI.allRoadmaps} />
           </a>
           {controls ? (
-            <div className="min-w-0 max-w-full xl:col-start-2 xl:row-span-2 xl:row-start-1">
+            // ml-auto keeps the filter on the right when it wraps onto its own
+            // line; from xl it fills its column instead.
+            <div className="ml-auto min-w-0 max-w-full xl:col-start-2 xl:row-span-2 xl:row-start-1 xl:ml-0">
               {controls}
             </div>
           ) : null}

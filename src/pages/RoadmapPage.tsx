@@ -53,6 +53,7 @@ export function RoadmapPage({
           <OrgFilterDisclosure
             filter={filter}
             organisations={organisations}
+            align="end"
             className="min-w-0 max-w-full"
           />
         }

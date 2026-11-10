@@ -14,7 +14,7 @@ export function OurValue({ meta }: { meta: RoadmapMeta }) {
     <section
       id="service-description"
       aria-labelledby="service-description-heading"
-      className="border-b border-border bg-surface px-4 py-8 sm:px-6"
+      className="border-b border-border bg-surface px-4 py-8 sm:px-6 sm:py-10"
     >
       <div className="mx-auto max-w-content">
         <h2
@@ -23,7 +23,7 @@ export function OurValue({ meta }: { meta: RoadmapMeta }) {
         >
           <T value={UI.value} />
         </h2>
-        <p className="mt-3 max-w-3xl whitespace-pre-line text-lg leading-relaxed text-ink-900">
+        <p className="mt-4 max-w-3xl whitespace-pre-line text-lg leading-relaxed text-ink-900">
           <T value={meta.serviceDescription} />
         </p>
       </div>

@@ -126,7 +126,7 @@ export function RoadmapIntro({
               <h2 className="text-2xl font-bold text-heading">
                 <T value={UI.vision} />
               </h2>
-              <p className="mt-3 whitespace-pre-line text-lg leading-relaxed text-ink-900">
+              <p className="mt-4 whitespace-pre-line text-lg leading-relaxed text-ink-900">
                 <T value={meta.vision} />
               </p>
             </div>

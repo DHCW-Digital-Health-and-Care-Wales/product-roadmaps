@@ -21,8 +21,8 @@ export function HorizonExplainer({ view }: { view: View }) {
   return (
     <section
       aria-labelledby={headingId}
-      className={`border-b border-border px-4 sm:px-6 ${
-        view === 'list' ? 'bg-surface py-12' : 'bg-surface-subtle py-8'
+      className={`border-b border-border px-4 py-8 sm:px-6 sm:py-10 ${
+        view === 'list' ? 'bg-surface' : 'bg-surface-subtle'
       }`}
     >
       <div className="mx-auto max-w-content">

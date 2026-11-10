@@ -32,7 +32,7 @@ export function RoadmapHorizons({
         <T value={ROADMAP_DESCRIPTION} />
       </p>
 
-      <ol className="mt-8 space-y-8">
+      <ol className="mt-8 space-y-3">
         {HORIZONS.map((horizon, index) => (
           <li key={horizon.id}>
             <HorizonPhase
@@ -45,7 +45,7 @@ export function RoadmapHorizons({
             {index < lastIndex ? (
               <div
                 aria-hidden="true"
-                className="flex flex-col items-center pt-8 text-ink-300"
+                className="flex flex-col items-center pt-3 text-ink-300"
               >
                 <ChevronDown className="h-6 w-6" strokeWidth={2.5} />
               </div>

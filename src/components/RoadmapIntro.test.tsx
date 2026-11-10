@@ -95,15 +95,20 @@ describe('RoadmapIntro', () => {
     expect(screen.getByText(ROADMAP_INTRO.en)).toBeTruthy();
   });
 
-  it('puts the controls in the top row and the children after the vision', () => {
+  it('keeps the back link, controls, title, vision and children in that order', () => {
     renderIntro({ vision: loc('Where we are heading') });
-    const back = screen.getByRole('link', { name: /All roadmaps/ });
-    const filter = screen.getByRole('button', { name: 'Filter' });
-    expect(filter.parentElement).toBe(back.parentElement);
-    const vision = screen.getByText('Where we are heading');
-    expect(
-      vision.compareDocumentPosition(screen.getByText('Banner')) &
-        Node.DOCUMENT_POSITION_FOLLOWING,
-    ).toBeTruthy();
+    const inOrder = [
+      screen.getByRole('link', { name: /All roadmaps/ }),
+      screen.getByRole('button', { name: 'Filter' }),
+      screen.getByRole('heading', { level: 1 }),
+      screen.getByText('Where we are heading'),
+      screen.getByText('Banner'),
+    ];
+    inOrder.slice(1).forEach((element, index) => {
+      expect(
+        inOrder[index].compareDocumentPosition(element) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+    });
   });
 });

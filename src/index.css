@@ -63,6 +63,12 @@
   @apply border-b border-border px-4 py-8 sm:px-6 sm:py-10;
 }
 
+@utility card-grid {
+  /* Roadmap cards, in the Now/Next/Later phases and the other sections, so
+     they always show the same number of columns. */
+  @apply grid gap-4 sm:grid-cols-2 xl:grid-cols-3;
+}
+
 @layer base {
   body {
     @apply bg-surface text-ink-900 font-sans antialiased;

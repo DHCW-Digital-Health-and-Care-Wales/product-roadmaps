@@ -45,7 +45,7 @@ export function RoadmapSection({
         </p>
 
         {items.length > 0 ? (
-          <div className="mt-6 grid gap-4 md:grid-cols-3">
+          <div className="card-grid mt-6">
             {items.map(({ item, index }) => (
               // The place in the unfiltered list, so a card keeps its element
               // as the filter changes.

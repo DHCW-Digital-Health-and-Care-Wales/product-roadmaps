@@ -622,6 +622,34 @@ test.describe('mobile menu', () => {
   });
 });
 
+test.describe('short screens, such as 400% zoom', () => {
+  test('the header scrolls away and Back to top shrinks to its icon', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 320, height: 256 });
+    // With the filter strip, whose taller-header offsets this overrides.
+    await page.goto(`en/${first.slug}/?org=cavuhb`);
+    const roadmapTop = await page.evaluate(() => {
+      const roadmap = document.getElementById('roadmap')!;
+      roadmap.scrollIntoView({ behavior: 'instant' });
+      return roadmap.getBoundingClientRect().top;
+    });
+    expect(roadmapTop).toBeCloseTo(16, 0);
+    expect(
+      await page
+        .locator('header')
+        .evaluate((el) => el.getBoundingClientRect().bottom),
+    ).toBeLessThanOrEqual(0);
+
+    const backToTop = page.getByRole('link', { name: 'Back to top' });
+    await expect(backToTop).toBeVisible();
+    expect((await backToTop.boundingBox())!.width).toBeLessThanOrEqual(40);
+
+    await page.setViewportSize({ width: 320, height: 640 });
+    await expect(page.locator('header')).toHaveCSS('position', 'fixed');
+  });
+});
+
 test.describe('accessibility (axe, including colour contrast)', () => {
   const pages = {
     landing: '',

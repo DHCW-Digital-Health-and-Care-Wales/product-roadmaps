@@ -48,7 +48,10 @@ export function RoadmapList({
   };
 
   return (
-    <div id="roadmap" className="page-section scroll-mt-28 bg-surface">
+    <div
+      id="roadmap"
+      className="page-section scroll-mt-28 short:scroll-mt-0 bg-surface"
+    >
       <div className="mx-auto max-w-content">
         <div className="max-w-3xl">
           <nav aria-label={tr(UI.atAGlance)}>
@@ -106,7 +109,7 @@ export function RoadmapList({
             <section
               key={g.id}
               aria-labelledby={placementHeadingId(g.id)}
-              className="mt-10 scroll-mt-28"
+              className="mt-10 scroll-mt-28 short:scroll-mt-0"
             >
               <h2
                 id={placementHeadingId(g.id)}

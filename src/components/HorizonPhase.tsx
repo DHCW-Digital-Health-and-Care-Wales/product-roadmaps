@@ -32,7 +32,7 @@ export function HorizonPhase({
   return (
     <section
       aria-labelledby={headingId}
-      className="scroll-mt-28 overflow-hidden rounded-card border border-border bg-surface"
+      className="scroll-mt-28 short:scroll-mt-0 overflow-hidden rounded-card border border-border bg-surface"
     >
       <h3
         id={headingId}

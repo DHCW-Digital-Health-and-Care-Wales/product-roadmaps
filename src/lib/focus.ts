@@ -26,7 +26,7 @@ export function keepInPlace(element: Element | undefined, update: () => void) {
   if (moved !== 0) window.scrollBy({ top: moved, behavior: 'instant' });
 }
 
-/** The first card whose top is on screen below the fixed header. */
+/** The first card whose top is on screen below the header, if it's showing. */
 export function firstCardOnScreen(): Element | undefined {
   const top = document.querySelector('header')?.getBoundingClientRect().bottom;
   return Array.from(document.querySelectorAll('[data-filter-card]')).find(

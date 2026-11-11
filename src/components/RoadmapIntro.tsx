@@ -3,8 +3,9 @@ import type { RoadmapMeta, OrgFilter } from '../lib/types';
 import { useLanguage } from '../lib/i18n';
 import { ROADMAP_INTRO } from '../lib/content';
 import { formatDate } from '../lib/roadmap-helpers';
-import { onNavigate, pathFor, withOrgFilter } from '../lib/router';
+import { pathFor, withOrgFilter } from '../lib/router';
 import { UI } from '../lib/strings';
+import { BackLink } from './BackLink';
 import { FamilyLabel } from './FamilyLabel';
 import { T } from './T';
 
@@ -40,10 +41,7 @@ export function RoadmapIntro({
     <section
       id="about"
       aria-labelledby="roadmap-title"
-      // Top padding clears the fixed SiteHeader (72px, 88px from sm) by 24px
-      // (32px from sm). index.css moves <main> down further while the mobile
-      // filter strip shows.
-      className="scroll-mt-28 border-b-4 bg-surface-subtle px-4 pb-8 pt-24 sm:px-6 sm:pb-10 sm:pt-30"
+      className="scroll-mt-28 border-b-4 bg-surface-subtle px-4 pb-8 pt-6 sm:px-6 sm:pb-10"
       style={{ borderBottomColor: meta.colour }}
     >
       {/* From xl the filter gets its own column, so opening it doesn't push the
@@ -54,13 +52,12 @@ export function RoadmapIntro({
             it and its panel opens underneath at full width without moving
             the link. */}
         <div className="flow-root xl:contents">
-          <a
+          <BackLink
             href={back}
-            onClick={onNavigate(back)}
-            className="float-left mr-8 text-sm font-medium text-action underline underline-offset-4 hover:no-underline xl:col-start-1 xl:row-start-1 xl:justify-self-start"
+            className="float-left mr-8 xl:col-start-1 xl:row-start-1 xl:justify-self-start"
           >
-            &larr; <T value={UI.allRoadmaps} />
-          </a>
+            <T value={UI.allRoadmaps} />
+          </BackLink>
           {controls ? (
             <div className="min-w-0 xl:col-start-2 xl:row-span-2 xl:row-start-1">
               {controls}

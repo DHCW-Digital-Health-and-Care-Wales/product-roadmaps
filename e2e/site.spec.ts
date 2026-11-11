@@ -445,7 +445,7 @@ test.describe('organisation filter', () => {
       page.getByText('Showing 2 of 9 items for Cardiff and Vale').first(),
     ).toBeVisible();
     await expect(
-      page.getByRole('link', { name: '← All roadmaps' }),
+      page.getByRole('link', { name: 'All roadmaps' }),
     ).toHaveAttribute('href', '/product-roadmaps/en/?org=cavuhb&all=no');
 
     await page.getByRole('link', { name: 'Cymraeg' }).click();

@@ -18,9 +18,12 @@
     - link "English":
       - /url: /product-roadmaps/en/producta/
 - main:
+  - paragraph:
+    - strong: Beta
+    - text: This is a new service. We’re still working on ways to improve it.
   - status
   - 'region "Single Record: Product A roadmap"':
-    - link "← All roadmaps":
+    - link "All roadmaps":
       - /url: /product-roadmaps/en/
     - group: Filter by organisation
     - 'heading "Single Record: Product A roadmap" [level=1]'

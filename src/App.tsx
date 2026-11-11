@@ -10,6 +10,7 @@ import { T } from './components/T';
 import { SiteHeader } from './components/SiteHeader';
 import { SiteFooter } from './components/SiteFooter';
 import { BackToTop } from './components/BackToTop';
+import { PhaseBanner } from './components/PhaseBanner';
 import { NotFoundState } from './components/NotFoundState';
 import { InfoPage } from './pages/InfoPage';
 import { LandingPage } from './pages/LandingPage';
@@ -82,6 +83,7 @@ export default function App() {
       />
 
       <main id="main-content" ref={mainRef}>
+        <PhaseBanner bilingual={slug === ''} />
         {content}
       </main>
 

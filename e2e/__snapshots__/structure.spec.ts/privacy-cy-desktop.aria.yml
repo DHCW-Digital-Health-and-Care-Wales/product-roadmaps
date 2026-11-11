@@ -10,6 +10,9 @@
     - link "English":
       - /url: /product-roadmaps/en/privacy/
 - main:
+  - paragraph:
+    - strong: Beta
+    - text: Mae hwn yn wasanaeth newydd. Rydym yn dal i weithio ar ffyrdd o’i wella.
   - link "Yn ôl i bob trywydd":
     - /url: /product-roadmaps/cy/
   - heading "Preifatrwydd" [level=1]

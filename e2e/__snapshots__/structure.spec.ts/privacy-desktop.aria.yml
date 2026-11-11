@@ -10,6 +10,9 @@
     - link "English":
       - /url: /product-roadmaps/en/privacy/
 - main:
+  - paragraph:
+    - strong: Beta
+    - text: This is a new service. We’re still working on ways to improve it.
   - link "Back to all roadmaps":
     - /url: /product-roadmaps/en/
   - heading "Privacy" [level=1]

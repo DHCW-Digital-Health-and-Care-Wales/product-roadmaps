@@ -16,7 +16,7 @@ export function NotFoundState({ slug }: { slug: string }) {
   const { lang } = useLanguage();
 
   return (
-    <section className="bg-surface-subtle px-4 pb-16 pt-28 sm:px-6 sm:pt-32">
+    <section className="bg-surface-subtle px-4 pb-16 pt-6 sm:px-6">
       <div className="mx-auto max-w-content">
         <h1 tabIndex={-1} className="text-3xl font-bold text-heading">
           {slug ? (

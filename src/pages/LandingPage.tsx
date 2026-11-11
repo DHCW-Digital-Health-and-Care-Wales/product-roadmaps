@@ -16,14 +16,13 @@ import { CategorySection } from '../components/CategorySection';
 import { CategoryTiles } from '../components/CategoryTiles';
 import { FeedbackLink } from '../components/FeedbackLink';
 import { OrgFilterDisclosure } from '../components/OrgFilterDisclosure';
-import { PhaseBanner } from '../components/PhaseBanner';
 import { SearchBar } from '../components/SearchBar';
 import { T } from '../components/T';
 
 /**
- * Landing page: a phase banner and short introduction, jump links to each
- * category, a search and an organisation filter that narrow the cards, then
- * more about the roadmaps. Without JavaScript every roadmap is listed.
+ * Landing page: a short introduction, jump links to each category, a search
+ * and an organisation filter that narrow the cards, then more about the
+ * roadmaps. Without JavaScript every roadmap is listed.
  */
 export function LandingPage({
   roadmaps,
@@ -41,15 +40,13 @@ export function LandingPage({
     <>
       <section
         aria-labelledby="landing-title"
-        // Clears the fixed SiteHeader (72px, 88px from sm) by 16px.
-        className="bg-surface-subtle px-4 pb-12 pt-22 sm:px-6 sm:pt-26"
+        className="bg-surface-subtle px-4 pb-12 pt-6 sm:px-6"
       >
         <div className="mx-auto max-w-content">
-          <PhaseBanner />
           <h1
             id="landing-title"
             tabIndex={-1}
-            className="mt-6 text-3xl font-bold text-heading sm:text-4xl"
+            className="text-3xl font-bold text-heading sm:text-4xl"
           >
             <T value={UI.landingTitle} />
           </h1>

@@ -10,6 +10,9 @@
     - link "English":
       - /url: /product-roadmaps/en/accessibility/
 - main:
+  - paragraph:
+    - strong: Beta
+    - text: This is a new service. We’re still working on ways to improve it.
   - link "Back to all roadmaps":
     - /url: /product-roadmaps/en/
   - heading "Accessibility statement" [level=1]

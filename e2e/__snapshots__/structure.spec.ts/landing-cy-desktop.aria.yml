@@ -10,10 +10,10 @@
     - link "English":
       - /url: /product-roadmaps/en/
 - main:
+  - paragraph:
+    - strong: Beta
+    - text: Mae hwn yn wasanaeth newydd. Rydym yn dal i weithio ar ffyrdd o’i wella.
   - region "Trywyddion cynnyrch":
-    - paragraph:
-      - strong: Beta
-      - text: Mae hwn yn wasanaeth newydd. Rydym yn dal i weithio ar ffyrdd o’i wella.
     - heading "Trywyddion cynnyrch" [level=1]
     - paragraph: Mae’r trywyddion hyn yn dangos yr hyn rydym yn gweithio arno, yr hyn rydym yn disgwyl ei wneud nesaf ar hyn o bryd a ble rydym yn meddwl ein bod yn anelu. Nid cynlluniau sefydlog yw’r rhain a byddant yn newid wrth i ni ddysgu.
     - navigation "Pori yn ôl categori":

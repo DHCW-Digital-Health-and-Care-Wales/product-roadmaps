@@ -10,10 +10,10 @@
     - link "English":
       - /url: /product-roadmaps/en/
 - main:
+  - paragraph:
+    - strong: Beta
+    - text: This is a new service. We’re still working on ways to improve it.
   - region "Product roadmaps":
-    - paragraph:
-      - strong: Beta
-      - text: This is a new service. We’re still working on ways to improve it.
     - heading "Product roadmaps" [level=1]
     - paragraph: These roadmaps show what we’re working on, what we currently expect to do next and where we think we’re heading. They are not fixed plans and will change as we learn.
     - navigation "Browse by category":

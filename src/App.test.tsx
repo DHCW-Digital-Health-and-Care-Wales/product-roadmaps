@@ -102,16 +102,24 @@ describe('App routing', () => {
     expect(screen.queryByText(/WCAG/)).toBeNull();
   });
 
-  it('shows the phase banner and about section on the landing page only', () => {
-    renderAt('/product-roadmaps/en/');
+  it.each([
+    '/product-roadmaps/en/',
+    `/product-roadmaps/en/${first.slug}/`,
+    '/product-roadmaps/en/accessibility/',
+    '/product-roadmaps/en/nope/',
+  ])('shows the phase banner on %s', (path) => {
+    renderAt(path);
     expect(screen.getByText(UI.phaseBannerText.en)).toBeTruthy();
+  });
+
+  it('shows the about section on the landing page only', () => {
+    renderAt('/product-roadmaps/en/');
     expect(
       screen.getByRole('heading', { name: 'About these roadmaps' }),
     ).toBeTruthy();
     cleanup();
 
     renderAt('/product-roadmaps/en/accessibility/');
-    expect(screen.queryByText(UI.phaseBannerText.en)).toBeNull();
     expect(
       screen.queryByRole('heading', { name: 'About these roadmaps' }),
     ).toBeNull();
@@ -394,7 +402,7 @@ describe('organisation filter', () => {
 
   it('shows how many items match on a roadmap, and clears from the banner', () => {
     renderAt(`${productPage}?org=cavuhb&all=no`);
-    expect(screen.getByRole('link', { name: '← All roadmaps' })).toHaveProperty(
+    expect(screen.getByRole('link', { name: 'All roadmaps' })).toHaveProperty(
       'href',
       `${window.location.origin}/product-roadmaps/en/?org=cavuhb&all=no`,
     );

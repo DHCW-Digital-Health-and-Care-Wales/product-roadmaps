@@ -12,6 +12,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import App from './App';
 import { LanguageProvider } from './components/LanguageProvider';
 import { titleWithFamily } from './lib/roadmap-helpers';
+import { UI } from './lib/strings';
 import type { Roadmap } from './lib/types';
 import snapshot from '../e2e/fixtures/roadmaps.json';
 
@@ -101,13 +102,19 @@ describe('App routing', () => {
     expect(screen.queryByText(/WCAG/)).toBeNull();
   });
 
-  it('shows the beta notice on the landing page, not in the accessibility statement', () => {
+  it('shows the phase banner and about section on the landing page only', () => {
     renderAt('/product-roadmaps/en/');
-    expect(screen.getByText(/in beta and still being tested/)).toBeTruthy();
+    expect(screen.getByText(UI.phaseBannerText.en)).toBeTruthy();
+    expect(
+      screen.getByRole('heading', { name: 'About these roadmaps' }),
+    ).toBeTruthy();
     cleanup();
 
     renderAt('/product-roadmaps/en/accessibility/');
-    expect(screen.queryByText(/in beta and still being tested/)).toBeNull();
+    expect(screen.queryByText(UI.phaseBannerText.en)).toBeNull();
+    expect(
+      screen.queryByRole('heading', { name: 'About these roadmaps' }),
+    ).toBeNull();
   });
 
   it('shows the accessibility statement and privacy note on pages of their own', () => {

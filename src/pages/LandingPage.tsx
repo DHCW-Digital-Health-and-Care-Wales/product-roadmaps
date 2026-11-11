@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { type Roadmap, NO_ORG_FILTER, type OrgFilter } from '../lib/types';
 import { organisation } from '../lib/content';
 import { openOrgFilter } from '../lib/focus';
-import { fill, useLanguage, useResolved } from '../lib/i18n';
+import { fill, useLanguage } from '../lib/i18n';
 import {
   categoryTiles,
   filterGroups,
@@ -14,14 +14,16 @@ import { setOrgFilter } from '../lib/router';
 import { UI } from '../lib/strings';
 import { CategorySection } from '../components/CategorySection';
 import { CategoryTiles } from '../components/CategoryTiles';
+import { FeedbackLink } from '../components/FeedbackLink';
 import { OrgFilterDisclosure } from '../components/OrgFilterDisclosure';
+import { PhaseBanner } from '../components/PhaseBanner';
 import { SearchBar } from '../components/SearchBar';
 import { T } from '../components/T';
 
 /**
- * Landing page: introduces the roadmaps, with jump links to each category, a
- * search and an organisation filter that narrow the cards. Without JavaScript
- * every roadmap is listed.
+ * Landing page: a phase banner and short introduction, jump links to each
+ * category, a search and an organisation filter that narrow the cards, then
+ * more about the roadmaps. Without JavaScript every roadmap is listed.
  */
 export function LandingPage({
   roadmaps,
@@ -34,36 +36,26 @@ export function LandingPage({
   const [query, setQuery] = useState('');
   const groups = filterGroups(roadmaps, query, lang, filter);
   const shown = groups.reduce((sum, group) => sum + group.roadmaps.length, 0);
-  const intro = useResolved(UI.landingIntro);
 
   return (
     <>
       <section
         aria-labelledby="landing-title"
-        className="bg-surface-subtle px-4 pb-12 pt-28 sm:px-6 sm:pt-32"
+        // Clears the fixed SiteHeader (72px, 88px from sm) by 16px.
+        className="bg-surface-subtle px-4 pb-12 pt-22 sm:px-6 sm:pt-26"
       >
         <div className="mx-auto max-w-content">
-          <span className="inline-flex items-center rounded-full bg-heading px-3 py-1 text-sm font-medium text-white">
-            <T value={UI.phaseBadge} />
-          </span>
+          <PhaseBanner />
           <h1
             id="landing-title"
             tabIndex={-1}
-            className="mt-4 text-3xl font-bold text-heading sm:text-4xl"
+            className="mt-6 text-3xl font-bold text-heading sm:text-4xl"
           >
             <T value={UI.landingTitle} />
           </h1>
-          <div className="mt-4 max-w-3xl space-y-4 text-lg leading-relaxed text-ink-900">
-            {intro.text.split('\n\n').map((paragraph) => (
-              <p key={paragraph}>
-                {intro.lang ? (
-                  <span lang={intro.lang}>{paragraph}</span>
-                ) : (
-                  paragraph
-                )}
-              </p>
-            ))}
-          </div>
+          <p className="mt-4 max-w-3xl text-lg leading-relaxed text-ink-900">
+            <T value={UI.landingIntro} />
+          </p>
           <CategoryTiles tiles={categoryTiles(roadmaps, groups)} />
         </div>
       </section>
@@ -105,9 +97,31 @@ export function LandingPage({
               <T value={UI.noRoadmaps} />
             </p>
           )}
-          <p className="mt-12 text-ink-700">
-            <T value={UI.betaNotice} />
-          </p>
+          <section
+            aria-labelledby="about-roadmaps-heading"
+            className="mt-12 max-w-3xl"
+          >
+            <h2
+              id="about-roadmaps-heading"
+              className="text-2xl font-bold text-heading"
+            >
+              <T value={UI.aboutRoadmapsHeading} />
+            </h2>
+            <div className="mt-4 space-y-4 leading-relaxed text-ink-900">
+              <p>
+                <T value={UI.aboutRoadmapsOpen} />
+              </p>
+              <p>
+                <T value={UI.aboutRoadmapsBeta} />
+              </p>
+              <p>
+                <T value={UI.aboutRoadmapsFeedback} />
+              </p>
+              <p>
+                <FeedbackLink />
+              </p>
+            </div>
+          </section>
         </div>
       </div>
     </>

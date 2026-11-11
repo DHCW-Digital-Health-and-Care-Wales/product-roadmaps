@@ -1,5 +1,6 @@
 import logoImage from '../assets/dhcw-logo.png';
 import { useLanguage } from '../lib/i18n';
+import { FEEDBACK_URL, REPO_URL } from '../lib/links';
 import {
   dataPathFor,
   onNavigate,
@@ -11,10 +12,6 @@ import {
 import type { Localised, OrgFilter } from '../lib/types';
 import { UI } from '../lib/strings';
 import { T } from './T';
-
-const REPO_URL =
-  'https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps';
-const FEEDBACK_URL = `${REPO_URL}/issues/new?template=roadmap-feedback.md`;
 
 interface FooterLink {
   key: string;

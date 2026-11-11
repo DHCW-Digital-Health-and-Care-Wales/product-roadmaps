@@ -41,9 +41,8 @@ export function RoadmapIntro({
       id="about"
       aria-labelledby="roadmap-title"
       // Top padding clears the fixed SiteHeader (72px, 88px from sm) by 24px
-      // (32px from sm), less than the landing page's pt-28/pt-32 so the
-      // roadmap's title comes sooner. index.css moves <main> down further while
-      // the mobile filter strip shows.
+      // (32px from sm). index.css moves <main> down further while the mobile
+      // filter strip shows.
       className="scroll-mt-28 border-b-4 bg-surface-subtle px-4 pb-8 pt-24 sm:px-6 sm:pb-10 sm:pt-30"
       style={{ borderBottomColor: meta.colour }}
     >

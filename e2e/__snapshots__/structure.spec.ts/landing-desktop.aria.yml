@@ -11,12 +11,11 @@
       - /url: /product-roadmaps/en/
 - main:
   - region "Product roadmaps":
-    - text: Beta
+    - paragraph:
+      - strong: Beta
+      - text: This is a new service. We’re still working on ways to improve it.
     - heading "Product roadmaps" [level=1]
-    - paragraph: This is a new service and we’re learning as we go.
-    - paragraph: We believe being open about our plans is better than waiting until everything is perfect. These roadmaps show what we’re working on, what we currently expect to do next and where we think we’re heading.
-    - paragraph: They are not fixed plans. They will evolve as we learn, priorities change and we hear from the people who use and depend on our services. These roadmaps are also in Beta, and we are continuing to refine and develop their content so they give our users and our partners what they need to understand our mission and priorities.
-    - paragraph: We’d really like to know what you think. Your feedback will help us improve both these roadmaps and how we communicate our plans.
+    - paragraph: These roadmaps show what we’re working on, what we currently expect to do next and where we think we’re heading. They are not fixed plans and will change as we learn.
     - navigation "Browse by category":
       - heading "Browse by category" [level=2]
       - list:
@@ -65,7 +64,14 @@
         - definition: "1"
         - term: Later
         - definition: "1"
-  - paragraph: These roadmaps are in beta and still being tested, we welcome any feedback.
+  - region "About these roadmaps":
+    - heading "About these roadmaps" [level=2]
+    - paragraph: We believe being open about our plans is better than waiting until everything is perfect. These roadmaps will evolve as we learn, priorities change and we hear from the people who use and depend on our services.
+    - paragraph: The roadmaps are also in beta. We are continuing to refine and develop their content so they give our users and our partners what they need to understand our mission and priorities.
+    - paragraph: We’d really like to know what you think. Your feedback will help us improve both these roadmaps and how we communicate our plans.
+    - paragraph:
+      - link "Give feedback":
+        - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/issues/new?template=roadmap-feedback.md
 - contentinfo:
   - img "Digital Health and Care Wales"
   - navigation "Footer links":

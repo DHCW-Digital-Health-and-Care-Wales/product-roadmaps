@@ -250,10 +250,12 @@ test.describe('accessibility and privacy pages', () => {
     ).toBe(true);
   });
 
-  test('the landing page ends with the beta notice', async ({ page }) => {
+  test('the landing page has a section about the roadmaps', async ({
+    page,
+  }) => {
     await page.goto('en/');
     await expect(
-      page.getByText('These roadmaps are in beta and still being tested'),
+      page.getByRole('heading', { name: 'About these roadmaps' }),
     ).toBeVisible();
   });
 });

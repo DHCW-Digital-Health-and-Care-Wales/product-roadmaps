@@ -112,21 +112,23 @@ export function ProductCard({
               </span>
             </p>
           ) : null}
-          <dl className="flex flex-wrap gap-2">
-            {HORIZONS.map((horizon) => (
-              <div
-                key={horizon.id}
-                className="inline-flex items-center gap-1.5 rounded-full border border-border bg-surface-subtle px-3 py-1 text-sm"
-              >
-                <dt className="text-ink-700">
-                  <T value={horizon.label} />
-                </dt>
-                <dd className="font-semibold text-heading">
+          <ul className="flex flex-wrap gap-y-1 text-base">
+            {HORIZONS.map((horizon, i) => (
+              <li key={horizon.id} className="flex items-baseline gap-1">
+                <span className="font-semibold text-heading">
                   {filterItems(roadmap.items[horizon.id], filter).length}
-                </dd>
-              </div>
+                </span>
+                <span className="text-ink-700">
+                  <T value={horizon.label} />
+                </span>
+                {i < HORIZONS.length - 1 ? (
+                  <span aria-hidden="true" className="mx-2 text-ink-500">
+                    ·
+                  </span>
+                ) : null}
+              </li>
             ))}
-          </dl>
+          </ul>
         </div>
 
         <p

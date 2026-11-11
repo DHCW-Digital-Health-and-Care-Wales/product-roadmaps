@@ -44,9 +44,8 @@
         - /url: "#horizon-later"
     - definition: Cyfeiriad tymor hwy a fydd yn parhau i esblygu wrth i ni ddysgu mwy.
     - paragraph: Nid ydym yn rhoi dyddiadau ar y gwaith hwn, ac nid yw’r drefn yn rhestr o flaenoriaethau.
-  - region "Wedi’i gyflawni’n ddiweddar":
-    - heading "Wedi’i gyflawni’n ddiweddar" [level=2]
-    - text: "1"
+  - region "Wedi’i gyflawni’n ddiweddar (1)":
+    - heading "Wedi’i gyflawni’n ddiweddar (1)" [level=2]
     - paragraph: Gwaith rydym wedi’i gwblhau’n ddiweddar ac sydd bellach yn fyw yn y gwasanaeth.
     - article:
       - heading "Recently shipped work" [level=3]
@@ -61,8 +60,8 @@
     - paragraph: Mae pob cerdyn yn dangos newid rydym yn gweithio arno nawr, yn bwriadu ymgymryd ag ef nesaf, neu’n gweithio tuag ato yn ddiweddarach.
     - list:
       - listitem:
-        - region "Nawr 3":
-          - heading "Nawr 3" [level=3]
+        - region "Nawr (3)":
+          - heading "Nawr (3)" [level=3]
           - article:
             - paragraph: Beta
             - heading "Cerdyn enghreifftiol gyda phob colofn" [level=4]
@@ -88,8 +87,8 @@
               - text: "Sefydliadau:"
               - button "Hidlo yn ôl Cymru gyfan"
       - listitem:
-        - region "Nesaf 1":
-          - heading "Nesaf 1" [level=3]
+        - region "Nesaf (1)":
+          - heading "Nesaf (1)" [level=3]
           - article:
             - paragraph: Alpha
             - heading "Card being explored" [level=4]
@@ -101,8 +100,8 @@
               - button "Hidlo yn ôl Betsi Cadwaladr"
               - button "Hidlo yn ôl Hywel Dda"
       - listitem:
-        - region "Hwyrach 2":
-          - heading "Hwyrach 2" [level=3]
+        - region "Hwyrach (2)":
+          - heading "Hwyrach (2)" [level=3]
           - article:
             - paragraph: Darganfod
             - heading "Cerdyn darganfod" [level=4]
@@ -119,9 +118,8 @@
             - paragraph:
               - text: "Sefydliadau:"
               - button "Hidlo yn ôl Cymru gyfan"
-  - region "Gwaith arall rydym wedi’i gyflawni eleni":
-    - heading "Gwaith arall rydym wedi’i gyflawni eleni" [level=2]
-    - text: "1"
+  - region "Gwaith arall rydym wedi’i gyflawni eleni (1)":
+    - heading "Gwaith arall rydym wedi’i gyflawni eleni (1)" [level=2]
     - paragraph: Golwg ehangach ar y gwaith a gyflawnwyd eleni sydd y tu allan i brif orwelion y trywydd.
     - article:
       - paragraph: Live
@@ -131,9 +129,8 @@
       - paragraph:
         - text: "Sefydliadau:"
         - button "Hidlo yn ôl Cymru gyfan"
-  - region "Ddim yn cael ei wneud ar hyn o bryd":
-    - heading "Ddim yn cael ei wneud ar hyn o bryd" [level=2]
-    - text: "1"
+  - region "Ddim yn cael ei wneud ar hyn o bryd (1)":
+    - heading "Ddim yn cael ei wneud ar hyn o bryd (1)" [level=2]
     - paragraph: Mae bod yn glir am yr hyn nad ydym yn ei wneud yn cadw’r ffocws lle mae’n bwysig.
     - article:
       - heading "Something we are not doing" [level=3]

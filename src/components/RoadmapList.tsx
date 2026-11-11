@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { Roadmap, OrgFilter } from '../lib/types';
 import { fill, useLanguage } from '../lib/i18n';
 import {
-  countOf,
+  countInParentheses,
   isExpandable,
   placementHeadingId,
   roadmapGroups,
@@ -113,15 +113,21 @@ export function RoadmapList({
             >
               <h2
                 id={placementHeadingId(g.id)}
-                className="flex flex-wrap items-center gap-x-3 border-b-2 border-heading pb-2 text-2xl font-bold text-heading"
+                className="border-b-2 border-heading pb-2 text-2xl font-bold text-heading"
               >
                 <T value={g.heading} />
                 {filter.org ? (
-                  <span className="inline-flex h-6 items-center rounded-full border border-border bg-surface-subtle px-2 text-xs font-semibold text-ink-700">
-                    <T
-                      value={countOf({ shown: g.items.length, total: g.total })}
-                    />
-                  </span>
+                  <>
+                    {' '}
+                    <span className="text-lg font-normal text-ink-700">
+                      <T
+                        value={countInParentheses({
+                          shown: g.items.length,
+                          total: g.total,
+                        })}
+                      />
+                    </span>
+                  </>
                 ) : null}
               </h2>
               {g.items.length > 0 ? (

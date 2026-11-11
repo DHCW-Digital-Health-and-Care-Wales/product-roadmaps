@@ -1,7 +1,7 @@
 import type { OrgFilter } from '../lib/types';
 import type { SECTIONS } from '../lib/content';
 import {
-  countText,
+  countInParentheses,
   placementHeadingId,
   type ShownItem,
 } from '../lib/roadmap-helpers';
@@ -31,14 +31,12 @@ export function RoadmapSection({
   return (
     <section aria-labelledby={headingId} className="page-section bg-surface">
       <div className="mx-auto max-w-content">
-        <div className="flex items-center gap-2">
-          <h2 id={headingId} className="text-2xl font-bold text-heading">
-            <T value={section.heading} />
-          </h2>
-          <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-full border border-border bg-surface-subtle px-2 text-xs font-semibold text-ink-700">
-            <T value={countText({ shown: items.length, total })} />
+        <h2 id={headingId} className="text-2xl font-bold text-heading">
+          <T value={section.heading} />{' '}
+          <span className="text-lg font-normal text-ink-700">
+            <T value={countInParentheses({ shown: items.length, total })} />
           </span>
-        </div>
+        </h2>
 
         <p className="mt-4 max-w-3xl leading-relaxed text-ink-900">
           <T value={section.description} />

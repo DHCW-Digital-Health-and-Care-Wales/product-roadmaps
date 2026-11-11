@@ -156,6 +156,7 @@ export const UI = {
   },
   // A product card's share of items, e.g. "5 of 9" then "items for Powys".
   countOf: { en: '{shown} of {total}', cy: '{shown} o {total}' },
+  countInParentheses: { en: '({count})', cy: '({count})' },
   // After a filtered count in the list view's "At a glance", e.g. "2 of 5".
   ofTotal: { en: 'of {total}', cy: 'o {total}' },
   itemsFor: {

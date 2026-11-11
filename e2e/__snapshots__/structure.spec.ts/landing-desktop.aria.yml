@@ -40,12 +40,10 @@
           - link "Product A roadmap":
             - /url: /product-roadmaps/en/producta/
         - paragraph: What Product A does and who it helps. Also used as the summary on the landing page card.
-        - term: Now
-        - definition: "3"
-        - term: Next
-        - definition: "1"
-        - term: Later
-        - definition: "2"
+        - list:
+          - listitem: 3 Now
+          - listitem: 1 Next
+          - listitem: 2 Later
   - region "Other roadmaps":
     - heading "Other roadmaps" [level=2]
     - paragraph: Roadmaps not yet in a category
@@ -58,12 +56,10 @@
           - link "Product B roadmap":
             - /url: /product-roadmaps/en/productb/
         - paragraph: What Product B does and who it helps. This roadmap has no vision, so a general intro sentence shows instead.
-        - term: Now
-        - definition: "2"
-        - term: Next
-        - definition: "1"
-        - term: Later
-        - definition: "1"
+        - list:
+          - listitem: 2 Now
+          - listitem: 1 Next
+          - listitem: 1 Later
   - region "About these roadmaps":
     - heading "About these roadmaps" [level=2]
     - paragraph: We believe being open about our plans is better than waiting until everything is perfect. These roadmaps will evolve as we learn, priorities change and we hear from the people who use and depend on our services.

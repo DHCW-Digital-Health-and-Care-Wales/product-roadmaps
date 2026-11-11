@@ -13,7 +13,10 @@
   - region "Product roadmaps":
     - text: Beta
     - heading "Product roadmaps" [level=1]
-    - paragraph: See what Digital Health and Care Wales is working on now, what’s coming next and the direction we expect to take later.
+    - paragraph: This is a new service and we’re learning as we go.
+    - paragraph: We believe being open about our plans is better than waiting until everything is perfect. These roadmaps show what we’re working on, what we currently expect to do next and where we think we’re heading.
+    - paragraph: They are not fixed plans. They will evolve as we learn, priorities change and we hear from the people who use and depend on our services. These roadmaps are also in Beta, and we are continuing to refine and develop their content so they give our users and our partners what they need to understand our mission and priorities.
+    - paragraph: We’d really like to know what you think. Your feedback will help us improve both these roadmaps and how we communicate our plans.
     - navigation "Browse by category":
       - heading "Browse by category" [level=2]
       - list:

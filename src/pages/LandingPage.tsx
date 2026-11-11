@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { type Roadmap, NO_ORG_FILTER, type OrgFilter } from '../lib/types';
 import { organisation } from '../lib/content';
 import { openOrgFilter } from '../lib/focus';
-import { fill, useLanguage } from '../lib/i18n';
+import { fill, useLanguage, useResolved } from '../lib/i18n';
 import {
   categoryTiles,
   filterGroups,
@@ -34,6 +34,7 @@ export function LandingPage({
   const [query, setQuery] = useState('');
   const groups = filterGroups(roadmaps, query, lang, filter);
   const shown = groups.reduce((sum, group) => sum + group.roadmaps.length, 0);
+  const intro = useResolved(UI.landingIntro);
 
   return (
     <>
@@ -52,9 +53,17 @@ export function LandingPage({
           >
             <T value={UI.landingTitle} />
           </h1>
-          <p className="mt-4 max-w-3xl text-lg leading-relaxed text-ink-900">
-            <T value={UI.landingIntro} />
-          </p>
+          <div className="mt-4 max-w-3xl space-y-4 text-lg leading-relaxed text-ink-900">
+            {intro.text.split('\n\n').map((paragraph) => (
+              <p key={paragraph}>
+                {intro.lang ? (
+                  <span lang={intro.lang}>{paragraph}</span>
+                ) : (
+                  paragraph
+                )}
+              </p>
+            ))}
+          </div>
           <CategoryTiles tiles={categoryTiles(roadmaps, groups)} />
         </div>
       </section>

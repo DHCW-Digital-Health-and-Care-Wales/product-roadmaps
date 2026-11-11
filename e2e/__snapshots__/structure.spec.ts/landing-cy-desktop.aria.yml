@@ -13,7 +13,10 @@
   - region "Trywyddion cynnyrch":
     - text: Beta
     - heading "Trywyddion cynnyrch" [level=1]
-    - paragraph: Gweld beth mae Iechyd a Gofal Digidol Cymru yn gweithio arno nawr, beth sy’n dod nesaf a’r cyfeiriad rydym yn disgwyl ei gymryd yn hwyrach.
+    - paragraph: Mae hwn yn wasanaeth newydd ac rydym yn dysgu wrth fynd ymlaen.
+    - paragraph: Rydym yn credu bod bod yn agored am ein cynlluniau yn well nag aros nes bod popeth yn berffaith. Mae’r trywyddion hyn yn dangos yr hyn rydym yn gweithio arno, yr hyn rydym yn disgwyl ei wneud nesaf ar hyn o bryd a ble rydym yn meddwl ein bod yn anelu.
+    - paragraph: Nid cynlluniau sefydlog yw’r rhain. Byddant yn esblygu wrth i ni ddysgu, wrth i flaenoriaethau newid ac wrth i ni glywed gan y bobl sy’n defnyddio ac yn dibynnu ar ein gwasanaethau. Mae’r trywyddion hyn hefyd mewn Beta, ac rydym yn parhau i fireinio a datblygu eu cynnwys fel eu bod yn rhoi’r hyn sydd ei angen ar ein defnyddwyr a’n partneriaid iddynt ddeall ein cenhadaeth a’n blaenoriaethau.
+    - paragraph: Byddem wrth ein bodd yn gwybod beth yw eich barn. Bydd eich adborth yn ein helpu i wella’r trywyddion hyn a’r ffordd rydym yn cyfathrebu ein cynlluniau.
     - navigation "Pori yn ôl categori":
       - heading "Pori yn ôl categori" [level=2]
       - list:

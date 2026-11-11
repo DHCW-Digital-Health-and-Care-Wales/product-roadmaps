@@ -11,14 +11,17 @@
       - /url: /product-roadmaps/en/producta/
   - button "Open menu"
 - main:
+  - paragraph:
+    - strong: Beta
+    - text: This is a new service. We’re still working on ways to improve it.
   - status
   - 'region "Single Record: Product A roadmap"':
-    - link "← All roadmaps":
+    - link "All roadmaps":
       - /url: /product-roadmaps/en/
     - group: Filter by organisation
     - 'heading "Single Record: Product A roadmap" [level=1]'
     - paragraph:
-      - text: "Beta Last updated:"
+      - text: "Status: Beta Last updated:"
       - time: /1 October \d+/
       - text: "Product lead: Alex Jones"
     - heading "Our vision" [level=2]

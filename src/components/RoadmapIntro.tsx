@@ -3,8 +3,9 @@ import type { RoadmapMeta, OrgFilter } from '../lib/types';
 import { useLanguage } from '../lib/i18n';
 import { ROADMAP_INTRO } from '../lib/content';
 import { formatDate } from '../lib/roadmap-helpers';
-import { onNavigate, pathFor, withOrgFilter } from '../lib/router';
+import { pathFor, withOrgFilter } from '../lib/router';
 import { UI } from '../lib/strings';
+import { BackLink } from './BackLink';
 import { FamilyLabel } from './FamilyLabel';
 import { T } from './T';
 
@@ -13,11 +14,11 @@ import { T } from './T';
  * roadmaps sits on the left of the top row and `controls` (the organisation
  * filter) on the right, in a column of its own from `xl`; the back link keeps
  * the organisation filter. Below them come the title, with the family as a
- * caption inside the h1, then the status label, "last updated" date and
- * product lead, each shown only if set: stacked on small screens, on one line
- * from `sm`. The roadmap's "Our vision" follows, or the generic intro if it
- * has none, then `children`. A 4px edge in the roadmap's colour closes the
- * section; the colour is decorative and never used for text.
+ * caption inside the h1, then the status, "last updated" date and product
+ * lead, each shown only if set: stacked on small screens, on one line with
+ * dots between from `sm`. The roadmap's "Our vision" follows, or the generic
+ * intro if it has none, then `children`. A 4px edge in the roadmap's colour
+ * closes the section; the colour is decorative and never used for text.
  */
 export function RoadmapIntro({
   meta,
@@ -32,19 +33,46 @@ export function RoadmapIntro({
 }) {
   const { lang } = useLanguage();
   const back = withOrgFilter(pathFor(lang, null), filter);
-  const hasMeta = Boolean(
-    meta.statusLabel.en || meta.lastUpdated || meta.productLead,
-  );
+  const metaItems: { key: string; content: ReactNode }[] = [];
+  if (meta.statusLabel.en) {
+    metaItems.push({
+      key: 'status',
+      content: (
+        <>
+          <T value={UI.status} />: <T value={meta.statusLabel} />
+        </>
+      ),
+    });
+  }
+  if (meta.lastUpdated) {
+    metaItems.push({
+      key: 'updated',
+      content: (
+        <>
+          <T value={UI.lastUpdated} />:{' '}
+          <time dateTime={meta.lastUpdated}>
+            {formatDate(meta.lastUpdated, lang)}
+          </time>
+        </>
+      ),
+    });
+  }
+  if (meta.productLead) {
+    metaItems.push({
+      key: 'lead',
+      content: (
+        <>
+          <T value={UI.productLead} />: {meta.productLead}
+        </>
+      ),
+    });
+  }
 
   return (
     <section
       id="about"
       aria-labelledby="roadmap-title"
-      // Top padding clears the fixed SiteHeader (72px, 88px from sm) by 24px
-      // (32px from sm), less than the landing page's pt-28/pt-32 so the
-      // roadmap's title comes sooner. index.css moves <main> down further while
-      // the mobile filter strip shows.
-      className="scroll-mt-28 border-b-4 bg-surface-subtle px-4 pb-8 pt-24 sm:px-6 sm:pb-10 sm:pt-30"
+      className="page-intro scroll-mt-28 border-b-4"
       style={{ borderBottomColor: meta.colour }}
     >
       {/* From xl the filter gets its own column, so opening it doesn't push the
@@ -55,13 +83,12 @@ export function RoadmapIntro({
             it and its panel opens underneath at full width without moving
             the link. */}
         <div className="flow-root xl:contents">
-          <a
+          <BackLink
             href={back}
-            onClick={onNavigate(back)}
-            className="float-left mr-8 text-sm font-medium text-action underline underline-offset-4 hover:no-underline xl:col-start-1 xl:row-start-1 xl:justify-self-start"
+            className="float-left mr-8 xl:col-start-1 xl:row-start-1 xl:justify-self-start"
           >
-            &larr; <T value={UI.allRoadmaps} />
-          </a>
+            <T value={UI.allRoadmaps} />
+          </BackLink>
           {controls ? (
             <div className="min-w-0 xl:col-start-2 xl:row-span-2 xl:row-start-1">
               {controls}
@@ -86,27 +113,14 @@ export function RoadmapIntro({
             <T value={meta.title} />
           </h1>
 
-          {hasMeta ? (
+          {metaItems.length > 0 ? (
             // Stacked on small screens. From sm it's one line, where
-            // overflow-hidden clips the separator if the product lead wraps to
-            // the start of a line, so it only shows between items.
+            // overflow-hidden clips a separator if its item wraps to the start
+            // of a line, so dots only show between items.
             <p className="mt-3 flex flex-col items-start gap-x-6 gap-y-2 overflow-hidden text-sm text-ink-700 sm:flex-row sm:flex-wrap sm:items-center">
-              {meta.statusLabel.en ? (
-                <span className="inline-flex items-center rounded-full bg-heading px-3 py-1 font-medium text-white">
-                  <T value={meta.statusLabel} />
-                </span>
-              ) : null}
-              {meta.lastUpdated ? (
-                <span>
-                  <T value={UI.lastUpdated} />:{' '}
-                  <time dateTime={meta.lastUpdated}>
-                    {formatDate(meta.lastUpdated, lang)}
-                  </time>
-                </span>
-              ) : null}
-              {meta.productLead ? (
-                <span className="relative">
-                  {meta.lastUpdated ? (
+              {metaItems.map(({ key, content }, index) => (
+                <span key={key} className="relative">
+                  {index > 0 ? (
                     // -left-3 is half the parent's gap-x-6, which centres the
                     // dot in the gap; change the two together.
                     <span
@@ -116,9 +130,9 @@ export function RoadmapIntro({
                       ·
                     </span>
                   ) : null}
-                  <T value={UI.productLead} />: {meta.productLead}
+                  {content}
                 </span>
-              ) : null}
+              ))}
             </p>
           ) : null}
 

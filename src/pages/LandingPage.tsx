@@ -14,14 +14,15 @@ import { setOrgFilter } from '../lib/router';
 import { UI } from '../lib/strings';
 import { CategorySection } from '../components/CategorySection';
 import { CategoryTiles } from '../components/CategoryTiles';
+import { FeedbackLink } from '../components/FeedbackLink';
 import { OrgFilterDisclosure } from '../components/OrgFilterDisclosure';
 import { SearchBar } from '../components/SearchBar';
 import { T } from '../components/T';
 
 /**
- * Landing page: introduces the roadmaps, with jump links to each category, a
- * search and an organisation filter that narrow the cards. Without JavaScript
- * every roadmap is listed.
+ * Landing page: a short introduction, jump links to each category, a search
+ * and an organisation filter that narrow the cards, then more about the
+ * roadmaps. Without JavaScript every roadmap is listed.
  */
 export function LandingPage({
   roadmaps,
@@ -37,18 +38,12 @@ export function LandingPage({
 
   return (
     <>
-      <section
-        aria-labelledby="landing-title"
-        className="bg-surface-subtle px-4 pb-12 pt-28 sm:px-6 sm:pt-32"
-      >
+      <section aria-labelledby="landing-title" className="page-intro">
         <div className="mx-auto max-w-content">
-          <span className="inline-flex items-center rounded-full bg-heading px-3 py-1 text-sm font-medium text-white">
-            <T value={UI.phaseBadge} />
-          </span>
           <h1
             id="landing-title"
             tabIndex={-1}
-            className="mt-4 text-3xl font-bold text-heading sm:text-4xl"
+            className="text-3xl font-bold text-heading sm:text-4xl"
           >
             <T value={UI.landingTitle} />
           </h1>
@@ -59,8 +54,8 @@ export function LandingPage({
         </div>
       </section>
 
-      <div className="px-4 py-12 sm:px-6">
-        <div className="mx-auto max-w-content">
+      <div className="page-body">
+        <div className="mx-auto flex max-w-content flex-col gap-(--block-gap)">
           {roadmaps.length > 0 ? (
             <>
               <SearchBar
@@ -96,9 +91,31 @@ export function LandingPage({
               <T value={UI.noRoadmaps} />
             </p>
           )}
-          <p className="mt-12 text-ink-700">
-            <T value={UI.betaNotice} />
-          </p>
+          <section
+            aria-labelledby="about-roadmaps-heading"
+            className="max-w-3xl"
+          >
+            <h2
+              id="about-roadmaps-heading"
+              className="text-2xl font-bold text-heading"
+            >
+              <T value={UI.aboutRoadmapsHeading} />
+            </h2>
+            <div className="mt-4 space-y-4 leading-relaxed text-ink-900">
+              <p>
+                <T value={UI.aboutRoadmapsOpen} />
+              </p>
+              <p>
+                <T value={UI.aboutRoadmapsBeta} />
+              </p>
+              <p>
+                <T value={UI.aboutRoadmapsFeedback} />
+              </p>
+              <p>
+                <FeedbackLink />
+              </p>
+            </div>
+          </section>
         </div>
       </div>
     </>
@@ -108,7 +125,7 @@ export function LandingPage({
 /** Says nothing matches, offering to clear the filter if there is one. */
 function NoMatches({ query, filter }: { query: string; filter: OrgFilter }) {
   const box =
-    'mt-8 rounded-card border border-border bg-surface-subtle p-5 font-medium text-ink-700';
+    'rounded-card border border-border bg-surface-subtle p-5 font-medium text-ink-700';
   if (!filter.org) {
     return (
       <p className={box}>

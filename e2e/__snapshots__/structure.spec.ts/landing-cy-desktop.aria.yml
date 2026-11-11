@@ -10,10 +10,12 @@
     - link "English":
       - /url: /product-roadmaps/en/
 - main:
+  - paragraph:
+    - strong: Beta
+    - text: Mae hwn yn wasanaeth newydd. Rydym yn dal i weithio ar ffyrdd o’i wella.
   - region "Trywyddion cynnyrch":
-    - text: Beta
     - heading "Trywyddion cynnyrch" [level=1]
-    - paragraph: Gweld beth mae Iechyd a Gofal Digidol Cymru yn gweithio arno nawr, beth sy’n dod nesaf a’r cyfeiriad rydym yn disgwyl ei gymryd yn hwyrach.
+    - paragraph: Mae’r trywyddion hyn yn dangos yr hyn rydym yn gweithio arno, yr hyn rydym yn disgwyl ei wneud nesaf ar hyn o bryd a ble rydym yn meddwl ein bod yn anelu. Nid cynlluniau sefydlog yw’r rhain a byddant yn newid wrth i ni ddysgu.
     - navigation "Pori yn ôl categori":
       - heading "Pori yn ôl categori" [level=2]
       - list:
@@ -62,7 +64,14 @@
         - definition: "1"
         - term: Hwyrach
         - definition: "1"
-  - paragraph: Mae’r trywyddion hyn yn fersiwn beta ac maen nhw’n dal i gael eu profi. Rydym yn croesawu unrhyw adborth.
+  - region "Am y trywyddion hyn":
+    - heading "Am y trywyddion hyn" [level=2]
+    - paragraph: Rydym yn credu bod bod yn agored am ein cynlluniau yn well nag aros nes bod popeth yn berffaith. Bydd y trywyddion hyn yn esblygu wrth i ni ddysgu, wrth i flaenoriaethau newid ac wrth i ni glywed gan y bobl sy’n defnyddio ac yn dibynnu ar ein gwasanaethau.
+    - paragraph: Mae’r trywyddion hefyd mewn beta. Rydym yn parhau i fireinio a datblygu eu cynnwys fel eu bod yn rhoi’r hyn sydd ei angen ar ein defnyddwyr a’n partneriaid iddynt ddeall ein cenhadaeth a’n blaenoriaethau.
+    - paragraph: Byddem wrth ein bodd yn gwybod beth yw eich barn. Bydd eich adborth yn ein helpu i wella’r trywyddion hyn a’r ffordd rydym yn cyfathrebu ein cynlluniau.
+    - paragraph:
+      - link "Rhoi adborth":
+        - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/issues/new?template=roadmap-feedback.md
 - contentinfo:
   - img "Iechyd a Gofal Digidol Cymru"
   - navigation "Dolenni troedyn":

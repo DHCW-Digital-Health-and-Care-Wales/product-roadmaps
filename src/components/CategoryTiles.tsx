@@ -22,7 +22,7 @@ export function CategoryTiles({ tiles }: { tiles: CategoryTile[] }) {
       <h2 id={`${NAV_ID}-heading`} className="sr-only">
         <T value={UI.browseCategories} />
       </h2>
-      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="card-gap grid sm:grid-cols-2 lg:grid-cols-3">
         {tiles.map(({ category, count }) => {
           const content = (
             <>

@@ -12,6 +12,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import App from './App';
 import { LanguageProvider } from './components/LanguageProvider';
 import { titleWithFamily } from './lib/roadmap-helpers';
+import { UI } from './lib/strings';
 import type { Roadmap } from './lib/types';
 import snapshot from '../e2e/fixtures/roadmaps.json';
 
@@ -101,13 +102,27 @@ describe('App routing', () => {
     expect(screen.queryByText(/WCAG/)).toBeNull();
   });
 
-  it('shows the beta notice on the landing page, not in the accessibility statement', () => {
+  it.each([
+    '/product-roadmaps/en/',
+    `/product-roadmaps/en/${first.slug}/`,
+    '/product-roadmaps/en/accessibility/',
+    '/product-roadmaps/en/nope/',
+  ])('shows the phase banner on %s', (path) => {
+    renderAt(path);
+    expect(screen.getByText(UI.phaseBannerText.en)).toBeTruthy();
+  });
+
+  it('shows the about section on the landing page only', () => {
     renderAt('/product-roadmaps/en/');
-    expect(screen.getByText(/in beta and still being tested/)).toBeTruthy();
+    expect(
+      screen.getByRole('heading', { name: 'About these roadmaps' }),
+    ).toBeTruthy();
     cleanup();
 
     renderAt('/product-roadmaps/en/accessibility/');
-    expect(screen.queryByText(/in beta and still being tested/)).toBeNull();
+    expect(
+      screen.queryByRole('heading', { name: 'About these roadmaps' }),
+    ).toBeNull();
   });
 
   it('shows the accessibility statement and privacy note on pages of their own', () => {
@@ -128,7 +143,7 @@ describe('App routing', () => {
     expect(screen.getByText(/WCAG/)).toBeTruthy();
   });
 
-  it('links to them from the footer and back to the roadmaps from them', () => {
+  it('links to them from the footer and to the roadmaps from them', () => {
     renderAt('/product-roadmaps/en/');
     fireEvent.click(screen.getByRole('link', { name: 'Privacy' }));
     expect(window.location.pathname).toBe('/product-roadmaps/en/privacy/');
@@ -136,7 +151,7 @@ describe('App routing', () => {
       screen.getByRole('heading', { level: 1, name: 'Privacy' }),
     );
 
-    fireEvent.click(screen.getByRole('link', { name: 'Back to all roadmaps' }));
+    fireEvent.click(screen.getByRole('link', { name: 'View all roadmaps' }));
     expect(window.location.pathname).toBe('/product-roadmaps/en/');
     expect(
       screen.getByRole('heading', { level: 1, name: 'Product roadmaps' }),
@@ -387,7 +402,7 @@ describe('organisation filter', () => {
 
   it('shows how many items match on a roadmap, and clears from the banner', () => {
     renderAt(`${productPage}?org=cavuhb&all=no`);
-    expect(screen.getByRole('link', { name: '← All roadmaps' })).toHaveProperty(
+    expect(screen.getByRole('link', { name: 'All roadmaps' })).toHaveProperty(
       'href',
       `${window.location.origin}/product-roadmaps/en/?org=cavuhb&all=no`,
     );

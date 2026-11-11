@@ -120,14 +120,14 @@ test.describe('without JavaScript', () => {
     await expect(page.getByText('Swansea Bay').first()).toBeVisible();
   });
 
-  test('the footer opens the privacy page, which links back', async ({
+  test('the footer opens the privacy page, which links to all roadmaps', async ({
     page,
   }) => {
     await page.goto('cy/');
     await page.getByRole('link', { name: 'Preifatrwydd' }).click();
     await expect(page).toHaveURL(/\/product-roadmaps\/cy\/privacy\/$/);
     await expect(h1(page)).toHaveText('Preifatrwydd');
-    await page.getByRole('link', { name: 'Yn ôl i bob trywydd' }).click();
+    await page.getByRole('link', { name: 'Gweld pob trywydd' }).click();
     await expect(page).toHaveURL(/\/product-roadmaps\/cy\/$/);
     await expect(h1(page)).toHaveText('Trywyddion cynnyrch');
   });
@@ -240,7 +240,7 @@ test.describe('accessibility and privacy pages', () => {
     await expect(page).toHaveURL(/\/product-roadmaps\/en\/privacy\/$/);
     await expect(page.getByText(/Simple Analytics/)).toBeVisible();
 
-    await page.getByRole('link', { name: 'Back to all roadmaps' }).click();
+    await page.getByRole('link', { name: 'View all roadmaps' }).click();
     await expect(page).toHaveURL(/\/product-roadmaps\/en\/$/);
     await expect(h1(page)).toHaveText('Product roadmaps');
     expect(
@@ -250,10 +250,12 @@ test.describe('accessibility and privacy pages', () => {
     ).toBe(true);
   });
 
-  test('the landing page ends with the beta notice', async ({ page }) => {
+  test('the landing page has a section about the roadmaps', async ({
+    page,
+  }) => {
     await page.goto('en/');
     await expect(
-      page.getByText('These roadmaps are in beta and still being tested'),
+      page.getByRole('heading', { name: 'About these roadmaps' }),
     ).toBeVisible();
   });
 });
@@ -443,7 +445,7 @@ test.describe('organisation filter', () => {
       page.getByText('Showing 2 of 9 items for Cardiff and Vale').first(),
     ).toBeVisible();
     await expect(
-      page.getByRole('link', { name: '← All roadmaps' }),
+      page.getByRole('link', { name: 'All roadmaps' }),
     ).toHaveAttribute('href', '/product-roadmaps/en/?org=cavuhb&all=no');
 
     await page.getByRole('link', { name: 'Cymraeg' }).click();

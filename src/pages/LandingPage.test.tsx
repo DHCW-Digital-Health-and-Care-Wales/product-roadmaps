@@ -81,7 +81,7 @@ const tiles = () => {
 const sectionHeadings = () =>
   screen
     .queryAllByRole('heading', { level: 2 })
-    .filter((h) => !h.closest('nav'))
+    .filter((h) => h.id.startsWith('category-'))
     .map((h) => h.textContent);
 
 const cardTitles = (section: string) =>

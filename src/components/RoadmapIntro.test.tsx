@@ -41,18 +41,18 @@ describe('RoadmapIntro', () => {
     );
   });
 
-  it('shows the status, date and product lead, with a hidden dot before the lead', () => {
+  it('shows the status, date and product lead, with hidden dots between them', () => {
     renderIntro({
       statusLabel: loc('Beta'),
       lastUpdated: '2026-10-01',
       productLead: 'Alex Jones',
     });
-    const line = screen.getByText('Beta').parentElement!;
+    const line = screen.getByText(/^Status:/).parentElement!;
     expect(line.textContent).toBe(
-      'BetaLast updated: 1 October 2026·Product lead: Alex Jones',
+      'Status: Beta·Last updated: 1 October 2026·Product lead: Alex Jones',
     );
     const hidden = [...line.querySelectorAll('[aria-hidden="true"]')];
-    expect(hidden.map((el) => el.textContent)).toEqual(['·']);
+    expect(hidden.map((el) => el.textContent)).toEqual(['·', '·']);
   });
 
   it('shows the same product lead name in Welsh, with a Welsh label', () => {
@@ -61,13 +61,14 @@ describe('RoadmapIntro', () => {
   });
 
   it('hides the product lead and its separator when blank', () => {
-    const { container } = renderIntro({
+    renderIntro({
       statusLabel: loc('Beta'),
       lastUpdated: '2026-10-01',
       productLead: '',
     });
     expect(screen.queryByText(/Product lead/)).toBeNull();
-    expect(container.textContent).not.toContain('·');
+    const line = screen.getByText(/^Status:/).parentElement!;
+    expect(line.textContent).toBe('Status: Beta·Last updated: 1 October 2026');
   });
 
   it('leaves out the metadata line when nothing is set', () => {

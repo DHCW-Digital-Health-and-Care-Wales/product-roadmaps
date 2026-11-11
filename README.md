@@ -92,7 +92,7 @@ for bootstrapping a spreadsheet.
 | `Title`               | Page heading and landing page card name.                         |
 | `Category`            | Landing page group: one of the categories listed below, matched ignoring case and spaces. Blank puts the roadmap under "Other roadmaps". |
 | `Family`              | Optional product family, for example `Single Record`. Shown with a swatch in the roadmap's colour above the title on the landing page card and the roadmap page. The roadmap page's heading and title read `Single Record: Nursing Healthcare`. |
-| `Status label`        | Badge under the title, for example `Beta`.                       |
+| `Status label`        | Shown as text under the title on the roadmap page (`Status: Beta`) and above it on the landing page card, for example `Beta`. |
 | `Last updated`        | `YYYY-MM-DD` or `DD/MM/YYYY`.                                    |
 | `Colour`              | Hex highlight colour, for example `#325083`. Used on the landing page card and as the edge under the roadmap page's intro. |
 | `Vision`              | "Our vision", at the top of the roadmap page under the title. Leave blank to show a general intro sentence instead. |

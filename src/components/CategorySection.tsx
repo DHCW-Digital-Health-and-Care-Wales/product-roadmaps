@@ -17,7 +17,8 @@ export function CategorySection({
     <section
       id={id}
       aria-labelledby={`${id}-heading`}
-      className="pt-10 [section+&]:pt-16"
+      // The margin keeps the gap above the heading when a tile jumps here.
+      className="scroll-mt-(--block-gap)"
     >
       <div className="flex items-center gap-3.5">
         <CategoryIcon category={category} size="large" />
@@ -30,7 +31,7 @@ export function CategorySection({
           </p>
         </div>
       </div>
-      <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="mt-6 card-gap grid sm:grid-cols-2 lg:grid-cols-3">
         {roadmaps.map((roadmap) => (
           <ProductCard key={roadmap.slug} roadmap={roadmap} filter={filter} />
         ))}

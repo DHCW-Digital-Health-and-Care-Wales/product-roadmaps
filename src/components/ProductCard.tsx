@@ -43,14 +43,26 @@ export function ProductCard({
         style={{ backgroundColor: accent }}
       />
       <div className="flex flex-1 flex-col p-6">
-        <div className="flex flex-wrap items-center gap-2 text-xs">
+        {/* overflow-hidden clips the dot if the date wraps to the start of a
+            line, so it only shows between the status and the date. */}
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 overflow-hidden text-xs text-ink-700">
           {meta.statusLabel.en ? (
-            <span className="inline-flex items-center rounded-full bg-heading px-2.5 py-0.5 font-medium text-white">
+            <span>
               <T value={meta.statusLabel} />
             </span>
           ) : null}
           {meta.lastUpdated ? (
-            <span className="text-ink-700">
+            <span className="relative">
+              {meta.statusLabel.en ? (
+                // -left-1.5 is half the parent's gap-x-3, which centres the
+                // dot in the gap; change the two together.
+                <span
+                  aria-hidden="true"
+                  className="absolute -left-1.5 -translate-x-1/2 text-ink-500"
+                >
+                  ·
+                </span>
+              ) : null}
               <T value={UI.updated} />{' '}
               <time dateTime={meta.lastUpdated}>
                 {formatDate(meta.lastUpdated, lang)}

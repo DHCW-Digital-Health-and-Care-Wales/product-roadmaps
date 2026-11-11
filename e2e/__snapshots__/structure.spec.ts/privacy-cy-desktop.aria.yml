@@ -10,11 +10,14 @@
     - link "English":
       - /url: /product-roadmaps/en/privacy/
 - main:
-  - link "Yn ôl i bob trywydd":
-    - /url: /product-roadmaps/cy/
+  - paragraph:
+    - strong: Beta
+    - text: Mae hwn yn wasanaeth newydd. Rydym yn dal i weithio ar ffyrdd o’i wella.
   - heading "Preifatrwydd" [level=1]
   - paragraph: Nid yw’r safle hwn yn gosod cwcis. Rydym yn defnyddio Simple Analytics, gwasanaeth sy’n rhoi blaenoriaeth i breifatrwydd ac nad yw’n defnyddio cwcis nac yn casglu data personol, i gyfrif ymweliadau.
   - paragraph: Mae’r ffontiau’n cael eu gwesteia gennym ni ein hunain, felly nid yw eich ymweliad yn cael ei rannu â gwasanaeth ffont allanol.
+  - link "Gweld pob trywydd":
+    - /url: /product-roadmaps/cy/
 - contentinfo:
   - img "Iechyd a Gofal Digidol Cymru"
   - navigation "Dolenni troedyn":

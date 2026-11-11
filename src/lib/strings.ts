@@ -45,11 +45,6 @@ export const UI = {
     en: 'We want as many people as possible to be able to use these roadmaps. We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA.',
     cy: 'Rydym am i gymaint o bobl â phosibl allu defnyddio’r trywyddion hyn. Rydym yn anelu at gydymffurfio â Chanllawiau Hygyrchedd Cynnwys Gwe (WCAG) 2.2 ar lefel AA.',
   },
-  betaNotice: {
-    en: 'These roadmaps are in beta and still being tested, we welcome any feedback.',
-    cy: 'Mae’r trywyddion hyn yn fersiwn beta ac maen nhw’n dal i gael eu profi. Rydym yn croesawu unrhyw adborth.',
-  },
-
   privacyHeading: { en: 'Privacy', cy: 'Preifatrwydd' },
   privacyTracking: {
     en: 'This site sets no cookies. We use Simple Analytics, a privacy-first service that does not use cookies or collect personal data, to count visits.',
@@ -61,10 +56,31 @@ export const UI = {
   },
 
   phaseBadge: { en: 'Beta', cy: 'Beta' },
+  phaseBannerText: {
+    en: 'This is a new service. We’re still working on ways to improve it.',
+    cy: 'Mae hwn yn wasanaeth newydd. Rydym yn dal i weithio ar ffyrdd o’i wella.',
+  },
   landingTitle: { en: 'Product roadmaps', cy: 'Trywyddion cynnyrch' },
+  // Also the landing page's meta description, so keep it short.
   landingIntro: {
-    en: 'See what Digital Health and Care Wales is working on now, what’s coming next and the direction we expect to take later.',
-    cy: 'Gweld beth mae Iechyd a Gofal Digidol Cymru yn gweithio arno nawr, beth sy’n dod nesaf a’r cyfeiriad rydym yn disgwyl ei gymryd yn hwyrach.',
+    en: 'These roadmaps show what we’re working on, what we currently expect to do next and where we think we’re heading. They are not fixed plans and will change as we learn.',
+    cy: 'Mae’r trywyddion hyn yn dangos yr hyn rydym yn gweithio arno, yr hyn rydym yn disgwyl ei wneud nesaf ar hyn o bryd a ble rydym yn meddwl ein bod yn anelu. Nid cynlluniau sefydlog yw’r rhain a byddant yn newid wrth i ni ddysgu.',
+  },
+  aboutRoadmapsHeading: {
+    en: 'About these roadmaps',
+    cy: 'Am y trywyddion hyn',
+  },
+  aboutRoadmapsOpen: {
+    en: 'We believe being open about our plans is better than waiting until everything is perfect. These roadmaps will evolve as we learn, priorities change and we hear from the people who use and depend on our services.',
+    cy: 'Rydym yn credu bod bod yn agored am ein cynlluniau yn well nag aros nes bod popeth yn berffaith. Bydd y trywyddion hyn yn esblygu wrth i ni ddysgu, wrth i flaenoriaethau newid ac wrth i ni glywed gan y bobl sy’n defnyddio ac yn dibynnu ar ein gwasanaethau.',
+  },
+  aboutRoadmapsBeta: {
+    en: 'The roadmaps are also in beta. We are continuing to refine and develop their content so they give our users and our partners what they need to understand our mission and priorities.',
+    cy: 'Mae’r trywyddion hefyd mewn beta. Rydym yn parhau i fireinio a datblygu eu cynnwys fel eu bod yn rhoi’r hyn sydd ei angen ar ein defnyddwyr a’n partneriaid iddynt ddeall ein cenhadaeth a’n blaenoriaethau.',
+  },
+  aboutRoadmapsFeedback: {
+    en: 'We’d really like to know what you think. Your feedback will help us improve both these roadmaps and how we communicate our plans.',
+    cy: 'Byddem wrth ein bodd yn gwybod beth yw eich barn. Bydd eich adborth yn ein helpu i wella’r trywyddion hyn a’r ffordd rydym yn cyfathrebu ein cynlluniau.',
   },
   browseCategories: { en: 'Browse by category', cy: 'Pori yn ôl categori' },
   searchRoadmaps: { en: 'Search roadmaps', cy: 'Chwilio trywyddion' },
@@ -151,6 +167,7 @@ export const UI = {
 
   allRoadmaps: { en: 'All roadmaps', cy: 'Pob trywydd' },
   lastUpdated: { en: 'Last updated', cy: 'Diweddarwyd ddiwethaf' },
+  status: { en: 'Status', cy: 'Statws' },
   productLead: { en: 'Product lead', cy: 'Arweinydd cynnyrch' },
   vision: { en: 'Our vision', cy: 'Ein gweledigaeth' },
   value: { en: 'Our value', cy: 'Ein gwerth' },
@@ -222,5 +239,4 @@ export const UI = {
     cy: 'Ni allem ddod o hyd i’r dudalen honno. Efallai ei bod wedi symud neu wedi’i dileu.',
   },
   viewAllRoadmaps: { en: 'View all roadmaps', cy: 'Gweld pob trywydd' },
-  backToRoadmaps: { en: 'Back to all roadmaps', cy: 'Yn ôl i bob trywydd' },
 } satisfies Record<string, Localised>;

@@ -11,14 +11,17 @@
       - /url: /product-roadmaps/en/producta/
   - button "Agor y ddewislen"
 - main:
+  - paragraph:
+    - strong: Beta
+    - text: Mae hwn yn wasanaeth newydd. Rydym yn dal i weithio ar ffyrdd o’i wella.
   - status
   - 'region "Single Record: Product A roadmap"':
-    - link "← Pob trywydd":
+    - link "Pob trywydd":
       - /url: /product-roadmaps/cy/
     - group: Hidlo yn ôl sefydliad
     - 'heading "Single Record: Product A roadmap" [level=1]'
     - paragraph:
-      - text: "Beta Diweddarwyd ddiwethaf:"
+      - text: "Statws: Beta Diweddarwyd ddiwethaf:"
       - time: /1 Hydref \d+/
       - text: "Arweinydd cynnyrch: Alex Jones"
     - heading "Ein gweledigaeth" [level=2]

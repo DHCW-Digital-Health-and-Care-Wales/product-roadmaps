@@ -38,10 +38,7 @@ export function LandingPage({
 
   return (
     <>
-      <section
-        aria-labelledby="landing-title"
-        className="bg-surface-subtle px-4 pb-12 pt-6 sm:px-6"
-      >
+      <section aria-labelledby="landing-title" className="page-intro">
         <div className="mx-auto max-w-content">
           <h1
             id="landing-title"
@@ -57,8 +54,8 @@ export function LandingPage({
         </div>
       </section>
 
-      <div className="px-4 py-12 sm:px-6">
-        <div className="mx-auto max-w-content">
+      <div className="page-body">
+        <div className="mx-auto flex max-w-content flex-col gap-(--block-gap)">
           {roadmaps.length > 0 ? (
             <>
               <SearchBar
@@ -96,7 +93,7 @@ export function LandingPage({
           )}
           <section
             aria-labelledby="about-roadmaps-heading"
-            className="mt-12 max-w-3xl"
+            className="max-w-3xl"
           >
             <h2
               id="about-roadmaps-heading"
@@ -128,7 +125,7 @@ export function LandingPage({
 /** Says nothing matches, offering to clear the filter if there is one. */
 function NoMatches({ query, filter }: { query: string; filter: OrgFilter }) {
   const box =
-    'mt-8 rounded-card border border-border bg-surface-subtle p-5 font-medium text-ink-700';
+    'rounded-card border border-border bg-surface-subtle p-5 font-medium text-ink-700';
   if (!filter.org) {
     return (
       <p className={box}>

@@ -72,7 +72,7 @@ export function RoadmapIntro({
     <section
       id="about"
       aria-labelledby="roadmap-title"
-      className="scroll-mt-28 border-b-4 bg-surface-subtle px-4 pb-8 pt-6 sm:px-6 sm:pb-10"
+      className="page-intro scroll-mt-28 border-b-4"
       style={{ borderBottomColor: meta.colour }}
     >
       {/* From xl the filter gets its own column, so opening it doesn't push the

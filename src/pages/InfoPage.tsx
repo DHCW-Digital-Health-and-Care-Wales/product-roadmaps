@@ -18,7 +18,7 @@ export function InfoPage({ page }: { page: InfoPageId }) {
 
   return (
     <>
-      <div className="bg-surface-subtle px-4 pb-8 pt-6 sm:px-6">
+      <div className="page-intro">
         <h1
           tabIndex={-1}
           className="mx-auto max-w-content text-3xl font-bold text-heading"
@@ -26,7 +26,7 @@ export function InfoPage({ page }: { page: InfoPageId }) {
           <T value={heading} />
         </h1>
       </div>
-      <div className="px-4 pb-16 pt-8 sm:px-6">
+      <div className="page-body">
         <div className="mx-auto max-w-content">
           <div className="max-w-3xl space-y-4 leading-relaxed text-ink-900">
             {paragraphs.map((paragraph) => (

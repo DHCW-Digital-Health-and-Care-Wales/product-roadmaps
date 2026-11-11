@@ -58,15 +58,33 @@
   }
 }
 
+/* Vertical rhythm. Pages are full-width bands: a grey page-intro with the
+   heading, then page-section bands (roadmaps) or a final page-body band. Each
+   band's padding is the same 32px (40px from sm), so a change of background
+   needs less space than --block-gap, which separates blocks within a band. */
+@utility page-intro {
+  @apply bg-surface-subtle px-4 pt-6 pb-8 sm:px-6 sm:pb-10;
+}
+
 @utility page-section {
   /* A full-width section of a roadmap page, so they all share one rhythm. */
   @apply border-b border-border px-4 py-8 sm:px-6 sm:py-10;
 }
 
+@utility page-body {
+  /* The last band before the footer, with extra space below. */
+  @apply px-4 pt-8 pb-12 sm:px-6 sm:pt-10 sm:pb-16;
+}
+
+@utility card-gap {
+  /* The gap between cards and tiles in every grid. */
+  @apply gap-4 sm:gap-6;
+}
+
 @utility card-grid {
   /* Roadmap cards, in the Now/Next/Later phases and the other sections, so
      they always show the same number of columns. */
-  @apply grid gap-4 sm:grid-cols-2 xl:grid-cols-3;
+  @apply grid card-gap sm:grid-cols-2 xl:grid-cols-3;
 }
 
 @layer base {
@@ -100,6 +118,14 @@
      fixed header taller, so the page moves down to match. */
   :root {
     --filter-strip-height: 2.5rem;
+    /* The space between blocks within a band, such as the landing page's
+       search, categories and about section. */
+    --block-gap: 2.5rem;
+  }
+  @variant sm {
+    :root {
+      --block-gap: 3rem;
+    }
   }
   @variant max-sm {
     html:has([data-filter-strip]) {

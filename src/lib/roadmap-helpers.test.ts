@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  countInParentheses,
   countItems,
   countText,
   emptyText,
@@ -176,6 +177,19 @@ describe('countText', () => {
     expect(countText({ shown: 2, total: 5 })).toEqual({
       en: '2 of 5',
       cy: '2 o 5',
+    });
+  });
+});
+
+describe('countInParentheses', () => {
+  it('localises and wraps filtered and unfiltered counts', () => {
+    expect(countInParentheses({ shown: 5, total: 5 })).toEqual({
+      en: '(5)',
+      cy: '(5)',
+    });
+    expect(countInParentheses({ shown: 2, total: 5 })).toEqual({
+      en: '(2 of 5)',
+      cy: '(2 o 5)',
     });
   });
 });

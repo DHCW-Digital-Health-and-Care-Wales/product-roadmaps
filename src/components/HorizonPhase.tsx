@@ -1,5 +1,5 @@
 import type { Localised, OrgFilter } from '../lib/types';
-import { countText, type ShownItem } from '../lib/roadmap-helpers';
+import { countInParentheses, type ShownItem } from '../lib/roadmap-helpers';
 import { EmptyItems } from './EmptyItems';
 import { RoadmapCard } from './RoadmapCard';
 import { T } from './T';
@@ -36,13 +36,13 @@ export function HorizonPhase({
     >
       <h3
         id={headingId}
-        className="flex items-center gap-2 bg-heading px-4 py-3 text-lg font-bold text-white"
+        className="bg-heading px-4 py-3 text-lg font-bold text-white"
       >
         <span>
           <T value={label} />
-        </span>
-        <span className="inline-flex h-6 min-w-6 items-center justify-center rounded-full border border-white/30 bg-white/10 px-2 text-xs font-semibold text-white">
-          <T value={countText({ shown: items.length, total })} />
+        </span>{' '}
+        <span className="text-base font-normal text-white/80">
+          <T value={countInParentheses({ shown: items.length, total })} />
         </span>
       </h3>
       <div className="p-3 sm:p-4">

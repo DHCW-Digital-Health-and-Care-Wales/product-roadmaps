@@ -165,6 +165,10 @@ export const countText = (count: ItemCount): Localised =>
     ? { en: String(count.total), cy: String(count.total) }
     : countOf(count);
 
+/** A roadmap heading's count, e.g. "(2)" or "(2 of 5)". */
+export const countInParentheses = (count: ItemCount): Localised =>
+  fill(UI.countInParentheses, { count: countText(count) });
+
 /** How many of an empty section's `total` items the filter hides. */
 export const hiddenCount = ({ org }: OrgFilter, total: number): number =>
   org ? total : 0;

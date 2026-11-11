@@ -518,11 +518,24 @@ describe('organisation filter', () => {
       '1 of 3Now',
     );
     expect(
-      screen.getByRole('heading', { level: 2, name: /^Now ?1 of 3$/ }),
+      screen.getByRole('heading', { level: 2, name: /^Now \(1 of 3\)$/ }),
     ).toBeTruthy();
     expect(
       screen.getByRole('link', { name: 'Card view' }).getAttribute('href'),
     ).toBe(`${productPage}?org=cavuhb&all=no`);
+  });
+
+  it('includes filtered counts in card-view headings', () => {
+    renderAt(`${productPage}?org=cavuhb&all=no`);
+    expect(
+      screen.getByRole('heading', { level: 3, name: /^Now \(1 of 3\)$/ }),
+    ).toBeTruthy();
+    expect(
+      screen.getByRole('heading', {
+        level: 2,
+        name: /^Recently delivered \(0 of 1\)$/,
+      }),
+    ).toBeTruthy();
   });
 });
 

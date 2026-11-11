@@ -40,12 +40,10 @@
           - link "Product A roadmap":
             - /url: /product-roadmaps/cy/producta/
         - paragraph: What Product A does and who it helps. Also used as the summary on the landing page card.
-        - term: Nawr
-        - definition: "3"
-        - term: Nesaf
-        - definition: "1"
-        - term: Hwyrach
-        - definition: "2"
+        - list:
+          - listitem: 3 Nawr
+          - listitem: 1 Nesaf
+          - listitem: 2 Hwyrach
   - region "Trywyddion eraill":
     - heading "Trywyddion eraill" [level=2]
     - paragraph: Trywyddion nad ydynt mewn categori eto
@@ -58,12 +56,10 @@
           - link "Trywydd Cynnyrch B":
             - /url: /product-roadmaps/cy/productb/
         - paragraph: Beth mae Cynnyrch B yn ei wneud a phwy mae’n ei helpu. Nid oes gan y trywydd hwn weledigaeth, felly mae brawddeg gyflwyno gyffredinol yn ymddangos yn lle hynny.
-        - term: Nawr
-        - definition: "2"
-        - term: Nesaf
-        - definition: "1"
-        - term: Hwyrach
-        - definition: "1"
+        - list:
+          - listitem: 2 Nawr
+          - listitem: 1 Nesaf
+          - listitem: 1 Hwyrach
   - region "Am y trywyddion hyn":
     - heading "Am y trywyddion hyn" [level=2]
     - paragraph: Rydym yn credu bod bod yn agored am ein cynlluniau yn well nag aros nes bod popeth yn berffaith. Bydd y trywyddion hyn yn esblygu wrth i ni ddysgu, wrth i flaenoriaethau newid ac wrth i ni glywed gan y bobl sy’n defnyddio ac yn dibynnu ar ein gwasanaethau.

@@ -383,8 +383,8 @@ describe('LandingPage', () => {
         .getByRole('link', { name: categorised[0].meta.title.en })
         .closest('li')!;
       expect(card.textContent).toContain('2 of 9 items for Cardiff and Vale');
-      const now = within(card).getByText('Now').closest('div');
-      expect(now?.textContent).toBe('Now1');
+      const now = within(card).getByText('Now').closest('li');
+      expect(now?.textContent).toContain('1Now');
     });
 
     it('offers to show every organisation when nothing matches', () => {

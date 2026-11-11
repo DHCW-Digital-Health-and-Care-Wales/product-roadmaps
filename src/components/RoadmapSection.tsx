@@ -57,7 +57,7 @@ export function RoadmapSection({
             filter={filter}
             total={total}
             headingId={headingId}
-            className="mt-6 rounded-card border border-border bg-surface-subtle p-5 font-medium text-ink-700"
+            className="mt-6 text-ink-700"
           />
         )}
       </div>

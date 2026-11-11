@@ -120,6 +120,18 @@ test.describe('without JavaScript', () => {
     await expect(page.getByText('Swansea Bay').first()).toBeVisible();
   });
 
+  test('the footer opens the privacy page, which links back', async ({
+    page,
+  }) => {
+    await page.goto('cy/');
+    await page.getByRole('link', { name: 'Preifatrwydd' }).click();
+    await expect(page).toHaveURL(/\/product-roadmaps\/cy\/privacy\/$/);
+    await expect(h1(page)).toHaveText('Preifatrwydd');
+    await page.getByRole('link', { name: 'Yn ôl i bob trywydd' }).click();
+    await expect(page).toHaveURL(/\/product-roadmaps\/cy\/$/);
+    await expect(h1(page)).toHaveText('Trywyddion cynnyrch');
+  });
+
   test('a missing page is in Welsh and English', async ({ page }) => {
     await page.goto('cy/nope/');
     await expect(h1(page)).toHaveText(
@@ -205,6 +217,44 @@ test.describe('navigation', () => {
     await page.goto('en/nope/');
     await expect(h1(page)).toHaveText('Roadmap not found');
     await expect(page.getByText('called “nope”')).toBeVisible();
+  });
+});
+
+test.describe('accessibility and privacy pages', () => {
+  test('open from the footer and go back, without reloading', async ({
+    page,
+  }) => {
+    await page.goto('en/');
+    await page.evaluate(() => {
+      (window as unknown as { marker: boolean }).marker = true;
+    });
+    await expect(page.getByText(/WCAG/)).toHaveCount(0);
+    await expect(page.getByText(/Simple Analytics/)).toHaveCount(0);
+
+    await page.getByRole('link', { name: 'Accessibility statement' }).click();
+    await expect(page).toHaveURL(/\/product-roadmaps\/en\/accessibility\/$/);
+    await expect(h1(page)).toBeFocused();
+    await expect(page.getByText(/WCAG/)).toBeVisible();
+
+    await page.getByRole('link', { name: 'Privacy' }).click();
+    await expect(page).toHaveURL(/\/product-roadmaps\/en\/privacy\/$/);
+    await expect(page.getByText(/Simple Analytics/)).toBeVisible();
+
+    await page.getByRole('link', { name: 'Back to all roadmaps' }).click();
+    await expect(page).toHaveURL(/\/product-roadmaps\/en\/$/);
+    await expect(h1(page)).toHaveText('Product roadmaps');
+    expect(
+      await page.evaluate(
+        () => (window as unknown as { marker?: boolean }).marker,
+      ),
+    ).toBe(true);
+  });
+
+  test('the landing page ends with the beta notice', async ({ page }) => {
+    await page.goto('en/');
+    await expect(
+      page.getByText('These roadmaps are in beta and still being tested'),
+    ).toBeVisible();
   });
 });
 
@@ -575,6 +625,8 @@ test.describe('accessibility (axe, including colour contrast)', () => {
     landing: '',
     product: `${first.slug}/`,
     'not found': 'nope/',
+    accessibility: 'accessibility/',
+    privacy: 'privacy/',
     'filtered landing': '?org=cavuhb',
     'filtered product': `${first.slug}/?org=cavuhb&all=no`,
   };

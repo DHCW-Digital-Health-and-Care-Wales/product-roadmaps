@@ -96,6 +96,9 @@ export function LandingPage({
               <T value={UI.noRoadmaps} />
             </p>
           )}
+          <p className="mt-12 text-ink-700">
+            <T value={UI.betaNotice} />
+          </p>
         </div>
       </div>
     </>

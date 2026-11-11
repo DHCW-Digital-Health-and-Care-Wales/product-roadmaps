@@ -20,8 +20,11 @@ interface FooterLink {
   key: string;
   href: string;
   label: Localised;
-  /** `app` links switch the page in place, so they need JavaScript. */
-  kind: 'external' | 'page' | 'app';
+  /**
+   * `app` links switch the layout in place, so they need JavaScript; `route`
+   * links are real pages that JavaScript opens without a reload.
+   */
+  kind: 'external' | 'page' | 'app' | 'route';
 }
 
 /**
@@ -51,15 +54,15 @@ export function SiteFooter({
     },
     {
       key: 'accessibility',
-      href: '#accessibility',
+      href: pathFor(lang, 'accessibility'),
       label: UI.accessibilityHeading,
-      kind: 'page',
+      kind: 'route',
     },
     {
       key: 'privacy',
-      href: '#privacy',
+      href: pathFor(lang, 'privacy'),
       label: UI.privacyHeading,
-      kind: 'page',
+      kind: 'route',
     },
     ...(dataSlug
       ? [
@@ -110,7 +113,9 @@ export function SiteFooter({
                   onClick={
                     link.kind === 'app'
                       ? onNavigate(link.href, { scroll: false })
-                      : undefined
+                      : link.kind === 'route'
+                        ? onNavigate(link.href)
+                        : undefined
                   }
                   className="text-sm underline underline-offset-4 hover:no-underline"
                   {...(link.kind === 'external'

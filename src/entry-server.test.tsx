@@ -20,6 +20,8 @@ describe('prerender', () => {
       'index.html',
       ...['cy', 'en'].flatMap((lang) => [
         `${lang}/index.html`,
+        `${lang}/accessibility/index.html`,
+        `${lang}/privacy/index.html`,
         ...snapshot.map((roadmap) => `${lang}/${roadmap.slug}/index.html`),
       ]),
       '404.html',

@@ -1,17 +1,17 @@
 import { useEffect, useRef } from 'react';
 import { roadmaps } from './lib/roadmaps';
 import { useLanguage } from './lib/i18n';
+import { INFO_PAGES } from './lib/info-pages';
 import { organisationsWithWork, titleWithFamily } from './lib/roadmap-helpers';
 import { NO_ORG_FILTER } from './lib/types';
-import { useOrgFilter, useView } from './lib/router';
+import { useOrgFilter, useView, isInfoPage } from './lib/router';
 import { UI } from './lib/strings';
 import { T } from './components/T';
 import { SiteHeader } from './components/SiteHeader';
-import { AccessibilityStatement } from './components/AccessibilityStatement';
-import { PrivacyNote } from './components/PrivacyNote';
 import { SiteFooter } from './components/SiteFooter';
 import { BackToTop } from './components/BackToTop';
 import { NotFoundState } from './components/NotFoundState';
+import { InfoPage } from './pages/InfoPage';
 import { LandingPage } from './pages/LandingPage';
 import { RoadmapPage } from './pages/RoadmapPage';
 
@@ -25,7 +25,9 @@ export default function App() {
   const view = useView();
   const filter = useOrgFilter();
   const { slug } = route;
-  const roadmap = slug ? roadmaps.find((r) => r.slug === slug) : undefined;
+  const infoPage = isInfoPage(slug) ? slug : null;
+  const roadmap =
+    slug && !infoPage ? roadmaps.find((r) => r.slug === slug) : undefined;
   const mainRef = useRef<HTMLElement>(null);
   const previousSlugRef = useRef(slug);
 
@@ -33,9 +35,10 @@ export default function App() {
     const site = tr(UI.siteTitle);
     let page: string | undefined;
     if (roadmap) page = tr(titleWithFamily(roadmap.meta));
+    else if (infoPage) page = tr(INFO_PAGES[infoPage].heading);
     else if (slug !== null) page = tr(UI.notFoundHeading);
     document.title = page ? `${page} – ${site}` : site;
-  }, [roadmap, slug, tr]);
+  }, [roadmap, infoPage, slug, tr]);
 
   // After client-side navigation, move focus to the new page's heading so
   // screen readers announce it (runs after the title update above).
@@ -51,6 +54,8 @@ export default function App() {
   let content;
   if (slug === null) {
     content = <LandingPage roadmaps={roadmaps} filter={filter} />;
+  } else if (infoPage) {
+    content = <InfoPage page={infoPage} />;
   } else if (!roadmap) {
     content = <NotFoundState slug={slug} />;
   } else {
@@ -78,8 +83,6 @@ export default function App() {
 
       <main id="main-content" ref={mainRef}>
         {content}
-        <AccessibilityStatement />
-        <PrivacyNote />
       </main>
 
       <SiteFooter dataSlug={roadmap?.slug} view={view} filter={filter} />

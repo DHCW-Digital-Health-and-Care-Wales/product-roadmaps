@@ -34,6 +34,11 @@
   --container-content: 80rem;
 }
 
+/* Short viewports, such as 400% zoom or a phone held sideways, where fixed
+   elements would cover much of the screen. In em, so it also responds to a
+   larger browser text size. */
+@custom-variant short (@media (max-height: 30em));
+
 @layer base {
   /* Tailwind 4 dropped the pointer cursor on buttons. */
   button:not(:disabled),
@@ -108,7 +113,8 @@
   }
 
   /* Smooth in-page scrolling, disabled under reduced-motion below. The padding
-     keeps focused and linked elements clear of the fixed header (WCAG 2.4.11). */
+     keeps focused and linked elements clear of the fixed header (WCAG 2.4.11),
+     except on short screens (below). */
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 7rem;
@@ -133,6 +139,17 @@
     }
     header:has([data-filter-strip]) ~ main {
       padding-top: var(--filter-strip-height);
+    }
+  }
+
+  /* On short screens the header isn't fixed (SiteHeader), so nothing covers
+     the top of the page; sections drop their scroll-mt-28 with
+     short:scroll-mt-0 to match. Matches the filter strip rule above to
+     override it. */
+  @variant short {
+    html,
+    html:has([data-filter-strip]) {
+      scroll-padding-top: 1rem;
     }
   }
 }

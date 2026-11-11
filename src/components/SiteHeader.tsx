@@ -15,11 +15,14 @@ const NAV_LINKS: { href: string; label: Localised }[] = [
 ];
 
 /**
- * Fixed brand header: NHS Wales Blue bar with the DHCW logo (linking to all
+ * Brand header: NHS Wales Blue bar with the DHCW logo (linking to all
  * roadmaps), in-page navigation on product pages, the organisation filter
  * while one is set, and the language toggle. Below `lg` the section links
  * move into a menu button, so the filter chip and language toggle fit on one
- * line; below `sm` the filter goes on a line of its own.
+ * line; below `sm` the filter goes on a line of its own. It's fixed to the
+ * top, except on short screens (such as 400% zoom), where it scrolls away
+ * with the page instead of covering it. It stays out of the flow either way,
+ * so the space below it still lines up.
  */
 export function SiteHeader({
   filter,
@@ -34,7 +37,7 @@ export function SiteHeader({
   const home = withOrgFilter(pathFor(lang, null), filter);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-nhs-wales-blue text-white shadow-md">
+    <header className="fixed inset-x-0 top-0 z-50 bg-nhs-wales-blue text-white shadow-md short:absolute">
       <div className="mx-auto flex max-w-content items-center justify-between gap-4 px-4 py-3 sm:px-6">
         <a
           href={home}

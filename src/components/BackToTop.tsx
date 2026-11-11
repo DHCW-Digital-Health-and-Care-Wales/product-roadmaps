@@ -6,7 +6,8 @@ import { T } from './T';
 /**
  * Back-to-top button (from the Figma design). Appears after scrolling and
  * scrolls back to the top of the page. Honours reduced-motion via
- * the global stylesheet.
+ * the global stylesheet. On short screens (such as 400% zoom) it shrinks to
+ * just the icon, keeping its text for screen readers.
  */
 export function BackToTop() {
   // Starts hidden so the prerendered HTML matches; shows on the first scroll.
@@ -36,10 +37,12 @@ export function BackToTop() {
     <a
       href="#top"
       onClick={scrollToTop}
-      className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 rounded-full bg-heading px-4 py-3 text-sm font-medium text-white shadow-lg transition-colors hover:bg-action"
+      className="fixed bottom-6 right-6 z-50 inline-flex items-center gap-2 rounded-full bg-heading px-4 py-3 text-sm font-medium text-white shadow-lg transition-colors hover:bg-action short:bottom-2 short:right-2 short:p-2"
     >
       <ChevronUp className="h-5 w-5" aria-hidden="true" />
-      <T value={UI.backToTop} />
+      <span className="short:sr-only">
+        <T value={UI.backToTop} />
+      </span>
     </a>
   );
 }

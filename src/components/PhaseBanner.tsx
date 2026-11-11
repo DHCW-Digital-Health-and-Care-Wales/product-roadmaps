@@ -4,7 +4,7 @@ import { T } from './T';
 
 /**
  * GOV.UK-style phase banner at the top of every page: the beta tag with a line
- * about the service. Its top padding clears the fixed SiteHeader (72px, 88px
+ * about the service. Its top padding clears the SiteHeader (72px, 88px
  * from sm) by 16px, so pages start below it without their own clearance;
  * index.css moves <main> down further while the mobile filter strip shows.
  * The strip is surface-subtle to run into the grey top of most pages; info

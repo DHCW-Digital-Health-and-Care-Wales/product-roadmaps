@@ -13,10 +13,10 @@
   - paragraph:
     - strong: Beta
     - text: This is a new service. We’re still working on ways to improve it.
-  - link "Back to all roadmaps":
-    - /url: /product-roadmaps/en/
   - heading "Accessibility statement" [level=1]
   - paragraph: We want as many people as possible to be able to use these roadmaps. We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA.
+  - link "View all roadmaps":
+    - /url: /product-roadmaps/en/
 - contentinfo:
   - img "Digital Health and Care Wales"
   - navigation "Footer links":

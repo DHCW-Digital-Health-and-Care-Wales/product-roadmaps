@@ -1,11 +1,8 @@
-import { ArrowRight } from 'lucide-react';
 import { fill, LANGUAGES, useLanguage } from '../lib/i18n';
-import { onNavigate, pathFor } from '../lib/router';
+import { pathFor } from '../lib/router';
 import { UI } from '../lib/strings';
+import { ArrowLink } from './ArrowLink';
 import { T } from './T';
-
-const LINK_CLASS =
-  'mt-6 inline-flex items-center gap-2 font-medium text-action underline underline-offset-4 hover:no-underline';
 
 /**
  * An empty `slug` gives the generic message for the prerendered 404.html, in
@@ -33,14 +30,9 @@ export function NotFoundState({ slug }: { slug: string }) {
             <p className="mt-4 max-w-3xl text-lg leading-relaxed text-ink-900">
               <T value={fill(UI.notFoundBody, { slug })} />
             </p>
-            <a
-              href={pathFor(lang, null)}
-              onClick={onNavigate(pathFor(lang, null))}
-              className={LINK_CLASS}
-            >
+            <ArrowLink href={pathFor(lang, null)} className="mt-6">
               <T value={UI.viewAllRoadmaps} />
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </a>
+            </ArrowLink>
           </>
         ) : (
           LANGUAGES.map(({ value }) => (
@@ -48,10 +40,13 @@ export function NotFoundState({ slug }: { slug: string }) {
               <p className="max-w-3xl text-lg leading-relaxed text-ink-900">
                 {UI.notFoundGeneric[value]}
               </p>
-              <a href={pathFor(value, null)} className={LINK_CLASS}>
+              <ArrowLink
+                href={pathFor(value, null)}
+                clientSide={false}
+                className="mt-6"
+              >
                 {UI.viewAllRoadmaps[value]}
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </a>
+              </ArrowLink>
             </div>
           ))
         )}

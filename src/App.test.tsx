@@ -143,7 +143,7 @@ describe('App routing', () => {
     expect(screen.getByText(/WCAG/)).toBeTruthy();
   });
 
-  it('links to them from the footer and back to the roadmaps from them', () => {
+  it('links to them from the footer and to the roadmaps from them', () => {
     renderAt('/product-roadmaps/en/');
     fireEvent.click(screen.getByRole('link', { name: 'Privacy' }));
     expect(window.location.pathname).toBe('/product-roadmaps/en/privacy/');
@@ -151,7 +151,7 @@ describe('App routing', () => {
       screen.getByRole('heading', { level: 1, name: 'Privacy' }),
     );
 
-    fireEvent.click(screen.getByRole('link', { name: 'Back to all roadmaps' }));
+    fireEvent.click(screen.getByRole('link', { name: 'View all roadmaps' }));
     expect(window.location.pathname).toBe('/product-roadmaps/en/');
     expect(
       screen.getByRole('heading', { level: 1, name: 'Product roadmaps' }),

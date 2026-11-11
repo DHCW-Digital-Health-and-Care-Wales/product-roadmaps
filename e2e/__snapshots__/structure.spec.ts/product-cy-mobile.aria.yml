@@ -21,7 +21,7 @@
     - group: Hidlo yn ôl sefydliad
     - 'heading "Single Record: Product A roadmap" [level=1]'
     - paragraph:
-      - text: "Beta Diweddarwyd ddiwethaf:"
+      - text: "Statws: Beta Diweddarwyd ddiwethaf:"
       - time: /1 Hydref \d+/
       - text: "Arweinydd cynnyrch: Alex Jones"
     - heading "Ein gweledigaeth" [level=2]

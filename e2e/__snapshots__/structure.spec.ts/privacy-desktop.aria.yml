@@ -13,11 +13,11 @@
   - paragraph:
     - strong: Beta
     - text: This is a new service. We’re still working on ways to improve it.
-  - link "Back to all roadmaps":
-    - /url: /product-roadmaps/en/
   - heading "Privacy" [level=1]
   - paragraph: This site sets no cookies. We use Simple Analytics, a privacy-first service that does not use cookies or collect personal data, to count visits.
   - paragraph: Fonts are self-hosted, so your visit is not shared with an external font service.
+  - link "View all roadmaps":
+    - /url: /product-roadmaps/en/
 - contentinfo:
   - img "Digital Health and Care Wales"
   - navigation "Footer links":

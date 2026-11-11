@@ -14,11 +14,11 @@ import { T } from './T';
  * roadmaps sits on the left of the top row and `controls` (the organisation
  * filter) on the right, in a column of its own from `xl`; the back link keeps
  * the organisation filter. Below them come the title, with the family as a
- * caption inside the h1, then the status label, "last updated" date and
- * product lead, each shown only if set: stacked on small screens, on one line
- * from `sm`. The roadmap's "Our vision" follows, or the generic intro if it
- * has none, then `children`. A 4px edge in the roadmap's colour closes the
- * section; the colour is decorative and never used for text.
+ * caption inside the h1, then the status, "last updated" date and product
+ * lead, each shown only if set: stacked on small screens, on one line with
+ * dots between from `sm`. The roadmap's "Our vision" follows, or the generic
+ * intro if it has none, then `children`. A 4px edge in the roadmap's colour
+ * closes the section; the colour is decorative and never used for text.
  */
 export function RoadmapIntro({
   meta,
@@ -33,9 +33,40 @@ export function RoadmapIntro({
 }) {
   const { lang } = useLanguage();
   const back = withOrgFilter(pathFor(lang, null), filter);
-  const hasMeta = Boolean(
-    meta.statusLabel.en || meta.lastUpdated || meta.productLead,
-  );
+  const metaItems: { key: string; content: ReactNode }[] = [];
+  if (meta.statusLabel.en) {
+    metaItems.push({
+      key: 'status',
+      content: (
+        <>
+          <T value={UI.status} />: <T value={meta.statusLabel} />
+        </>
+      ),
+    });
+  }
+  if (meta.lastUpdated) {
+    metaItems.push({
+      key: 'updated',
+      content: (
+        <>
+          <T value={UI.lastUpdated} />:{' '}
+          <time dateTime={meta.lastUpdated}>
+            {formatDate(meta.lastUpdated, lang)}
+          </time>
+        </>
+      ),
+    });
+  }
+  if (meta.productLead) {
+    metaItems.push({
+      key: 'lead',
+      content: (
+        <>
+          <T value={UI.productLead} />: {meta.productLead}
+        </>
+      ),
+    });
+  }
 
   return (
     <section
@@ -82,27 +113,14 @@ export function RoadmapIntro({
             <T value={meta.title} />
           </h1>
 
-          {hasMeta ? (
+          {metaItems.length > 0 ? (
             // Stacked on small screens. From sm it's one line, where
-            // overflow-hidden clips the separator if the product lead wraps to
-            // the start of a line, so it only shows between items.
+            // overflow-hidden clips a separator if its item wraps to the start
+            // of a line, so dots only show between items.
             <p className="mt-3 flex flex-col items-start gap-x-6 gap-y-2 overflow-hidden text-sm text-ink-700 sm:flex-row sm:flex-wrap sm:items-center">
-              {meta.statusLabel.en ? (
-                <span className="inline-flex items-center rounded-full bg-heading px-3 py-1 font-medium text-white">
-                  <T value={meta.statusLabel} />
-                </span>
-              ) : null}
-              {meta.lastUpdated ? (
-                <span>
-                  <T value={UI.lastUpdated} />:{' '}
-                  <time dateTime={meta.lastUpdated}>
-                    {formatDate(meta.lastUpdated, lang)}
-                  </time>
-                </span>
-              ) : null}
-              {meta.productLead ? (
-                <span className="relative">
-                  {meta.lastUpdated ? (
+              {metaItems.map(({ key, content }, index) => (
+                <span key={key} className="relative">
+                  {index > 0 ? (
                     // -left-3 is half the parent's gap-x-6, which centres the
                     // dot in the gap; change the two together.
                     <span
@@ -112,9 +130,9 @@ export function RoadmapIntro({
                       ·
                     </span>
                   ) : null}
-                  <T value={UI.productLead} />: {meta.productLead}
+                  {content}
                 </span>
-              ) : null}
+              ))}
             </p>
           ) : null}
 

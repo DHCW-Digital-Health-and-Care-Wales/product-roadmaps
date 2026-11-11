@@ -167,6 +167,7 @@ export const UI = {
 
   allRoadmaps: { en: 'All roadmaps', cy: 'Pob trywydd' },
   lastUpdated: { en: 'Last updated', cy: 'Diweddarwyd ddiwethaf' },
+  status: { en: 'Status', cy: 'Statws' },
   productLead: { en: 'Product lead', cy: 'Arweinydd cynnyrch' },
   vision: { en: 'Our vision', cy: 'Ein gweledigaeth' },
   value: { en: 'Our value', cy: 'Ein gwerth' },
@@ -238,5 +239,4 @@ export const UI = {
     cy: 'Ni allem ddod o hyd i’r dudalen honno. Efallai ei bod wedi symud neu wedi’i dileu.',
   },
   viewAllRoadmaps: { en: 'View all roadmaps', cy: 'Gweld pob trywydd' },
-  backToRoadmaps: { en: 'Back to all roadmaps', cy: 'Yn ôl i bob trywydd' },
 } satisfies Record<string, Localised>;

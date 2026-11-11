@@ -28,7 +28,7 @@
     - group: Filter by organisation
     - 'heading "Single Record: Product A roadmap" [level=1]'
     - paragraph:
-      - text: "Beta Last updated:"
+      - text: "Status: Beta Last updated:"
       - time: /1 October \d+/
       - text: "Product lead: Alex Jones"
     - heading "Our vision" [level=2]

@@ -33,8 +33,9 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     container:
-      # Keep in sync with @playwright/test in package-lock.json.
-      image: mcr.microsoft.com/playwright:v1.64.0-noble
+      # Keep the tag and digest in sync with @playwright/test in package-lock.json.
+      # Find the digest with: docker pull mcr.microsoft.com/playwright:v<version>-noble
+      image: mcr.microsoft.com/playwright:v1.64.0-noble@sha256:06a9939e57531807f8d5fd76ce44b53165ffb7d7501d87ab10e285c20b1e971f
       options: --ipc=host
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -43,6 +44,17 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      - name: Check the container has the Playwright browser
+        run: |
+          node -e "
+            const { chromium } = require('@playwright/test');
+            const { version } = require('@playwright/test/package.json');
+            chromium.launch().then((browser) => browser.close()).catch((error) => {
+              console.error(error.message);
+              console.error('::error::Update the Playwright container image tag and digest in .github/workflows/ci.yml to v' + version + '.');
+              process.exit(1);
+            });
+          "
       - run: npm run test:e2e
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: ${{ !cancelled() }}

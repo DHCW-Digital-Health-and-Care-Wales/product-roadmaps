@@ -64,7 +64,9 @@ break them:
 
 - `npm run test:e2e`: Playwright end-to-end, accessibility (axe, including
   colour contrast) and ARIA snapshot tests on desktop and mobile. Run
-  `npx playwright install chromium` once first.
+  `npx playwright install chromium` once first. CI uses the Playwright
+  container; when updating `@playwright/test`, match its locked version in
+  [.github/workflows/ci.yml](.github/workflows/ci.yml).
 - `npm run lighthouse`: Lighthouse CI with score thresholds and size budgets
   in [lighthouserc.json](lighthouserc.json). Locally, point `CHROME_PATH` at a
   Chrome or Chromium binary.

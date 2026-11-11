@@ -135,14 +135,6 @@
     - article:
       - heading "Something we are not doing" [level=3]
       - paragraph: Explain why this is out of scope for now.
-  - region "Accessibility statement":
-    - heading "Accessibility statement" [level=2]
-    - paragraph: We want as many people as possible to be able to use these roadmaps. We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA.
-    - paragraph: These roadmaps are in beta and still being tested, we welcome any feedback.
-  - region "Privacy":
-    - heading "Privacy" [level=2]
-    - paragraph: This site sets no cookies. We use Simple Analytics, a privacy-first service that does not use cookies or collect personal data, to count visits.
-    - paragraph: Fonts are self-hosted, so your visit is not shared with an external font service.
 - contentinfo:
   - img "Digital Health and Care Wales"
   - navigation "Footer links":
@@ -152,10 +144,10 @@
           - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/issues/new?template=roadmap-feedback.md
       - listitem:
         - link "Accessibility statement":
-          - /url: "#accessibility"
+          - /url: /product-roadmaps/en/accessibility/
       - listitem:
         - link "Privacy":
-          - /url: "#privacy"
+          - /url: /product-roadmaps/en/privacy/
       - listitem:
         - link "Roadmap data (JSON)":
           - /url: /product-roadmaps/producta/roadmap.json

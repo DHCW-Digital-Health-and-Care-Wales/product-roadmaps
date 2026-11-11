@@ -45,7 +45,7 @@ export const UI = {
     en: 'We want as many people as possible to be able to use these roadmaps. We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA.',
     cy: 'Rydym am i gymaint o bobl â phosibl allu defnyddio’r trywyddion hyn. Rydym yn anelu at gydymffurfio â Chanllawiau Hygyrchedd Cynnwys Gwe (WCAG) 2.2 ar lefel AA.',
   },
-  accessibilityBeta: {
+  betaNotice: {
     en: 'These roadmaps are in beta and still being tested, we welcome any feedback.',
     cy: 'Mae’r trywyddion hyn yn fersiwn beta ac maen nhw’n dal i gael eu profi. Rydym yn croesawu unrhyw adborth.',
   },
@@ -222,4 +222,5 @@ export const UI = {
     cy: 'Ni allem ddod o hyd i’r dudalen honno. Efallai ei bod wedi symud neu wedi’i dileu.',
   },
   viewAllRoadmaps: { en: 'View all roadmaps', cy: 'Gweld pob trywydd' },
+  backToRoadmaps: { en: 'Back to all roadmaps', cy: 'Yn ôl i bob trywydd' },
 } satisfies Record<string, Localised>;

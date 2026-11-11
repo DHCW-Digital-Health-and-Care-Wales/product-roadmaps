@@ -1,0 +1,37 @@
+- link "Skip to content":
+  - /url: "#main-content"
+- banner:
+  - link "Digital Health and Care Wales roadmaps home":
+    - /url: /product-roadmaps/en/
+    - img "Digital Health and Care Wales"
+  - group "Dewis iaith / Choose language":
+    - link "Cymraeg":
+      - /url: /product-roadmaps/cy/privacy/
+    - link "English":
+      - /url: /product-roadmaps/en/privacy/
+- main:
+  - link "Back to all roadmaps":
+    - /url: /product-roadmaps/en/
+  - heading "Privacy" [level=1]
+  - paragraph: This site sets no cookies. We use Simple Analytics, a privacy-first service that does not use cookies or collect personal data, to count visits.
+  - paragraph: Fonts are self-hosted, so your visit is not shared with an external font service.
+- contentinfo:
+  - img "Digital Health and Care Wales"
+  - navigation "Footer links":
+    - list:
+      - listitem:
+        - link "Give feedback":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/issues/new?template=roadmap-feedback.md
+      - listitem:
+        - link "Accessibility statement":
+          - /url: /product-roadmaps/en/accessibility/
+      - listitem:
+        - link "Privacy":
+          - /url: /product-roadmaps/en/privacy/
+      - listitem:
+        - link "Licence":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/blob/main/LICENSE
+      - listitem:
+        - link "This project on GitHub":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps
+  - paragraph: Digital Health and Care Wales

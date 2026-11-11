@@ -1,0 +1,36 @@
+- link "Skip to content":
+  - /url: "#main-content"
+- banner:
+  - link "Digital Health and Care Wales roadmaps home":
+    - /url: /product-roadmaps/en/
+    - img "Digital Health and Care Wales"
+  - group "Dewis iaith / Choose language":
+    - link "Cymraeg":
+      - /url: /product-roadmaps/cy/accessibility/
+    - link "English":
+      - /url: /product-roadmaps/en/accessibility/
+- main:
+  - link "Back to all roadmaps":
+    - /url: /product-roadmaps/en/
+  - heading "Accessibility statement" [level=1]
+  - paragraph: We want as many people as possible to be able to use these roadmaps. We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.2 at level AA.
+- contentinfo:
+  - img "Digital Health and Care Wales"
+  - navigation "Footer links":
+    - list:
+      - listitem:
+        - link "Give feedback":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/issues/new?template=roadmap-feedback.md
+      - listitem:
+        - link "Accessibility statement":
+          - /url: /product-roadmaps/en/accessibility/
+      - listitem:
+        - link "Privacy":
+          - /url: /product-roadmaps/en/privacy/
+      - listitem:
+        - link "Licence":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/blob/main/LICENSE
+      - listitem:
+        - link "This project on GitHub":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps
+  - paragraph: Digital Health and Care Wales

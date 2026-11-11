@@ -9,9 +9,10 @@ import App from './App';
 import { LanguageProvider } from './components/LanguageProvider';
 import { ROADMAP_INTRO } from './lib/content';
 import { DEFAULT_LANGUAGE, LANGUAGES, t, type Lang } from './lib/i18n';
+import { INFO_PAGES } from './lib/info-pages';
 import { titleWithFamily } from './lib/roadmap-helpers';
 import { roadmaps } from './lib/roadmaps';
-import { dataPathFor, pathFor, type Route } from './lib/router';
+import { dataPathFor, INFO_PAGE_IDS, pathFor, type Route } from './lib/router';
 import { UI } from './lib/strings';
 import type { Localised } from './lib/types';
 
@@ -116,6 +117,7 @@ export async function renderPages(siteUrl: string): Promise<Page[]> {
     slug: string | null,
     title: Localised | null,
     description: Localised,
+    { hasData = false } = {},
   ): Promise<Page> {
     const site = t(UI.siteTitle, lang);
     const url = urlFor(pathFor(lang, slug));
@@ -132,7 +134,7 @@ export async function renderPages(siteUrl: string): Promise<Page[]> {
         alternates: slug
           ? alternatesFor(slug)
           : [...alternatesFor(null), ['x-default', rootUrl]],
-        ...(slug ? { json: urlFor(dataPathFor(slug)) } : {}),
+        ...(hasData && slug ? { json: urlFor(dataPathFor(slug)) } : {}),
       }),
       html: await render({ lang, slug }),
     };
@@ -141,12 +143,21 @@ export async function renderPages(siteUrl: string): Promise<Page[]> {
   const languagePages = await Promise.all(
     LANGUAGES.flatMap(({ value: lang }) => [
       languagePage(lang, null, null, UI.landingIntro),
+      ...INFO_PAGE_IDS.map((id) =>
+        languagePage(
+          lang,
+          id,
+          INFO_PAGES[id].heading,
+          INFO_PAGES[id].paragraphs[0],
+        ),
+      ),
       ...roadmaps.map(({ slug, meta }) =>
         languagePage(
           lang,
           slug,
           titleWithFamily(meta),
           meta.serviceDescription.en ? meta.serviceDescription : ROADMAP_INTRO,
+          { hasData: true },
         ),
       ),
     ]),

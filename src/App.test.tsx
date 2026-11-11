@@ -95,6 +95,54 @@ describe('App routing', () => {
     expect(document.title).toBe('Roadmap not found – DHCW roadmaps');
   });
 
+  it('keeps the accessibility statement and privacy note off other pages', () => {
+    renderAt('/product-roadmaps/en/');
+    expect(screen.queryByText(/Simple Analytics/)).toBeNull();
+    expect(screen.queryByText(/WCAG/)).toBeNull();
+  });
+
+  it('shows the beta notice on the landing page, not in the accessibility statement', () => {
+    renderAt('/product-roadmaps/en/');
+    expect(screen.getByText(/in beta and still being tested/)).toBeTruthy();
+    cleanup();
+
+    renderAt('/product-roadmaps/en/accessibility/');
+    expect(screen.queryByText(/in beta and still being tested/)).toBeNull();
+  });
+
+  it('shows the accessibility statement and privacy note on pages of their own', () => {
+    renderAt('/product-roadmaps/cy/privacy/');
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Preifatrwydd' }),
+    ).toBeTruthy();
+    expect(document.title).toBe('Preifatrwydd – Trywyddion IGDC');
+    cleanup();
+
+    renderAt('/product-roadmaps/en/accessibility/');
+    expect(
+      screen.getByRole('heading', {
+        level: 1,
+        name: 'Accessibility statement',
+      }),
+    ).toBeTruthy();
+    expect(screen.getByText(/WCAG/)).toBeTruthy();
+  });
+
+  it('links to them from the footer and back to the roadmaps from them', () => {
+    renderAt('/product-roadmaps/en/');
+    fireEvent.click(screen.getByRole('link', { name: 'Privacy' }));
+    expect(window.location.pathname).toBe('/product-roadmaps/en/privacy/');
+    expect(document.activeElement).toBe(
+      screen.getByRole('heading', { level: 1, name: 'Privacy' }),
+    );
+
+    fireEvent.click(screen.getByRole('link', { name: 'Back to all roadmaps' }));
+    expect(window.location.pathname).toBe('/product-roadmaps/en/');
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Product roadmaps' }),
+    ).toBeTruthy();
+  });
+
   it('moves focus to the new heading after client-side navigation', () => {
     renderAt('/product-roadmaps/cy/');
     fireEvent.click(screen.getByRole('link', { name: first.meta.title.en }));

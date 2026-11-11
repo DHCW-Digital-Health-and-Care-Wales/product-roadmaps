@@ -7,8 +7,11 @@ const pages = {
   landing: 'en/',
   product: 'en/producta/',
   'not-found': 'en/nope/',
+  accessibility: 'en/accessibility/',
+  privacy: 'en/privacy/',
   'landing-cy': 'cy/',
   'product-cy': 'cy/producta/',
+  'privacy-cy': 'cy/privacy/',
 };
 
 for (const [name, path] of Object.entries(pages)) {

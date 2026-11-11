@@ -23,6 +23,14 @@ export interface Route {
   slug: string | null;
 }
 
+/** Pages that sit beside the roadmaps, under their own slugs. */
+export const INFO_PAGE_IDS = ['accessibility', 'privacy'] as const;
+export type InfoPageId = (typeof INFO_PAGE_IDS)[number];
+
+export function isInfoPage(slug: string | null): slug is InfoPageId {
+  return INFO_PAGE_IDS.some((id) => id === slug);
+}
+
 function decode(value: string) {
   try {
     return decodeURIComponent(value);

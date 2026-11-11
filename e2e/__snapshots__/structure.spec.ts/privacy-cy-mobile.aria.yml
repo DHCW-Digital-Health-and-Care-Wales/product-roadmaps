@@ -1,0 +1,37 @@
+- link "Neidio i’r prif gynnwys":
+  - /url: "#main-content"
+- banner:
+  - link "Hafan trywyddion Iechyd a Gofal Digidol Cymru":
+    - /url: /product-roadmaps/cy/
+    - img "Iechyd a Gofal Digidol Cymru"
+  - group "Dewis iaith / Choose language":
+    - link "Cymraeg":
+      - /url: /product-roadmaps/cy/privacy/
+    - link "English":
+      - /url: /product-roadmaps/en/privacy/
+- main:
+  - link "Yn ôl i bob trywydd":
+    - /url: /product-roadmaps/cy/
+  - heading "Preifatrwydd" [level=1]
+  - paragraph: Nid yw’r safle hwn yn gosod cwcis. Rydym yn defnyddio Simple Analytics, gwasanaeth sy’n rhoi blaenoriaeth i breifatrwydd ac nad yw’n defnyddio cwcis nac yn casglu data personol, i gyfrif ymweliadau.
+  - paragraph: Mae’r ffontiau’n cael eu gwesteia gennym ni ein hunain, felly nid yw eich ymweliad yn cael ei rannu â gwasanaeth ffont allanol.
+- contentinfo:
+  - img "Iechyd a Gofal Digidol Cymru"
+  - navigation "Dolenni troedyn":
+    - list:
+      - listitem:
+        - link "Rhoi adborth":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/issues/new?template=roadmap-feedback.md
+      - listitem:
+        - link "Datganiad hygyrchedd":
+          - /url: /product-roadmaps/cy/accessibility/
+      - listitem:
+        - link "Preifatrwydd":
+          - /url: /product-roadmaps/cy/privacy/
+      - listitem:
+        - link "Trwydded":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps/blob/main/LICENSE
+      - listitem:
+        - link "Y gwaith ar GitHub":
+          - /url: https://github.com/DHCW-Digital-Health-and-Care-Wales/product-roadmaps
+  - paragraph: Digital Health and Care Wales / Iechyd a Gofal Digidol Cymru

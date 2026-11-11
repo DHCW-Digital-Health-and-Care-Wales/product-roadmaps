@@ -29,12 +29,12 @@ import {
 
 export const ROADMAP_INTRO: Localised = {
   en: "This roadmap shows what we're working on now, what's coming next and the direction we expect to take later.",
-  cy: '',
+  cy: 'Mae’r trywydd hwn yn dangos yr hyn rydym yn gweithio arno nawr, yr hyn sy’n dod nesaf a’r cyfeiriad rydym yn disgwyl ei ddilyn yn ddiweddarach.',
 };
 
 export const HORIZON_NOTE: Localised = {
   en: "We don't put dates on this work, and the order isn't a priority list.",
-  cy: '',
+  cy: 'Nid ydym yn rhoi dyddiadau ar y gwaith hwn, ac nid yw’r drefn yn rhestr o flaenoriaethau.',
 };
 
 export const ROADMAP_HEADING: Localised = {
@@ -44,12 +44,12 @@ export const ROADMAP_HEADING: Localised = {
 
 export const ROADMAP_DESCRIPTION: Localised = {
   en: "Each card shows a change we're working on now, planning to take on next, or working towards later.",
-  cy: '',
+  cy: 'Mae pob cerdyn yn dangos newid rydym yn gweithio arno nawr, yn bwriadu ymgymryd ag ef nesaf, neu’n gweithio tuag ato yn ddiweddarach.',
 };
 
 export const DETAILS_HEADING: Localised = {
   en: 'What this covers',
-  cy: '',
+  cy: 'Beth mae hyn yn ei gwmpasu',
 };
 
 const HORIZON_TEXT: Record<
@@ -60,21 +60,21 @@ const HORIZON_TEXT: Record<
     label: { en: 'Now', cy: 'Nawr' },
     definition: {
       en: 'Work that is underway now and shaping the next changes to the service.',
-      cy: '',
+      cy: 'Gwaith sydd ar y gweill nawr ac sy’n llywio’r newidiadau nesaf i’r gwasanaeth.',
     },
   },
   next: {
     label: { en: 'Next', cy: 'Nesaf' },
     definition: {
       en: 'Work we expect to pick up soon as current delivery moves forward.',
-      cy: '',
+      cy: 'Gwaith rydym yn disgwyl ei ddechrau cyn bo hir wrth i’r gwaith cyflawni presennol fynd rhagddo.',
     },
   },
   later: {
     label: { en: 'Later', cy: 'Hwyrach' },
     definition: {
       en: 'Longer-term direction that will keep evolving as we learn more.',
-      cy: '',
+      cy: 'Cyfeiriad tymor hwy a fydd yn parhau i esblygu wrth i ni ddysgu mwy.',
     },
   },
 };
@@ -91,26 +91,32 @@ const SECTION_TEXT: Record<
 > = {
   'recently-delivered': {
     placement: 'before',
-    heading: { en: 'Recently delivered', cy: '' },
+    heading: { en: 'Recently delivered', cy: 'Wedi’i gyflawni’n ddiweddar' },
     description: {
       en: "Work we've completed recently and that is now live in the service.",
-      cy: '',
+      cy: 'Gwaith rydym wedi’i gwblhau’n ddiweddar ac sydd bellach yn fyw yn y gwasanaeth.',
     },
   },
   'delivered-this-year': {
     placement: 'after',
-    heading: { en: 'Other work we have delivered this year', cy: '' },
+    heading: {
+      en: 'Other work we have delivered this year',
+      cy: 'Gwaith arall rydym wedi’i gyflawni eleni',
+    },
     description: {
       en: 'A broader view of the delivery this year that sits outside the main roadmap horizons.',
-      cy: '',
+      cy: 'Golwg ehangach ar y gwaith a gyflawnwyd eleni sydd y tu allan i brif orwelion y trywydd.',
     },
   },
   'not-doing': {
     placement: 'after',
-    heading: { en: 'Not doing right now', cy: '' },
+    heading: {
+      en: 'Not doing right now',
+      cy: 'Ddim yn cael ei wneud ar hyn o bryd',
+    },
     description: {
       en: 'Being clear about what we’re not doing keeps the focus where it matters.',
-      cy: '',
+      cy: 'Mae bod yn glir am yr hyn nad ydym yn ei wneud yn cadw’r ffocws lle mae’n bwysig.',
     },
   },
 };

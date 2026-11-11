@@ -34,20 +34,20 @@
     - term:
       - link "Nawr":
         - /url: "#horizon-now"
-    - definition: Work that is underway now and shaping the next changes to the service.
+    - definition: Gwaith sydd ar y gweill nawr ac sy’n llywio’r newidiadau nesaf i’r gwasanaeth.
     - term:
       - link "Nesaf":
         - /url: "#horizon-next"
-    - definition: Work we expect to pick up soon as current delivery moves forward.
+    - definition: Gwaith rydym yn disgwyl ei ddechrau cyn bo hir wrth i’r gwaith cyflawni presennol fynd rhagddo.
     - term:
       - link "Hwyrach":
         - /url: "#horizon-later"
-    - definition: Longer-term direction that will keep evolving as we learn more.
-    - paragraph: We don't put dates on this work, and the order isn't a priority list.
-  - region "Recently delivered":
-    - heading "Recently delivered" [level=2]
+    - definition: Cyfeiriad tymor hwy a fydd yn parhau i esblygu wrth i ni ddysgu mwy.
+    - paragraph: Nid ydym yn rhoi dyddiadau ar y gwaith hwn, ac nid yw’r drefn yn rhestr o flaenoriaethau.
+  - region "Wedi’i gyflawni’n ddiweddar":
+    - heading "Wedi’i gyflawni’n ddiweddar" [level=2]
     - text: "1"
-    - paragraph: Work we've completed recently and that is now live in the service.
+    - paragraph: Gwaith rydym wedi’i gwblhau’n ddiweddar ac sydd bellach yn fyw yn y gwasanaeth.
     - article:
       - heading "Recently shipped work" [level=3]
       - paragraph: Something we shipped in the last few weeks.
@@ -58,7 +58,7 @@
         - button "Hidlo yn ôl Bae Abertawe"
   - region "Y trywydd":
     - heading "Y trywydd" [level=2]
-    - paragraph: Each card shows a change we're working on now, planning to take on next, or working towards later.
+    - paragraph: Mae pob cerdyn yn dangos newid rydym yn gweithio arno nawr, yn bwriadu ymgymryd ag ef nesaf, neu’n gweithio tuag ato yn ddiweddarach.
     - list:
       - listitem:
         - region "Nawr 3":
@@ -69,7 +69,7 @@
             - paragraph: Beth yw’r gwaith hwn. Cadwch ef i frawddeg neu ddwy.
             - paragraph: Canlyniad
             - paragraph: Beth sy’n newid i ddefnyddwyr pan fydd wedi’i gwblhau.
-            - group: "What this covers : Cerdyn enghreifftiol gyda phob colofn"
+            - group: "Beth mae hyn yn ei gwmpasu : Cerdyn enghreifftiol gyda phob colofn"
             - paragraph: "Tagiau: Gwasanaeth X , Gwasanaeth Y"
             - paragraph:
               - text: "Sefydliadau:"
@@ -119,22 +119,22 @@
             - paragraph:
               - text: "Sefydliadau:"
               - button "Hidlo yn ôl Cymru gyfan"
-  - region "Other work we have delivered this year":
-    - heading "Other work we have delivered this year" [level=2]
+  - region "Gwaith arall rydym wedi’i gyflawni eleni":
+    - heading "Gwaith arall rydym wedi’i gyflawni eleni" [level=2]
     - text: "1"
-    - paragraph: A broader view of the delivery this year that sits outside the main roadmap horizons.
+    - paragraph: Golwg ehangach ar y gwaith a gyflawnwyd eleni sydd y tu allan i brif orwelion y trywydd.
     - article:
       - paragraph: Live
       - heading "Earlier delivery this year" [level=3]
       - paragraph: Something we delivered earlier in the year.
-      - group: "What this covers : Earlier delivery this year"
+      - group: "Beth mae hyn yn ei gwmpasu : Earlier delivery this year"
       - paragraph:
         - text: "Sefydliadau:"
         - button "Hidlo yn ôl Cymru gyfan"
-  - region "Not doing right now":
-    - heading "Not doing right now" [level=2]
+  - region "Ddim yn cael ei wneud ar hyn o bryd":
+    - heading "Ddim yn cael ei wneud ar hyn o bryd" [level=2]
     - text: "1"
-    - paragraph: Being clear about what we’re not doing keeps the focus where it matters.
+    - paragraph: Mae bod yn glir am yr hyn nad ydym yn ei wneud yn cadw’r ffocws lle mae’n bwysig.
     - article:
       - heading "Something we are not doing" [level=3]
       - paragraph: Explain why this is out of scope for now.

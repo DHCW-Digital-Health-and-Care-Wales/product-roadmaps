@@ -488,13 +488,11 @@ describe('organisation filter', () => {
     },
   );
 
-  it('offers nothing to show in a section with no items', () => {
+  it('hides a section with no items at all', () => {
     renderAt(`/product-roadmaps/en/${snapshot[1].slug}/?org=cavuhb`);
-    const delivered = within(
-      screen.getByRole('region', { name: /^Recently delivered/ }),
-    );
-    expect(delivered.getByText('Nothing to show here yet.')).toBeTruthy();
-    expect(delivered.queryByRole('button')).toBeNull();
+    expect(
+      screen.queryByRole('region', { name: /^Recently delivered/ }),
+    ).toBeNull();
   });
 
   it('follows the URL on back and forward', () => {

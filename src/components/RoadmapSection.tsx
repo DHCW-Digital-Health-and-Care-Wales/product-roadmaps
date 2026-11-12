@@ -55,7 +55,7 @@ export function RoadmapSection({
             filter={filter}
             total={total}
             headingId={headingId}
-            className="mt-6 text-ink-700"
+            className="mt-6"
           />
         )}
       </div>

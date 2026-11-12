@@ -6,6 +6,7 @@ import {
   isExpandable,
   placementHeadingId,
   roadmapGroups,
+  showsPlacement,
 } from '../lib/roadmap-helpers';
 import { UI } from '../lib/strings';
 import { EmptyItems } from './EmptyItems';
@@ -30,7 +31,9 @@ export function RoadmapList({
   const { tr } = useLanguage();
   const [open, setOpen] = useState<ReadonlySet<string>>(() => new Set());
 
-  const groups = roadmapGroups(roadmap, filter);
+  const groups = roadmapGroups(roadmap, filter).filter((g) =>
+    showsPlacement(g.id, g.total),
+  );
   // Keyed by the place in the unfiltered list, so rows stay open while filtering.
   const keyOf = (id: string, index: number) => `${id}-${index}`;
   const expandable = groups.flatMap((g) =>
@@ -149,7 +152,7 @@ export function RoadmapList({
                   filter={filter}
                   total={g.total}
                   headingId={placementHeadingId(g.id)}
-                  className="py-4 text-ink-700"
+                  className="py-4"
                 />
               )}
             </section>

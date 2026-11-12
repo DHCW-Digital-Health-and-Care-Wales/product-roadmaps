@@ -1,6 +1,6 @@
 import type { OrganisationId, Roadmap, OrgFilter } from '../lib/types';
 import { SECTIONS } from '../lib/content';
-import { filterItems } from '../lib/roadmap-helpers';
+import { filterItems, showsPlacement } from '../lib/roadmap-helpers';
 import type { View } from '../lib/router';
 import { RoadmapIntro } from '../components/RoadmapIntro';
 import { OrgFilterDisclosure } from '../components/OrgFilterDisclosure';
@@ -31,17 +31,19 @@ export function RoadmapPage({
   organisations: readonly OrganisationId[];
 }) {
   const sections = (placement: 'before' | 'after') =>
-    SECTIONS.filter((section) => section.placement === placement).map(
-      (section) => (
-        <RoadmapSection
-          key={section.id}
-          section={section}
-          items={filterItems(roadmap.items[section.id], filter)}
-          total={roadmap.items[section.id].length}
-          filter={filter}
-        />
-      ),
-    );
+    SECTIONS.filter(
+      (section) =>
+        section.placement === placement &&
+        showsPlacement(section.id, roadmap.items[section.id].length),
+    ).map((section) => (
+      <RoadmapSection
+        key={section.id}
+        section={section}
+        items={filterItems(roadmap.items[section.id], filter)}
+        total={roadmap.items[section.id].length}
+        filter={filter}
+      />
+    ));
 
   return (
     <>

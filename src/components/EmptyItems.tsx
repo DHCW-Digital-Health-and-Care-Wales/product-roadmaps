@@ -29,7 +29,7 @@ export function EmptyItems({
   const hidden = hiddenCount(filter, total);
 
   return (
-    <div className={className}>
+    <div className={`text-ink-700 ${className}`.trim()}>
       <p>
         <T value={emptyText(filter, total)} />
       </p>
@@ -45,7 +45,7 @@ export function EmptyItems({
               section?.querySelector('[data-filter-card]') ?? undefined,
             );
           }}
-          className="mt-2 text-sm font-medium not-italic text-action underline underline-offset-4 hover:decoration-2"
+          className="mt-2 text-sm font-medium text-action underline underline-offset-4 hover:decoration-2"
         >
           <T value={showHiddenItems(hidden)} />
         </button>

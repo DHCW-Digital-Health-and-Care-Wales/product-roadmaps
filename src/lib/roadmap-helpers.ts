@@ -104,6 +104,13 @@ export function placementHeadingId(id: Placement): string {
 }
 
 /**
+ * Whether a section or horizon is shown. The horizons always are; a section
+ * with no items at all is left out, but one the filter has emptied stays.
+ */
+export const showsPlacement = (id: Placement, total: number): boolean =>
+  total > 0 || (HORIZON_IDS as readonly Placement[]).includes(id);
+
+/**
  * Whether an item is for the filter's organisation. All-Wales items are for
  * every organisation, so they match too unless `includeNational` is false.
  * Filtering on all of Wales itself matches only all-Wales items.

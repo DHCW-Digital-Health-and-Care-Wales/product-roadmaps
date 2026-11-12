@@ -56,6 +56,11 @@ export default tseslint.config(
     ],
   },
   {
+    // Build-time entry, never hot-reloaded.
+    files: ['src/entry-server.tsx'],
+    rules: { 'react-refresh/only-export-components': 'off' },
+  },
+  {
     files: ['scripts/**/*.ts', 'e2e/**/*.ts', '*.config.ts'],
     languageOptions: { globals: globals.node },
   },

@@ -47,6 +47,8 @@ codes, comma separated, for example `CAVUHB, SBUHB`:
 | `WAST`     | Welsh Ambulance Services University NHS Trust |
 | `PHW`      | Public Health Wales                           |
 | `HEIW`     | Health Education and Improvement Wales        |
+| `DHCW`     | Digital Health and Care Wales                 |
+| `P&I`      | NHS Wales Performance and Improvement         |
 
 Use `National` for work that applies to every organisation, rather than
 listing them all. Leave the cell blank if the work isn't for particular

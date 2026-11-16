@@ -220,6 +220,7 @@ export const ORGANISATION_GROUP_IDS = [
   'health-boards',
   'nhs-trusts',
   'special-health-authorities',
+  'other-nhs-wales-bodies',
 ] as const;
 
 export type OrganisationGroupId = (typeof ORGANISATION_GROUP_IDS)[number];
@@ -232,6 +233,10 @@ export const ORGANISATION_GROUPS: Record<OrganisationGroupId, Localised> = {
   'special-health-authorities': {
     en: 'Special health authorities',
     cy: 'Awdurdodau iechyd arbennig',
+  },
+  'other-nhs-wales-bodies': {
+    en: 'Other NHS Wales bodies',
+    cy: 'Cyrff eraill GIG Cymru',
   },
 };
 
@@ -343,6 +348,28 @@ const ORGANISATION_DETAILS: Record<
       cy: 'Addysg a Gwella Iechyd Cymru',
     },
     short: { en: 'HEIW', cy: 'AaGIC' },
+  },
+  dhcw: {
+    group: 'special-health-authorities',
+    name: {
+      en: 'Digital Health and Care Wales',
+      cy: 'Iechyd a Gofal Digidol Cymru',
+    },
+    short: {
+      en: 'Digital Health and Care Wales',
+      cy: 'Iechyd a Gofal Digidol Cymru',
+    },
+  },
+  pi: {
+    group: 'other-nhs-wales-bodies',
+    name: {
+      en: 'NHS Wales Performance and Improvement',
+      cy: 'Perfformiad a Gwella GIG Cymru',
+    },
+    short: {
+      en: 'Performance and Improvement',
+      cy: 'Perfformiad a Gwella',
+    },
   },
 };
 

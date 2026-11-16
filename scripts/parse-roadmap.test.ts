@@ -354,7 +354,7 @@ describe('Organisations', () => {
     expect(first?.message).toMatch(
       /^Organisation "Cardiff" for "Card 0" is not one of "National", "ABUHB", /,
     );
-    expect(first?.message).toMatch(/"HEIW"; left out$/);
+    expect(first?.message).toMatch(/"P&I"; left out$/);
     expect(second).toMatchObject({ row: 3 });
   });
 });

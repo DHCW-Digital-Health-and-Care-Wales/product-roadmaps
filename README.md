@@ -132,12 +132,13 @@ category, roadmaps are sorted by title.
 | `Organisations`   | Who the work is for: organisation codes from the list below, comma separated. Optional.     |
 | `Details`         | Expandable "What this covers" list. One bullet per line; start a line with `-` to nest it.  |
 
-`Organisations` takes these codes, matched ignoring case and spaces:
+`Organisations` takes these codes, matched ignoring case, spaces and punctuation:
 
 - `National`: work for every organisation in Wales, such as national systems
 - Health boards: `ABUHB`, `BCUHB`, `CAVUHB`, `CTMUHB`, `HDUHB`, `PTHB`, `SBUHB`
 - NHS trusts: `VUNHST`, `WAST`, `PHW`
-- Special health authorities: `HEIW`
+- Special health authorities: `HEIW`, `DHCW`
+- Other NHS Wales bodies: `P&I`
 
 For example, `CAVUHB, SBUHB`. The cards show each organisation as a button
 that filters the page, and the "Filter by organisation" control on the landing

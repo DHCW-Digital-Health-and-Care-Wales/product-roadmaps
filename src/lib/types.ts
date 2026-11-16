@@ -55,7 +55,8 @@ export const CATEGORY_SHEET_VALUES: Record<CategoryId, string> = {
 /**
  * Organisations a card's work is for, in display order. Each id is the
  * lower-case code the sheet's "Organisations" column uses
- * (ORGANISATION_SHEET_VALUES), and is the `org` value in filter URLs.
+ * (ORGANISATION_SHEET_VALUES) without punctuation, so 'pi' for "P&I", and is
+ * the `org` value in filter URLs.
  * 'national' is work for every organisation in Wales. Names are in
  * src/lib/content.ts.
  */
@@ -72,6 +73,8 @@ export const ORGANISATION_IDS = [
   'wast',
   'phw',
   'heiw',
+  'dhcw',
+  'pi',
 ] as const;
 
 export type OrganisationId = (typeof ORGANISATION_IDS)[number];
@@ -106,6 +109,8 @@ export const ORGANISATION_SHEET_VALUES: Record<OrganisationId, string> = {
   wast: 'WAST',
   phw: 'PHW',
   heiw: 'HEIW',
+  dhcw: 'DHCW',
+  pi: 'P&I',
 };
 
 export interface Localised {

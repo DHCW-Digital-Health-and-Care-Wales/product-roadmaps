@@ -1,21 +1,33 @@
+# Lets sheet editors check the sheet for warnings, likely Welsh translation mistakes
+# among them, without deploying (Actions → Check the roadmap sheet → Run workflow).
+# The results are in the run's summary. It runs the public site's sync from the
+# roadmaps repository's main, as the deploy does.
 name: Check the roadmap sheet
 
-# Lets sheet editors check for warnings (including likely Welsh translation
-# mistakes) without deploying. Results are in the run summary.
 on:
   workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: check-sheet
+  cancel-in-progress: true
+
 jobs:
   check:
+    name: Check the sheet
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: DHCW-Digital-Health-and-Care-Wales/roadmaps
+          ref: refs/heads/main
+          persist-credentials: false
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version-file: .nvmrc
-          cache: npm
-      - run: npm ci
-      - run: npm run sync
+      - run: pnpm install --frozen-lockfile --filter @roadmaps/public-site
+      - run: pnpm site:sync

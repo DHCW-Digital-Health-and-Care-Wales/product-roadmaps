@@ -1,12 +1,14 @@
+# Keeps the SHA-pinned actions in .github/workflows current: one grouped pull request a
+# month, proposing a version only once it is a week old. The code these workflows build
+# is in the roadmaps repository, whose Dependabot updates its dependencies.
 version: 2
 updates:
-  # Root project npm dependencies
-  - package-ecosystem: npm
-    directory: /
-    schedule:
-      interval: weekly
-  # GitHub Actions
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: weekly
+      interval: monthly
+    cooldown:
+      default-days: 7
+    groups:
+      actions:
+        patterns: ["*"]

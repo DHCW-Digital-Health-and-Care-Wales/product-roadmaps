@@ -1,10 +1,13 @@
+# Publishes the public site at /product-roadmaps/, nightly at 02:00 UTC and by hand
+# (Actions → Deploy to GitHub Pages → Run workflow). Its code is apps/public-site in
+# the roadmaps repository: each run builds that repository's main as it stands when
+# the run starts, with the sheet as it stands then, so a merged change or a sheet edit
+# goes public at the next run. No push here triggers it: this repository holds no code.
 name: Deploy to GitHub Pages
 
 on:
-  push:
-    branches: [main]
   schedule:
-    - cron: '0 2 * * *' # nightly, 02:00 UTC, to pick up sheet edits
+    - cron: "0 2 * * *"
   workflow_dispatch:
 
 permissions:
@@ -15,29 +18,41 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Runs the roadmaps repository's code, with no Pages permission.
   build:
+    name: Build the public site
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: DHCW-Digital-Health-and-Care-Wales/roadmaps
+          ref: refs/heads/main
+          persist-credentials: false
+      - name: Name the commit built
+        run: echo "Built DHCW-Digital-Health-and-Care-Wales/roadmaps at $(git rev-parse HEAD)." >> "$GITHUB_STEP_SUMMARY"
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version-file: .nvmrc
-          cache: npm
-      - run: npm ci
-      # Fetches the sheet into .data/roadmaps.json, which is never committed.
-      - run: npm run sync
-      - run: npm run build
+      - run: pnpm install --frozen-lockfile --filter @roadmaps/public-site
+      # Fetches the sheet into apps/public-site/.data/roadmaps.json and checks it; a
+      # sheet that fails the check fails the run, and the previous site stays live.
+      - run: pnpm site:sync
+      - run: pnpm site:build
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
-          path: dist
+          path: apps/public-site/dist
 
+  # Publishes the artifact; it checks out and runs no code.
   deploy:
+    name: Deploy to GitHub Pages
     needs: build
     runs-on: ubuntu-latest
-    # Only this job, which runs no npm code, can publish.
+    timeout-minutes: 10
     permissions:
-      pages: write
-      id-token: write
+      pages: write # deploy-pages publishes the site
+      id-token: write # deploy-pages proves the run's identity to Pages
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

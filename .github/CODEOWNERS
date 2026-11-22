@@ -1,1 +1,3 @@
-* @collisdigital @fireballxlV
+# The owner reviews every change; the ruleset on main requires a code owner's approval
+# (kept as .github/rulesets/product-roadmaps.json in the roadmaps repository).
+* @collisdigital

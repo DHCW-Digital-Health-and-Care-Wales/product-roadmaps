@@ -1,9 +1,0 @@
-dist
-dist-ssr
-test-results
-playwright-report
-.lighthouseci
-e2e/__snapshots__
-docs
-*.md
-.data

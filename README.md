@@ -1,223 +1,61 @@
 # product-roadmaps
-Experiment for hosting public product roadmaps (Alpha)
 
-A bilingual (English / Cymraeg) GitHub Pages site that publishes DHCW product
-roadmaps. Look, feel and content model come from
-[dhcw-vaccine-roadmap](https://github.com/DHCW-Digital-Health-and-Care-Wales/dhcw-vaccine-roadmap).
+This repository publishes DHCW's public product roadmaps, in English and Welsh, at
+**<https://dhcw-digital-health-and-care-wales.github.io/product-roadmaps/>** (Alpha), and
+takes the public's feedback on them as issues.
 
-Content is edited in a
-[Google Sheet](https://docs.google.com/spreadsheets/d/1wuk_pK1LpfLKmdbg6WsY_qKeBC5lcN4rlsjqkAxtflw/edit)
-shared as **Anyone with the link can view**. The deploy workflow downloads the
-tabs at build time and bundles them into the site; the data is never
-committed (`.data/roadmaps.json` is gitignored). Visitors' browsers never
-contact Google.
+It holds no code. The site's code, and the Roadmap Editor that Product Leads use, are in
+the [roadmaps](https://github.com/DHCW-Digital-Health-and-Care-Wales/roadmaps)
+repository (`apps/public-site/` and `apps/editor/`), where changes to them are proposed
+([CONTRIBUTING.md](https://github.com/DHCW-Digital-Health-and-Care-Wales/roadmaps/blob/main/CONTRIBUTING.md)).
 
-- The first tab lists the roadmaps, one per row. The landing page shows them
-  all. Other tabs are only read if a row on the first tab names them.
-- A product's URL is `/product-roadmaps/<lang>/<sheet-name-as-slug>/`, where
-  `<lang>` is `en` or `cy`, for example `/product-roadmaps/cy/choose-pharmacy/`.
-  Renaming the tab (and its **Sheet** value) changes its URL. The site root
-  sends visitors to the language they last chose, or Welsh if their browser
-  prefers it, otherwise English (always English without JavaScript).
-- The build prerenders every page in both languages to static HTML with its
-  own title, description, Open Graph and `hreflang` tags, so the site works
-  without JavaScript in English and Welsh, and link previews show the right
-  roadmap.
-- The data behind each roadmap is published at
-  `/product-roadmaps/<slug>/roadmap.json`, for example
-  `/product-roadmaps/choose-pharmacy/roadmap.json`, and each page links to it
-  with `<link rel="alternate" type="application/json">`. Its shape is defined
-  by [scripts/roadmap-schema.ts](scripts/roadmap-schema.ts) and is not yet
-  versioned. Text fields are `{ "en": "…", "cy": "…" }`, with `cy` blank when
-  there is no Welsh.
+## Editing the roadmaps
 
-## Run locally (Codespaces)
+Roadmap content (cards, titles, dates, colours) lives in a
+[Google Sheet](https://docs.google.com/spreadsheets/d/1wuk_pK1LpfLKmdbg6WsY_qKeBC5lcN4rlsjqkAxtflw/edit),
+not in a repository. Product Leads edit their roadmaps in the Roadmap Editor; anyone
+editing the sheet itself follows its format:
 
-```bash
-npm install
-npm run sync   # fetch the sheet into .data/roadmaps.json (gitignored)
-npm run dev
-```
+- **The format**: what each tab and column holds, the categories and organisation codes,
+  and the Welsh columns are described in the roadmaps repository's README
+  ([Spreadsheet format](https://github.com/DHCW-Digital-Health-and-Care-Wales/roadmaps#spreadsheet-format)).
+  Keep text columns as plain text.
+- **Adding a product**: add a tab with the roadmap columns and a row for it on the first
+  tab, with `Enabled` set to `Yes`. A roadmap that is not enabled is not published.
+- **Example sheets** (fake data) to start a test spreadsheet from are in
+  [`apps/public-site/sheets/`](https://github.com/DHCW-Digital-Health-and-Care-Wales/roadmaps/tree/main/apps/public-site/sheets).
+- **Sharing**: the sheet must stay shared as **Anyone with the link can view**, so
+  everything in it, any tab no roadmap names included, is visible to anyone with the
+  link.
 
-To preview roadmaps whose `Enabled` is not `Yes`, run
-`npm run sync -- --include-disabled`. Use it for local development only.
+## When an edit goes live
 
-Open the forwarded port 5173 at `/product-roadmaps/en/`. The spreadsheet ID is set
-in [scripts/sync-roadmaps.ts](scripts/sync-roadmaps.ts); override it with the
-`SHEET_ID` environment variable to test another sheet. To work offline, skip
-the sync and run `ROADMAPS_DATA=e2e/fixtures/roadmaps.json npm run dev`.
+The site is rebuilt from the sheet nightly at 02:00 UTC, so an edit appears the next
+morning. To publish sooner, run **Actions → Deploy to GitHub Pages → Run workflow**.
 
-The dev server renders everything in the browser, so it shows a blank page
-without JavaScript. To check the prerendered pages, run `npm run build && npm
-run preview` (with the same `ROADMAPS_DATA` to work offline), open the forwarded
-port 4173 at `/product-roadmaps/` and turn off JavaScript in the browser (in
-Chrome's DevTools, run the "Disable JavaScript" command).
+To check the sheet without publishing, run **Actions → Check the roadmap sheet → Run
+workflow**. Its summary lists sheet mistakes with their row numbers: unknown horizons,
+rows with no title, unknown categories or organisation codes, and likely Welsh
+translation mistakes. A mistake that stops the sync, such as a `Sheet` value with no
+matching tab, fails the deploy too, and the previous site stays live.
 
-Other scripts: `npm run build`, `npm run lint`, `npm run format`, `npm test`.
-Run `npm run check` (types, lint, formatting and tests) before opening a pull
-request; CI runs the same checks. Node 24 is required (see `.nvmrc`). See
-[CONTRIBUTING.md](CONTRIBUTING.md) for how to propose changes.
-
-CI also runs two slower checks against a build of the example data in
-[e2e/fixtures/roadmaps.json](e2e/fixtures/roadmaps.json), so sheet edits can't
-break them:
-
-- `npm run test:e2e`: Playwright end-to-end, accessibility (axe, including
-  colour contrast) and ARIA snapshot tests on desktop and mobile. Run
-  `npx playwright install chromium` once first. CI uses the Playwright
-  container; when updating `@playwright/test`, update the image tag and digest in
-  [.github/workflows/ci.yml](.github/workflows/ci.yml) to match (the comment there
-  shows how to find the digest).
-- `npm run lighthouse`: Lighthouse CI with score thresholds and size budgets
-  in [lighthouserc.json](lighthouserc.json). Locally, point `CHROME_PATH` at a
-  Chrome or Chromium binary.
-
-`npm run build` runs `vite build`, then [scripts/prerender.ts](scripts/prerender.ts)
-writes `index.html` for the site root and for each language's landing page and
-products, `404.html` and `sitemap.xml`. Set `SITE_URL` to change the address
-used in canonical, `hreflang` and Open Graph URLs.
-
-## Sheet format
-
-Row 1 of every tab is the header; column names are matched ignoring case,
-accents, spaces and punctuation, and extra columns (such as `Notes`) are
-ignored. If two headers match the same column, only the first is used. Tabs not named on the
-first tab are never read, but the whole spreadsheet is visible to anyone with
-the link. [sheets/](sheets/) has example CSVs (fake data, not used by the site)
-for bootstrapping a spreadsheet.
-
-**First tab (`Roadmaps`)**: one row per roadmap.
-
-| Column                | Use                                                              |
-| --------------------- | ---------------------------------------------------------------- |
-| `Sheet`               | Name of the tab holding this roadmap's cards. Required.          |
-| `Enabled`             | `Yes` publishes the roadmap. Anything else, or blank, leaves it out (case-sensitive; no Welsh). |
-| `Title`               | Page heading and landing page card name.                         |
-| `Category`            | Landing page group: one of the categories listed below, matched ignoring case and spaces. Blank puts the roadmap under "Other roadmaps". |
-| `Family`              | Optional product family, for example `Single Record`. Shown with a swatch in the roadmap's colour above the title on the landing page card and the roadmap page. The roadmap page's heading and title read `Single Record: Nursing Healthcare`. |
-| `Status label`        | Shown as text under the title on the roadmap page (`Status: Beta`) and above it on the landing page card, for example `Beta`. |
-| `Last updated`        | `YYYY-MM-DD` or `DD/MM/YYYY`.                                    |
-| `Colour`              | Hex highlight colour, for example `#325083`. Used on the landing page card and as the edge under the roadmap page's intro. |
-| `Vision`              | "Our vision", at the top of the roadmap page under the title. Leave blank to show a general intro sentence instead. |
-| `Service description` | "Our value" section and landing page summary. Blank hides it.    |
-| `Product Lead`        | "Product lead" under the title on the roadmap page. Blank hides it. |
-
-`Category` must be one of these, and the landing page shows them in this
-order (best set up as a dropdown with **Data → Data validation**):
-
-- `Public Health & Apps`
-- `GP & Community Services`
-- `Tests, Scans & Results`
-- `Urgent & Emergency Care`
-- `Hospital & Specialist Care`
-- `National Systems & Data`
-
-Each category has a jump link at the top of the landing page; roadmaps with a
-blank category are listed last under "Other roadmaps", which has no jump link.
-Any other value is reported as a sheet warning and treated as blank. The
-categories' Welsh names, descriptions, icons and colours are in
-[src/lib/content.ts](src/lib/content.ts); the sheet only picks one. Within a
-category, roadmaps are sorted by title.
-
-**Roadmap tabs**: one row per card.
-
-| Column            | Use                                                                                         |
-| ----------------- | ------------------------------------------------------------------------------------------- |
-| `Title`           | Card heading. Required.                                                                     |
-| `Description`     | What the work is. Each line shows as its own paragraph; start lines with `- ` to make a bullet list. |
-| `Outcome`         | What changes when it is done. Optional. Lines and `- ` bullets work as in `Description`.    |
-| `Horizon`         | `Now`, `Next`, `Later`, `Recently delivered`, `Delivered this year` or `Not doing`. Required. |
-| `Phase`           | Free-text tag shown above the card title, for example `Discovery`.                          |
-| `Labels`          | Comma separated; each becomes a tag.                                                        |
-| `Organisations`   | Who the work is for: organisation codes from the list below, comma separated. Optional.     |
-| `Details`         | Expandable "What this covers" list. One bullet per line; start a line with `-` to nest it.  |
-
-`Organisations` takes these codes, matched ignoring case, spaces and punctuation:
-
-- `National`: work for every organisation in Wales, such as national systems
-- Health boards: `ABUHB`, `BCUHB`, `CAVUHB`, `CTMUHB`, `HDUHB`, `PTHB`, `SBUHB`
-- NHS trusts: `VUNHST`, `WAST`, `PHW`
-- Special health authorities: `HEIW`, `DHCW`
-- Other NHS Wales bodies: `P&I`
-
-For example, `CAVUHB, SBUHB`. The cards show each organisation as a button
-that filters the page, and the "Filter by organisation" control on the landing
-and roadmap pages uses them. Its "Include all-Wales work" option also shows
-`National` cards. Any other code is reported as a sheet warning and left out,
-and a blank cell means the card is shown only when no filter is set. The
-organisations' names in English and Welsh are in
-[src/lib/content.ts](src/lib/content.ts). `Organisations` has no Welsh column.
-
-Cards appear in sheet order within their horizon or section. Text shared by
-every roadmap (intro, Now/Next/Later definitions, section headings) is in
-[src/lib/content.ts](src/lib/content.ts); interface text (headings, links and
-accessible names) is in [src/lib/strings.ts](src/lib/strings.ts).
-
-**Welsh (optional)**: any text column on either tab (`Title`, `Family`,
-`Status label`, `Vision`, `Service description`, `Description`, `Outcome`,
-`Phase`, `Labels`, `Details`) can have a Welsh column with ` (cy)` added to its name, for example
-`Title (cy)` or `Phase (cy)`; `(Welsh)` and `(Cymraeg)` also work. Welsh is
-shown when the reader picks Cymraeg; if the column is missing or the cell is
-blank, the English is shown instead.
-
-`Labels (cy)` and `Details (cy)` are matched to the English by position, so
-they need the same number of labels or lines. Leave an entry blank, or put
-just `-`, to show the English for that entry (for example `Gwasanaeth X, -`).
-Nesting comes from the English, so Welsh lines may repeat or omit the `-`
-prefixes. If the counts differ, all the Welsh in that cell is ignored. Labels
-can't contain commas in either language.
-
-The sync warns about likely translation mistakes:
-
-- Welsh with no English (it is never shown).
-- Welsh that is the same as the English, for text of 3 or more words.
-- Placeholders such as `TODO` or `TBC`.
-- Welsh and English that differ a lot in length (one more than twice the
-  other in words, for text of 8 or more words).
-- Welsh headers for a column that can't have Welsh, such as `Colour (cy)`.
-
-To add a product, add a tab with the roadmap columns and a row for it on the
-first tab, with `Enabled` set to `Yes`. A roadmap that is not enabled is not
-synced (its tab is not even fetched). The sync warns about an `Enabled` value
-that is neither `Yes` nor `No` (for example `yes`), and if the column is
-missing no roadmaps are published. Sheet mistakes (unknown horizons, rows with
-no title, missing optional columns, unknown categories, likely translation
-mistakes) are listed, with row numbers, in the summary of the deploy workflow
-run. To check the sheet without deploying, run **Actions → Check the roadmap
-sheet → Run workflow**. A `Sheet` value with no matching tab, or a tab missing
-a required column (`Sheet` on the first tab; `Title` or `Horizon` on a roadmap
-tab), fails the sync, so the deploy fails and the previous site stays live.
-
-Keep text columns as plain text: the export guesses each column's type, and a
-lone number in a text column can come through blank.
-
-## Analytics
-
-The site uses [Simple Analytics](https://www.simpleanalytics.com/), a
-privacy-first service that sets no cookies and collects no personal data, to
-count visits. The script is loaded from `scripts.simpleanalyticscdn.com` by
-the async `<script>` at the end of the `<body>` in [index.html](index.html), so
-it is on every prerendered page. It also needs a Simple Analytics website
-entry for the deployed domain; visits from `localhost` are ignored. The
-privacy note in [src/lib/strings.ts](src/lib/strings.ts) describes this, so
-keep the two in step. Nothing else is loaded from a third party.
-
-## Sync and deploy
-
-- [.github/workflows/deploy.yml](.github/workflows/deploy.yml) builds and
-  deploys to GitHub Pages on every push to `main`, nightly at 02:00 UTC (to
-  pick up sheet edits) and on demand via **Actions → Deploy to GitHub Pages →
-  Run workflow**. The build job runs `npm run sync`, which fetches the sheet and
-  checks it against [scripts/roadmap-schema.ts](scripts/roadmap-schema.ts)
-  before building. If the fetch fails, finds no roadmaps or fails the check,
-  nothing is deployed and the previous site stays live. In the repo settings,
-  set **Pages → Build and deployment → Source** to **GitHub Actions**.
-- Nothing is committed by a workflow, so branch protection on `main` needs no
-  bypass. CI builds with the example data, so pull requests don't depend on the
-  sheet.
-
-GitHub pauses scheduled workflows after 60 days without repository activity;
+GitHub pauses the nightly run after 60 days without activity in this repository;
 re-enable it from the Actions tab if that happens.
 
-The sheet must be shared as "Anyone with the link can view"; "Publish to web"
-is no longer used.
+## Feedback
+
+The site's **Give feedback** link opens an issue here from the
+[roadmap feedback template](.github/ISSUE_TEMPLATE/roadmap-feedback.md). Feedback on
+the site's code or design belongs in the roadmaps repository.
+
+## How it is published
+
+`.github/workflows/deploy.yml` checks out the roadmaps repository's `main` at its head,
+fetches the sheet, builds `apps/public-site` and publishes it to GitHub Pages, so a
+change merged there goes public at the next run too. `.github/workflows/check-sheet.yml`
+runs the same fetch and check alone. Both read the roadmaps repository with a read-only
+token and need no secret; Dependabot keeps their actions current. `main` here is
+protected by the ruleset kept in the roadmaps repository
+(`.github/rulesets/product-roadmaps.json`).
+
+Licensed under the [MIT License](LICENSE).

@@ -11,8 +11,9 @@ change them there, under its `AGENTS.md`.
   authorised; never push to `main`, even though the account can bypass its ruleset, and
   never change rulesets, branch protections or repository settings.
 - Keep both workflows checking out `DHCW-Digital-Health-and-Care-Wales/roadmaps` at
-  `refs/heads/main` with `persist-credentials: false` under `permissions: contents: read`,
-  and run actionlint and zizmor (`--persona auditor`) on any workflow change before its
-  pull request.
+  `refs/heads/main` with `persist-credentials: false`, under `permissions: contents: read`
+  at the top of each; only the deploy job adds `pages` and `id-token`, and it checks
+  out and runs nothing but `deploy-pages`. Run actionlint and zizmor
+  (`--persona auditor`) on any workflow change before its pull request.
 - Commits are signed; if signing fails, give the user the commit command rather than
   committing unsigned.

@@ -23,7 +23,7 @@ editing the sheet itself follows its format:
 - **Adding a product**: add a tab with the roadmap columns and a row for it on the first
   tab, with `Enabled` set to `Yes`. A roadmap that is not enabled is not published.
 - **Example sheets** (fake data) to start a test spreadsheet from are in
-  [`apps/public-site/sheets/`](https://github.com/DHCW-Digital-Health-and-Care-Wales/roadmaps/tree/main/apps/public-site/sheets).
+  [`fixtures/sheets/`](https://github.com/DHCW-Digital-Health-and-Care-Wales/roadmaps/tree/main/fixtures/sheets).
 - **Sharing**: the sheet must stay shared as **Anyone with the link can view**, so
   everything in it, any tab no roadmap names included, is visible to anyone with the
   link.
